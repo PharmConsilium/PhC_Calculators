@@ -1,0 +1,41 @@
+---
+description: Единый стиль FarmConsilium для встраиваемых калькуляторов (без чужих папок)
+globs: calculators/**/*.{html,js,css,json}
+alwaysApply: false
+---
+
+# Стиль калькулятора
+
+Источники (не другие `calculators/*/`): `shared/fc-calc.css`, `templates/calculator-template.html`, `FRONTEND-STYLES.md` §13–16.
+
+## Разметка
+
+- Корень: `<div class="fc-calc" data-calculator="SLUG">`.
+- В `index.html`: блок `<style>` = содержимое `shared/fc-calc.css` (без правок цветов в папке).
+- Только классы `.fc-calc__*`; новые цвета/шрифты в папке **запрещены**.
+
+## Токены
+
+| Элемент | Значение |
+|---------|----------|
+| Текст | `#263048` |
+| Вторичный | `#B4B5C0` |
+| Разделитель | `#DEE5E7` |
+| Кнопка | `#305EF9`, hover `#6D8AEF`, текст `#fff` |
+| Ошибка | `#dc2626`, 14px |
+| Radius | 10px; кнопка mobile pill 50px |
+
+## Запрещено
+
+Tailwind/admin (`zinc`, `teal`, Flux), классы `text-sf-pro-semibold`, `text-grey-500`, `shadow-custom-buttons`.
+
+## Логика (в этой папке)
+
+- Формулы в `calc.js` (тесты); в `index.html` — самодостаточный `<script>` (дублирует `calculate`, без `import` — для html_code на сайте).
+- После правки `calc.js` синхронизировать `calculate()` в `index.html`.
+- Id: `fc-calc-<slug>-*`. Источник шкалы — комментарий + `meta.json` → `source`.
+- Результат: `.fc-calc__result` + текст интерпретации; дисклеймер `.fc-calc__disclaimer`.
+
+## Синхронизация стилей
+
+Если обновился `shared/fc-calc.css`: `node scripts/sync-calculator-styles.mjs <slug>`.

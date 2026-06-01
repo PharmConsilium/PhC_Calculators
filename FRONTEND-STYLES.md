@@ -387,7 +387,11 @@ th, td: border border-tma-grey-300
 | `cases.json` | Эталонные кейсы |
 | `meta.json` | Slug и название |
 
+Общие стили (не дублировать в папках): `shared/fc-calc.css` → встраиваются в `index.html` при создании и через `node scripts/sync-calculator-styles.mjs <slug>`.
+
 Создание папки: `node scripts/new-calculator.mjs <slug>`.
+
+При разработке в Cursor: работать только в `calculators/<slug>/`; единый вид — из `shared/` и `FRONTEND-STYLES.md`, не из соседних калькуляторов.
 
 ---
 

@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "new:calc": "node scripts/new-calculator.mjs",
+    "sync:styles": "node scripts/sync-calculator-styles.mjs",
     "test": "node --test tests/**/*.test.mjs"
   }
 }

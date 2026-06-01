@@ -1,14 +1,14 @@
 # Калькуляторы
 
-Каждый медицинский калькулятор — **отдельная папка** здесь:
+Каждый калькулятор — **отдельная папка**. При работе в Cursor откройте файл **только из своей папки** — правила не дают смотреть соседние калькуляторы; стиль единый через `shared/fc-calc.css`.
 
 ```
 calculators/
   has-bled/
-    index.html    ← фрагмент для html_code на farmconsilium.com
-    calc.js       ← формулы (тестируются отдельно от DOM)
-    cases.json    ← эталонные примеры для node --test
-    meta.json     ← название и slug для справки
+    index.html    ← фрагмент для html_code (стили из shared внутри <style>)
+    calc.js       ← формулы для node --test
+    cases.json    ← эталонные кейсы
+    meta.json     ← slug, title, source
 ```
 
 ## Новый калькулятор
@@ -17,7 +17,13 @@ calculators/
 node scripts/new-calculator.mjs has-bled
 ```
 
-Появится папка `calculators/has-bled/` с файлами-заготовками. Дальше правите формулу в `calc.js`, вёрстку в `index.html`, кейсы в `cases.json`.
+## Обновить стили во всех / одном
+
+Общий файл: `shared/fc-calc.css`. После изменения:
+
+```bash
+node scripts/sync-calculator-styles.mjs has-bled
+```
 
 ## Проверка
 
@@ -25,4 +31,5 @@ node scripts/new-calculator.mjs has-bled
 node --test tests/example.test.mjs
 ```
 
-Стили и чеклист: `FRONTEND-STYLES.md`, правила Cursor: `.cursor/rules/medical-calculators.mdc`.
+Правила Cursor: `calculator-scope.mdc`, `calculator-style.mdc`.  
+Дизайн-токены: `FRONTEND-STYLES.md` §13–16.

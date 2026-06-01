@@ -1,0 +1,130 @@
+/* FarmConsilium — общие стили всех калькуляторов. Не менять в папках calculators/<slug>/ */
+.fc-calc {
+  font-family: 'SF Pro', system-ui, sans-serif;
+  color: #263048;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+.fc-calc__card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+}
+.fc-calc__title {
+  font-family: 'SF Pro Semibold', 'SF Pro', system-ui, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+.fc-calc__hint {
+  font-size: 0.875rem;
+  color: #b4b5c0;
+  margin: 0 0 16px;
+}
+.fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: 'SF Pro Semibold', 'SF Pro', system-ui, sans-serif;
+  font-size: 0.875rem;
+}
+.fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.fc-calc__field label {
+  font-family: 'SF Pro Bold', 'SF Pro', system-ui, sans-serif;
+  font-size: 0.875rem;
+}
+.fc-calc__field input,
+.fc-calc__field select {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  font-weight: 400;
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 10px;
+  color: #263048;
+}
+.fc-calc__field input:focus,
+.fc-calc__field select:focus {
+  outline: 2px solid #305ef9;
+  outline-offset: 0;
+}
+.fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+}
+.fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: #305ef9;
+}
+.fc-calc__error {
+  font-size: 0.875rem;
+  color: #dc2626;
+  min-height: 1.25em;
+}
+.fc-calc__btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 40px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  background: #305ef9;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.fc-calc__btn:hover:not(:disabled) {
+  background: #6d8aef;
+}
+.fc-calc__btn:disabled {
+  background: #b4b5c0;
+  cursor: not-allowed;
+}
+@media (min-width: 768px) {
+  .fc-calc__btn {
+    border-radius: 10px;
+  }
+}
+.fc-calc__result {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 10px;
+  border-top: 1px solid #dee5e7;
+  text-align: center;
+}
+.fc-calc__result[hidden] {
+  display: none;
+}
+.fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-top: 8px;
+}
+.fc-calc__table th,
+.fc-calc__table td {
+  border: 1px solid #e3e3e3;
+  padding: 8px;
+  text-align: left;
+}
+.fc-calc__disclaimer {
+  margin-top: 16px;
+  font-size: 0.75rem;
+  color: #b4b5c0;
+  line-height: 1.4;
+}
+.fc-calc__source {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #b4b5c0;
+}

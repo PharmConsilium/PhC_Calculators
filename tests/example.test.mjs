@@ -6,10 +6,12 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-test('template exists', async () => {
+test('template and shared styles exist', async () => {
   const html = await readFile(join(root, 'templates', 'calculator-template.html'), 'utf8');
+  const css = await readFile(join(root, 'shared', 'fc-calc.css'), 'utf8');
   assert.match(html, /class="fc-calc"/);
-  assert.match(html, /#305EF9|#305ef9/i);
+  assert.match(html, /STYLES/);
+  assert.match(css, /#305ef9/i);
 });
 
 test('run calculator tests from cases.json when present', async () => {
