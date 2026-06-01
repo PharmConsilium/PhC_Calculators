@@ -1,4 +1,4 @@
-# CalculatorPharmConsilium
+# PhC_Calculators
 
 Медицинские калькуляторы и шкалы для [ФармКонсилиум](https://farmconsilium.com/calculator) в едином стиле TMA/desktop.
 
@@ -24,6 +24,6 @@ node --test tests/example.test.mjs
 
 Стили: [FRONTEND-STYLES.md](FRONTEND-STYLES.md).
 
-## Организация
+## Репозиторий
 
-[PharmConsilium](https://github.com/PharmConsilium) · Сайт агентства: [pharmconsilium.com](https://pharmconsilium.com/)
+[github.com/PharmConsilium/PhC_Calculators](https://github.com/PharmConsilium/PhC_Calculators) · [PharmConsilium](https://github.com/PharmConsilium) · [pharmconsilium.com](https://pharmconsilium.com/)
