@@ -340,15 +340,19 @@ th, td: border border-tma-grey-300
 
 **Изоляция от сайта:** селекторы только вида `.fc-calc …` / `.fc-calc__*`; **не использовать** `:root`, `html`, `body`, теги без префикса (`button {}`, `input {}`). Скрипт — только IIFE, без `window.*` и правок `document.body`. Блок результата не скрывать через `hidden` на обёртке — использовать `fc-calc__result--empty`.
 
-**Рекомендации для нового калькулятора:**
+**Единый вид всех калькуляторов в репозитории** — `shared/fc-calc.css` (HAS-BLED / Montserrat, не TMA):
 
-1. Фон страницы уже `bg-tma-grey` — виджет можно на **белой карточке**: `background:#fff; border-radius:10px; padding:16px`.
-2. Шрифт: `'SF Pro', system-ui, sans-serif` (или не задавать — унаследует).
-3. Цвет текста: `#263048`.
-4. Кнопки: фон `#305EF9`, текст `#fff`, hover `#6D8AEF`, `border-radius:10px` (mobile pill: `50px`).
-5. Поля: белый фон, `border-radius:10px`, без жёсткой рамки (как в сайте).
-6. Вторичный текст: `#B4B5C0`.
-7. Ограничить ширину: `max-width: 80rem` (как `max-w-7xl`) для desktop.
+| Токен | Значение |
+|-------|----------|
+| Шрифт | Montserrat (`@import` Google Fonts в `<style>` виджета) |
+| Текст / muted | `#10384f` (приглушённый текст — `opacity`) |
+| Primary | `#005eec`, hover `#0047c4` |
+| Фон | `#eff0f2` |
+| Бордер | `#d1d5db` |
+| Рамка | белая `.fc-calc__card` на фоне страницы `#eff0f2`, тень, padding 24–32px |
+| Скругление | `10px` (поля, кнопки, карточка) |
+
+Не дублировать цвета в папке калькулятора — только `node scripts/sync-calculator-styles.mjs <slug>` после правок shared.
 
 ---
 
@@ -403,13 +407,11 @@ th, td: border border-tma-grey-300
 
 ## 16. Быстрый чеклист для нового калькулятора
 
-- [ ] Фон страницы: `#EEF0F2` / `bg-tma-grey`
-- [ ] Заголовок: SF Pro Semibold, ~20px mobile / 36px desktop
-- [ ] Основной текст: `#263048`
-- [ ] Подписи: `#B4B5C0`, 12–14px
-- [ ] Кнопка действия: `#305EF9`, белый текст, radius 10px (50px на узком TMA)
-- [ ] Карточки/inputs: белый фон, radius 10px
-- [ ] Разделители: `#DEE5E7`
+- [ ] Стили только из `shared/fc-calc.css` (синхронизация в `index.html`)
+- [ ] Montserrat, текст `#10384f`
+- [ ] Кнопка `#005eec`, radius `1rem`
+- [ ] Фон виджета `#eff0f2`, бордер `#d1d5db`
+- [ ] Каркас: `templates/LAYOUT.md` (head → body → actions → result → notes → foot)
 - [ ] Не использовать admin-палитру (zinc, teal, Flux admin)
 
 ---

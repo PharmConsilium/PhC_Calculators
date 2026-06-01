@@ -12,7 +12,7 @@
 ### Нельзя вставлять в админку
 
 - `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>` — страница сайта уже есть
-- `<link href="fonts.googleapis.com…">` — шрифты уже на FarmConsilium (SF Pro)
+- Отдельный `<link href="fonts.googleapis.com…">` вне виджета — Montserrat уже в `@import` внутри `<style>` блока
 - Стили/скрипты **Livewire** (`wire:loading`, `livewire.min.js`) — ломают страницу
 - Корневой класс `.pharm-bmi-calc-wrapper` из старых примеров — используйте `.fc-calc`
 
@@ -20,7 +20,7 @@
 
 ## Что остаётся от сайта
 
-Шапка, меню, фон `#EEF0F2`, подвал — из Laravel. Виджет подстраивается под стили FarmConsilium (шрифт SF Pro, цвета TMA) — всё уже в `<style>` внутри `index.html`.
+Шапка, меню, подвал — из Laravel. Виджет самодостаточен: Montserrat и палитра HAS-BLED (`#10384f`, `#005eec`, `#eff0f2`) в `<style>` внутри `index.html`.
 
 ## После правок
 

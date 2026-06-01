@@ -1,28 +1,32 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название в админке: Калькулятор расчёта индекса массы тела (BMI/ИМТ)
-  Стили/шрифты сайта (SF Pro, TMA) — в блоке style ниже.
+  Стили Montserrat / HAS-BLED — в блоке style ниже.
 -->
 <div class="fc-calc" data-calculator="bmi">
   <style>
-/* FarmConsilium — как на сайте (калькулятор почек и др.). Только внутри .fc-calc */
+/* Единый вид всех калькуляторов (HAS-BLED / Montserrat). Только внутри .fc-calc */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .fc-calc {
-  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
-  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, sans-serif;
-  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, sans-serif;
-  --fc-text: #263048;
-  --fc-muted: #b4b5c0;
-  --fc-border: #dee5e7;
-  --fc-border-table: #e3e3e3;
-  --fc-bg-page: #eef0f2;
-  --fc-bg-card: #eef0f2;
-  --fc-bg-input: #eef0f2;
-  --fc-blue: #305ef9;
-  --fc-blue-hover: #6d8aef;
+  --fc-font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
   --fc-error: #dc2626;
   --fc-radius: 10px;
-  --fc-radius-pill: 50px;
+  --fc-radius-card: 10px;
   --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
 
   font-family: var(--fc-font-sans);
@@ -31,18 +35,10 @@
   line-height: 1.5;
   max-width: 40rem;
   margin: 0 auto;
-  padding: 1.5rem 1rem;
-  background-color: var(--fc-bg-page);
-  border-radius: 1rem;
+  padding: 0 1rem 1rem;
+  background: transparent;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-}
-
-/* Наследование шрифта с страницы сайта, если SF Pro уже подключён */
-@supports (font: -apple-system-body) {
-  .fc-calc {
-    font-family: var(--fc-font-sans), inherit;
-  }
 }
 
 .fc-calc *,
@@ -51,12 +47,17 @@
   box-sizing: border-box;
 }
 
-/* Контент на сером фоне сайта (bg-tma-grey), без белой «карточки» */
 .fc-calc .fc-calc__card {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  box-shadow: none;
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
 }
 
 .fc-calc .fc-calc__layout {
@@ -64,7 +65,6 @@
   flex-direction: column;
 }
 
-/* Вкладки формул (как Cockcroft-Gault / CKD-EPI) */
 .fc-calc .fc-calc__tabs {
   display: flex;
   flex-wrap: wrap;
@@ -83,19 +83,19 @@
   color: var(--fc-text);
   background: var(--fc-bg-card);
   border: 1px solid var(--fc-border);
-  border-radius: var(--fc-radius-pill);
+  border-radius: var(--fc-radius);
   cursor: pointer;
 }
 
 @media (min-width: 768px) {
   .fc-calc .fc-calc__tab {
     font-size: 0.8125rem;
-    border-radius: var(--fc-radius);
   }
 }
 
 .fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
-  border-color: var(--fc-muted);
+  border-color: var(--fc-border);
+  opacity: 0.85;
 }
 
 .fc-calc .fc-calc__tab--active {
@@ -112,25 +112,36 @@
   display: block;
 }
 
-/* Подзаголовок в карточке */
 .fc-calc .fc-calc__head {
   flex: 0 0 auto;
-  margin-bottom: 16px;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .fc-calc .fc-calc__title {
   font-family: var(--fc-font-semibold);
-  font-size: 1.125rem;
-  line-height: 1.25;
-  margin: 0 0 6px;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  margin: 0 0 8px;
   color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--fc-muted-text);
+  opacity: 1;
+  margin: 0;
+  text-align: center;
 }
 
 .fc-calc .fc-calc__hint {
   font-size: 0.875rem;
-  line-height: 1.35;
-  color: var(--fc-muted);
-  margin: 0;
+  line-height: 1.4;
+  color: var(--fc-text);
+  opacity: 0.7;
 }
 
 .fc-calc .fc-calc__formula {
@@ -153,7 +164,6 @@
   margin-top: 8px;
 }
 
-/* Результат — серая плашка, крупное синее значение */
 .fc-calc .fc-calc__result-wrap {
   flex: 0 0 auto;
   min-height: 88px;
@@ -171,6 +181,7 @@
 
 .fc-calc .fc-calc__result-label {
   font-family: var(--fc-font-semibold);
+  font-weight: 600;
   font-size: 1.125rem;
   color: var(--fc-text);
   margin: 0 0 8px;
@@ -180,13 +191,15 @@
   margin: 0 0 8px;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--fc-muted);
+  color: var(--fc-text);
+  opacity: 0.7;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .fc-calc .fc-calc__result-number {
   font-family: var(--fc-font-semibold);
+  font-weight: 600;
   font-size: 1.75rem;
   line-height: 1.2;
   color: var(--fc-blue);
@@ -195,7 +208,8 @@
 
 .fc-calc .fc-calc__result-desc {
   font-size: 0.875rem;
-  color: var(--fc-muted);
+  color: var(--fc-text);
+  opacity: 0.7;
   margin: 8px 0 0;
   line-height: 1.35;
 }
@@ -207,7 +221,8 @@
 .fc-calc .fc-calc__result-placeholder {
   margin: 0 0 8px;
   font-size: 0.875rem;
-  color: var(--fc-muted);
+  color: var(--fc-text);
+  opacity: 0.7;
   line-height: 1.4;
 }
 
@@ -219,13 +234,12 @@
   display: block;
 }
 
-/* Примечания — внутри карточки, внизу */
 .fc-calc .fc-calc__notes {
   margin-top: 16px;
   background: var(--fc-bg-page);
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
-  padding-top: 0;
+  padding: 0 1rem;
 }
 
 .fc-calc .fc-calc__notes-summary {
@@ -233,7 +247,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 0;
+  padding: 14px 0;
   cursor: pointer;
   list-style: none;
 }
@@ -253,8 +267,10 @@
 .fc-calc .fc-calc__notes-chevron {
   width: 8px;
   height: 8px;
-  border-right: 2px solid var(--fc-muted);
-  border-bottom: 2px solid var(--fc-muted);
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
   transform: rotate(45deg);
   transition: transform 0.2s ease;
   flex-shrink: 0;
@@ -266,7 +282,7 @@
 }
 
 .fc-calc .fc-calc__notes-body {
-  padding: 0 0 8px;
+  padding: 0 0 1rem;
   font-size: 0.875rem;
   line-height: 1.5;
   color: var(--fc-text);
@@ -281,17 +297,18 @@
 }
 
 .fc-calc .fc-calc__foot {
-  margin-top: 12px;
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
 }
 
 .fc-calc .fc-calc__disclaimer {
   margin: 0;
   font-size: 0.75rem;
-  color: var(--fc-muted);
-  line-height: 1.4;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
 }
 
-/* Сегмент (пол: муж / жен) */
 .fc-calc .fc-calc__segmented {
   display: flex;
   gap: 8px;
@@ -316,10 +333,10 @@
   background: var(--fc-blue);
 }
 
-/* Поля ввода — серый фон как на сайте */
 .fc-calc .fc-calc__section {
   margin: 16px 0 8px;
   font-family: var(--fc-font-semibold);
+  font-weight: 600;
   font-size: 0.875rem;
   color: var(--fc-text);
 }
@@ -327,13 +344,14 @@
 .fc-calc .fc-calc__field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 1rem;
 }
 
 .fc-calc .fc-calc__field label {
-  font-family: var(--fc-font-bold);
+  font-family: var(--fc-font-bold), inherit;
   font-size: 0.875rem;
+  font-weight: 700;
   color: var(--fc-text);
 }
 
@@ -347,15 +365,15 @@
   line-height: 1.25;
   background: var(--fc-bg-input);
   border: 1px solid var(--fc-border);
-  border-radius: 0.75rem;
+  border-radius: var(--fc-radius);
   padding: 0.75rem 1rem;
   color: var(--fc-text);
   caret-color: var(--fc-text);
 }
 
 .fc-calc .fc-calc__field input::placeholder {
-  color: var(--fc-muted);
-  opacity: 1;
+  color: var(--fc-text);
+  opacity: 0.55;
 }
 
 .fc-calc .fc-calc__field input::-webkit-outer-spin-button,
@@ -372,7 +390,6 @@
   box-shadow: none;
 }
 
-/* Поле с переключателем единиц */
 .fc-calc .fc-calc__field-row {
   display: flex;
   gap: 8px;
@@ -437,7 +454,7 @@
   color: #fff;
   background: var(--fc-blue);
   border: none;
-  border-radius: var(--fc-radius-pill);
+  border-radius: var(--fc-radius);
   cursor: pointer;
   text-align: center;
 }
@@ -458,12 +475,6 @@
 .fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
   background: var(--fc-bg-input);
   transform: none;
-}
-
-@media (min-width: 768px) {
-  .fc-calc .fc-calc__btn {
-    border-radius: var(--fc-radius);
-  }
 }
 
 .fc-calc .fc-calc__table {

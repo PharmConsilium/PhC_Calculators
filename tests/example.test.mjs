@@ -11,7 +11,8 @@ test('template and shared styles exist', async () => {
   const css = await readFile(join(root, 'shared', 'fc-calc.css'), 'utf8');
   assert.match(html, /class="fc-calc"/);
   assert.match(html, /__FC_CALC_CSS__/);
-  assert.match(css, /#305ef9/i);
+  assert.match(css, /#005eec/i);
+  assert.match(css, /Montserrat/i);
   assert.match(html, /fc-calc__head/);
   assert.match(html, /fc-calc__body/);
   assert.match(html, /fc-calc__actions/);
