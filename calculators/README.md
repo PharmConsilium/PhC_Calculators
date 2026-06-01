@@ -36,4 +36,5 @@ node --test tests/example.test.mjs
 ```
 
 Правила Cursor: `calculator-scope.mdc`, `calculator-style.mdc`.  
-Дизайн-токены: `FRONTEND-STYLES.md` §13–16.
+Дизайн-токены: `FRONTEND-STYLES.md` §13–16.  
+**На сайт:** весь `index.html` в админку — см. `PUBLISH.md`.

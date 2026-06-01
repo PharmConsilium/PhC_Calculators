@@ -26,7 +26,11 @@ alwaysApply: false
 2. `fc-calc__body` — **только здесь** свой контент (поля/шкала)  
 3. `fc-calc__actions` — кнопка «Рассчитать»  
 4. `fc-calc__result-wrap` — результат (не `hidden`, класс `fc-calc__result--empty`)  
-5. `fc-calc__foot` — дисклеймер  
+5. `fc-calc__result-wrap` — серая плашка, `fc-calc__result-number` крупным синим (как на сайте)  
+6. `fc-calc__notes` — внутри карточки; заголовок **«Примечания»** не менять; правки только в `fc-calc__notes-body`  
+7. `fc-calc__foot` — дисклеймер под карточкой  
+
+Вкладки/сегменты/единицы: `templates/UI-PATTERNS.md`.  
 
 **Не переставлять** зоны. Кнопку не дублировать в `body` (использовать `form="fc-calc-<slug>-form"` на кнопке в `actions`).
 
@@ -35,16 +39,18 @@ alwaysApply: false
 - Корень: `<div class="fc-calc" data-calculator="SLUG">`.
 - Только классы `.fc-calc__*`; новые цвета/шрифты в папке **запрещены**.
 
-## Токены
+## Адаптация под сайт FarmConsilium
+
+Токены в `shared/fc-calc.css` (`--fc-*`) = палитра и шрифты из `FRONTEND-STYLES.md`. После правки shared: `node scripts/sync-calculator-styles.mjs <slug>`.
+
+Публикация: весь `index.html` → поле «HTML-код» в админке (`calculators/PUBLISH.md`).
 
 | Элемент | Значение |
 |---------|----------|
+| Шрифт | SF Pro / Semibold / Bold |
 | Текст | `#263048` |
-| Вторичный | `#B4B5C0` |
-| Разделитель | `#DEE5E7` |
-| Кнопка | `#305EF9`, hover `#6D8AEF`, текст `#fff` |
-| Ошибка | `#dc2626`, 14px |
-| Radius | 10px; кнопка mobile pill 50px |
+| Кнопка | `#305EF9`, hover `#6D8AEF` |
+| Поля | `text-sm`, `py-3`, `rounded-tma` (10px) |
 
 ## Запрещено
 

@@ -1,0 +1,26 @@
+{
+  "slug": "bmi",
+  "source": "ВОЗ — классификация ИМТ для взрослых",
+  "cases": [
+    {
+      "name": "норма 70 кг / 175 см",
+      "input": { "weightKg": 70, "heightCm": 175 },
+      "expected": { "value": 22.86, "category": "normal" }
+    },
+    {
+      "name": "недостаточная масса 50 кг / 170 см",
+      "input": { "weightKg": 50, "heightCm": 170 },
+      "expected": { "value": 17.3, "category": "underweight" }
+    },
+    {
+      "name": "ожирение I 95 кг / 170 см",
+      "input": { "weightKg": 95, "heightCm": 170 },
+      "expected": { "value": 32.87, "category": "obese" }
+    },
+    {
+      "name": "предожирение 80 кг / 175 см",
+      "input": { "weightKg": 80, "heightCm": 175 },
+      "expected": { "value": 26.12, "category": "overweight" }
+    }
+  ]
+}

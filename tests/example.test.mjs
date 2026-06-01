@@ -10,12 +10,15 @@ test('template and shared styles exist', async () => {
   const html = await readFile(join(root, 'templates', 'calculator-template.html'), 'utf8');
   const css = await readFile(join(root, 'shared', 'fc-calc.css'), 'utf8');
   assert.match(html, /class="fc-calc"/);
-  assert.match(html, /STYLES/);
+  assert.match(html, /__FC_CALC_CSS__/);
   assert.match(css, /#305ef9/i);
   assert.match(html, /fc-calc__head/);
   assert.match(html, /fc-calc__body/);
   assert.match(html, /fc-calc__actions/);
   assert.match(html, /fc-calc__result-wrap/);
+  assert.match(html, /fc-calc__notes/);
+  assert.match(html, /fc-calc__notes-title/);
+  assert.match(html, /Примечания/);
   assert.match(html, /fc-calc__foot/);
 });
 

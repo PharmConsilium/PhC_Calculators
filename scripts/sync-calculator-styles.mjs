@@ -20,8 +20,9 @@ const [html, css] = await Promise.all([
   readFile(cssPath, 'utf8'),
 ]);
 
-const start = html.indexOf('<style>');
-const end = html.indexOf('</style>');
+const rootStart = html.indexOf('<div class="fc-calc"');
+const start = rootStart === -1 ? html.indexOf('<style>') : html.indexOf('<style>', rootStart);
+const end = start === -1 ? -1 : html.indexOf('</style>', start);
 if (start === -1 || end === -1) {
   console.error('No <style> block in index.html');
   process.exit(1);

@@ -27,7 +27,7 @@ await mkdir(dir, { recursive: true });
 
 const css = await readFile(join(root, 'shared', 'fc-calc.css'), 'utf8');
 let html = await readFile(templatePath, 'utf8');
-html = html.replaceAll('SLUG', slug).replace('STYLES', css.trim());
+html = html.replaceAll('SLUG', slug).replace('__FC_CALC_CSS__', css.trim());
 await writeFile(join(dir, 'index.html'), html, 'utf8');
 
 const cases = {

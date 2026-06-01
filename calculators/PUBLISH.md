@@ -1,0 +1,32 @@
+# Публикация на farmconsilium.com
+
+## Админка
+
+1. **Создать/изменить калькулятор**
+2. **Название** — как в `meta.json` → `title` (URL создастся автоматически)
+3. **Сортировка** — порядок в списке
+4. **HTML-код** — вставить **весь файл** `calculators/<slug>/index.html` целиком (Ctrl+A → Ctrl+C)
+
+Поле «HTML-код» заменяет старый uCalc: вставляется **только** фрагмент `<div class="fc-calc">…</div>`.
+
+### Нельзя вставлять в админку
+
+- `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>` — страница сайта уже есть
+- `<link href="fonts.googleapis.com…">` — шрифты уже на FarmConsilium (SF Pro)
+- Стили/скрипты **Livewire** (`wire:loading`, `livewire.min.js`) — ломают страницу
+- Корневой класс `.pharm-bmi-calc-wrapper` из старых примеров — используйте `.fc-calc`
+
+Готовый файл: `calculators/<slug>/index.html` — копировать **целиком**, без обёртки.
+
+## Что остаётся от сайта
+
+Шапка, меню, фон `#EEF0F2`, подвал — из Laravel. Виджет подстраивается под стили FarmConsilium (шрифт SF Pro, цвета TMA) — всё уже в `<style>` внутри `index.html`.
+
+## После правок
+
+```bash
+node scripts/sync-calculator-styles.mjs <slug>   # если меняли shared/fc-calc.css
+node --test tests/example.test.mjs
+```
+
+Снова скопировать обновлённый `index.html` в админку.

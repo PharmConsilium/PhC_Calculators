@@ -1,19 +1,19 @@
-<!-- FarmConsilium: index.html → html_code. Каркас зон fc-calc__* не менять, менять только body и calculate() -->
+<!-- Публикация: весь файл → админка «HTML-код (виджет, калькулятор)». Стили сайта в блоке style. -->
 <div class="fc-calc" data-calculator="SLUG">
   <style>
 /* FC-CALC-STYLES — from shared/fc-calc.css; sync: node scripts/sync-calculator-styles.mjs SLUG */
-STYLES
+__FC_CALC_CSS__
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
-      <!-- 1. Шапка (название + описание) -->
+      <!-- Опционально: вкладки (см. templates/UI-PATTERNS.md) -->
+
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Название калькулятора</h2>
-        <p class="fc-calc__hint">Краткое описание показаний</p>
+        <h2 class="fc-calc__title">Подзаголовок расчёта</h2>
+        <p class="fc-calc__hint">Краткое описание формулы</p>
       </header>
 
-      <!-- 2. Поля — единственная зона, где у каждого калькулятора свой контент -->
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-SLUG-form" novalidate>
           <div class="fc-calc__field">
@@ -24,28 +24,35 @@ STYLES
         </form>
       </div>
 
-      <!-- 3. Кнопка — всегда здесь -->
       <div class="fc-calc__actions">
         <button type="submit" class="fc-calc__btn" form="fc-calc-SLUG-form">Рассчитать</button>
       </div>
 
-      <!-- 4. Результат — зона не схлопывается (не использовать hidden на обёртке) -->
       <div class="fc-calc__result-wrap" aria-live="polite">
-        <p class="fc-calc__result-label">Результат</p>
         <div class="fc-calc__result fc-calc__result--empty" id="fc-calc-SLUG-result">
           <p class="fc-calc__result-placeholder">Заполните поля и нажмите «Рассчитать»</p>
-          <div class="fc-calc__result-value" id="fc-calc-SLUG-result-value"></div>
+          <p class="fc-calc__result-label">Результат</p>
+          <p class="fc-calc__result-number" id="fc-calc-SLUG-result-number">—</p>
+          <p class="fc-calc__result-desc" id="fc-calc-SLUG-result-desc"></p>
         </div>
       </div>
     </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body" id="fc-calc-SLUG-notes">
+        <p class="fc-calc__hint">Документация по калькулятору.</p>
+      </div>
+    </details>
   </div>
 
-  <!-- 5. Дисклеймер и источник -->
   <footer class="fc-calc__foot">
     <p class="fc-calc__disclaimer">
       Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
     </p>
-    <p class="fc-calc__source" id="fc-calc-SLUG-source"></p>
   </footer>
 
   <script>
@@ -55,7 +62,8 @@ STYLES
 
       var form = root.querySelector('#fc-calc-SLUG-form');
       var resultBox = root.querySelector('#fc-calc-SLUG-result');
-      var resultValue = root.querySelector('#fc-calc-SLUG-result-value');
+      var resultNumber = root.querySelector('#fc-calc-SLUG-result-number');
+      var resultDesc = root.querySelector('#fc-calc-SLUG-result-desc');
       var exampleInput = root.querySelector('#fc-calc-SLUG-example');
       var exampleError = root.querySelector('#fc-calc-SLUG-example-error');
 
@@ -68,17 +76,18 @@ STYLES
         el.textContent = message || '';
       }
 
-      function showResult(html) {
-        resultValue.innerHTML = html;
+      function showResult(value, desc) {
+        resultNumber.textContent = value;
+        resultDesc.textContent = desc || '';
         resultBox.classList.remove('fc-calc__result--empty');
       }
 
       function clearResult() {
-        resultValue.innerHTML = '';
+        resultNumber.textContent = '—';
+        resultDesc.textContent = '';
         resultBox.classList.add('fc-calc__result--empty');
       }
 
-      /** Дублирует calc.js — для html_code на сайте (без import). */
       function calculate(input) {
         var example = input.example;
         return { value: example, interpretation: 'TODO' };
@@ -96,9 +105,7 @@ STYLES
         }
 
         var out = calculate({ example: example });
-        showResult(
-          '<strong>' + out.value + '</strong><br><span class="fc-calc__hint">' + out.interpretation + '</span>'
-        );
+        showResult(out.value, out.interpretation);
       });
     })();
   </script>

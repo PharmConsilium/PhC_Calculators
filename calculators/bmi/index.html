@@ -1,3 +1,10 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название в админке: Калькулятор расчёта индекса массы тела (BMI/ИМТ)
+  Стили/шрифты сайта (SF Pro, TMA) — в блоке style ниже.
+-->
+<div class="fc-calc" data-calculator="bmi">
+  <style>
 /* FarmConsilium — как на сайте (калькулятор почек и др.). Только внутри .fc-calc */
 
 .fc-calc {
@@ -121,11 +128,9 @@
 
 .fc-calc .fc-calc__hint {
   font-size: 0.875rem;
-  line-height: 1.4;
-  color: var(--fc-text);
-  opacity: 0.7;
-  margin: 0 0 1.5rem;
-  text-align: center;
+  line-height: 1.35;
+  color: var(--fc-muted);
+  margin: 0;
 }
 
 .fc-calc .fc-calc__formula {
@@ -327,9 +332,8 @@
 }
 
 .fc-calc .fc-calc__field label {
-  font-family: var(--fc-font-bold), inherit;
+  font-family: var(--fc-font-bold);
   font-size: 0.875rem;
-  font-weight: 700;
   color: var(--fc-text);
 }
 
@@ -475,3 +479,168 @@
   padding: 8px;
   text-align: left;
 }
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <!-- 1. Шапка (название + описание) -->
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Индекс массы тела</h2>
+        <p class="fc-calc__hint">Расчёт по формуле ИМТ = масса (кг) / рост (м)²</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-bmi-form" novalidate>
+          <div class="fc-calc__field">
+            <label for="fc-calc-bmi-height">Введите рост (см)</label>
+            <input type="number" id="fc-calc-bmi-height" name="height" inputmode="decimal" min="50" max="250" step="any" placeholder="см" />
+            <span class="fc-calc__error" id="fc-calc-bmi-height-error" role="alert"></span>
+          </div>
+          <div class="fc-calc__field">
+            <label for="fc-calc-bmi-weight">Введите вес (кг)</label>
+            <input type="number" id="fc-calc-bmi-weight" name="weight" inputmode="decimal" min="2" max="500" step="any" placeholder="кг" />
+            <span class="fc-calc__error" id="fc-calc-bmi-weight-error" role="alert"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-bmi-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-bmi-form" disabled>Рассчитать ИМТ</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-bmi-result-wrap" aria-live="polite">
+        <p class="fc-calc__result-label">Результат</p>
+        <p class="fc-calc__result-sublabel">ИМТ</p>
+        <p class="fc-calc__result-number" id="fc-calc-bmi-result-number">—</p>
+        <p class="fc-calc__result-desc" id="fc-calc-bmi-result-desc">—</p>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body" id="fc-calc-bmi-notes">
+        <p><strong>Методика расчёта:</strong> ИМТ = масса (кг) / рост (м)². Рост вводится в сантиметрах.</p>
+        <p><strong>Классификация ИМТ (ВОЗ):</strong></p>
+        <table class="fc-calc__table">
+          <thead>
+            <tr><th>Индекс массы тела</th><th>Соответствие</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>16 и менее</td><td>Выраженный дефицит массы тела</td></tr>
+            <tr><td>16–18,5</td><td>Недостаточная (дефицит) масса тела</td></tr>
+            <tr><td>18,5–25</td><td>Норма</td></tr>
+            <tr><td>25–30</td><td>Избыточная масса тела (предожирение)</td></tr>
+            <tr><td>30–35</td><td>Ожирение первой степени</td></tr>
+            <tr><td>35–40</td><td>Ожирение второй степени</td></tr>
+            <tr><td>40 и более</td><td>Ожирение третьей степени (морбидное)</td></tr>
+          </tbody>
+        </table>
+        <p class="fc-calc__hint">Оценка ИМТ — предварительный шаг в выявлении недостаточного или избыточного веса. Не применяется без клинической оценки у детей, беременных и отдельных групп.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- Дисклеймер (одинаковый у всех) -->
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.querySelector('.fc-calc[data-calculator="bmi"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-bmi-form');
+      var calcBtn = root.querySelector('#fc-calc-bmi-btn');
+      var resultWrap = root.querySelector('#fc-calc-bmi-result-wrap');
+      var resultNumber = root.querySelector('#fc-calc-bmi-result-number');
+      var resultDesc = root.querySelector('#fc-calc-bmi-result-desc');
+      var weightInput = root.querySelector('#fc-calc-bmi-weight');
+      var heightInput = root.querySelector('#fc-calc-bmi-height');
+      var weightError = root.querySelector('#fc-calc-bmi-weight-error');
+      var heightError = root.querySelector('#fc-calc-bmi-height-error');
+
+      function parseNum(value) {
+        var n = parseFloat(String(value).replace(',', '.'));
+        return Number.isFinite(n) ? n : NaN;
+      }
+
+      function setError(el, message) {
+        el.textContent = message || '';
+      }
+
+      function clearErrors() {
+        setError(weightError, '');
+        setError(heightError, '');
+      }
+
+      function inputsValid() {
+        var h = parseNum(heightInput.value);
+        var w = parseNum(weightInput.value);
+        return Number.isFinite(h) && h > 0 && Number.isFinite(w) && w > 0;
+      }
+
+      function updateButton() {
+        var ok = inputsValid();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      /** Дублирует calc.js */
+      function calculate(input) {
+        var weightKg = input.weightKg;
+        var heightCm = input.heightCm;
+        if (!Number.isFinite(weightKg) || weightKg <= 0 || weightKg > 500) {
+          throw new Error('Укажите массу от 1 до 500 кг');
+        }
+        if (!Number.isFinite(heightCm) || heightCm < 50 || heightCm > 250) {
+          throw new Error('Укажите рост от 50 до 250 см');
+        }
+        var heightM = heightCm / 100;
+        var bmi = weightKg / (heightM * heightM);
+        var value = Math.round(bmi * 100) / 100;
+        var interpretation;
+        if (bmi <= 16) interpretation = 'Выраженный дефицит массы тела';
+        else if (bmi <= 18.5) interpretation = 'Недостаточная (дефицит) масса тела';
+        else if (bmi <= 25) interpretation = 'Норма';
+        else if (bmi <= 30) interpretation = 'Избыточная масса тела (предожирение)';
+        else if (bmi <= 35) interpretation = 'Ожирение первой степени';
+        else if (bmi <= 40) interpretation = 'Ожирение второй степени';
+        else interpretation = 'Ожирение третьей степени (морбидное)';
+        return { value: value, interpretation: interpretation };
+      }
+
+      heightInput.addEventListener('input', updateButton);
+      weightInput.addEventListener('input', updateButton);
+      updateButton();
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearErrors();
+        if (!inputsValid()) return;
+
+        var weightKg = parseNum(weightInput.value);
+        var heightCm = parseNum(heightInput.value);
+
+        try {
+          var out = calculate({ weightKg: weightKg, heightCm: heightCm });
+          resultNumber.textContent = out.value;
+          resultDesc.textContent = out.interpretation;
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+          if (resultWrap.scrollIntoView) {
+            resultWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        } catch (err) {
+          if (err.message.indexOf('массу') !== -1) setError(weightError, err.message);
+          else if (err.message.indexOf('рост') !== -1) setError(heightError, err.message);
+          else setError(weightError, err.message);
+        }
+      });
+    })();
+  </script>
+</div>
