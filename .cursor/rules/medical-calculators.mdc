@@ -1,0 +1,62 @@
+---
+description: Единый стиль и качество медицинских калькуляторов FarmConsilium (встраиваемый HTML)
+globs: calculators/**/*.{html,js,css},**/*calculator*.{html,js,css}
+alwaysApply: false
+---
+
+# Медицинские калькуляторы FarmConsilium
+
+## Структура: одна папка = один калькулятор
+
+Все калькуляторы лежат только в `calculators/<slug>/`. Не создавать HTML/JS в корне репозитория.
+
+```
+calculators/<slug>/
+  index.html   — вставка в html_code (FarmConsilium)
+  calc.js      — расчёт без DOM
+  cases.json   — тест-кейсы
+  meta.json    — slug, title (справочно)
+```
+
+Новая папка: `node scripts/new-calculator.mjs <slug>` (kebab-case, латиница).
+
+Полная палитра: `FRONTEND-STYLES.md` (§13–15). На сайте: `{!! $calculator->html_code !!}` на фоне `bg-tma-grey` — виджет сам задаёт белую карточку.
+
+## Обязательная разметка
+
+- Корень: одна обёртка `.fc-calc` (см. `templates/calculator-template.html`).
+- Карточка: белый фон, `border-radius: 10px`, padding 16px+, `max-width: 80rem`, `margin: 0 auto`.
+- Шрифт: `'SF Pro', system-ui, sans-serif` или не задавать (наследование).
+- Текст `#263048`, подписи/вторичный `#B4B5C0`, разделители `#DEE5E7`.
+- Primary-кнопка: `#305EF9`, текст `#fff`, hover `#6D8AEF`, radius `10px` (на узком TMA допустим pill `50px`).
+- Поля: белый фон, radius `10px`, без жёсткой рамки; label — semibold/bold, 14px.
+
+## Запрещено
+
+- Admin/Flux палитра (`zinc`, `teal`, admin-тема).
+- Несуществующие классы: `text-sf-pro-semibold`, `text-grey-500`, `text-gray-tma-900`, `shadow-custom-buttons`.
+- Для акцента шрифта использовать `font-sf-pro-semibold`, не `text-sf-pro-semibold`.
+
+## Логика и медицина
+
+- Формулы и пороги — с комментарием источника (гайдлайн, название шкалы, год).
+- Вход: явная валидация (диапазоны, обязательные поля); сообщения об ошибках — `color: #dc2626`, `font-size: 14px` (аналог `text-red-600`).
+- Числа: `parseFloat` + проверка `Number.isFinite`; не делить на 0; единицы СИ в label (`кг`, `см`, `мг/дл`).
+- Результат: отдельный блок `.fc-calc__result`; интерпретация текстом (норма / риск / стадия), не только число.
+- Дисклеймер внизу: справочно, не замена врачу (как на farmconsilium.com).
+
+## JS
+
+- Без глобальных `var` в window; IIFE или `type="module"`; префикс id/data-атрибутов `fc-calc-*`.
+- Слушатели: `input` + `change`; кнопка «Рассчитать» — не только `click` без валидации.
+- Доступность: `<label for="...">`, `aria-live="polite"` на блоке результата.
+
+## Перед сдачей
+
+- Чеклист из `FRONTEND-STYLES.md` §15.
+- Ручная проверка 2–3 эталонных кейсов (в т.ч. граничные).
+- Если есть `tests/` — прогнать `npm test` для этого slug.
+
+## Шаблон
+
+`templates/calculator-template.html` — копируется скриптом в `calculators/<slug>/index.html`.

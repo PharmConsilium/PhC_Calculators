@@ -1,0 +1,162 @@
+<!-- FarmConsilium calculator fragment — paste into html_code -->
+<div class="fc-calc" data-calculator="SLUG">
+  <style>
+    .fc-calc {
+      font-family: 'SF Pro', system-ui, sans-serif;
+      color: #263048;
+      max-width: 80rem;
+      margin: 0 auto;
+    }
+    .fc-calc__card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .fc-calc__title {
+      font-family: 'SF Pro Semibold', 'SF Pro', system-ui, sans-serif;
+      font-size: 1.25rem;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+    .fc-calc__hint {
+      font-size: 0.875rem;
+      color: #b4b5c0;
+      margin: 0 0 16px;
+    }
+    .fc-calc__field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .fc-calc__field label {
+      font-family: 'SF Pro Bold', 'SF Pro', system-ui, sans-serif;
+      font-size: 0.875rem;
+    }
+    .fc-calc__field input,
+    .fc-calc__field select {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 0.875rem;
+      font-weight: 400;
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 10px;
+      color: #263048;
+    }
+    .fc-calc__field input:focus,
+    .fc-calc__field select:focus {
+      outline: 2px solid #305ef9;
+      outline-offset: 0;
+    }
+    .fc-calc__error {
+      font-size: 0.875rem;
+      color: #dc2626;
+      min-height: 1.25em;
+    }
+    .fc-calc__btn {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px 40px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+      background: #305ef9;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    .fc-calc__btn:hover:not(:disabled) {
+      background: #6d8aef;
+    }
+    .fc-calc__btn:disabled {
+      background: #b4b5c0;
+      cursor: not-allowed;
+    }
+    @media (min-width: 768px) {
+      .fc-calc__btn {
+        border-radius: 10px;
+      }
+    }
+    .fc-calc__result {
+      margin-top: 16px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 10px;
+      border-top: 1px solid #dee5e7;
+      text-align: center;
+    }
+    .fc-calc__result[hidden] {
+      display: none;
+    }
+    .fc-calc__disclaimer {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: #b4b5c0;
+      line-height: 1.4;
+    }
+  </style>
+
+  <div class="fc-calc__card">
+    <h2 class="fc-calc__title">Название калькулятора</h2>
+    <p class="fc-calc__hint">Краткое описание показаний</p>
+
+    <form class="fc-calc__form" id="fc-calc-SLUG-form" novalidate>
+      <div class="fc-calc__field">
+        <label for="fc-calc-SLUG-example">Пример поля (ед.)</label>
+        <input type="number" id="fc-calc-SLUG-example" name="example" inputmode="decimal" min="0" step="any" required />
+        <span class="fc-calc__error" id="fc-calc-SLUG-example-error" role="alert"></span>
+      </div>
+
+      <button type="submit" class="fc-calc__btn">Рассчитать</button>
+    </form>
+
+    <div class="fc-calc__result" id="fc-calc-SLUG-result" hidden aria-live="polite"></div>
+  </div>
+
+  <p class="fc-calc__disclaimer">
+    Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+  </p>
+
+  <script>
+    (function () {
+      var form = document.getElementById('fc-calc-SLUG-form');
+      var resultEl = document.getElementById('fc-calc-SLUG-result');
+      var exampleInput = document.getElementById('fc-calc-SLUG-example');
+      var exampleError = document.getElementById('fc-calc-SLUG-example-error');
+
+      function parsePositive(value) {
+        var n = parseFloat(String(value).replace(',', '.'));
+        return Number.isFinite(n) && n >= 0 ? n : null;
+      }
+
+      function setError(el, message) {
+        el.textContent = message || '';
+      }
+
+      function calculate(example) {
+        // TODO: формула + источник в комментарии
+        return { value: example, interpretation: 'Заглушка результата' };
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        setError(exampleError, '');
+        resultEl.hidden = true;
+
+        var example = parsePositive(exampleInput.value);
+        if (example === null) {
+          setError(exampleError, 'Введите корректное неотрицательное число');
+          return;
+        }
+
+        var out = calculate(example);
+        resultEl.innerHTML =
+          '<strong>' + out.value + '</strong><br><span style="color:#B4B5C0">' + out.interpretation + '</span>';
+        resultEl.hidden = false;
+      });
+    })();
+  </script>
+</div>

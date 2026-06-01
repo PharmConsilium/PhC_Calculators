@@ -1,0 +1,9 @@
+{
+  "name": "farmconsilium-calculators",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "new:calc": "node scripts/new-calculator.mjs",
+    "test": "node --test tests/**/*.test.mjs"
+  }
+}
