@@ -5,11 +5,15 @@
 ```
 calculators/
   has-bled/
-    index.html    ← фрагмент для html_code (стили из shared внутри <style>)
-    calc.js       ← формулы для node --test
+    index.html    ← единственный файл для сайта: <style> + HTML + <script>
+    calc.js       ← формулы для тестов (на сайт не идёт)
     cases.json    ← эталонные кейсы
     meta.json     ← slug, title, source
 ```
+
+Стили и скрипты в `index.html` **не должны влиять** на остальную страницу: всё внутри `<div class="fc-calc">`, селекторы только с префиксом `.fc-calc`.
+
+На сайте ([калькуляторы](https://farmconsilium.com/calculator)) у всех виджетов **одинаковые зоны**: шапка → поля → кнопка → результат → дисклеймер. Меняется только содержимое `fc-calc__body`. Каркас: `templates/LAYOUT.md`.
 
 ## Новый калькулятор
 

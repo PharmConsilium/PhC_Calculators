@@ -1,4 +1,4 @@
-<!-- FarmConsilium calculator fragment — paste into html_code -->
+<!-- FarmConsilium: index.html → html_code. Каркас зон fc-calc__* не менять, менять только body и calculate() -->
 <div class="fc-calc" data-calculator="SLUG">
   <style>
 /* FC-CALC-STYLES — from shared/fc-calc.css; sync: node scripts/sync-calculator-styles.mjs SLUG */
@@ -6,32 +6,58 @@ STYLES
   </style>
 
   <div class="fc-calc__card">
-    <h2 class="fc-calc__title">Название калькулятора</h2>
-    <p class="fc-calc__hint">Краткое описание показаний</p>
+    <div class="fc-calc__layout">
+      <!-- 1. Шапка (название + описание) -->
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Название калькулятора</h2>
+        <p class="fc-calc__hint">Краткое описание показаний</p>
+      </header>
 
-    <form class="fc-calc__form" id="fc-calc-SLUG-form" novalidate>
-      <div class="fc-calc__field">
-        <label for="fc-calc-SLUG-example">Пример поля (ед.)</label>
-        <input type="number" id="fc-calc-SLUG-example" name="example" inputmode="decimal" min="0" step="any" required />
-        <span class="fc-calc__error" id="fc-calc-SLUG-example-error" role="alert"></span>
+      <!-- 2. Поля — единственная зона, где у каждого калькулятора свой контент -->
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-SLUG-form" novalidate>
+          <div class="fc-calc__field">
+            <label for="fc-calc-SLUG-example">Пример поля (ед.)</label>
+            <input type="number" id="fc-calc-SLUG-example" name="example" inputmode="decimal" min="0" step="any" required />
+            <span class="fc-calc__error" id="fc-calc-SLUG-example-error" role="alert"></span>
+          </div>
+        </form>
       </div>
 
-      <button type="submit" class="fc-calc__btn">Рассчитать</button>
-    </form>
+      <!-- 3. Кнопка — всегда здесь -->
+      <div class="fc-calc__actions">
+        <button type="submit" class="fc-calc__btn" form="fc-calc-SLUG-form">Рассчитать</button>
+      </div>
 
-    <div class="fc-calc__result" id="fc-calc-SLUG-result" hidden aria-live="polite"></div>
+      <!-- 4. Результат — зона не схлопывается (не использовать hidden на обёртке) -->
+      <div class="fc-calc__result-wrap" aria-live="polite">
+        <p class="fc-calc__result-label">Результат</p>
+        <div class="fc-calc__result fc-calc__result--empty" id="fc-calc-SLUG-result">
+          <p class="fc-calc__result-placeholder">Заполните поля и нажмите «Рассчитать»</p>
+          <div class="fc-calc__result-value" id="fc-calc-SLUG-result-value"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <p class="fc-calc__disclaimer">
-    Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
-  </p>
+  <!-- 5. Дисклеймер и источник -->
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+    <p class="fc-calc__source" id="fc-calc-SLUG-source"></p>
+  </footer>
 
   <script>
     (function () {
-      var form = document.getElementById('fc-calc-SLUG-form');
-      var resultEl = document.getElementById('fc-calc-SLUG-result');
-      var exampleInput = document.getElementById('fc-calc-SLUG-example');
-      var exampleError = document.getElementById('fc-calc-SLUG-example-error');
+      var root = document.querySelector('.fc-calc[data-calculator="SLUG"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-SLUG-form');
+      var resultBox = root.querySelector('#fc-calc-SLUG-result');
+      var resultValue = root.querySelector('#fc-calc-SLUG-result-value');
+      var exampleInput = root.querySelector('#fc-calc-SLUG-example');
+      var exampleError = root.querySelector('#fc-calc-SLUG-example-error');
 
       function parsePositive(value) {
         var n = parseFloat(String(value).replace(',', '.'));
@@ -40,6 +66,16 @@ STYLES
 
       function setError(el, message) {
         el.textContent = message || '';
+      }
+
+      function showResult(html) {
+        resultValue.innerHTML = html;
+        resultBox.classList.remove('fc-calc__result--empty');
+      }
+
+      function clearResult() {
+        resultValue.innerHTML = '';
+        resultBox.classList.add('fc-calc__result--empty');
       }
 
       /** Дублирует calc.js — для html_code на сайте (без import). */
@@ -51,7 +87,7 @@ STYLES
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         setError(exampleError, '');
-        resultEl.hidden = true;
+        clearResult();
 
         var example = parsePositive(exampleInput.value);
         if (example === null) {
@@ -60,9 +96,9 @@ STYLES
         }
 
         var out = calculate({ example: example });
-        resultEl.innerHTML =
-          '<strong>' + out.value + '</strong><br><span class="fc-calc__hint">' + out.interpretation + '</span>';
-        resultEl.hidden = false;
+        showResult(
+          '<strong>' + out.value + '</strong><br><span class="fc-calc__hint">' + out.interpretation + '</span>'
+        );
       });
     })();
   </script>

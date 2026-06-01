@@ -6,12 +6,33 @@ alwaysApply: false
 
 # Стиль калькулятора
 
-Источники (не другие `calculators/*/`): `shared/fc-calc.css`, `templates/calculator-template.html`, `FRONTEND-STYLES.md` §13–16.
+## Один файл на сайт: `index.html`
+
+В продакшен уходит **только** `calculators/<slug>/index.html` (поле `html_code`):
+
+- `<style>` — стили из `shared/fc-calc.css` (встроенные, без `<link>`).
+- `<script>` — логика в IIFE внутри того же файла.
+- **Не влияет на сайт:** все селекторы с префиксом `.fc-calc`; без `html`, `body`, `*`, глобальных классов сайта.
+
+`calc.js` / `cases.json` — только репозиторий и тесты, на сайт не загружаются.
+
+Источники стиля (не другие `calculators/*/`): `shared/fc-calc.css`, `templates/calculator-template.html`, `FRONTEND-STYLES.md` §13–16.
+
+## Каркас на сайте (одинаковые места блоков)
+
+На [farmconsilium.com/calculator](https://farmconsilium.com/calculator) у всех калькуляторов **одни и те же зоны** — см. `templates/LAYOUT.md`:
+
+1. `fc-calc__head` — заголовок  
+2. `fc-calc__body` — **только здесь** свой контент (поля/шкала)  
+3. `fc-calc__actions` — кнопка «Рассчитать»  
+4. `fc-calc__result-wrap` — результат (не `hidden`, класс `fc-calc__result--empty`)  
+5. `fc-calc__foot` — дисклеймер  
+
+**Не переставлять** зоны. Кнопку не дублировать в `body` (использовать `form="fc-calc-<slug>-form"` на кнопке в `actions`).
 
 ## Разметка
 
 - Корень: `<div class="fc-calc" data-calculator="SLUG">`.
-- В `index.html`: блок `<style>` = содержимое `shared/fc-calc.css` (без правок цветов в папке).
 - Только классы `.fc-calc__*`; новые цвета/шрифты в папке **запрещены**.
 
 ## Токены
@@ -29,12 +50,13 @@ alwaysApply: false
 
 Tailwind/admin (`zinc`, `teal`, Flux), классы `text-sf-pro-semibold`, `text-grey-500`, `shadow-custom-buttons`.
 
-## Логика (в этой папке)
+## Скрипт (изоляция)
 
-- Формулы в `calc.js` (тесты); в `index.html` — самодостаточный `<script>` (дублирует `calculate`, без `import` — для html_code на сайте).
-- После правки `calc.js` синхронизировать `calculate()` в `index.html`.
-- Id: `fc-calc-<slug>-*`. Источник шкалы — комментарий + `meta.json` → `source`.
-- Результат: `.fc-calc__result` + текст интерпретации; дисклеймер `.fc-calc__disclaimer`.
+- Только `<script>` в `index.html`, обёртка `(function () { ... })();`
+- **Запрещено:** `window.*`, глобальные функции, `document.querySelector` без id, правки `document.body` / `<head>`.
+- DOM: только `getElementById('fc-calc-<slug>-...')` или `root.querySelector(...)` от `.fc-calc`.
+- Формулы в `calc.js` (тесты); в `index.html` дублировать `calculate()` (без `import`).
+- Id: `fc-calc-<slug>-*`. Результат: `#fc-calc-<slug>-result-value`, переключать `fc-calc__result--empty` (не `hidden` на `result-wrap`).
 
 ## Синхронизация стилей
 

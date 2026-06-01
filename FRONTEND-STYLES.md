@@ -334,6 +334,12 @@ th, td: border border-tma-grey-300
 
 Страницы `calculator-show` выводят `{!! $calculator->html_code !!}` без обёртки в дизайн-систему.
 
+**Один файл на калькулятор:** `calculators/<slug>/index.html` — внутри `<div class="fc-calc">` блоки `<style>`, разметка и `<script>`. На сайт не подключаются отдельные `.css`/`.js` из папки.
+
+**Единый каркас на [странице калькуляторов](https://farmconsilium.com/calculator):** у всех виджетов пять зон в одном порядке (`head` → `body` → `actions` → `result-wrap` → `foot`). Меняется только разметка в `fc-calc__body`. Подробно: `templates/LAYOUT.md`.
+
+**Изоляция от сайта:** селекторы только вида `.fc-calc …` / `.fc-calc__*`; **не использовать** `:root`, `html`, `body`, теги без префикса (`button {}`, `input {}`). Скрипт — только IIFE, без `window.*` и правок `document.body`. Блок результата не скрывать через `hidden` на обёртке — использовать `fc-calc__result--empty`.
+
 **Рекомендации для нового калькулятора:**
 
 1. Фон страницы уже `bg-tma-grey` — виджет можно на **белой карточке**: `background:#fff; border-radius:10px; padding:16px`.
