@@ -1,0 +1,70 @@
+{
+  "slug": "date-diff",
+  "source": "Internal utility (calendar math, no holidays)",
+  "cases": [
+    {
+      "name": "diff: 2026-06-01 → 2026-06-08",
+      "input": {
+        "mode": "diff",
+        "start": "2026-06-01",
+        "end": "2026-06-08"
+      },
+      "expected": {
+        "days": 7,
+        "workdays": 5,
+        "weeks": 1,
+        "monthsFull": 0
+      }
+    },
+    {
+      "name": "diff: reversed sign",
+      "input": {
+        "mode": "diff",
+        "start": "2026-06-08",
+        "end": "2026-06-01"
+      },
+      "expected": {
+        "days": -7,
+        "workdays": -5,
+        "weeks": -1,
+        "monthsFull": 0
+      }
+    },
+    {
+      "name": "add: +10 days",
+      "input": {
+        "mode": "add",
+        "base": "2026-06-01",
+        "amount": 10,
+        "unit": "days"
+      },
+      "expected": {
+        "date": "2026-06-11"
+      }
+    },
+    {
+      "name": "add: +5 workdays (skip weekend)",
+      "input": {
+        "mode": "add",
+        "base": "2026-06-05",
+        "amount": 5,
+        "unit": "workdays"
+      },
+      "expected": {
+        "date": "2026-06-12"
+      }
+    },
+    {
+      "name": "add: +1 year (clamp Feb 29 to Feb 28)",
+      "input": {
+        "mode": "add",
+        "base": "2024-02-29",
+        "amount": 1,
+        "unit": "years"
+      },
+      "expected": {
+        "date": "2025-02-28"
+      }
+    }
+  ]
+}

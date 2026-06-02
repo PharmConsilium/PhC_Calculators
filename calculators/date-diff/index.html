@@ -1,0 +1,1347 @@
+<!-- Публикация: весь файл → админка «HTML-код (виджет, калькулятор)». Стили сайта в блоке style. -->
+<div class="fc-calc" data-calculator="date-diff">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-semibold), inherit;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <!-- Опционально: вкладки (см. templates/UI-PATTERNS.md) -->
+
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Расчёт дней между двумя датами</h2>
+        <p class="fc-calc__hint">Разница в днях, рабочих днях, неделях и месяцах. Также можно вычислить дату через заданный срок.</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-date-diff-form" novalidate>
+          <div class="fc-calc__field-row">
+            <div class="fc-calc__field" style="flex:1">
+              <label for="fc-calc-date-diff-start-display">Дата начала</label>
+              <input type="hidden" id="fc-calc-date-diff-start" name="start" />
+              <div class="fc-calc__date-pill fc-calc__date-pill--active" id="fc-calc-date-diff-start-display" role="button" tabindex="0" aria-label="Выбрать Дата 1">—</div>
+              <span class="fc-calc__error" id="fc-calc-date-diff-start-error" role="alert"></span>
+            </div>
+            <div class="fc-calc__field" style="flex:1">
+              <label for="fc-calc-date-diff-end-display">Дата конца</label>
+              <input type="hidden" id="fc-calc-date-diff-end" name="end" />
+              <div class="fc-calc__date-pill" id="fc-calc-date-diff-end-display" role="button" tabindex="0" aria-label="Выбрать Дата 2">—</div>
+              <span class="fc-calc__error" id="fc-calc-date-diff-end-error" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="fc-calc__actions" style="margin-top: 10px">
+            <button type="button" id="fc-calc-date-diff-clear" class="fc-calc__btn fc-calc__btn--secondary">Очистить</button>
+          </div>
+
+          <div class="fc-calc__calendar" id="fc-calc-date-diff-calendar" aria-label="Календарь">
+            <div class="fc-calc__calendar-head">
+              <button type="button" class="fc-calc__calendar-nav" id="fc-calc-date-diff-cal-prev" aria-label="Предыдущий месяц">←</button>
+              <div class="fc-calc__calendar-month" id="fc-calc-date-diff-cal-month">—</div>
+              <button type="button" class="fc-calc__calendar-nav" id="fc-calc-date-diff-cal-next" aria-label="Следующий месяц">→</button>
+            </div>
+            <div class="fc-calc__calendar-grid" id="fc-calc-date-diff-cal-dow" aria-hidden="true"></div>
+            <div class="fc-calc__calendar-grid" id="fc-calc-date-diff-cal-days"></div>
+          </div>
+
+          <div class="fc-calc__formula">
+            Укажите две даты — разница посчитается автоматически. Или укажите одну дату и срок — рассчитаем вторую дату.
+          </div>
+
+          <div class="fc-calc__field-row" style="margin-top: 12px">
+            <div class="fc-calc__field" style="flex:1">
+              <label for="fc-calc-date-diff-amount">Срок</label>
+              <input type="number" id="fc-calc-date-diff-amount" name="amount" inputmode="numeric" step="1" placeholder="0" />
+              <span class="fc-calc__error" id="fc-calc-date-diff-amount-error" role="alert"></span>
+            </div>
+            <div class="fc-calc__field" style="flex:1">
+              <label for="fc-calc-date-diff-unit">Единица</label>
+              <select id="fc-calc-date-diff-unit" name="unit">
+                <option value="days">дней</option>
+                <option value="workdays">рабочих дней</option>
+                <option value="weeks">недель</option>
+                <option value="months">месяцев</option>
+                <option value="years">лет</option>
+              </select>
+              <span class="fc-calc__error" id="fc-calc-date-diff-unit-error" role="alert"></span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-date-diff-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-date-diff-form">Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-date-diff-result-wrap" aria-live="polite">
+        <p class="fc-calc__result-label">Результат</p>
+        <p class="fc-calc__result-desc" id="fc-calc-date-diff-result-desc">—</p>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body" id="fc-calc-date-diff-notes">
+        <p><strong>Дни:</strong> разница между датами в календарных днях (без учёта времени суток).</p>
+        <p><strong>Рабочие дни:</strong> понедельник–пятница (праздники не учитываются).</p>
+        <p><strong>Выходные дни:</strong> суббота и воскресенье.</p>
+        <p><strong>Недели:</strong>семь дней в одной неделе.</p>
+        <p><strong>Месяцы:</strong> количество <strong>полных</strong> календарных месяцев между датами.</p>
+        <p><strong>Годы:</strong> количество <strong>полных</strong> лет между датами.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.querySelector('.fc-calc[data-calculator="date-diff"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-date-diff-form');
+      var btn = root.querySelector('#fc-calc-date-diff-btn');
+      var startInput = root.querySelector('#fc-calc-date-diff-start');
+      var endInput = root.querySelector('#fc-calc-date-diff-end');
+      var startDisplay = root.querySelector('#fc-calc-date-diff-start-display');
+      var endDisplay = root.querySelector('#fc-calc-date-diff-end-display');
+      var calWrap = root.querySelector('#fc-calc-date-diff-calendar');
+      var calPrev = root.querySelector('#fc-calc-date-diff-cal-prev');
+      var calNext = root.querySelector('#fc-calc-date-diff-cal-next');
+      var calMonth = root.querySelector('#fc-calc-date-diff-cal-month');
+      var calDow = root.querySelector('#fc-calc-date-diff-cal-dow');
+      var calDays = root.querySelector('#fc-calc-date-diff-cal-days');
+      var amountInput = root.querySelector('#fc-calc-date-diff-amount');
+      var unitSelect = root.querySelector('#fc-calc-date-diff-unit');
+      var clearBtn = root.querySelector('#fc-calc-date-diff-clear');
+      var startError = root.querySelector('#fc-calc-date-diff-start-error');
+      var endError = root.querySelector('#fc-calc-date-diff-end-error');
+      var amountError = root.querySelector('#fc-calc-date-diff-amount-error');
+      var resultWrap = root.querySelector('#fc-calc-date-diff-result-wrap');
+      var resultDesc = root.querySelector('#fc-calc-date-diff-result-desc');
+      var hasSubmitted = false;
+
+      function showError(el, msg) {
+        if (!el) return;
+        el.textContent = msg || '';
+      }
+
+      function parseIsoDate(str) {
+        if (!str || typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return null;
+        var d = new Date(str + 'T00:00:00.000Z');
+        if (!isFinite(d.getTime())) return null;
+        if (d.toISOString().slice(0, 10) !== str) return null;
+        return d;
+      }
+
+      function formatIsoDateUTC(d) {
+        return new Date(d.getTime()).toISOString().slice(0, 10);
+      }
+
+      function formatRuDate(iso) {
+        var d = parseIsoDate(iso);
+        if (!d) return '—';
+        var dd = String(d.getUTCDate()).padStart(2, '0');
+        var mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        var yyyy = String(d.getUTCFullYear());
+        return dd + '.' + mm + '.' + yyyy;
+      }
+
+      function diffInDaysUTC(a, b) {
+        return Math.trunc((b.getTime() - a.getTime()) / 86400000);
+      }
+
+      function isWeekdayUTC(d) {
+        var day = d.getUTCDay();
+        return day !== 0 && day !== 6;
+      }
+
+      function countWeekdaysBetweenUTC(a, b) {
+        var start = a;
+        var end = b;
+        if (end.getTime() < start.getTime()) {
+          start = b;
+          end = a;
+        }
+        var count = 0;
+        var cur = new Date(start.getTime());
+        while (cur.getTime() < end.getTime()) {
+          cur.setUTCDate(cur.getUTCDate() + 1);
+          if (isWeekdayUTC(cur)) count++;
+        }
+        return count;
+      }
+
+      function daysInMonthUTC(year, month0) {
+        return new Date(Date.UTC(year, month0 + 1, 0)).getUTCDate();
+      }
+
+      function addMonthsClamped(dateUTC, months) {
+        var y = dateUTC.getUTCFullYear();
+        var m = dateUTC.getUTCMonth();
+        var d = dateUTC.getUTCDate();
+        var targetMonth = m + months;
+        var ty = y + Math.floor(targetMonth / 12);
+        var tm = ((targetMonth % 12) + 12) % 12;
+        var maxDay = daysInMonthUTC(ty, tm);
+        var td = Math.min(d, maxDay);
+        return new Date(Date.UTC(ty, tm, td));
+      }
+
+      function fullMonthsBetweenUTC(a, b) {
+        var sign = 1;
+        var start = a;
+        var end = b;
+        if (end.getTime() < start.getTime()) {
+          sign = -1;
+          start = b;
+          end = a;
+        }
+        var y1 = start.getUTCFullYear();
+        var m1 = start.getUTCMonth();
+        var y2 = end.getUTCFullYear();
+        var m2 = end.getUTCMonth();
+        var months = (y2 - y1) * 12 + (m2 - m1);
+        var candidate = addMonthsClamped(start, months);
+        if (candidate.getTime() > end.getTime()) months -= 1;
+        return months * sign;
+      }
+
+      function parseIntStrict(v) {
+        var s = String(v || '').trim();
+        if (!s) return null;
+        if (!/^-?\d+$/.test(s)) return null;
+        var n = Number(s);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function addInterval(baseUTC, amount, unit) {
+        var out = new Date(baseUTC.getTime());
+        var n = amount;
+        if (unit === 'days') {
+          out.setUTCDate(out.getUTCDate() + n);
+          return out;
+        }
+        if (unit === 'weeks') {
+          out.setUTCDate(out.getUTCDate() + n * 7);
+          return out;
+        }
+        if (unit === 'months') {
+          return addMonthsClamped(out, n);
+        }
+        if (unit === 'years') {
+          return addMonthsClamped(out, n * 12);
+        }
+        if (unit === 'workdays') {
+          var step = n >= 0 ? 1 : -1;
+          var remaining = Math.abs(n);
+          while (remaining > 0) {
+            out.setUTCDate(out.getUTCDate() + step);
+            if (isWeekdayUTC(out)) remaining--;
+          }
+          return out;
+        }
+        return null;
+      }
+
+      function renderResult(html) {
+        if (!resultWrap) return;
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        resultDesc.innerHTML = html;
+      }
+
+      function clearResult() {
+        if (!resultWrap) return;
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        resultDesc.textContent = '—';
+      }
+
+      function updateButton(active) {
+        if (!btn) return;
+        // Кнопка должна оставаться кликабельной: вычисление запускается и без неё,
+        // но при клике покажем подсказку если данных недостаточно.
+        btn.disabled = false;
+        btn.setAttribute('aria-disabled', active ? 'false' : 'true');
+        btn.classList.toggle('fc-calc__btn--inactive', !active);
+      }
+
+      function buildDiffHtml(start, end) {
+        var days = diffInDaysUTC(start, end);
+        var workdaysAbs = countWeekdaysBetweenUTC(start, end);
+        var workdays = days >= 0 ? workdaysAbs : -workdaysAbs;
+        var weekendAbs = Math.max(0, Math.abs(days) - workdaysAbs);
+        var weekends = days >= 0 ? weekendAbs : -weekendAbs;
+        var weeks = days / 7;
+        var monthsFull = fullMonthsBetweenUTC(start, end);
+        var yearsFull = Math.trunc(monthsFull / 12);
+        var signLabel = days >= 0 ? 'от Даты начала до Даты конца' : 'от Даты конца до Даты начала';
+        return (
+          '<p class="fc-calc__hint" style="margin:0 0 10px">Разница ' +
+          signLabel +
+          ':</p>' +
+          '<p style="margin:0 0 6px"><strong>Дней:</strong> ' +
+          days +
+          '</p>' +
+          '<p style="margin:0 0 6px"><strong>Рабочих дней:</strong> ' +
+          workdays +
+          '</p>' +
+          '<p style="margin:0 0 6px"><strong>Выходных дней:</strong> ' +
+          weekends +
+          '</p>' +
+          '<p style="margin:0 0 6px"><strong>Недель:</strong> ' +
+          (Math.round(weeks * 1000) / 1000) +
+          '</p>' +
+          '<p style="margin:0"><strong>Полных месяцев:</strong> ' +
+          monthsFull +
+          '</p>' +
+          '<p style="margin:6px 0 0"><strong>Полных лет:</strong> ' +
+          yearsFull +
+          '</p>'
+        );
+      }
+
+      function isReadyToCalculate() {
+        var start = parseIsoDate(startInput.value);
+        var end = parseIsoDate(endInput.value);
+        var amount = parseIntStrict(amountInput.value);
+        var hasAmount = amount !== null && amount !== 0;
+        if (start && end) return true;
+        if (hasAmount && (start || end)) return true;
+        return false;
+      }
+
+      // Выполняет "побочные эффекты" ввода: автозаполнение второй даты по сроку,
+      // обновление активного состояния кнопки. Результат не рендерит.
+      function computeSideEffects() {
+        var start = parseIsoDate(startInput.value);
+        var end = parseIsoDate(endInput.value);
+        var amount = parseIntStrict(amountInput.value);
+        var unit = String(unitSelect.value || 'days');
+        var hasAmount = amount !== null && amount !== 0;
+
+        // Связка "срок + единица" с календарём: автозаполнение второй даты.
+        if (hasAmount) {
+          var base;
+          var out;
+          var computedIso;
+          if (start && (!end || computedEnd)) {
+            base = start;
+            out = addInterval(base, amount, unit);
+            if (out) {
+              computedIso = formatIsoDateUTC(out);
+              setDateValue('end', computedIso);
+              computedEnd = true;
+              computedStart = false;
+            }
+          } else if (end && (!start || computedStart)) {
+            base = end;
+            out = addInterval(base, -amount, unit);
+            if (out) {
+              computedIso = formatIsoDateUTC(out);
+              setDateValue('start', computedIso);
+              computedStart = true;
+              computedEnd = false;
+            }
+          }
+
+          if (computedIso) {
+            var computedDate = parseIsoDate(computedIso);
+            if (computedDate) {
+              viewYear = computedDate.getUTCFullYear();
+              viewMonth = computedDate.getUTCMonth();
+            }
+          }
+        } else {
+          // Если срок/единица очищены — убираем автоматически вычисленную вторую дату.
+          if (computedEnd) {
+            clearDateValue('end');
+            computedEnd = false;
+          }
+          if (computedStart) {
+            clearDateValue('start');
+            computedStart = false;
+          }
+        }
+
+        updateButton(isReadyToCalculate());
+      }
+
+      function computeAndRender(force) {
+        computeSideEffects();
+        if (!force && !hasSubmitted) return;
+        showError(startError, '');
+        showError(endError, '');
+        showError(amountError, '');
+
+        var start = parseIsoDate(startInput.value);
+        var end = parseIsoDate(endInput.value);
+        var amount = parseIntStrict(amountInput.value);
+        var unit = String(unitSelect.value || 'days');
+
+        var hasAmount = amount !== null && amount !== 0;
+
+        // Если задан срок — приоритетно работаем в режиме "вычислить вторую дату"
+        // (и связываем это с календарём через автозаполнение второй даты).
+        if (hasAmount) {
+          var base;
+          var out;
+          var computedIso;
+
+          if (start && (!end || computedEnd)) {
+            base = start;
+            out = addInterval(base, amount, unit);
+            if (!out) {
+              showError(amountError, 'Неверная единица');
+              clearResult();
+              return;
+            }
+            computedIso = formatIsoDateUTC(out);
+            setDateValue('end', computedIso);
+            computedEnd = true;
+            computedStart = false;
+          } else if (end && (!start || computedStart)) {
+            base = end;
+            out = addInterval(base, -amount, unit);
+            if (!out) {
+              showError(amountError, 'Неверная единица');
+              clearResult();
+              return;
+            }
+            computedIso = formatIsoDateUTC(out);
+            setDateValue('start', computedIso);
+            computedStart = true;
+            computedEnd = false;
+          }
+
+          if (!out) {
+            // Есть срок, но нет базовой даты — ничего считать.
+            updateButton(false);
+            clearResult();
+            return;
+          }
+
+          var computedDate = parseIsoDate(computedIso);
+          if (computedDate) {
+            viewYear = computedDate.getUTCFullYear();
+            viewMonth = computedDate.getUTCMonth();
+          }
+
+          var s2 = parseIsoDate(startInput.value);
+          var e2 = parseIsoDate(endInput.value);
+          if (s2 && e2) {
+            renderResult(
+              '<p style="margin:0 0 10px"><strong>Рассчитанная дата:</strong> ' +
+                computedIso +
+                '</p>' +
+                buildDiffHtml(s2, e2)
+            );
+          } else {
+            renderResult(
+              '<p style="margin:0 0 6px"><strong>Рассчитанная дата:</strong> ' +
+                computedIso +
+                '</p>' +
+                '<p class="fc-calc__hint" style="margin:0">Заполнена ' +
+                (start ? 'Дата начала' : 'Дата конца') +
+                ' и срок — вычислили вторую дату.</p>'
+            );
+          }
+          return;
+        }
+
+        if (start && end) {
+          computedStart = false;
+          computedEnd = false;
+          renderResult(buildDiffHtml(start, end));
+          return;
+        }
+
+        if (force || hasSubmitted) clearResult();
+      }
+
+      var activeField = 'start';
+      var viewYear;
+      var viewMonth;
+      var computedStart = false;
+      var computedEnd = false;
+
+      function setActiveField(field) {
+        activeField = field === 'end' ? 'end' : 'start';
+        if (startDisplay) startDisplay.classList.toggle('fc-calc__date-pill--active', activeField === 'start');
+        if (endDisplay) endDisplay.classList.toggle('fc-calc__date-pill--active', activeField === 'end');
+      }
+
+      function setDateValue(field, iso) {
+        if (!iso) return;
+        if (field === 'end') {
+          endInput.value = iso;
+          endDisplay.textContent = formatRuDate(iso);
+        } else {
+          startInput.value = iso;
+          startDisplay.textContent = formatRuDate(iso);
+        }
+      }
+
+      function clearDateValue(field) {
+        if (field === 'end') {
+          endInput.value = '';
+          endDisplay.textContent = '—';
+        } else {
+          startInput.value = '';
+          startDisplay.textContent = '—';
+        }
+      }
+
+      function resetAll() {
+        showError(startError, '');
+        showError(endError, '');
+        showError(amountError, '');
+
+        clearDateValue('start');
+        clearDateValue('end');
+        amountInput.value = '';
+        unitSelect.value = 'days';
+
+        computedStart = false;
+        computedEnd = false;
+        hasSubmitted = false;
+
+        setActiveField('start');
+        initView();
+        computeSideEffects();
+        clearResult();
+        renderCalendar();
+      }
+
+      function sameIso(a, b) {
+        return typeof a === 'string' && typeof b === 'string' && a === b;
+      }
+
+      function inRange(iso, startIso, endIso) {
+        var a = parseIsoDate(startIso);
+        var b = parseIsoDate(endIso);
+        var x = parseIsoDate(iso);
+        if (!a || !b || !x) return false;
+        var min = a.getTime() <= b.getTime() ? a : b;
+        var max = a.getTime() <= b.getTime() ? b : a;
+        return x.getTime() > min.getTime() && x.getTime() < max.getTime();
+      }
+
+      function renderCalendar() {
+        if (!calWrap) return;
+        var monthNames = [
+          'Январь',
+          'Февраль',
+          'Март',
+          'Апрель',
+          'Май',
+          'Июнь',
+          'Июль',
+          'Август',
+          'Сентябрь',
+          'Октябрь',
+          'Ноябрь',
+          'Декабрь',
+        ];
+        calMonth.textContent = monthNames[viewMonth] + ' ' + String(viewYear);
+
+        // DOW row
+        if (calDow && !calDow.dataset.ready) {
+          var dows = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+          calDow.innerHTML = '';
+          for (var i = 0; i < 7; i++) {
+            var el = document.createElement('div');
+            el.className = 'fc-calc__calendar-dow';
+            el.textContent = dows[i];
+            calDow.appendChild(el);
+          }
+          calDow.dataset.ready = '1';
+        }
+
+        var first = new Date(Date.UTC(viewYear, viewMonth, 1));
+        var startDow = (first.getUTCDay() + 6) % 7; // Mon=0..Sun=6
+        var daysInMonth = new Date(Date.UTC(viewYear, viewMonth + 1, 0)).getUTCDate();
+        var todayIso = new Date().toISOString().slice(0, 10);
+        var sIso = startInput.value || '';
+        var eIso = endInput.value || '';
+
+        calDays.innerHTML = '';
+        // Leading blanks
+        for (var b = 0; b < startDow; b++) {
+          var blank = document.createElement('div');
+          blank.style.height = '36px';
+          calDays.appendChild(blank);
+        }
+        for (var day = 1; day <= daysInMonth; day++) {
+          var d = new Date(Date.UTC(viewYear, viewMonth, day));
+          var iso = formatIsoDateUTC(d);
+          var btnDay = document.createElement('button');
+          btnDay.type = 'button';
+          btnDay.className = 'fc-calc__calendar-day';
+          btnDay.textContent = String(day);
+          btnDay.dataset.iso = iso;
+
+          if (sameIso(iso, todayIso)) btnDay.classList.add('fc-calc__calendar-day--today');
+          if (inRange(iso, sIso, eIso)) btnDay.classList.add('fc-calc__calendar-day--in-range');
+          if (sameIso(iso, sIso) || sameIso(iso, eIso)) btnDay.classList.add('fc-calc__calendar-day--selected');
+
+          btnDay.addEventListener('click', function (ev) {
+            var chosen = ev.currentTarget.dataset.iso;
+            setDateValue(activeField, chosen);
+            if (activeField === 'start') computedStart = false;
+            if (activeField === 'end') computedEnd = false;
+            // Auto-switch to second date after picking first
+            if (activeField === 'start') setActiveField('end');
+            computeSideEffects();
+            computeAndRender(false);
+            renderCalendar();
+          });
+          calDays.appendChild(btnDay);
+        }
+      }
+
+      function initView() {
+        var baseIso = startInput.value || endInput.value || new Date().toISOString().slice(0, 10);
+        var base = parseIsoDate(baseIso) || new Date();
+        viewYear = base.getUTCFullYear();
+        viewMonth = base.getUTCMonth();
+      }
+
+      function onAnyInput() {
+        // Результат показываем только после нажатия "Рассчитать"
+        computeSideEffects();
+        computeAndRender(false);
+        renderCalendar();
+      }
+
+      function onDisplayActivate(field) {
+        return function () {
+          setActiveField(field);
+          renderCalendar();
+        };
+      }
+
+      if (startDisplay) {
+        startDisplay.addEventListener('click', onDisplayActivate('start'));
+        startDisplay.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') onDisplayActivate('start')();
+        });
+      }
+      if (endDisplay) {
+        endDisplay.addEventListener('click', onDisplayActivate('end'));
+        endDisplay.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') onDisplayActivate('end')();
+        });
+      }
+
+      if (calPrev) {
+        calPrev.addEventListener('click', function () {
+          viewMonth -= 1;
+          if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear -= 1;
+          }
+          renderCalendar();
+        });
+      }
+      if (calNext) {
+        calNext.addEventListener('click', function () {
+          viewMonth += 1;
+          if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear += 1;
+          }
+          renderCalendar();
+        });
+      }
+
+      amountInput.addEventListener('input', onAnyInput);
+      unitSelect.addEventListener('change', onAnyInput);
+
+      // В Chrome/Edge колесо мыши над <input type="number"> меняет значение.
+      // Это приводит к "скачкам" дат/календаря при прокрутке страницы.
+      amountInput.addEventListener(
+        'wheel',
+        function (e) {
+          if (document.activeElement === amountInput) e.preventDefault();
+        },
+        { passive: false }
+      );
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+          resetAll();
+        });
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hasSubmitted = true;
+        computeAndRender(true);
+        // Если данных недостаточно — показываем явную подсказку по клику.
+        var start = parseIsoDate(startInput.value);
+        var end = parseIsoDate(endInput.value);
+        var amount = parseIntStrict(amountInput.value);
+        var hasAmount = amount !== null && amount !== 0;
+        if (!(start && end) && !(hasAmount && (start || end))) {
+          renderResult(
+            '<p class="fc-calc__hint" style="margin:0">Заполните две даты для разницы или одну дату и срок — для расчёта второй даты.</p>'
+          );
+        }
+      });
+
+      // Init
+      setActiveField('start');
+      if (!startInput.value && !endInput.value) {
+        var today = new Date().toISOString().slice(0, 10);
+        setDateValue('start', today);
+      } else {
+        if (startDisplay) startDisplay.textContent = formatRuDate(startInput.value);
+        if (endDisplay) endDisplay.textContent = formatRuDate(endInput.value);
+      }
+      initView();
+      updateButton(false);
+      renderCalendar();
+    })();
+  </script>
+</div>
