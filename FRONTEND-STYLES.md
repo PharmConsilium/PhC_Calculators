@@ -344,7 +344,7 @@ th, td: border border-tma-grey-300
 
 | Токен | Значение |
 |-------|----------|
-| Шрифт | Montserrat (`@import` Google Fonts в `<style>` виджета) |
+| Шрифт | SF Pro; заголовок `.fc-calc__title` — Bold, **36px** (desktop) |
 | Текст / muted | `#10384f` (приглушённый текст — `opacity`) |
 | Primary | `#005eec`, hover `#0047c4` |
 | Фон | `#eff0f2` |
@@ -408,7 +408,7 @@ th, td: border border-tma-grey-300
 ## 16. Быстрый чеклист для нового калькулятора
 
 - [ ] Стили только из `shared/fc-calc.css` (синхронизация в `index.html`)
-- [ ] Montserrat, текст `#10384f`
+- [ ] SF Pro, заголовок 36px Bold, текст `#10384f`
 - [ ] Кнопка `#005eec`, radius `1rem`
 - [ ] Фон виджета `#eff0f2`, бордер `#d1d5db`
 - [ ] Каркас: `templates/LAYOUT.md` (head → body → actions → result → notes → foot)

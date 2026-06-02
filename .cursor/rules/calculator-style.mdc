@@ -4,7 +4,7 @@ globs: calculators/**/*.{html,js,css,json}
 alwaysApply: false
 ---
 
-# Стиль калькулятора
+# Стиль калькулятора (эталон = BMI)
 
 ## Один файл на сайт: `index.html`
 
@@ -18,7 +18,15 @@ alwaysApply: false
 
 Источники стиля (не другие `calculators/*/`): `shared/fc-calc.css`, `templates/calculator-template.html`, `FRONTEND-STYLES.md` §13–16.
 
-## Каркас на сайте (одинаковые места блоков)
+## Каркас и внешний вид (одинаково у всех)
+
+Эталон внешнего вида и разметки — `calculators/bmi/index.html`. **Все будущие калькуляторы должны выглядеть так же**, отличаться могут только:
+
+- формулы / алгоритм расчёта (`calc.js` и дублирование `calculate()` в `index.html`)
+- набор полей и их подписи (содержимое `fc-calc__body`)
+- текст подсказок и «Примечаний» (`fc-calc__hint`, `fc-calc__notes-body`)
+
+При добавлении новых UI-элементов использовать существующие паттерны из `templates/UI-PATTERNS.md` и базовые классы `.fc-calc__*`. Не вводить новые «свои» цвета/шрифты/радиусы в папках калькуляторов.
 
 На [farmconsilium.com/calculator](https://farmconsilium.com/calculator) у всех калькуляторов **одни и те же зоны** — см. `templates/LAYOUT.md`:
 
@@ -41,19 +49,21 @@ alwaysApply: false
 
 ## Адаптация под сайт FarmConsilium
 
-Токены в `shared/fc-calc.css` (`--fc-*`) — единый вид всех калькуляторов (Montserrat / HAS-BLED). После правки shared: `node scripts/sync-calculator-styles.mjs <slug>`.
+Токены в `shared/fc-calc.css` (`--fc-*`) — единый вид всех калькуляторов (как в BMI). После правки shared: `node scripts/sync-calculator-styles.mjs <slug>`.
 
 Публикация: весь `index.html` → поле «HTML-код» в админке (`calculators/PUBLISH.md`).
 
 | Элемент | Значение |
 |---------|----------|
-| Шрифт | Montserrat (Google Fonts в `<style>` виджета) |
+| Шрифт | SF Pro; заголовок Bold **36px**; подписи полей и кнопка — Semibold **20px** |
 | Текст / muted | `#10384f` (muted через opacity) |
-| Кнопка | `#005eec`, hover `#0047c4` |
+| Кнопка | `#005eec`, hover `#0047c4`, текст **20px SF Pro Semibold** |
 | Фон | `#eff0f2` |
 | Бордер | `#d1d5db` |
 | Рамка | белая карточка `.fc-calc__card`, тень, padding 24–32px, radius 10px |
 | Скругление | `10px` поля и карточка |
+| Заголовок | цвет `oklch(0.278 0.033 256.848)` |
+| Hint-тексты | цвет `#263048`, размер 16px |
 
 ## Запрещено
 

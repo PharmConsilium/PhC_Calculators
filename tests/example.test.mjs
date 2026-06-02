@@ -12,7 +12,8 @@ test('template and shared styles exist', async () => {
   assert.match(html, /class="fc-calc"/);
   assert.match(html, /__FC_CALC_CSS__/);
   assert.match(css, /#005eec/i);
-  assert.match(css, /Montserrat/i);
+  assert.match(css, /SF Pro/i);
+  assert.match(css, /36px/i);
   assert.match(html, /fc-calc__head/);
   assert.match(html, /fc-calc__body/);
   assert.match(html, /fc-calc__actions/);
