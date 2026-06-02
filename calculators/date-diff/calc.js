@@ -3,6 +3,8 @@
  * Source: internal utility calculator
  */
 
+import { holidaysInRangeUTC } from './holidays.js';
+
 function parseIsoDate(dateStr) {
   if (typeof dateStr !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
   const d = new Date(`${dateStr}T00:00:00.000Z`);
@@ -131,11 +133,13 @@ export function calculate(input) {
     const workdays = countWeekdaysBetweenUTC(start, end) * (days >= 0 ? 1 : -1);
     const weeks = days / 7;
     const monthsFull = fullMonthsBetweenUTC(start, end);
+    const holidays = holidaysInRangeUTC(start, end);
     return {
       days,
       workdays,
       weeks: Number(weeks.toFixed(4)),
       monthsFull,
+      holidays,
     };
   }
 

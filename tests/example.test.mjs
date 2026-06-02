@@ -48,7 +48,12 @@ test('run calculator tests from cases.json when present', async () => {
     for (const c of cases.cases || []) {
       const out = calculate(c.input);
       for (const [key, val] of Object.entries(c.expected || {})) {
-        assert.equal(out[key], val, `${slug}: ${c.name} — ${key}`);
+        const msg = `${slug}: ${c.name} — ${key}`;
+        if (Array.isArray(val) || (val !== null && typeof val === 'object')) {
+          assert.deepEqual(out[key], val, msg);
+        } else {
+          assert.equal(out[key], val, msg);
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "slug": "date-diff",
-  "source": "Internal utility (calendar math, no holidays)",
+  "source": "Internal utility (calendar math + RB public holidays)",
   "cases": [
     {
       "name": "diff: 2026-06-01 → 2026-06-08",
@@ -14,6 +14,21 @@
         "workdays": 5,
         "weeks": 1,
         "monthsFull": 0
+      }
+    },
+    {
+      "name": "diff: holidays in January 2026",
+      "input": {
+        "mode": "diff",
+        "start": "2026-01-01",
+        "end": "2026-01-10"
+      },
+      "expected": {
+        "days": 9,
+        "workdays": 6,
+        "weeks": 1.2857,
+        "monthsFull": 0,
+        "holidays": ["2026-01-01", "2026-01-02", "2026-01-07"]
       }
     },
     {

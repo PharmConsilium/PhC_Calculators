@@ -683,24 +683,6 @@
             </div>
           </div>
 
-          <div class="fc-calc__actions" style="margin-top: 10px">
-            <button type="button" id="fc-calc-date-diff-clear" class="fc-calc__btn fc-calc__btn--secondary">Очистить</button>
-          </div>
-
-          <div class="fc-calc__calendar" id="fc-calc-date-diff-calendar" aria-label="Календарь">
-            <div class="fc-calc__calendar-head">
-              <button type="button" class="fc-calc__calendar-nav" id="fc-calc-date-diff-cal-prev" aria-label="Предыдущий месяц">←</button>
-              <div class="fc-calc__calendar-month" id="fc-calc-date-diff-cal-month">—</div>
-              <button type="button" class="fc-calc__calendar-nav" id="fc-calc-date-diff-cal-next" aria-label="Следующий месяц">→</button>
-            </div>
-            <div class="fc-calc__calendar-grid" id="fc-calc-date-diff-cal-dow" aria-hidden="true"></div>
-            <div class="fc-calc__calendar-grid" id="fc-calc-date-diff-cal-days"></div>
-          </div>
-
-          <div class="fc-calc__formula">
-            Укажите две даты — разница посчитается автоматически. Или укажите одну дату и срок — рассчитаем вторую дату.
-          </div>
-
           <div class="fc-calc__field-row" style="margin-top: 12px">
             <div class="fc-calc__field" style="flex:1">
               <label for="fc-calc-date-diff-amount">Срок</label>
@@ -718,6 +700,24 @@
               </select>
               <span class="fc-calc__error" id="fc-calc-date-diff-unit-error" role="alert"></span>
             </div>
+          </div>
+
+          <div class="fc-calc__actions" style="margin-top: 10px">
+            <button type="button" id="fc-calc-date-diff-clear" class="fc-calc__btn fc-calc__btn--secondary">Очистить</button>
+          </div>
+
+          <div class="fc-calc__calendar" id="fc-calc-date-diff-calendar" aria-label="Календарь">
+            <div class="fc-calc__calendar-head">
+              <button type="button" class="fc-calc__calendar-nav" id="fc-calc-date-diff-cal-prev" aria-label="Предыдущий месяц">←</button>
+              <div class="fc-calc__calendar-month" id="fc-calc-date-diff-cal-month">—</div>
+              <button type="button" class="fc-calc__calendar-nav" id="fc-calc-date-diff-cal-next" aria-label="Следующий месяц">→</button>
+            </div>
+            <div class="fc-calc__calendar-grid" id="fc-calc-date-diff-cal-dow" aria-hidden="true"></div>
+            <div class="fc-calc__calendar-grid" id="fc-calc-date-diff-cal-days"></div>
+          </div>
+
+          <div class="fc-calc__formula">
+            Укажите две даты — разница посчитается автоматически. Или укажите одну дату и срок — рассчитаем вторую дату.
           </div>
         </form>
       </div>
@@ -741,6 +741,7 @@
         <p><strong>Дни:</strong> разница между датами в календарных днях (без учёта времени суток).</p>
         <p><strong>Рабочие дни:</strong> понедельник–пятница (праздники не учитываются).</p>
         <p><strong>Выходные дни:</strong> суббота и воскресенье.</p>
+        <p><strong>Праздничные дни:</strong> нерабочие дни РБ в выбранном интервале (1–2 и 7 января, 8 марта, 1 и 9 мая, 3 июля, 7 ноября, 25 декабря каждый год; плюс переменные даты по годам 2020–2049).</p>
         <p><strong>Недели:</strong> семь дней в одной неделе.</p>
         <p><strong>Месяцы:</strong> количество <strong>полных</strong> календарных месяцев между датами.</p>
         <p><strong>Годы:</strong> количество <strong>полных</strong> лет между датами.</p>
@@ -867,6 +868,79 @@
         return months * sign;
       }
 
+      /** Дублирует holidays.js */
+      var FIXED_HOLIDAY_MD = [
+        [1, 1], [1, 2], [1, 7], [3, 8], [5, 1], [5, 9], [7, 3], [11, 7], [12, 25],
+      ];
+      var VARIABLE_HOLIDAYS_BY_YEAR = {
+        2020: ['2020-04-12', '2020-04-19'],
+        2021: ['2021-04-04', '2021-05-02'],
+        2022: ['2022-04-17', '2022-04-24'],
+        2023: ['2023-04-09', '2023-04-16'],
+        2024: ['2024-03-31', '2024-05-05'],
+        2025: ['2025-04-20'],
+        2026: ['2026-04-05', '2026-04-12'],
+        2027: ['2027-03-28', '2027-05-02'],
+        2028: ['2028-04-16'],
+        2029: ['2029-04-01', '2029-04-08'],
+        2030: ['2030-04-21', '2030-04-28'],
+        2031: ['2031-04-13'],
+        2032: ['2032-03-28', '2032-05-02'],
+        2033: ['2033-04-17', '2033-04-24'],
+        2034: ['2034-04-09'],
+        2035: ['2035-03-25', '2035-04-29'],
+        2036: ['2036-04-13', '2036-04-20'],
+        2037: ['2037-04-05'],
+        2038: ['2038-04-25'],
+        2039: ['2039-04-10', '2039-04-17'],
+        2040: ['2040-04-01', '2040-05-06'],
+        2041: ['2041-04-21'],
+        2042: ['2042-04-06', '2042-04-13'],
+        2043: ['2043-03-29', '2043-05-03'],
+        2044: ['2044-04-17', '2044-04-24'],
+        2045: ['2045-04-09'],
+        2046: ['2046-03-25', '2046-04-29'],
+        2047: ['2047-04-14', '2047-04-21'],
+        2048: ['2048-04-05'],
+        2049: ['2049-04-18', '2049-04-25'],
+      };
+
+      function isoDatesForYear(year) {
+        var fixed = FIXED_HOLIDAY_MD.map(function (md) {
+          return year + '-' + String(md[0]).padStart(2, '0') + '-' + String(md[1]).padStart(2, '0');
+        });
+        var variable = VARIABLE_HOLIDAYS_BY_YEAR[year] || [];
+        return fixed.concat(variable);
+      }
+
+      function holidaysInRangeUTC(startUTC, endUTC) {
+        var min = startUTC;
+        var max = endUTC;
+        if (max.getTime() < min.getTime()) {
+          min = endUTC;
+          max = startUTC;
+        }
+        var minT = min.getTime();
+        var maxT = max.getTime();
+        var seen = {};
+        var out = [];
+        for (var y = min.getUTCFullYear(); y <= max.getUTCFullYear(); y++) {
+          var list = isoDatesForYear(y);
+          for (var i = 0; i < list.length; i++) {
+            var iso = list[i];
+            if (seen[iso]) continue;
+            var parts = iso.split('-').map(Number);
+            var t = Date.UTC(parts[0], parts[1] - 1, parts[2]);
+            if (t >= minT && t <= maxT) {
+              seen[iso] = true;
+              out.push(iso);
+            }
+          }
+        }
+        out.sort();
+        return out;
+      }
+
       function parseIntStrict(v) {
         var s = String(v || '').trim();
         if (!s) return null;
@@ -934,6 +1008,13 @@
         var weeks = days / 7;
         var monthsFull = fullMonthsBetweenUTC(start, end);
         var yearsFull = Math.trunc(monthsFull / 12);
+        var holidays = holidaysInRangeUTC(start, end);
+        var holidaysText = '—';
+        if (holidays.length === 1) {
+          holidaysText = formatRuDate(holidays[0]);
+        } else if (holidays.length > 1) {
+          holidaysText = String(holidays.length);
+        }
         var signLabel = days >= 0 ? 'от Даты начала до Даты конца' : 'от Даты конца до Даты начала';
         return (
           '<p class="fc-calc__hint" style="margin:0 0 10px">Разница ' +
@@ -947,6 +1028,9 @@
           '</p>' +
           '<p style="margin:0 0 6px"><strong>Выходных дней:</strong> ' +
           weekends +
+          '</p>' +
+          '<p style="margin:0 0 6px"><strong>Праздничные дни:</strong> ' +
+          holidaysText +
           '</p>' +
           '<p style="margin:0 0 6px"><strong>Недель:</strong> ' +
           (Math.round(weeks * 1000) / 1000) +
