@@ -382,8 +382,14 @@
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
   padding: 0.75rem 1rem;
+  min-height: 44px;
   color: var(--fc-text);
   caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field select {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .fc-calc .fc-calc__field input::placeholder {
@@ -457,6 +463,18 @@
   font-size: 16px;
   color: var(--fc-error);
   min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__error:empty {
+  display: none;
+}
+
+.fc-calc .fc-calc__field-row--dates .fc-calc__field {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__field-row--dates .fc-calc__error {
+  min-height: 0;
 }
 
 .fc-calc .fc-calc__btn {
@@ -651,7 +669,7 @@
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-date-diff-form" novalidate>
-          <div class="fc-calc__field-row">
+          <div class="fc-calc__field-row fc-calc__field-row--dates">
             <div class="fc-calc__field" style="flex:1">
               <label for="fc-calc-date-diff-start-display">Дата начала</label>
               <input type="hidden" id="fc-calc-date-diff-start" name="start" />
@@ -724,7 +742,7 @@
         <p><strong>Дни:</strong> разница между датами в календарных днях (без учёта времени суток).</p>
         <p><strong>Рабочие дни:</strong> понедельник–пятница (праздники не учитываются).</p>
         <p><strong>Выходные дни:</strong> суббота и воскресенье.</p>
-        <p><strong>Недели:</strong>семь дней в одной неделе.</p>
+        <p><strong>Недели:</strong> семь дней в одной неделе.</p>
         <p><strong>Месяцы:</strong> количество <strong>полных</strong> календарных месяцев между датами.</p>
         <p><strong>Годы:</strong> количество <strong>полных</strong> лет между датами.</p>
       </div>
