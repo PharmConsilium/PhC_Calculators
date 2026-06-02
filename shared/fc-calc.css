@@ -117,8 +117,8 @@
 }
 
 .fc-calc .fc-calc__title {
-  font-family: var(--fc-font-bold);
-  font-weight: 700;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
   font-size: 1.25rem;
   line-height: 1.2;
   margin: 0 0 8px;
@@ -263,9 +263,9 @@
 }
 
 .fc-calc .fc-calc__notes-title {
-  font-family: var(--fc-font-semibold);
+  font-family: var(--fc-font-sans);
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--fc-text);
   line-height: 1.25;
 }
@@ -345,8 +345,8 @@
 
 .fc-calc .fc-calc__section {
   margin: 16px 0 8px;
-  font-family: var(--fc-font-semibold);
-  font-weight: 600;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
   font-size: 20px;
   line-height: 1.25;
   color: var(--fc-text);
@@ -360,9 +360,9 @@
 }
 
 .fc-calc .fc-calc__field label {
-  font-family: var(--fc-font-semibold), inherit;
+  font-family: var(--fc-font-sans), inherit;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.25;
   color: var(--fc-text);
 }
@@ -492,6 +492,8 @@
 
 /* Вторичная (светлая) кнопка, например "Очистить" */
 .fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
   background: var(--fc-bg-page);
   color: var(--fc-text);
   border: 1px solid var(--fc-border);
