@@ -1,8 +1,8 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Клинический конвертер «Эквивалентные дозы глюкокортикостероидов (ГКС) — системные»
+  Название: Расчет физиологической потребности в жидкости
 -->
-<div class="fc-calc" data-calculator="gcs-equiv">
+<div class="fc-calc" data-calculator="fluid-req">
   <style>
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
@@ -641,126 +641,94 @@
   border-color: var(--fc-blue);
   box-shadow: inset 0 0 0 2px var(--fc-blue);
 }
-/* gcs-equiv: системный конвертер (ClinCalc-style) */
-.fc-calc[data-calculator="gcs-equiv"] .fc-calc__chips {
-  margin: 10px 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
+
+/* fluid-req: три показателя в результате */
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-results {
+  display: grid;
+  gap: 12px;
 }
 
-.fc-calc[data-calculator="gcs-equiv"] .fc-calc__chip {
-  appearance: none;
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item {
+  padding: 10px 12px;
+  background: var(--fc-bg-surface);
   border: 1px solid var(--fc-border);
-  background: var(--fc-bg-page);
-  color: var(--fc-blue);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.3;
-  cursor: pointer;
+  border-radius: var(--fc-radius);
 }
 
-.fc-calc[data-calculator="gcs-equiv"] .fc-calc__chip:hover {
-  border-color: var(--fc-blue);
-  background: rgba(0, 94, 236, 0.06);
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item .fc-calc__result-label {
+  margin-bottom: 4px;
 }
 
-.fc-calc[data-calculator="gcs-equiv"] .fc-calc__info-panel {
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item .fc-calc__result-number {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.fc-calc[data-calculator="fluid-req"] .fc-calc__result-desc {
   margin-top: 12px;
-  padding: 12px;
-  background: var(--fc-bg-page);
-  border: 1px solid var(--fc-border);
-  border-radius: var(--fc-radius);
-  font-size: 16px;
-}
-
-.fc-calc[data-calculator="gcs-equiv"] .fc-calc__info-panel.fc-calc__info-panel--hidden {
-  display: none;
-}
-
-.fc-calc[data-calculator="gcs-equiv"] .fc-calc__converter {
-  background: var(--fc-bg-input);
-  border: 1px solid var(--fc-border);
-  border-radius: var(--fc-radius);
-  padding: 14px;
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Эквивалентные дозы системных глюкокортикостероидов.</h2>
-        <p class="fc-calc__hint">Пересчёт эквивалентных доз системных глюкокортикостероидов. </p>
+        <h2 class="fc-calc__title">Расчет физиологической потребности в жидкости</h2>
+        <p class="fc-calc__hint">Объём внутривенной инфузионной терапии для обеспечения физиологической потребности в жидкости по правилу 4-2-1.</p>
+        <p class="fc-calc__formula"><strong>0–10 кг:</strong> 4 мл/кг/ч &nbsp;|&nbsp; <strong>10–20 кг:</strong> +2 мл/кг/ч &nbsp;|&nbsp; <strong>&gt;20 кг:</strong> +1 мл/кг/ч</p>
       </header>
 
       <div class="fc-calc__body">
-        <div class="fc-calc__converter">
-          <form id="fc-calc-gcs-sys-form" novalidate>
-            <p class="fc-calc__section" style="margin-top:0">Конвертировать из</p>
-            <div class="fc-calc__field-row">
-              <div class="fc-calc__field" style="flex:2">
-                <label for="fc-calc-gcs-sys-source">Препарат</label>
-                <select id="fc-calc-gcs-sys-source" name="sourceId" required></select>
-              </div>
-              <div class="fc-calc__field" style="flex:1">
-                <label for="fc-calc-gcs-sys-dose">Доза, мг</label>
-                <input type="number" id="fc-calc-gcs-sys-dose" name="doseSource" inputmode="decimal" min="0" step="any" placeholder="20" />
-                <span class="fc-calc__error" id="fc-calc-gcs-sys-dose-error" role="alert"></span>
-              </div>
-            </div>
-            <p class="fc-calc__section">Конвертировать в</p>
-            <div class="fc-calc__field">
-              <label for="fc-calc-gcs-sys-target">Препарат</label>
-              <select id="fc-calc-gcs-sys-target" name="targetId" required></select>
-              <span class="fc-calc__error" id="fc-calc-gcs-sys-target-error" role="alert"></span>
-            </div>
-            <div class="fc-calc__chips" id="fc-calc-gcs-sys-example">
-              <button type="button" class="fc-calc__chip" data-example="hc-pred">Пример: гидрокортизон 20 мг → преднизон</button>
-            </div>
-            <div class="fc-calc__actions fc-calc__toolbar">
-              <button type="submit" id="fc-calc-gcs-sys-btn" class="fc-calc__btn fc-calc__btn--inactive" disabled>Рассчитать</button>
-            </div>
-          </form>
-          <div class="fc-calc__info-panel fc-calc__info-panel--hidden" id="fc-calc-gcs-sys-info" aria-live="polite"></div>
-          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-gcs-sys-result" aria-live="polite">
-            <p class="fc-calc__result-label">Эквивалентная доза</p>
-            <p class="fc-calc__result-number" id="fc-calc-gcs-sys-result-dose">—</p>
-            <p class="fc-calc__result-desc" id="fc-calc-gcs-sys-result-desc"></p>
+        <form class="fc-calc__form" id="fc-calc-fluid-req-form" novalidate>
+          <div class="fc-calc__field">
+            <label for="fc-calc-fluid-req-weight">Масса тела (кг)</label>
+            <input type="number" id="fc-calc-fluid-req-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="кг" />
+            <span class="fc-calc__error" id="fc-calc-fluid-req-weight-error" role="alert"></span>
           </div>
-          <p class="fc-calc__hint" style="margin-top:12px">При переходе между препаратами рекомендуется снизить расчётную эквивалентную дозу нового препарата на 10–25% с титрованием по клиническому эффекту.</p>
-        </div>
+        </form>
       </div>
 
-      <details class="fc-calc__notes">
-        <summary class="fc-calc__notes-summary">
-          <span class="fc-calc__notes-title">Справка и предупреждения</span>
-          <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
-        </summary>
-        <div class="fc-calc__notes-body">
-          <p><strong>Принцип эквивалентности:</strong> Расчёт основан на сопоставлении относительной противовоспалительной активности препаратов (<a href="https://emedicine.medscape.com/article/920186-overview" target="_blank" rel="noopener noreferrer">eMedicine/Medscape</a>).</p>
-          <p><strong>Клиническое предупреждение — ПРАВИЛО БЕЗОПАСНОСТИ:</strong></p>
-          <p><strong>ВАЖНО:</strong> Расчётные дозы являются ориентировочными. При переходе с одного ГКС на другой из соображений безопасности рекомендуется снизить расчётную эквивалентную дозу нового препарата на 10–25% с последующим титрованием по клиническому эффекту (для компенсации возможной неполной перекрёстной толерантности).</p>
-          <table class="fc-calc__table">
-            <thead>
-              <tr><th>Препарат</th><th>Экв. доза, мг</th><th>T<sub>½</sub></th><th>МК эффект</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Кортизон</td><td>25</td><td>короткий</td><td>+++</td></tr>
-              <tr><td>Гидрокортизон</td><td>20</td><td>короткий</td><td>+++</td></tr>
-              <tr><td>Преднизон</td><td>5</td><td>промежуточный</td><td>++</td></tr>
-              <tr><td>Преднизолон</td><td>5</td><td>промежуточный</td><td>++</td></tr>
-              <tr><td>Триамцинолон</td><td>4</td><td>промежуточный</td><td>+</td></tr>
-              <tr><td>Метилпреднизолон</td><td>4</td><td>промежуточный</td><td>+</td></tr>
-              <tr><td>Дексаметазон</td><td>0,8</td><td>длинный</td><td>0</td></tr>
-              <tr><td>Бетаметазон</td><td>0,8</td><td>длинный</td><td>0</td></tr>
-            </tbody>
-          </table>
-          <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-fluid-req-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-fluid-req-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-fluid-req-result" aria-live="polite">
+        <div class="fc-calc__fluid-results">
+          <div class="fc-calc__fluid-result-item">
+            <p class="fc-calc__result-label">Объем поддержания</p>
+            <p class="fc-calc__result-number" id="fc-calc-fluid-req-result-maintenance">—</p>
+          </div>
+          <div class="fc-calc__fluid-result-item">
+            <p class="fc-calc__result-label">Суточный объем</p>
+            <p class="fc-calc__result-number" id="fc-calc-fluid-req-result-daily">—</p>
+          </div>
+          <div class="fc-calc__fluid-result-item">
+            <p class="fc-calc__result-label">Болюс</p>
+            <p class="fc-calc__result-number" id="fc-calc-fluid-req-result-bolus">—</p>
+          </div>
         </div>
-      </details>
+        <p class="fc-calc__result-desc" id="fc-calc-fluid-req-result-desc"></p>
+      </div>
     </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Справка и предупреждения</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор может быть использован для расчёта потребностей в жидкости у пациентов, не получающих воду перорально (послеоперационный период, дегидратация, рвота и др.).</p>
+        <p><strong>Формула (правило 4-2-1):</strong></p>
+        <ul>
+          <li>0–10 кг: 4 мл/кг/ч</li>
+          <li>10–20 кг: +2 мл/кг/ч (к первым 40 мл/ч)</li>
+          <li>&gt;20 кг: +1 мл/кг/ч (к первым 60 мл/ч)</li>
+        </ul>
+        <p><strong>Примеры поддержания:</strong> 5 кг → 20 мл/ч; 15 кг → 50 мл/ч; 70 кг → 110 мл/ч.</p>
+        <p><strong>Болюс (методика АВС):</strong> 20 мл/кг — ориентировочный объём болюсной инфузии при острой дегидратации (до 3 болюсов по клиническому состоянию).</p>
+        <p class="fc-calc__hint">Источник: В.И. Гордеев, Ю.С. Александрович. АВС инфузионной терапии и парентерального питания в педиатрии. СПб, 2006.</p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
   </div>
 
   <footer class="fc-calc__foot">
@@ -771,204 +739,106 @@
 
   <script>
 (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="gcs-equiv"]');
+      var root = document.querySelector('.fc-calc[data-calculator="fluid-req"]');
       if (!root) return;
 
-      var SYSTEMIC = {
-        cortisone: { name: 'Кортизон', eq: 25, durationLabel: 'Короткое (8–12 ч)', mineral: '+++ (высокий)' },
-        hydrocortisone: { name: 'Гидрокортизон', eq: 20, durationLabel: 'Короткое (8–12 ч)', mineral: '+++ (высокий)' },
-        prednisone: { name: 'Преднизон', eq: 5, durationLabel: 'Среднее (12–36 ч)', mineral: '++ (умеренный)' },
-        prednisolone: { name: 'Преднизолон', eq: 5, durationLabel: 'Среднее (12–36 ч)', mineral: '++ (умеренный)' },
-        methylprednisolone: { name: 'Метилпреднизолон', eq: 4, durationLabel: 'Среднее (12–36 ч)', mineral: '+ (низкий)' },
-        triamcinolone: { name: 'Триамцинолон', eq: 4, durationLabel: 'Среднее (12–36 ч)', mineral: '+ (низкий)' },
-        dexamethasone: { name: 'Дексаметазон', eq: 0.8, durationLabel: 'Длительное (36–72 ч)', mineral: '0 (отсутствует)' },
-        betamethasone: { name: 'Бетаметазон', eq: 0.8, durationLabel: 'Длительное (36–72 ч)', mineral: '0 (отсутствует)' },
-      };
-
-      var SYSTEMIC_ORDER = [
-        'cortisone',
-        'hydrocortisone',
-        'prednisone',
-        'prednisolone',
-        'methylprednisolone',
-        'triamcinolone',
-        'dexamethasone',
-        'betamethasone',
-      ];
-
-      var sysForm = root.querySelector('#fc-calc-gcs-sys-form');
-      var sysSource = root.querySelector('#fc-calc-gcs-sys-source');
-      var sysTarget = root.querySelector('#fc-calc-gcs-sys-target');
-      var sysDose = root.querySelector('#fc-calc-gcs-sys-dose');
-      var sysBtn = root.querySelector('#fc-calc-gcs-sys-btn');
-      var sysDoseError = root.querySelector('#fc-calc-gcs-sys-dose-error');
-      var sysTargetError = root.querySelector('#fc-calc-gcs-sys-target-error');
-      var sysInfo = root.querySelector('#fc-calc-gcs-sys-info');
-      var sysResult = root.querySelector('#fc-calc-gcs-sys-result');
-      var sysResultDose = root.querySelector('#fc-calc-gcs-sys-result-dose');
-      var sysResultDesc = root.querySelector('#fc-calc-gcs-sys-result-desc');
-      var sysExample = root.querySelector('#fc-calc-gcs-sys-example');
+      var form = root.querySelector('#fc-calc-fluid-req-form');
+      var calcBtn = root.querySelector('#fc-calc-fluid-req-btn');
+      var weightInput = root.querySelector('#fc-calc-fluid-req-weight');
+      var weightError = root.querySelector('#fc-calc-fluid-req-weight-error');
+      var resultWrap = root.querySelector('#fc-calc-fluid-req-result');
+      var resultMaintenance = root.querySelector('#fc-calc-fluid-req-result-maintenance');
+      var resultDaily = root.querySelector('#fc-calc-fluid-req-result-daily');
+      var resultBolus = root.querySelector('#fc-calc-fluid-req-result-bolus');
+      var resultDesc = root.querySelector('#fc-calc-fluid-req-result-desc');
 
       function roundHalfUp(value, decimals) {
         var factor = Math.pow(10, decimals);
         return Math.round(value * factor + Number.EPSILON) / factor;
       }
 
-      function parseDose(value) {
+      function parseWeight(value) {
         var s = String(value || '').trim().replace(',', '.');
         if (!s) return null;
         if (!/^\d+(\.\d+)?$/.test(s)) return { error: true };
         var n = Number(s);
-        if (!Number.isFinite(n) || n < 0) return { error: true };
-        if (n === 0) return null;
+        if (!Number.isFinite(n) || n <= 0) return { error: true };
+        if (n > 500) return { error: true, message: 'Укажите массу до 500 кг' };
         return n;
       }
 
-      function formatNum(n) {
+      function formatNum(n, decimals) {
         if (!Number.isFinite(n)) return '';
-        return String(roundHalfUp(n, 2)).replace('.', ',');
+        return String(roundHalfUp(n, decimals == null ? 1 : decimals)).replace('.', ',');
       }
 
-      function showSysInfo(id) {
-        var d = SYSTEMIC[id];
-        if (!d || !sysInfo) return;
-        sysInfo.innerHTML =
-          '<p style="margin:0 0 6px"><strong>' +
-          d.name +
-          '</strong></p>' +
-          '<p style="margin:0 0 4px">Экв. доза: ' +
-          formatNum(d.eq) +
-          ' мг</p>' +
-          '<p style="margin:0 0 4px">Продолжительность: ' +
-          d.durationLabel +
-          '</p>' +
-          '<p style="margin:0">Минералокортикоидный эффект: ' +
-          d.mineral +
-          '</p>';
-        sysInfo.classList.remove('fc-calc__info-panel--hidden');
-      }
-
-      function fillSystemicSelects() {
-        sysSource.innerHTML = '';
-        sysTarget.innerHTML = '';
-        for (var i = 0; i < SYSTEMIC_ORDER.length; i++) {
-          var id = SYSTEMIC_ORDER[i];
-          var drug = SYSTEMIC[id];
-          var o1 = document.createElement('option');
-          o1.value = id;
-          o1.textContent = drug.name;
-          sysSource.appendChild(o1);
-          var o2 = document.createElement('option');
-          o2.value = id;
-          o2.textContent = drug.name;
-          sysTarget.appendChild(o2);
+      function fluidRate421(weightKg) {
+        var rate;
+        var breakdown;
+        if (weightKg <= 10) {
+          rate = 4 * weightKg;
+          breakdown = '4 × ' + formatNum(weightKg, 2) + ' = ' + formatNum(rate) + ' мл/ч';
+        } else if (weightKg <= 20) {
+          var extra10 = weightKg - 10;
+          rate = 40 + 2 * extra10;
+          breakdown = '40 + 2 × ' + formatNum(extra10, 2) + ' = ' + formatNum(rate) + ' мл/ч';
+        } else {
+          var extra20 = weightKg - 20;
+          rate = 60 + extra20;
+          breakdown = '60 + 1 × ' + formatNum(extra20, 2) + ' = ' + formatNum(rate) + ' мл/ч';
         }
-        sysSource.value = 'hydrocortisone';
-        sysTarget.value = 'prednisone';
+        return {
+          maintenanceMlPerHour: roundHalfUp(rate, 1),
+          dailyMl: roundHalfUp(rate * 24, 0),
+          bolusMl: roundHalfUp(weightKg * 20, 0),
+          breakdown: breakdown,
+        };
       }
 
-      function hideSysResult() {
-        if (sysResult) sysResult.classList.add('fc-calc__result-wrap--hidden');
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
       }
 
-      function updateSysButton() {
-        var dose = parseDose(sysDose.value);
-        var ok = dose !== null && !dose.error && sysSource.value && sysTarget.value;
-        sysBtn.disabled = !ok;
-        sysBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      function updateButton() {
+        var w = parseWeight(weightInput.value);
+        var ok = w !== null && !w.error;
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
       }
 
-      function calcSystemic() {
-        sysDoseError.textContent = '';
-        sysTargetError.textContent = '';
-        hideSysResult();
-
-        var dose = parseDose(sysDose.value);
-        if (!dose || dose.error) {
-          sysDoseError.textContent = 'Укажите дозу больше 0';
-          return;
-        }
-
-        var sourceId = sysSource.value;
-        var targetId = sysTarget.value;
-        if (sourceId === targetId) {
-          sysTargetError.textContent = 'Выберите другой препарат для конвертации';
-          return;
-        }
-
-        var source = SYSTEMIC[sourceId];
-        var target = SYSTEMIC[targetId];
-        if (!source || !target) return;
-
-        var doseTarget = roundHalfUp((dose * target.eq) / source.eq, 2);
-
-        sysResultDose.textContent = formatNum(doseTarget) + ' мг';
-        sysResultDesc.innerHTML =
-          '<strong>' +
-          source.name +
-          '</strong> ' +
-          formatNum(dose) +
-          ' мг → <strong>' +
-          target.name +
-          '</strong><br>' +
-          'Экв. дозы: ' +
-          formatNum(source.eq) +
-          ' мг / ' +
-          formatNum(target.eq) +
-          ' мг';
-        sysResult.classList.remove('fc-calc__result-wrap--hidden');
-        showSysInfo(targetId);
-      }
-
-      function loadSysExample() {
-        sysSource.value = 'hydrocortisone';
-        sysTarget.value = 'prednisone';
-        sysDose.value = '20';
-        sysDoseError.textContent = '';
-        sysTargetError.textContent = '';
-        hideSysResult();
-        showSysInfo('hydrocortisone');
-        updateSysButton();
-        calcSystemic();
-      }
-
-      sysForm.addEventListener('submit', function (e) {
+      form.addEventListener('submit', function (e) {
         e.preventDefault();
-        calcSystemic();
+        weightError.textContent = '';
+        hideResult();
+
+        var weight = parseWeight(weightInput.value);
+        if (weight === null || weight.error) {
+          weightError.textContent =
+            weight && weight.message ? weight.message : 'Укажите массу тела больше 0';
+          return;
+        }
+
+        var out = fluidRate421(weight);
+        resultMaintenance.textContent = formatNum(out.maintenanceMlPerHour) + ' мл/ч';
+        resultDaily.textContent = String(out.dailyMl).replace('.', ',') + ' мл';
+        resultBolus.textContent = String(out.bolusMl).replace('.', ',') + ' мл';
+        resultDesc.textContent = 'Правило 4-2-1: ' + out.breakdown + '; болюс: 20 × ' + formatNum(weight, 2) + ' = ' + String(out.bolusMl).replace('.', ',') + ' мл';
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
       });
 
-      sysDose.addEventListener('input', function () {
-        hideSysResult();
-        updateSysButton();
+      weightInput.addEventListener('input', function () {
+        hideResult();
+        updateButton();
       });
-      sysSource.addEventListener('change', function () {
-        hideSysResult();
-        showSysInfo(sysSource.value);
-        updateSysButton();
-      });
-      sysTarget.addEventListener('change', function () {
-        hideSysResult();
-        sysTargetError.textContent = '';
-        updateSysButton();
-      });
-      sysDose.addEventListener(
+      weightInput.addEventListener(
         'wheel',
         function (e) {
-          if (document.activeElement === sysDose) e.preventDefault();
+          if (document.activeElement === weightInput) e.preventDefault();
         },
         { passive: false }
       );
 
-      if (sysExample) {
-        sysExample.addEventListener('click', function (e) {
-          var btn = e.target.closest('[data-example]');
-          if (!btn) return;
-          loadSysExample();
-        });
-      }
-
-      fillSystemicSelects();
-      updateSysButton();
+      updateButton();
     })();
   </script>
 </div>

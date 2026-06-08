@@ -1,0 +1,1208 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Расчет гидробаланса
+-->
+<div class="fc-calc" data-calculator="hydro-balance">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+/* hydro-balance: ровная сетка полей */
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-section {
+  margin-bottom: 20px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__section {
+  text-align: left;
+  margin: 0 0 12px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--3 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Ячейка сетки: подпись → поле → ошибка на фиксированных строках */
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell {
+  display: grid;
+  grid-template-rows: minmax(2.75rem, auto) 48px minmax(1.125rem, auto);
+  gap: 8px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell label {
+  align-self: end;
+  margin: 0;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell input,
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select {
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell .fc-calc__error {
+  min-height: 1.125rem;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.125rem;
+  text-align: left;
+}
+
+/* Полноширинные поля */
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full label {
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input,
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full select {
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  text-align: left;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--disabled {
+  opacity: 0.55;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-results {
+  display: grid;
+  gap: 12px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item {
+  padding: 10px 12px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-label {
+  margin-bottom: 4px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-number {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-desc {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__result-number--positive {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__result-number--negative {
+  color: #c2410c;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Расчет гидробаланса</h2>
+        <p class="fc-calc__hint">Суточный водный баланс с учётом физиологической потребности по массе и возрасту.</p>
+        <p class="fc-calc__formula"><strong>Гидробаланс</strong> = Поступление − Физиологические потери − Патологические потери</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-hydro-balance-form" novalidate>
+          <div class="fc-calc__hydro-section">
+            <p class="fc-calc__section" style="margin-top:0">Параметры пациента</p>
+            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--4">
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-weight">Масса тела, кг</label>
+                <input type="number" id="fc-calc-hydro-balance-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                <span class="fc-calc__error" id="fc-calc-hydro-balance-weight-error" role="alert"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-age">Возраст, лет</label>
+                <input type="number" id="fc-calc-hydro-balance-age" name="ageYears" inputmode="numeric" min="0" max="120" step="1" placeholder="лет" required />
+                <span class="fc-calc__error" id="fc-calc-hydro-balance-age-error" role="alert"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-temp">Температура, °C</label>
+                <input type="number" id="fc-calc-hydro-balance-temp" name="tempC" inputmode="decimal" min="30" max="45" step="any" placeholder="37" />
+                <span class="fc-calc__error" id="fc-calc-hydro-balance-temp-error" role="alert"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-rr">ЧД, /мин</label>
+                <input type="number" id="fc-calc-hydro-balance-rr" name="respiratoryRate" inputmode="numeric" min="0" max="80" step="1" placeholder="20" />
+                <span class="fc-calc__error" id="fc-calc-hydro-balance-rr-error" role="alert"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fc-calc__hydro-section">
+            <p class="fc-calc__section" style="margin-top:0">Потери, мл/сут</p>
+            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-diuresis">Диурез</label>
+                <input type="number" id="fc-calc-hydro-balance-diuresis" name="diuresisMl" inputmode="decimal" min="0" step="any" placeholder="0" />
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-vomiting">Рвота</label>
+                <input type="number" id="fc-calc-hydro-balance-vomiting" name="vomitingMl" inputmode="decimal" min="0" step="any" placeholder="0" />
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-drains">Дренажи, зонды</label>
+                <input type="number" id="fc-calc-hydro-balance-drains" name="drainsMl" inputmode="decimal" min="0" step="any" placeholder="0" />
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-other">Другие потери</label>
+                <input type="number" id="fc-calc-hydro-balance-other" name="otherLossMl" inputmode="decimal" min="0" step="any" placeholder="0" />
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fc-calc__hydro-section">
+            <p class="fc-calc__section" style="margin-top:0">Патологические потери (авто)</p>
+            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-breathing">Нефизиологическая ИВЛ</label>
+                <select id="fc-calc-hydro-balance-breathing" name="breathingMode">
+                  <option value="physiological">Нет или самостоятельное дыхание</option>
+                  <option value="ivl_unhumidified">Да (без увлажнения, РО-6), +1000 мл/сут</option>
+                </select>
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-surgery">Интраоперационные потери</label>
+                <select id="fc-calc-hydro-balance-surgery" name="surgeryTrauma">
+                  <option value="none">Нет операции</option>
+                  <option value="minimal">Минимальная травматизация (1–2 мл/кг/ч)</option>
+                  <option value="medium">Средняя травматизация (2–4 мл/кг/ч)</option>
+                  <option value="heavy">Тяжёлая травматизация (4–6 мл/кг/ч)</option>
+                </select>
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="fc-calc__field fc-calc__field--full" id="fc-calc-hydro-balance-surgery-hours-wrap" style="margin-top:12px">
+              <label for="fc-calc-hydro-balance-surgery-hours">Длительность операции, ч</label>
+              <input type="number" id="fc-calc-hydro-balance-surgery-hours" name="surgeryHours" inputmode="decimal" min="0" step="any" placeholder="ч" disabled />
+              <span class="fc-calc__error" id="fc-calc-hydro-balance-surgery-hours-error" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="fc-calc__hydro-section">
+            <p class="fc-calc__section" style="margin-top:0">Поступление, мл/сут</p>
+            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-iv">Парентеральное введение</label>
+                <input type="number" id="fc-calc-hydro-balance-iv" name="ivMl" inputmode="decimal" min="0" step="any" placeholder="0" />
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+              <div class="fc-calc__field fc-calc__field--cell">
+                <label for="fc-calc-hydro-balance-enteral">Энтеральное введение</label>
+                <input type="number" id="fc-calc-hydro-balance-enteral" name="enteralMl" inputmode="decimal" min="0" step="any" placeholder="0" />
+                <span class="fc-calc__error" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-hydro-balance-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-hydro-balance-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-hydro-balance-result" aria-live="polite">
+        <div class="fc-calc__hydro-results">
+          <div class="fc-calc__hydro-result-item fc-calc__hydro-result-item--main">
+            <p class="fc-calc__result-label">Гидробаланс</p>
+            <p class="fc-calc__result-number" id="fc-calc-hydro-balance-result-balance">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-hydro-balance-result-desc"></p>
+          </div>
+          <div class="fc-calc__hydro-result-item">
+            <p class="fc-calc__result-label">Физиологическая потребность</p>
+            <p class="fc-calc__result-number" id="fc-calc-hydro-balance-result-fp">—</p>
+          </div>
+          <div class="fc-calc__hydro-result-item">
+            <p class="fc-calc__result-label">Должный диурез</p>
+            <p class="fc-calc__result-number" id="fc-calc-hydro-balance-result-diuresis">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-hydro-balance-result-diuresis-note"></p>
+          </div>
+          <div class="fc-calc__hydro-result-item">
+            <p class="fc-calc__result-label">Физиологические потери</p>
+            <p class="fc-calc__result-number" id="fc-calc-hydro-balance-result-physio">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-hydro-balance-result-physio-note"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Справка и предупреждения</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p><strong>Формула:</strong> Гидробаланс = Парентеральное + Энтеральное введение − Диурез − Патологические потери.</p>
+        <p><strong>ФП:</strong> до 65 лет — 30; 65–75 — 25; старше 75 — 20 мл/кг/сут.</p>
+        <p><strong>Автоматически учитываются в патологических потерях:</strong></p>
+        <ul>
+          <li>Внепочечные физиологические потери — 0,4×ФП</li>
+          <li>Лихорадка — 3 / 6 / 9 / 12 / 15 мл/кг при t° 37,5–38,5 / 38,5–39,5 / … / ≥41,5 °C</li>
+          <li>Одышка — 10 / 20 / 30 / 40 / 50 мл/кг при ЧД 25–35 / 35–45 / … / ≥65 /мин</li>
+          <li>ИВЛ без увлажнения (РО-6) — 1000 мл/сут</li>
+          <li>Операция — 2 / 4 / 6 мл/кг/ч (верхняя граница диапазона)</li>
+        </ul>
+        <p><strong>Справочно:</strong> должный диурез — 20 мл/кг/сут; внепочечные потери — 0,4×ФП.</p>
+        <p>Рвота, дренажи и прочие потери вводятся вручную. Патологический диурез учитывается в поле «Диурез».</p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="hydro-balance"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-hydro-balance-form');
+      var calcBtn = root.querySelector('#fc-calc-hydro-balance-btn');
+      var weightInput = root.querySelector('#fc-calc-hydro-balance-weight');
+      var ageInput = root.querySelector('#fc-calc-hydro-balance-age');
+      var weightError = root.querySelector('#fc-calc-hydro-balance-weight-error');
+      var ageError = root.querySelector('#fc-calc-hydro-balance-age-error');
+      var surgerySelect = root.querySelector('#fc-calc-hydro-balance-surgery');
+      var surgeryHoursWrap = root.querySelector('#fc-calc-hydro-balance-surgery-hours-wrap');
+      var surgeryHoursInput = root.querySelector('#fc-calc-hydro-balance-surgery-hours');
+
+      var volumeFields = [
+        'fc-calc-hydro-balance-temp',
+        'fc-calc-hydro-balance-rr',
+        'fc-calc-hydro-balance-iv',
+        'fc-calc-hydro-balance-enteral',
+        'fc-calc-hydro-balance-diuresis',
+        'fc-calc-hydro-balance-vomiting',
+        'fc-calc-hydro-balance-drains',
+        'fc-calc-hydro-balance-other',
+      ];
+
+      function parseWeight(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s) return null;
+        if (!/^\d+(\.\d+)?$/.test(s)) return { error: true };
+        var n = Number(s);
+        if (!Number.isFinite(n) || n <= 0) return { error: true };
+        if (n > 500) return { error: true, message: 'Укажите массу до 500 кг' };
+        return n;
+      }
+
+      function parseAge(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s) return null;
+        if (!/^\d+(\.\d+)?$/.test(s)) return { error: true };
+        var n = Number(s);
+        if (!Number.isFinite(n) || n < 0 || n > 120) return { error: true, message: 'Укажите возраст 0–120 лет' };
+        return n;
+      }
+
+      function parseOptionalVolume(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s) return 0;
+        if (!/^\d+(\.\d+)?$/.test(s)) return { error: true };
+        var n = Number(s);
+        if (!Number.isFinite(n) || n < 0) return { error: true };
+        return n;
+      }
+
+      function parseOptionalNumber(value, fallback) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s) return fallback;
+        var n = Number(s);
+        return Number.isFinite(n) ? n : fallback;
+      }
+
+      function fpDaily(weightKg, ageYears) {
+        var mlPerKg = 30;
+        var method = '30 мл/кг/сут';
+        if (ageYears >= 75) {
+          mlPerKg = 20;
+          method = '20 мл/кг/сут';
+        } else if (ageYears >= 65) {
+          mlPerKg = 25;
+          method = '25 мл/кг/сут';
+        }
+        return { fp: Math.round(weightKg * mlPerKg), method: method };
+      }
+
+      function hyperthermiaLoss(tempC, weightKg) {
+        if (tempC < 37.5) return 0;
+        if (tempC < 38.5) return Math.round(3 * weightKg);
+        if (tempC < 39.5) return Math.round(6 * weightKg);
+        if (tempC < 40.5) return Math.round(9 * weightKg);
+        if (tempC < 41.5) return Math.round(12 * weightKg);
+        return Math.round(15 * weightKg);
+      }
+
+      function tachypneaLoss(weightKg, rr) {
+        if (rr < 25) return 0;
+        if (rr < 35) return Math.round(10 * weightKg);
+        if (rr < 45) return Math.round(20 * weightKg);
+        if (rr < 55) return Math.round(30 * weightKg);
+        if (rr < 65) return Math.round(40 * weightKg);
+        return Math.round(50 * weightKg);
+      }
+
+      function breathingLoss(mode) {
+        return mode === 'ivl_unhumidified' ? 1000 : 0;
+      }
+
+      function surgeryLoss(weightKg, trauma, hours) {
+        var rates = { none: 0, minimal: 2, medium: 4, heavy: 6 };
+        var rate = rates[trauma] || 0;
+        if (!rate || !hours || hours <= 0) return 0;
+        return Math.round(rate * weightKg * hours);
+      }
+
+      function formatMl(n) {
+        return String(Math.round(n)).replace('.', ',') + ' мл';
+      }
+
+      function hideResult() {
+        root.querySelector('#fc-calc-hydro-balance-result').classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function updateSurgeryHoursField() {
+        var needsHours = surgerySelect.value !== 'none';
+        surgeryHoursWrap.classList.toggle('fc-calc__field--disabled', !needsHours);
+        surgeryHoursInput.disabled = !needsHours;
+        if (!needsHours) surgeryHoursInput.value = '';
+      }
+
+      function isReady() {
+        var w = parseWeight(weightInput.value);
+        var a = parseAge(ageInput.value);
+        if (!w || w.error || !a || a.error) return false;
+        if (surgerySelect.value !== 'none') {
+          var h = parseOptionalVolume(surgeryHoursInput.value);
+          if (h && h.error || !h || h <= 0) return false;
+        }
+        return true;
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        weightError.textContent = '';
+        ageError.textContent = '';
+        hideResult();
+
+        var weight = parseWeight(weightInput.value);
+        var age = parseAge(ageInput.value);
+        if (!weight || weight.error) {
+          weightError.textContent = weight && weight.message ? weight.message : 'Укажите массу тела';
+          return;
+        }
+        if (!age || age.error) {
+          ageError.textContent = age && age.message ? age.message : 'Укажите возраст';
+          return;
+        }
+
+        var temp = parseOptionalNumber(root.querySelector('#fc-calc-hydro-balance-temp').value, 37);
+        var rr = parseOptionalNumber(root.querySelector('#fc-calc-hydro-balance-rr').value, 20);
+        var breathingMode = root.querySelector('#fc-calc-hydro-balance-breathing').value;
+        var surgeryTrauma = surgerySelect.value;
+        var surgeryHoursParsed = parseOptionalVolume(surgeryHoursInput.value);
+        var surgeryHours = surgeryTrauma === 'none' ? 0 : surgeryHoursParsed;
+
+        if (surgeryTrauma !== 'none' && (surgeryHoursParsed === null || surgeryHoursParsed.error || surgeryHours <= 0)) {
+          root.querySelector('#fc-calc-hydro-balance-surgery-hours-error').textContent =
+            'Укажите длительность операции';
+          return;
+        }
+
+        var fpInfo = fpDaily(weight, age);
+        var extrarenal = Math.round(0.4 * fpInfo.fp);
+        var expectedDiuresis = Math.round(20 * weight);
+
+        var iv = parseOptionalVolume(root.querySelector('#fc-calc-hydro-balance-iv').value);
+        var enteral = parseOptionalVolume(root.querySelector('#fc-calc-hydro-balance-enteral').value);
+        var diuresis = parseOptionalVolume(root.querySelector('#fc-calc-hydro-balance-diuresis').value);
+        var vomiting = parseOptionalVolume(root.querySelector('#fc-calc-hydro-balance-vomiting').value);
+        var drains = parseOptionalVolume(root.querySelector('#fc-calc-hydro-balance-drains').value);
+        var other = parseOptionalVolume(root.querySelector('#fc-calc-hydro-balance-other').value);
+
+        if ([iv, enteral, diuresis, vomiting, drains, other].some(function (v) { return v && v.error; })) return;
+
+        var pathoAuto =
+          extrarenal +
+          hyperthermiaLoss(temp, weight) +
+          tachypneaLoss(weight, rr) +
+          breathingLoss(breathingMode) +
+          surgeryLoss(weight, surgeryTrauma, surgeryHours);
+        var pathoManual = (vomiting || 0) + (drains || 0) + (other || 0);
+        var pathoMl = pathoAuto + pathoManual;
+
+        var intake = (iv || 0) + (enteral || 0);
+        var balance = Math.round(intake - (diuresis || 0) - pathoMl);
+
+        var sign = balance > 0 ? '+' : '';
+        var resultBalance = root.querySelector('#fc-calc-hydro-balance-result-balance');
+        resultBalance.textContent = sign + String(balance).replace('.', ',') + ' мл';
+        resultBalance.className = 'fc-calc__result-number';
+        if (balance > 0) resultBalance.classList.add('fc-calc__result-number--positive');
+        else if (balance < 0) resultBalance.classList.add('fc-calc__result-number--negative');
+
+        var resultDesc = root.querySelector('#fc-calc-hydro-balance-result-desc');
+        if (balance > 0) resultDesc.textContent = 'Положительный гидробаланс (избыток жидкости)';
+        else if (balance < 0) resultDesc.textContent = 'Отрицательный гидробаланс (дефицит жидкости)';
+        else resultDesc.textContent = 'Нулевой гидробаланс';
+
+        root.querySelector('#fc-calc-hydro-balance-result-fp').textContent =
+          formatMl(fpInfo.fp) + ' (' + fpInfo.method + ')';
+        root.querySelector('#fc-calc-hydro-balance-result-diuresis').textContent = formatMl(expectedDiuresis);
+        root.querySelector('#fc-calc-hydro-balance-result-physio').textContent = formatMl(extrarenal);
+        var diuresisNote = root.querySelector('#fc-calc-hydro-balance-result-diuresis-note');
+        var physioNote = root.querySelector('#fc-calc-hydro-balance-result-physio-note');
+        if (diuresisNote) diuresisNote.textContent = '20 мл/кг м.т.';
+        if (physioNote) physioNote.textContent = '0,4×ФП (внепочечные потери)';
+
+        root.querySelector('#fc-calc-hydro-balance-result').classList.remove('fc-calc__result-wrap--hidden');
+      });
+
+      weightInput.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+      ageInput.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+
+      surgerySelect.addEventListener('change', function () {
+        hideResult();
+        updateSurgeryHoursField();
+        updateButton();
+      });
+      surgeryHoursInput.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+
+      root.querySelector('#fc-calc-hydro-balance-breathing').addEventListener('change', hideResult);
+
+      for (var i = 0; i < volumeFields.length; i++) {
+        (function (id) {
+          var input = root.querySelector('#' + id);
+          if (!input) return;
+          input.addEventListener('input', hideResult);
+          input.addEventListener(
+            'wheel',
+            function (e) {
+              if (document.activeElement === input) e.preventDefault();
+            },
+            { passive: false }
+          );
+        })(volumeFields[i]);
+      }
+
+      updateSurgeryHoursField();
+      updateButton();
+    })();
+  </script>
+</div>

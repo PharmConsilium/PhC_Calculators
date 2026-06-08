@@ -1,0 +1,65 @@
+{
+  "slug": "hydro-balance",
+  "source": "medsoftpro.ru/kalkulyatory/hydrobalance-calc",
+  "cases": [
+    {
+      "name": "70 kg adult with hyperthermia and tachypnea",
+      "input": {
+        "weightKg": 70,
+        "ageYears": 45,
+        "tempC": 39,
+        "respiratoryRate": 35,
+        "ivMl": 3000,
+        "enteralMl": 500,
+        "diuresisMl": 1400
+      },
+      "expected": {
+        "balanceMl": -560,
+        "fpDaily": 2100,
+        "expectedDiuresisMl": 1400,
+        "expectedPhysiologicLossMl": 840,
+        "pathologicAutoMl": 2660,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "IVL without humidification",
+      "input": {
+        "weightKg": 50,
+        "ageYears": 30,
+        "ivMl": 2500,
+        "breathingMode": "ivl_unhumidified"
+      },
+      "expected": {
+        "balanceMl": 900,
+        "pathologicAutoMl": 1600,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "surgery medium trauma 2h",
+      "input": {
+        "weightKg": 60,
+        "ageYears": 40,
+        "surgeryTrauma": "medium",
+        "surgeryHours": 2
+      },
+      "expected": {
+        "pathologicAutoMl": 1200,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "fever bucket at 37.8",
+      "input": {
+        "weightKg": 80,
+        "ageYears": 50,
+        "tempC": 37.8
+      },
+      "expected": {
+        "pathologicAutoMl": 1200,
+        "status": "OK"
+      }
+    }
+  ]
+}
