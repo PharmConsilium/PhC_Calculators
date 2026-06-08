@@ -1,0 +1,16 @@
+{
+  "slug": "gcs-equiv",
+  "source": "ClinCalc",
+  "cases": [
+    {
+      "name": "systemic hydrocortisone 20 to prednisone",
+      "input": { "sourceId": "hydrocortisone", "targetId": "prednisone", "doseSource": 20 },
+      "expected": { "doseTarget": 5, "status": "OK" }
+    },
+    {
+      "name": "systemic prednisolone 10 to dexamethasone",
+      "input": { "sourceId": "prednisolone", "targetId": "dexamethasone", "doseSource": 10 },
+      "expected": { "doseTarget": 1.6, "status": "OK" }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+/* gcs-equiv: системный конвертер (ClinCalc-style) */
+.fc-calc[data-calculator="gcs-equiv"] .fc-calc__chips {
+  margin: 10px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.fc-calc[data-calculator="gcs-equiv"] .fc-calc__chip {
+  appearance: none;
+  border: 1px solid var(--fc-border);
+  background: var(--fc-bg-page);
+  color: var(--fc-blue);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="gcs-equiv"] .fc-calc__chip:hover {
+  border-color: var(--fc-blue);
+  background: rgba(0, 94, 236, 0.06);
+}
+
+.fc-calc[data-calculator="gcs-equiv"] .fc-calc__info-panel {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  font-size: 16px;
+}
+
+.fc-calc[data-calculator="gcs-equiv"] .fc-calc__info-panel.fc-calc__info-panel--hidden {
+  display: none;
+}
+
+.fc-calc[data-calculator="gcs-equiv"] .fc-calc__converter {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 14px;
+}
