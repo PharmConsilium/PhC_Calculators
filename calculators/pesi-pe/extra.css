@@ -1,0 +1,161 @@
+/* pesi-pe: строки критериев с кнопками-вариантами (ByMed) */
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-rows {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  padding: 14px 16px;
+  border-bottom: 1px dashed var(--fc-border);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-label {
+  flex: 1 1 220px;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-age-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-age-input {
+  width: 100%;
+  max-width: 160px;
+  padding: 10px 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-input);
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-age-input:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 2px rgba(0, 94, 236, 0.15);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-age-hint {
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--fc-muted-text);
+  text-align: right;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 108px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+  border-color: rgba(0, 94, 236, 0.35);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 1px var(--fc-blue);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option-label {
+  display: block;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option-points {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--fc-muted-text);
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__result-wrap {
+  padding: 18px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__result-number {
+  font-size: 2rem;
+}
+
+.fc-calc[data-calculator="pesi-pe"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-controls {
+    justify-content: stretch;
+    width: 100%;
+  }
+
+  .fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-age-wrap {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-age-input {
+    max-width: none;
+  }
+
+  .fc-calc[data-calculator="pesi-pe"] .fc-calc__pesi-option {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}

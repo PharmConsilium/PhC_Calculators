@@ -10,16 +10,21 @@ __FC_CALC_CSS__
       <!-- Опционально: вкладки (см. templates/UI-PATTERNS.md) -->
 
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Подзаголовок расчёта</h2>
-        <p class="fc-calc__hint">Краткое описание формулы</p>
+        <h2 class="fc-calc__title">Полное название из meta.json</h2>
+        <p class="fc-calc__hint">Краткое описание: что считает калькулятор</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-SLUG-form" novalidate>
-          <div class="fc-calc__field">
-            <label for="fc-calc-SLUG-example">Пример поля (ед.)</label>
-            <input type="number" id="fc-calc-SLUG-example" name="example" inputmode="decimal" min="0" step="any" required />
-            <span class="fc-calc__error" id="fc-calc-SLUG-example-error" role="alert"></span>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
+              <div class="fc-calc__field">
+                <label for="fc-calc-SLUG-example">Пример поля (ед.)</label>
+                <input type="number" id="fc-calc-SLUG-example" name="example" inputmode="decimal" min="0" step="any" required />
+                <span class="fc-calc__error" id="fc-calc-SLUG-example-error" role="alert"></span>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -40,7 +45,7 @@ __FC_CALC_CSS__
 
     <details class="fc-calc__notes">
       <summary class="fc-calc__notes-summary">
-        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body" id="fc-calc-SLUG-notes">

@@ -1,0 +1,53 @@
+{
+  "slug": "sodium-deficit",
+  "source": "MSD Manuals — sodium deficit in hyponatremia",
+  "cases": [
+    {
+      "name": "male 70 kg serum 120 desired 140",
+      "input": {
+        "gender": "male",
+        "weight": 70,
+        "serumNa": 120,
+        "serumUnit": "mEq/L",
+        "desiredNa": 140,
+        "desiredUnit": "mEq/L",
+        "decimals": 2
+      },
+      "expected": {
+        "sodiumDeficit": 840,
+        "totalBodyWater": 42,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "female 60 kg serum 125",
+      "input": {
+        "gender": "female",
+        "weight": 60,
+        "serumNa": 125,
+        "serumUnit": "mEq/L",
+        "desiredNa": 140,
+        "decimals": 0
+      },
+      "expected": {
+        "sodiumDeficit": 450,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "serum mmol/L unit",
+      "input": {
+        "gender": "male",
+        "weight": 80,
+        "serumNa": 130,
+        "serumUnit": "mmol/L",
+        "desiredNa": 140,
+        "desiredUnit": "mmol/L"
+      },
+      "expected": {
+        "sodiumDeficit": 480,
+        "status": "OK"
+      }
+    }
+  ]
+}

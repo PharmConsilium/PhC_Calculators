@@ -100,8 +100,6 @@ export function calculate(input) {
   const usFrom = addDaysUTC(lmp, 18 * 7);
   const usTo = addDaysUTC(lmp, 20 * 7);
   const plannedUs = addDaysUTC(lmp, 28 * 7);
-  const antiD28 = addDaysUTC(lmp, 28 * 7);
-  const antiD34 = addDaysUTC(lmp, 34 * 7);
 
   return {
     mode,
@@ -119,7 +117,5 @@ export function calculate(input) {
     firstTrimesterWindowFrom: formatIsoDateUTC(usFrom),
     firstTrimesterWindowTo: formatIsoDateUTC(usTo),
     plannedUltrasound: formatIsoDateUTC(plannedUs),
-    antiD28: formatIsoDateUTC(antiD28),
-    antiD34: formatIsoDateUTC(antiD34),
   };
 }

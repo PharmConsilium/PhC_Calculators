@@ -13,7 +13,12 @@ calculators/
 
 Стили и скрипты в `index.html` **не должны влиять** на остальную страницу: всё внутри `<div class="fc-calc">`, селекторы только с префиксом `.fc-calc`.
 
-На сайте ([калькуляторы](https://farmconsilium.com/calculator)) у всех виджетов **одинаковые зоны**: шапка → поля → кнопка → результат → дисклеймер. Меняется только содержимое `fc-calc__body`. Каркас: `templates/LAYOUT.md`.
+На сайте ([калькуляторы](https://farmconsilium.com/calculator)) у всех виджетов **одинаковые зоны**: шапка → поля → кнопка → результат → дисклеймер. Каркас: `templates/LAYOUT.md`.
+
+**Новые калькуляторы (эталон `hydro-balance`):**
+- Шапка: `h2.fc-calc__title` + `p.fc-calc__hint`
+- Поля в секциях: `fc-calc__panel-section` → `fc-calc__panel` → `h3.fc-calc__panel-heading`
+- Стили панелей: `shared/fc-calc.css`; фрагмент: `templates/panel-section.html`
 
 ## Даник
 
@@ -26,6 +31,15 @@ calculators/
 - **`glasgow-coma/`** — шкала комы Глазго (GCS)
 - **`mayo-coma/`** — шкала комы Мэйо (FOUR)
 - **`gail-breast/`** — модель Гейла, 5-летний риск РМЖ (1999)
+- **`sodium-deficit/`** — дефицит натрия при гипонатриемии (MSD)
+- **`cardiac-output/`** — сердечный выброс по Фику ([medsoftpro](https://medsoftpro.ru/kalkulyatory/cardiac-output))
+- **`wells-pe/`** — шкала Уэллса, вероятность ТЭЛА (MSD)
+- **`geneva-pe/`** — Женевская шкала (индекс Geneva), вероятность ТЭЛА ([ByMed](https://bymed.top/calc/geneva-2180))
+- **`pesi-pe/`** — шкала PESI, 30-дневная летальность при ТЭЛА ([ByMed](https://bymed.top/calc/pesi-2188))
+- **`infusomat/`** — доза и скорость на инфузомате ([ByMed](https://bymed.top/calc/%D0%B8%D0%BD%D1%84%D1%83%D0%B7%D0%BE%D0%BC%D0%B0%D1%82-658))
+- **`anion-gap/`** — анионная разница, дельта-дельта градиент (MSD)
+- **`apache-ii/`** — шкала APACHE II и оценка смертности (Knaus / MSD)
+- **`cdai/`** — индекс CDAI при ревматоидном артрите (Aletaha / MSD)
 
 ## Новый калькулятор
 

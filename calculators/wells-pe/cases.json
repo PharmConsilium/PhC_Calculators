@@ -1,0 +1,49 @@
+{
+  "slug": "wells-pe",
+  "source": "Wells PS et al. Thromb Haemost 2000; MSD Manuals",
+  "cases": [
+    {
+      "name": "no criteria",
+      "input": {},
+      "expected": {
+        "total": 0,
+        "category": "low",
+        "interpretation": "Низкая вероятность"
+      }
+    },
+    {
+      "name": "moderate dvt only",
+      "input": { "dvt": true },
+      "expected": {
+        "total": 3,
+        "category": "moderate",
+        "interpretation": "Умеренная вероятность"
+      }
+    },
+    {
+      "name": "moderate boundary 6",
+      "input": { "dvt": true, "altDx": true },
+      "expected": {
+        "total": 6,
+        "category": "moderate"
+      }
+    },
+    {
+      "name": "high score",
+      "input": { "dvt": true, "altDx": true, "tachycardia": true },
+      "expected": {
+        "total": 7.5,
+        "category": "high",
+        "interpretation": "Высокая вероятность"
+      }
+    },
+    {
+      "name": "low boundary 1.5",
+      "input": { "tachycardia": true },
+      "expected": {
+        "total": 1.5,
+        "category": "low"
+      }
+    }
+  ]
+}

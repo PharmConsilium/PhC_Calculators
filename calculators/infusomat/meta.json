@@ -1,0 +1,7 @@
+{
+  "slug": "infusomat",
+  "title": "Расчёт дозы и скорости введения препаратов на инфузомате (линеомате)",
+  "sitePath": "/calculator/infusomat",
+  "source": "ByMed — инфузомат",
+  "complexity": "B"
+}

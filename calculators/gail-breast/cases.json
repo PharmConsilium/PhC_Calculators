@@ -32,16 +32,17 @@
       }
     },
     {
-      "name": "black woman 35-39 baseline",
+      "name": "white woman 35-39 baseline",
       "input": {
         "menarche": "12_13",
         "biopsies": "u50_1",
         "firstBirthRelatives": "20_24_0",
         "atypicalHyperplasia": "no_atyp",
-        "ageRace": "b_35_39"
+        "ageRace": "w_35_39"
       },
       "expected": {
         "relativeRisk": 2.16,
+        "fiveYearRisk": 0.6,
         "status": "OK"
       }
     }

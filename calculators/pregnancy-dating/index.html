@@ -7,7 +7,6 @@
 -->
 <div class="fc-calc" data-calculator="pregnancy-dating">
   <style>
-/* FC-CALC-STYLES — from shared/fc-calc.css; sync: node scripts/sync-calculator-styles.mjs pregnancy-dating */
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
 .fc-calc {
@@ -127,13 +126,19 @@
 }
 
 .fc-calc .fc-calc__title {
-  font-family: var(--fc-font-bold);
-  font-weight: 700;
-  font-size: var(--fc-title-size);
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
   line-height: 1.2;
   margin: 0 0 8px;
   color: oklch(0.278 0.033 256.848);
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
 }
 
 .fc-calc .fc-calc__notes-body strong,
@@ -147,7 +152,8 @@
   line-height: 1.45;
   color: #263048;
   opacity: 1;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 34rem;
   text-align: center;
 }
 
@@ -364,18 +370,11 @@
 }
 
 .fc-calc .fc-calc__field label {
-  font-family: var(--fc-font-semibold), inherit;
+  font-family: var(--fc-font-sans), inherit;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.25;
   color: var(--fc-text);
-}
-
-.fc-calc .fc-calc__body > .fc-calc__hint {
-  margin: 1rem 0 0.25rem;
-  text-align: left;
-  font-size: 16px;
-  font-weight: 400;
 }
 
 .fc-calc .fc-calc__field input,
@@ -422,11 +421,6 @@
 .fc-calc .fc-calc__field-row input {
   flex: 1;
   min-width: 0;
-}
-
-.fc-calc .fc-calc__field-row select {
-  flex: 0 0 6.5rem;
-  width: 6.5rem;
 }
 
 .fc-calc .fc-calc__units {
@@ -651,6 +645,84 @@
   border-color: var(--fc-blue);
   box-shadow: inset 0 0 0 2px var(--fc-blue);
 }
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+
+/* pregnancy-dating: калькулятор-специфичные дополнения */
+.fc-calc[data-calculator="pregnancy-dating"] .fc-calc__actions {
+  margin-top: 4px;
+}
   </style>
 
   <div class="fc-calc__card">
@@ -658,81 +730,102 @@
       <!-- Опционально: вкладки (см. templates/UI-PATTERNS.md) -->
 
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Беременность по менструации и УЗИ-биометрия</h2>
+        <h2 class="fc-calc__title">Определение срока беременности по последней менструации и ультразвуковой биометрии</h2>
         <p class="fc-calc__hint">Введите любые или все параметры для сравнения вариантов расчёта срока и даты родов</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-pregnancy-dating-form" novalidate>
-          <div class="fc-calc__field">
-            <label for="fc-calc-pregnancy-dating-current">Текущая дата</label>
-            <input type="date" id="fc-calc-pregnancy-dating-current" name="currentDate" required />
-            <span class="fc-calc__error" id="fc-calc-pregnancy-dating-current-error" role="alert"></span>
-          </div>
-          <div class="fc-calc__field">
-            <label for="fc-calc-pregnancy-dating-lmp">Последняя менструация</label>
-            <input type="date" id="fc-calc-pregnancy-dating-lmp" name="lmp" />
-            <span class="fc-calc__error" id="fc-calc-pregnancy-dating-lmp-error" role="alert"></span>
-          </div>
-          <p class="fc-calc__hint">Ультразвуковая оценка</p>
-          <div class="fc-calc__field">
-            <label for="fc-calc-pregnancy-dating-us-date">Дата УЗИ</label>
-            <input type="date" id="fc-calc-pregnancy-dating-us-date" name="usDate" />
-            <span class="fc-calc__error" id="fc-calc-pregnancy-dating-us-date-error" role="alert"></span>
-          </div>
-          <p class="fc-calc__hint">Измерение в 1-м триместре</p>
-          <div class="fc-calc__field">
-            <label for="fc-calc-pregnancy-dating-crl">Копчиково-теменной размер (КТР)</label>
-            <div class="fc-calc__field-row">
-              <input type="number" id="fc-calc-pregnancy-dating-crl" name="crl" inputmode="decimal" min="0" step="any" />
-              <select id="fc-calc-pregnancy-dating-crl-unit" name="crlUnit" aria-label="Единица измерения КТР">
-                <option value="mm" selected>mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="in">in</option>
-                <option value="ft">ft</option>
-                <option value="yd">yd</option>
-                <option value="micm">micm</option>
-                <option value="nm">nm</option>
-              </select>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Даты</h3>
+              <div class="fc-calc__field">
+                <label for="fc-calc-pregnancy-dating-current">Текущая дата</label>
+                <input type="date" id="fc-calc-pregnancy-dating-current" name="currentDate" required />
+                <span class="fc-calc__error" id="fc-calc-pregnancy-dating-current-error" role="alert"></span>
+              </div>
+              <div class="fc-calc__field">
+                <label for="fc-calc-pregnancy-dating-lmp">Последняя менструация</label>
+                <input type="date" id="fc-calc-pregnancy-dating-lmp" name="lmp" />
+                <span class="fc-calc__error" id="fc-calc-pregnancy-dating-lmp-error" role="alert"></span>
+              </div>
             </div>
-            <span class="fc-calc__error" id="fc-calc-pregnancy-dating-crl-error" role="alert"></span>
           </div>
-          <p class="fc-calc__hint">Измерение во 2–3-м триместре</p>
-          <div class="fc-calc__field">
-            <label for="fc-calc-pregnancy-dating-bpd">Бипариетальный размер (БПР)</label>
-            <div class="fc-calc__field-row">
-              <input type="number" id="fc-calc-pregnancy-dating-bpd" name="bpd" inputmode="decimal" min="0" step="any" />
-              <select id="fc-calc-pregnancy-dating-bpd-unit" name="bpdUnit" aria-label="Единица измерения БПР">
-                <option value="mm" selected>mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="in">in</option>
-                <option value="ft">ft</option>
-                <option value="yd">yd</option>
-                <option value="micm">micm</option>
-                <option value="nm">nm</option>
-              </select>
+
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Ультразвуковая оценка</h3>
+              <div class="fc-calc__field">
+                <label for="fc-calc-pregnancy-dating-us-date">Дата УЗИ</label>
+                <input type="date" id="fc-calc-pregnancy-dating-us-date" name="usDate" />
+                <span class="fc-calc__error" id="fc-calc-pregnancy-dating-us-date-error" role="alert"></span>
+              </div>
             </div>
-            <span class="fc-calc__error" id="fc-calc-pregnancy-dating-bpd-error" role="alert"></span>
           </div>
-          <div class="fc-calc__field">
-            <label for="fc-calc-pregnancy-dating-hc">Окружность головы (ОГ)</label>
-            <div class="fc-calc__field-row">
-              <input type="number" id="fc-calc-pregnancy-dating-hc" name="hc" inputmode="decimal" min="0" step="any" />
-              <select id="fc-calc-pregnancy-dating-hc-unit" name="hcUnit" aria-label="Единица измерения ОГ">
-                <option value="mm" selected>mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="in">in</option>
-                <option value="ft">ft</option>
-                <option value="yd">yd</option>
-                <option value="micm">micm</option>
-                <option value="nm">nm</option>
-              </select>
+
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Измерение в 1-м триместре</h3>
+              <div class="fc-calc__field">
+                <label for="fc-calc-pregnancy-dating-crl">Копчиково-теменной размер (КТР)</label>
+                <div class="fc-calc__field-row">
+                  <input type="number" id="fc-calc-pregnancy-dating-crl" name="crl" inputmode="decimal" min="0" step="any" />
+                  <select id="fc-calc-pregnancy-dating-crl-unit" name="crlUnit" aria-label="Единица измерения КТР">
+                    <option value="mm" selected>mm</option>
+                    <option value="cm">cm</option>
+                    <option value="m">m</option>
+                    <option value="in">in</option>
+                    <option value="ft">ft</option>
+                    <option value="yd">yd</option>
+                    <option value="micm">micm</option>
+                    <option value="nm">nm</option>
+                  </select>
+                </div>
+                <span class="fc-calc__error" id="fc-calc-pregnancy-dating-crl-error" role="alert"></span>
+              </div>
             </div>
-            <span class="fc-calc__error" id="fc-calc-pregnancy-dating-hc-error" role="alert"></span>
           </div>
+
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Измерение во 2–3-м триместре</h3>
+              <div class="fc-calc__field">
+                <label for="fc-calc-pregnancy-dating-bpd">Бипариетальный размер (БПР)</label>
+                <div class="fc-calc__field-row">
+                  <input type="number" id="fc-calc-pregnancy-dating-bpd" name="bpd" inputmode="decimal" min="0" step="any" />
+                  <select id="fc-calc-pregnancy-dating-bpd-unit" name="bpdUnit" aria-label="Единица измерения БПР">
+                    <option value="mm" selected>mm</option>
+                    <option value="cm">cm</option>
+                    <option value="m">m</option>
+                    <option value="in">in</option>
+                    <option value="ft">ft</option>
+                    <option value="yd">yd</option>
+                    <option value="micm">micm</option>
+                    <option value="nm">nm</option>
+                  </select>
+                </div>
+                <span class="fc-calc__error" id="fc-calc-pregnancy-dating-bpd-error" role="alert"></span>
+              </div>
+              <div class="fc-calc__field">
+                <label for="fc-calc-pregnancy-dating-hc">Окружность головы (ОГ)</label>
+                <div class="fc-calc__field-row">
+                  <input type="number" id="fc-calc-pregnancy-dating-hc" name="hc" inputmode="decimal" min="0" step="any" />
+                  <select id="fc-calc-pregnancy-dating-hc-unit" name="hcUnit" aria-label="Единица измерения ОГ">
+                    <option value="mm" selected>mm</option>
+                    <option value="cm">cm</option>
+                    <option value="m">m</option>
+                    <option value="in">in</option>
+                    <option value="ft">ft</option>
+                    <option value="yd">yd</option>
+                    <option value="micm">micm</option>
+                    <option value="nm">nm</option>
+                  </select>
+                </div>
+                <span class="fc-calc__error" id="fc-calc-pregnancy-dating-hc-error" role="alert"></span>
+              </div>
+            </div>
+          </div>
+
           <span class="fc-calc__error" id="fc-calc-pregnancy-dating-form-error" role="alert"></span>
         </form>
       </div>

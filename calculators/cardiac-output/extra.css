@@ -1,0 +1,123 @@
+/* cardiac-output — medsoftpro layout */
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__formula {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: rgba(0, 94, 236, 0.22);
+  background: rgba(0, 94, 236, 0.05);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--half {
+  grid-column: span 3;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--third {
+  grid-column: span 2;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid .fc-calc__field {
+  display: grid;
+  grid-template-rows: minmax(2.75rem, auto) 44px;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid .fc-calc__field label {
+  align-self: end;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid .fc-calc__field input {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  margin: 0;
+  box-sizing: border-box;
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-results {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 520px) {
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item {
+  padding: 14px 16px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item--main {
+  grid-column: 1 / -1;
+  padding: 18px;
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.22);
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item--main .fc-calc__result-number {
+  font-size: 2rem;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item .fc-calc__result-label {
+  margin-bottom: 6px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item .fc-calc__result-number {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__result-wrap {
+  padding: 18px;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body ul {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body ul {
+  margin: 8px 0 12px;
+  padding-left: 1.25rem;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+@media (max-width: 639px) {
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--half,
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--third {
+    grid-column: span 1;
+  }
+}

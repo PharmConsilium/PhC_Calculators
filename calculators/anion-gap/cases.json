@@ -1,0 +1,53 @@
+{
+  "slug": "anion-gap",
+  "source": "MSD Manuals — анионная разница",
+  "cases": [
+    {
+      "name": "typical elevated AG",
+      "input": {
+        "na": 140,
+        "cl": 100,
+        "hco3": 24,
+        "naUnit": "mEq/L",
+        "clUnit": "mEq/L",
+        "hco3Unit": "mEq/L",
+        "decimals": 1
+      },
+      "expected": {
+        "ag": 16,
+        "deltaAg": 4,
+        "deltaHco3": 0,
+        "deltaDelta": 4
+      }
+    },
+    {
+      "name": "pure high anion gap acidosis",
+      "input": {
+        "na": 140,
+        "cl": 104,
+        "hco3": 12,
+        "decimals": 1
+      },
+      "expected": {
+        "ag": 24,
+        "deltaAg": 12,
+        "deltaHco3": 12,
+        "deltaDelta": 0,
+        "interpretation": "Соответствует изолированному ацидозу с повышением АР"
+      }
+    },
+    {
+      "name": "low anion gap",
+      "input": {
+        "na": 140,
+        "cl": 110,
+        "hco3": 24,
+        "decimals": 0
+      },
+      "expected": {
+        "ag": 6,
+        "deltaAg": -6
+      }
+    }
+  ]
+}

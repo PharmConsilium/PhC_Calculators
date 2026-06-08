@@ -4,7 +4,7 @@ globs: calculators/**/*.{html,js,css,json}
 alwaysApply: false
 ---
 
-# Стиль калькулятора (эталон = BMI)
+# Стиль калькулятора (эталон = hydro-balance)
 
 ## Один файл на сайт: `index.html`
 
@@ -20,13 +20,17 @@ alwaysApply: false
 
 ## Каркас и внешний вид (одинаково у всех)
 
-Эталон внешнего вида и разметки — `calculators/bmi/index.html`. **Все будущие калькуляторы должны выглядеть так же**, отличаться могут только:
+Эталон внешнего вида и разметки — `calculators/hydro-balance/`, `calculators/pregnancy-dating/`. **Все новые калькуляторы** используют тот же каркас; отличаться могут только:
 
 - формулы / алгоритм расчёта (`calc.js` и дублирование `calculate()` в `index.html`)
-- набор полей и их подписи (содержимое `fc-calc__body`)
-- текст подсказок и «Примечаний» (`fc-calc__hint`, `fc-calc__notes-body`)
+- набор полей и подписи секций (содержимое `fc-calc__body`)
+- текст подсказок и «Примечание» (`fc-calc__hint`, `fc-calc__notes-body`)
 
-При добавлении новых UI-элементов использовать существующие паттерны из `templates/UI-PATTERNS.md` и базовые классы `.fc-calc__*`. Не вводить новые «свои» цвета/шрифты/радиусы в папках калькуляторов.
+**Шапка:** `fc-calc__head` → `h2.fc-calc__title` (название из `meta.json`) + `p.fc-calc__hint` (краткое описание). Опционально `p.fc-calc__formula`.
+
+**Секции формы (обязательно):** поля внутри `fc-calc__panel-section` → `fc-calc__panel` → `h3.fc-calc__panel-heading`. Стили в `shared/fc-calc.css`. Фрагмент: `templates/panel-section.html`. Не использовать `p.fc-calc__hint` между полями как заголовки секций.
+
+При добавлении UI использовать паттерны из `templates/UI-PATTERNS.md` и классы `.fc-calc__*`. Не вводить новые цвета/шрифты/радиусы в папках калькуляторов.
 
 На [farmconsilium.com/calculator](https://farmconsilium.com/calculator) у всех калькуляторов **одни и те же зоны** — см. `templates/LAYOUT.md`:
 
@@ -35,7 +39,7 @@ alwaysApply: false
 3. `fc-calc__actions` — кнопка «Рассчитать»  
 4. `fc-calc__result-wrap` — результат (не `hidden`, класс `fc-calc__result--empty`)  
 5. `fc-calc__result-wrap` — серая плашка, `fc-calc__result-number` крупным синим (как на сайте)  
-6. `fc-calc__notes` — внутри карточки; заголовок **«Примечания»** не менять; правки только в `fc-calc__notes-body`  
+6. `fc-calc__notes` — внутри карточки; заголовок **«Примечание»**; правки только в `fc-calc__notes-body`  
 7. `fc-calc__foot` — дисклеймер под карточкой  
 
 Вкладки/сегменты/единицы: `templates/UI-PATTERNS.md`.  
@@ -55,7 +59,7 @@ alwaysApply: false
 
 | Элемент | Значение |
 |---------|----------|
-| Шрифт | SF Pro; заголовок Bold **36px**; подписи полей и кнопка — Semibold **20px** |
+| Шрифт | SF Pro; заголовок **36px** (desktop), обычный вес; подписи в панелях **15px** Semibold; кнопка — Semibold **20px** |
 | Текст / muted | `#10384f` (muted через opacity) |
 | Кнопка | `#005eec`, hover `#0047c4`, текст **20px SF Pro Semibold** |
 | Фон | `#eff0f2` |

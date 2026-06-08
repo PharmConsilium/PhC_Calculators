@@ -1,3 +1,9 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Дефицит натрия при гипонатриемии
+-->
+<div class="fc-calc" data-calculator="sodium-deficit">
+  <style>
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
 .fc-calc {
@@ -709,3 +715,312 @@
     padding: 14px;
   }
 }
+/* sodium-deficit */
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__formula {
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: rgba(0, 94, 236, 0.22);
+  background: rgba(0, 94, 236, 0.05);
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option {
+  flex: 1 1 8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option:has(input:checked) {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: rgba(0, 94, 236, 0.06);
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option input {
+  accent-color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result {
+  padding: 18px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result .fc-calc__result-number {
+  font-size: 2rem;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Дефицит натрия при гипонатриемии</h2>
+        <p class="fc-calc__hint">Расчёт дефицита натрия для коррекции гипонатриемии с учётом пола и общего количества воды в организме</p>
+        <p class="fc-calc__formula"><strong>Дефицит натрия</strong> = Пол × Норм. вес × (Желаемый натрий − Натрий сыворотки)</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-sodium-deficit-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
+
+              <div class="fc-calc__field">
+                <label>Пол</label>
+                <div class="fc-calc__na-radio" role="radiogroup" aria-label="Пол">
+                <label class="fc-calc__na-radio-option">
+                  <input type="radio" name="gender" value="female" data-coef="0.5" required />
+                  <span>Жен. (0,5)</span>
+                </label>
+                <label class="fc-calc__na-radio-option">
+                  <input type="radio" name="gender" value="male" data-coef="0.6" required />
+                  <span>Муж. (0,6)</span>
+                </label>
+                </div>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-sodium-deficit-weight">Норм. вес, кг</label>
+                <input type="number" id="fc-calc-sodium-deficit-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                <span class="fc-calc__error" id="fc-calc-sodium-deficit-weight-error" role="alert"></span>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-sodium-deficit-serum">Натрий сыворотки</label>
+                <div class="fc-calc__field-row">
+                  <input type="number" id="fc-calc-sodium-deficit-serum" name="serumNa" inputmode="decimal" min="0" step="any" required />
+                  <select id="fc-calc-sodium-deficit-serum-unit" name="serumUnit" aria-label="Единица натрия сыворотки">
+                    <option value="mEq/L" selected>mEq/L</option>
+                    <option value="mmol/L">mmol/L</option>
+                  </select>
+                </div>
+                <span class="fc-calc__error" id="fc-calc-sodium-deficit-serum-error" role="alert"></span>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-sodium-deficit-desired">Желаемый натрий</label>
+                <div class="fc-calc__field-row">
+                  <input type="number" id="fc-calc-sodium-deficit-desired" name="desiredNa" inputmode="decimal" min="0" step="any" value="140" />
+                  <select id="fc-calc-sodium-deficit-desired-unit" name="desiredUnit" aria-label="Единица желаемого натрия">
+                    <option value="mEq/L" selected>mEq/L</option>
+                    <option value="mmol/L">mmol/L</option>
+                  </select>
+                </div>
+                <span class="fc-calc__error" id="fc-calc-sodium-deficit-desired-error" role="alert"></span>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-sodium-deficit-decimals">Десятичная точность</label>
+                <select id="fc-calc-sodium-deficit-decimals" name="decimals">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2" selected>2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-sodium-deficit-form-error" role="alert"></span>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-sodium-deficit-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-sodium-deficit-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-sodium-deficit-result" aria-live="polite">
+        <div class="fc-calc__na-result">
+          <p class="fc-calc__result-label">Дефицит натрия</p>
+          <p class="fc-calc__result-number" id="fc-calc-sodium-deficit-result-value">—</p>
+          <p class="fc-calc__result-desc" id="fc-calc-sodium-deficit-result-desc"></p>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Выражение <strong>Пол × Нормальный вес тела</strong> представляет нормальное общее количество воды в организме (ОКВО). Нормальное ОКВО специфично полу, о чём свидетельствуют факторы 0,6 и 0,5.</p>
+        <p><strong>Используемое уравнение:</strong></p>
+        <p>Дефицит натрия = Пол × Норм. вес × (Желаемый натрий − Натрий сыворотки)</p>
+        <p>Цифры в скобках у вариантов пола — дискретные коэффициенты, используемые в расчёте.</p>
+        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%94%D0%B5%D1%84%D0%B8%D1%86%D0%B8%D1%82%20%D0%BD%D0%B0%D1%82%D1%80%D0%B8%D1%8F%20%D0%BF%D1%80%D0%B8%20%D0%B3%D0%B8%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%80%D0%B8%D0%B5%D0%BC%D0%B8%D0%B8" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="sodium-deficit"]');
+      if (!root) return;
+
+      var GENDER_COEF = { female: 0.5, male: 0.6 };
+      var DEFAULT_DESIRED = 140;
+
+      var form = root.querySelector('#fc-calc-sodium-deficit-form');
+      var calcBtn = root.querySelector('#fc-calc-sodium-deficit-btn');
+      var weightInput = root.querySelector('#fc-calc-sodium-deficit-weight');
+      var serumInput = root.querySelector('#fc-calc-sodium-deficit-serum');
+      var desiredInput = root.querySelector('#fc-calc-sodium-deficit-desired');
+      var serumUnit = root.querySelector('#fc-calc-sodium-deficit-serum-unit');
+      var desiredUnit = root.querySelector('#fc-calc-sodium-deficit-desired-unit');
+      var decimalsSelect = root.querySelector('#fc-calc-sodium-deficit-decimals');
+      var weightError = root.querySelector('#fc-calc-sodium-deficit-weight-error');
+      var serumError = root.querySelector('#fc-calc-sodium-deficit-serum-error');
+      var desiredError = root.querySelector('#fc-calc-sodium-deficit-desired-error');
+      var formError = root.querySelector('#fc-calc-sodium-deficit-form-error');
+      var resultWrap = root.querySelector('#fc-calc-sodium-deficit-result');
+      var resultNumber = root.querySelector('#fc-calc-sodium-deficit-result-value');
+      var resultDesc = root.querySelector('#fc-calc-sodium-deficit-result-desc');
+
+      if (desiredInput && !desiredInput.value) {
+        desiredInput.value = String(DEFAULT_DESIRED);
+      }
+
+      function roundHalfUp(value, decimals) {
+        var factor = Math.pow(10, decimals);
+        return Math.round(value * factor + Number.EPSILON) / factor;
+      }
+
+      function parsePositive(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+        var n = Number(s);
+        return Number.isFinite(n) && n > 0 ? n : null;
+      }
+
+      function formatNum(n, decimals) {
+        return String(n).replace('.', ',');
+      }
+
+      function getGender() {
+        var checked = form.querySelector('input[name="gender"]:checked');
+        return checked ? checked.value : null;
+      }
+
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function isReady() {
+        return getGender() && parsePositive(weightInput.value) && parsePositive(serumInput.value);
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      function calculate() {
+        var gender = getGender();
+        var genderCoef = GENDER_COEF[gender];
+        var weight = parsePositive(weightInput.value);
+        var serum = parsePositive(serumInput.value);
+        var desiredRaw = desiredInput.value;
+        var desired =
+          String(desiredRaw || '').trim() === '' ? DEFAULT_DESIRED : parsePositive(desiredRaw);
+
+        if (!genderCoef || weight == null || serum == null || desired == null) {
+          throw new Error('Заполните все поля');
+        }
+
+        var sUnit = serumUnit ? serumUnit.value : 'mEq/L';
+        var dUnit = desiredUnit ? desiredUnit.value : 'mEq/L';
+        var weightKg = weight;
+        var serumMeqL = serum;
+        var desiredMeqL = desired;
+        var decimals = decimalsSelect ? Number(decimalsSelect.value) : 2;
+        if (!Number.isFinite(decimals) || decimals < 0 || decimals > 3) decimals = 2;
+
+        var tbw = genderCoef * weightKg;
+        var delta = desiredMeqL - serumMeqL;
+        var deficit = roundHalfUp(tbw * delta, decimals);
+
+        return {
+          deficit: deficit,
+          decimals: decimals,
+          delta: delta,
+          tbw: roundHalfUp(tbw, decimals),
+        };
+      }
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        weightError.textContent = '';
+        serumError.textContent = '';
+        desiredError.textContent = '';
+        formError.textContent = '';
+        hideResult();
+
+        if (!isReady()) {
+          if (!getGender()) formError.textContent = 'Выберите пол';
+          if (!parsePositive(weightInput.value)) weightError.textContent = 'Укажите нормальный вес';
+          if (!parsePositive(serumInput.value)) serumError.textContent = 'Укажите натрий сыворотки';
+          return;
+        }
+
+        if (desiredInput.value && !parsePositive(desiredInput.value)) {
+          desiredError.textContent = 'Укажите корректный желаемый натрий';
+          return;
+        }
+
+        try {
+          var out = calculate();
+          resultNumber.textContent = formatNum(out.deficit, out.decimals) + ' mEq';
+          resultDesc.textContent =
+            out.delta <= 0
+              ? 'Желаемый натрий не выше натрия сыворотки — дефицит не рассчитывается'
+              : 'ОКВО ≈ ' + formatNum(out.tbw, out.decimals) + ' л';
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        } catch (err) {
+          formError.textContent = err.message || 'Ошибка расчёта';
+        }
+      });
+
+      updateButton();
+    })();
+  </script>
+</div>

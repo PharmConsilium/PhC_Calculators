@@ -1,0 +1,44 @@
+{
+  "slug": "cdai",
+  "source": "Aletaha D et al., 2005; MSD",
+  "cases": [
+    {
+      "name": "remission",
+      "input": { "pga": 0, "ega": 0 },
+      "expected": {
+        "tjc": 0,
+        "sjc": 0,
+        "cdai": 0,
+        "category": "remission"
+      }
+    },
+    {
+      "name": "low activity boundary",
+      "input": { "pga": 2.8, "ega": 0 },
+      "expected": {
+        "cdai": 2.8,
+        "category": "remission"
+      }
+    },
+    {
+      "name": "moderate activity",
+      "input": { "pga": 3, "ega": 3, "tjc_right_shoulder": true, "tjc_left_shoulder": true, "sjc_right_elbow": true, "sjc_left_elbow": true, "tjc_right_mcp1": true, "tjc_right_mcp2": true, "tjc_right_mcp3": true, "tjc_right_mcp4": true, "tjc_right_mcp5": true },
+      "expected": {
+        "tjc": 7,
+        "sjc": 2,
+        "cdai": 15,
+        "category": "moderate"
+      }
+    },
+    {
+      "name": "high activity",
+      "input": { "pga": 5, "ega": 5, "tjc_right_shoulder": true, "tjc_left_shoulder": true, "tjc_right_elbow": true, "tjc_left_elbow": true, "tjc_right_wrist": true, "tjc_left_wrist": true, "tjc_right_knee": true, "tjc_left_knee": true, "sjc_right_shoulder": true, "sjc_left_shoulder": true, "sjc_right_elbow": true, "sjc_left_elbow": true, "sjc_right_wrist": true, "sjc_left_wrist": true, "sjc_right_knee": true, "sjc_left_knee": true },
+      "expected": {
+        "tjc": 8,
+        "sjc": 8,
+        "cdai": 26,
+        "category": "high"
+      }
+    }
+  ]
+}

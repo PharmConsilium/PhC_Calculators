@@ -1,0 +1,109 @@
+{
+  "slug": "pesi-pe",
+  "source": "ByMed — шкала PESI",
+  "cases": [
+    {
+      "name": "class I baseline",
+      "input": {
+        "age": 50,
+        "sex": 0,
+        "malignancy": 0,
+        "chf": 0,
+        "lungDisease": 0,
+        "heartRate": 0,
+        "systolicBp": 1,
+        "respiratoryRate": 0,
+        "temperature": 1,
+        "mentalStatus": 0,
+        "oxygenSat": 1
+      },
+      "expected": {
+        "total": 50,
+        "riskClass": "I",
+        "category": "very-low"
+      }
+    },
+    {
+      "name": "class II boundary",
+      "input": {
+        "age": 66,
+        "sex": 0,
+        "malignancy": 0,
+        "chf": 0,
+        "lungDisease": 0,
+        "heartRate": 0,
+        "systolicBp": 1,
+        "respiratoryRate": 0,
+        "temperature": 1,
+        "mentalStatus": 0,
+        "oxygenSat": 1
+      },
+      "expected": {
+        "total": 66,
+        "riskClass": "II"
+      }
+    },
+    {
+      "name": "class III",
+      "input": {
+        "age": 50,
+        "sex": 1,
+        "malignancy": 1,
+        "chf": 0,
+        "lungDisease": 0,
+        "heartRate": 0,
+        "systolicBp": 1,
+        "respiratoryRate": 0,
+        "temperature": 1,
+        "mentalStatus": 0,
+        "oxygenSat": 1
+      },
+      "expected": {
+        "total": 90,
+        "riskClass": "III",
+        "interpretation": "Класс III. Умеренный риск летальности (3,2–7,1%)"
+      }
+    },
+    {
+      "name": "class IV",
+      "input": {
+        "age": 50,
+        "sex": 0,
+        "malignancy": 0,
+        "chf": 0,
+        "lungDisease": 0,
+        "heartRate": 0,
+        "systolicBp": 1,
+        "respiratoryRate": 0,
+        "temperature": 1,
+        "mentalStatus": 1,
+        "oxygenSat": 1
+      },
+      "expected": {
+        "total": 110,
+        "riskClass": "IV"
+      }
+    },
+    {
+      "name": "class V",
+      "input": {
+        "age": 70,
+        "sex": 0,
+        "malignancy": 0,
+        "chf": 0,
+        "lungDisease": 0,
+        "heartRate": 0,
+        "systolicBp": 1,
+        "respiratoryRate": 0,
+        "temperature": 1,
+        "mentalStatus": 1,
+        "oxygenSat": 1
+      },
+      "expected": {
+        "total": 130,
+        "riskClass": "V",
+        "category": "very-high"
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+/* pregnancy-dating: только калькулятор-специфичные дополнения (панели — в shared/fc-calc.css) */
+.fc-calc[data-calculator="pregnancy-dating"] .fc-calc__actions {
+  margin-top: 4px;
+}

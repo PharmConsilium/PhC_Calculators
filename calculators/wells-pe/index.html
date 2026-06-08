@@ -1,7 +1,9 @@
-<!-- Публикация: весь файл → админка «HTML-код (виджет, калькулятор)» -->
-<div class="fc-calc" data-calculator="gestation-due-date">
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Шкала Уэллса для оценки вероятности ТЭЛА
+-->
+<div class="fc-calc" data-calculator="wells-pe">
   <style>
-/* FC-CALC-STYLES — from shared/fc-calc.css */
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
 .fc-calc {
@@ -147,7 +149,8 @@
   line-height: 1.45;
   color: #263048;
   opacity: 1;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 34rem;
   text-align: center;
 }
 
@@ -639,126 +642,249 @@
   border-color: var(--fc-blue);
   box-shadow: inset 0 0 0 2px var(--fc-blue);
 }
-/* gestation-due-date */
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__title {
-  font-size: var(--fc-title-size);
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
 }
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__segmented {
-  flex-wrap: wrap;
-}
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__segment {
-  flex: 1 1 calc(50% - 4px);
-  min-width: 0;
-}
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-results {
-  display: grid;
-  gap: 12px;
-}
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item {
-  padding: 10px 12px;
-  background: var(--fc-bg-surface);
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* wells-pe */
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--fc-border);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: left;
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-option input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+  flex-shrink: 0;
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-option-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__wells-points {
+  flex-shrink: 0;
+  color: var(--fc-muted-text);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__result-wrap {
+  padding: 18px;
   text-align: center;
 }
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-label {
-  margin-bottom: 4px;
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__result-number {
+  font-size: 2rem;
 }
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-number {
-  margin: 0;
-  font-size: 1.5rem;
-}
-.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-desc {
-  margin: 6px 0 0;
+
+.fc-calc[data-calculator="wells-pe"] .fc-calc__notes-body table {
   font-size: 14px;
-  line-height: 1.35;
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Определение срока беременности и даты родов</h2>
-        <p class="fc-calc__hint">По дате последней менструации, зачатия, овуляции или искусственного осеменения</p>
-        <p class="fc-calc__formula"><strong>ПДПМ:</strong> +280 дн. &nbsp;|&nbsp; <strong>Зачатие / овуляция / ИО:</strong> +266 дн.</p>
+        <h2 class="fc-calc__title">Шкала Уэллса для оценки вероятности ТЭЛА</h2>
+        <p class="fc-calc__hint">Клиническая оценка вероятности тромбоэмболии лёгочной артерии по критериям Уэллса</p>
       </header>
 
       <div class="fc-calc__body">
-        <form class="fc-calc__form" id="fc-calc-gestation-due-date-form" novalidate>
-          <div class="fc-calc__field">
-            <label for="fc-calc-gestation-due-date-current">Текущая дата</label>
-            <input type="date" id="fc-calc-gestation-due-date-current" name="currentDate" required />
-            <span class="fc-calc__error" id="fc-calc-gestation-due-date-current-error" role="alert"></span>
+        <form class="fc-calc__form" id="fc-calc-wells-pe-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Критерии</h3>
+              <div class="fc-calc__wells-options" role="group" aria-label="Критерии шкалы Уэллса">
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-dvt" name="dvt" value="1" data-points="3" />
+                  <span class="fc-calc__wells-option-text">Симптомы тромбоза глубоких вен (ТГВ)</span>
+                  <span class="fc-calc__wells-points">(3 балла)</span>
+                </label>
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-altDx" name="altDx" value="1" data-points="3" />
+                  <span class="fc-calc__wells-option-text">Ни один альтернативный диагноз лучше не объясняет симптомы заболевания</span>
+                  <span class="fc-calc__wells-points">(3 балла)</span>
+                </label>
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-tachycardia" name="tachycardia" value="1" data-points="1.5" />
+                  <span class="fc-calc__wells-option-text">Тахикардия с пульсом > 100</span>
+                  <span class="fc-calc__wells-points">(1,5 балла)</span>
+                </label>
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-immobility" name="immobility" value="1" data-points="1.5" />
+                  <span class="fc-calc__wells-option-text">Иммобилизация (≥ 3 дня) или хирургическое вмешательство на протяжении последних четырех недель</span>
+                  <span class="fc-calc__wells-points">(1,5 балла)</span>
+                </label>
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-history" name="history" value="1" data-points="1.5" />
+                  <span class="fc-calc__wells-option-text">Тромбоз глубоких вен или тромбоэмболия легочной артерии в анамнезе</span>
+                  <span class="fc-calc__wells-points">(1,5 балла)</span>
+                </label>
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-hemoptysis" name="hemoptysis" value="1" data-points="1" />
+                  <span class="fc-calc__wells-option-text">Наличие кровохарканья</span>
+                  <span class="fc-calc__wells-points">(1 балл)</span>
+                </label>
+                <label class="fc-calc__wells-option">
+                  <input type="checkbox" id="fc-calc-wells-pe-malignancy" name="malignancy" value="1" data-points="1" />
+                  <span class="fc-calc__wells-option-text">Наличие злокачественных новообразований</span>
+                  <span class="fc-calc__wells-points">(1 балл)</span>
+                </label>
+              </div>
+            </div>
           </div>
-
-          <p class="fc-calc__hint">Режим</p>
-          <div class="fc-calc__segmented" role="group" aria-label="Режим расчёта">
-            <button type="button" class="fc-calc__segment" data-mode="lmp">ПДПМ</button>
-            <button type="button" class="fc-calc__segment fc-calc__segment--active" data-mode="conception">Зачатие</button>
-            <button type="button" class="fc-calc__segment" data-mode="ovulation">Овуляция</button>
-            <button type="button" class="fc-calc__segment" data-mode="insemination">Искусственное осеменение</button>
-          </div>
-
-          <div class="fc-calc__field">
-            <label for="fc-calc-gestation-due-date-event" id="fc-calc-gestation-due-date-event-label">Дата зачатия</label>
-            <input type="date" id="fc-calc-gestation-due-date-event" name="eventDate" required />
-            <span class="fc-calc__error" id="fc-calc-gestation-due-date-event-error" role="alert"></span>
-          </div>
-
-          <span class="fc-calc__error" id="fc-calc-gestation-due-date-form-error" role="alert"></span>
         </form>
       </div>
 
       <div class="fc-calc__actions">
-        <button type="submit" class="fc-calc__btn" form="fc-calc-gestation-due-date-form">Рассчитать</button>
+        <button type="submit" id="fc-calc-wells-pe-btn" class="fc-calc__btn" form="fc-calc-wells-pe-form">Рассчитать</button>
       </div>
 
-      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-gestation-due-date-result" aria-live="polite">
-        <div class="fc-calc__gdd-results">
-          <div class="fc-calc__gdd-result-item fc-calc__gdd-result-item--main">
-            <p class="fc-calc__result-label">Предполагаемая дата родов</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-edd">—</p>
-            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-ci4"></p>
-            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-ci90"></p>
-            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-ci21"></p>
-          </div>
-          <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Срок беременности</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-ga">—</p>
-          </div>
-          <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Предполагаемый срок гестации</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-milestone13">—</p>
-          </div>
-          <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Конец первого триместра</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-trimester">—</p>
-          </div>
-          <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Плановое УЗИ</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-us">—</p>
-          </div>
-        </div>
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-wells-pe-result" aria-live="polite">
+        <p class="fc-calc__result-label">Общий результат</p>
+        <p class="fc-calc__result-number" id="fc-calc-wells-pe-result-number">—</p>
+        <p class="fc-calc__result-desc" id="fc-calc-wells-pe-result-desc"></p>
       </div>
     </div>
 
     <details class="fc-calc__notes">
       <summary class="fc-calc__notes-summary">
-        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
-      <div class="fc-calc__notes-body" id="fc-calc-gestation-due-date-notes">
-        <p>Расчёт помогает в определении срока беременности, даты родов, срока гестации, окончания первого триместра беременности и даты планового УЗИ плода по дате последней менструации и по известной дате зачатия, овуляции и искусственного осеменения (обычное и модифицированное правила Негеле).</p>
-        <p><strong>Дата родов</strong> = первый день последней менструации + 280 дней (правило Негеле).</p>
-        <p><strong>Дата родов</strong> = дата зачатия, овуляции или искусственного осеменения + 266 дней (модифицированное правило Негеле).</p>
-        <p><strong>Срок гестации (СГ):</strong></p>
-        <ul>
-          <li>СГ = текущая дата − первый день последней менструации</li>
-          <li>СГ = текущая дата − дата зачатия, овуляции или искусственного осеменения + 14 дней</li>
-        </ul>
-        <p>Акушерская неделя — 7 дней, акушерский месяц — 28 дней.</p>
-        <p>Первый триместр беременности: 0–13 недель.</p>
-        <p>Лучшее время для УЗИ плода: 18–20 недель.</p>
+      <div class="fc-calc__notes-body">
+        <p><strong>Интерпретация шкалы риска ТЭЛА:</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Показатель</th>
+                <th>Вероятность</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&gt; 6</td>
+                <td>Высокая вероятность</td>
+              </tr>
+              <tr>
+                <td>≥ 2 и ≤ 6</td>
+                <td>Умеренная вероятность</td>
+              </tr>
+              <tr>
+                <td>&lt; 2</td>
+                <td>Низкая вероятность</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>По данным исходной публикации, низкая вероятность ТЭЛА также соответствует ≤ 4 баллам при отрицательном анализе на D-димер. Подробности — в источнике ниже.</p>
+        <p><strong>Ссылки:</strong></p>
+        <p class="fc-calc__source-item">Wells PS, Anderson DR, Rodger M, et al. Derivation of a simple clinical model to categorize patients probability of pulmonary embolism: increasing the models utility with the SimpliRED D-dimer. <em>Thromb Haemost.</em> 2000 Mar;83(3):416-20. PubMed ID: 10744147</p>
+        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%A8%D0%BA%D0%B0%D0%BB%D0%B0%20%D0%A3%D1%8D%D0%BB%D0%BB%D1%81%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%BE%D1%86%D0%B5%D0%BD%D0%BA%D0%B8%20%D0%B2%D0%B5%D1%80%D0%BE%D1%8F%D1%82%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20%D0%A2%D0%AD%D0%9B%D0%90" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
   </div>
@@ -770,202 +896,74 @@
   </footer>
 
   <script>
-    (function () {
-      var SLUG = 'gestation-due-date';
-      var LMP_TO_EDD_DAYS = 280;
-      var CONCEPTION_TO_EDD_DAYS = 266;
-      var LMP_OFFSET_DAYS = 14;
-      var OBSTETRIC_MONTH_DAYS = 28;
-      var EDD_CI = {
-        ci4: { low: -1, high: 1 },
-        ci21: { low: -4, high: 3 },
-        ci90: { low: -13, high: 6 }
-      };
-      var MODE_LABELS = {
-        lmp: 'Дата последней менструации',
-        conception: 'Дата зачатия',
-        ovulation: 'Дата овуляции',
-        insemination: 'Дата искусственного осеменения'
-      };
-
-      var root = document.querySelector('.fc-calc[data-calculator="' + SLUG + '"]');
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="wells-pe"]');
       if (!root) return;
 
-      var form = root.querySelector('#fc-calc-' + SLUG + '-form');
-      var mode = 'conception';
-      var segments = root.querySelectorAll('.fc-calc__segment');
-      var eventLabel = root.querySelector('#fc-calc-' + SLUG + '-event-label');
-      var eventInput = root.querySelector('#fc-calc-' + SLUG + '-event');
-      var currentInput = root.querySelector('#fc-calc-' + SLUG + '-current');
-      var eventError = root.querySelector('#fc-calc-' + SLUG + '-event-error');
-      var currentError = root.querySelector('#fc-calc-' + SLUG + '-current-error');
-      var formError = root.querySelector('#fc-calc-' + SLUG + '-form-error');
-      var resultWrap = root.querySelector('#fc-calc-' + SLUG + '-result');
-      var elEdd = root.querySelector('#fc-calc-' + SLUG + '-edd');
-      var elCi4 = root.querySelector('#fc-calc-' + SLUG + '-ci4');
-      var elCi90 = root.querySelector('#fc-calc-' + SLUG + '-ci90');
-      var elCi21 = root.querySelector('#fc-calc-' + SLUG + '-ci21');
-      var elGa = root.querySelector('#fc-calc-' + SLUG + '-ga');
-      var elM13 = root.querySelector('#fc-calc-' + SLUG + '-milestone13');
-      var elTrim = root.querySelector('#fc-calc-' + SLUG + '-trimester');
-      var elUs = root.querySelector('#fc-calc-' + SLUG + '-us');
+      var CRITERIA = [
+        { id: 'dvt', points: 3 },
+        { id: 'altDx', points: 3 },
+        { id: 'tachycardia', points: 1.5 },
+        { id: 'immobility', points: 1.5 },
+        { id: 'history', points: 1.5 },
+        { id: 'hemoptysis', points: 1 },
+        { id: 'malignancy', points: 1 }
+      ];
 
-      function todayIso() {
-        var d = new Date();
-        var y = d.getFullYear();
-        var m = String(d.getMonth() + 1).padStart(2, '0');
-        var day = String(d.getDate()).padStart(2, '0');
-        return y + '-' + m + '-' + day;
+      var form = root.querySelector('#fc-calc-wells-pe-form');
+      var calcBtn = root.querySelector('#fc-calc-wells-pe-btn');
+      var resultWrap = root.querySelector('#fc-calc-wells-pe-result');
+      var resultNumber = root.querySelector('#fc-calc-wells-pe-result-number');
+      var resultDesc = root.querySelector('#fc-calc-wells-pe-result-desc');
+
+      function formatNum(n) {
+        return String(n).replace('.', ',');
       }
 
-      function parseIsoDate(str) {
-        if (!str || typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return null;
-        var parts = str.split('-');
-        var d = new Date(Date.UTC(+parts[0], +parts[1] - 1, +parts[2]));
-        if (!isFinite(d.getTime())) return null;
-        if (d.toISOString().slice(0, 10) !== str) return null;
-        return d;
+      function interpret(total) {
+        if (total > 6) return 'Высокая вероятность';
+        if (total >= 2 && total <= 6) return 'Умеренная вероятность';
+        return 'Низкая вероятность';
       }
 
-      function formatIsoDateUTC(d) {
-        return new Date(d.getTime()).toISOString().slice(0, 10);
+      function getInput() {
+        var input = {};
+        CRITERIA.forEach(function (c) {
+          var el = root.querySelector('#fc-calc-wells-pe-' + c.id);
+          input[c.id] = el ? el.checked : false;
+        });
+        return input;
       }
 
-      function addDaysUTC(d, days) {
-        var out = new Date(d.getTime());
-        out.setUTCDate(out.getUTCDate() + days);
-        return out;
+      function calculate() {
+        var total = 0;
+        CRITERIA.forEach(function (c) {
+          var el = root.querySelector('#fc-calc-wells-pe-' + c.id);
+          if (el && el.checked) total += c.points;
+        });
+        return { total: total, interpretation: interpret(total) };
       }
 
-      function diffDaysUTC(from, to) {
-        return Math.trunc((to.getTime() - from.getTime()) / 86400000);
-      }
-
-      function formatRuDate(iso) {
-        var d = parseIsoDate(iso);
-        if (!d) return '—';
-        return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + ' г.';
-      }
-
-      function formatRuRange(from, to) {
-        return formatRuDate(from) + '–' + formatRuDate(to);
-      }
-
-      function dateInterval(edd, ci) {
-        return {
-          from: formatIsoDateUTC(addDaysUTC(edd, ci.low)),
-          to: formatIsoDateUTC(addDaysUTC(edd, ci.high))
-        };
-      }
-
-      function lmpFromEvent(m, eventDate) {
-        if (m === 'lmp') return eventDate;
-        return addDaysUTC(eventDate, -LMP_OFFSET_DAYS);
-      }
-
-      function eddFromEvent(m, eventDate) {
-        if (m === 'lmp') return addDaysUTC(eventDate, LMP_TO_EDD_DAYS);
-        return addDaysUTC(eventDate, CONCEPTION_TO_EDD_DAYS);
-      }
-
-      function gestationDaysInclusive(lmp, currentDate) {
-        var days = diffDaysUTC(lmp, currentDate);
-        if (days < 0) return 0;
-        return days + 1;
-      }
-
-      function roundObstetricMonths(days) {
-        return Math.round((days / OBSTETRIC_MONTH_DAYS) * 100) / 100;
-      }
-
-      function calculate(input) {
-        var eventDate = parseIsoDate(input.eventDate);
-        var currentDate = parseIsoDate(input.currentDate);
-        if (!eventDate) throw new Error('Укажите корректную дату');
-        if (!currentDate) throw new Error('Укажите корректную текущую дату');
-        if (eventDate.getTime() > currentDate.getTime()) {
-          throw new Error('Дата события не может быть позже текущей даты');
-        }
-
-        var m = input.mode;
-        var lmp = lmpFromEvent(m, eventDate);
-        var edd = eddFromEvent(m, eventDate);
-        var gestDays = gestationDaysInclusive(lmp, currentDate);
-        var gestMonths = roundObstetricMonths(gestDays);
-
-        return {
-          edd: formatIsoDateUTC(edd),
-          eddCi4: dateInterval(edd, EDD_CI.ci4),
-          eddCi21: dateInterval(edd, EDD_CI.ci21),
-          eddCi90: dateInterval(edd, EDD_CI.ci90),
-          gestationDays: gestDays,
-          gestationObstetricMonths: gestMonths,
-          gestationMilestone13: formatIsoDateUTC(addDaysUTC(lmp, 13 * 7)),
-          firstTrimesterWindowFrom: formatIsoDateUTC(addDaysUTC(lmp, 18 * 7)),
-          firstTrimesterWindowTo: formatIsoDateUTC(addDaysUTC(lmp, 20 * 7)),
-          plannedUltrasound: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7))
-        };
-      }
-
-      function setError(el, msg) {
-        if (el) el.textContent = msg || '';
+      function showResult() {
+        var out = calculate();
+        resultNumber.textContent = formatNum(out.total);
+        resultDesc.textContent = out.interpretation;
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
       }
 
       function hideResult() {
         resultWrap.classList.add('fc-calc__result-wrap--hidden');
       }
 
-      function showResults(out) {
-        var gaText =
-          out.gestationDays + ' дн. (' + String(out.gestationObstetricMonths).replace('.', ',') + ' ак. месяцев)';
-        elEdd.textContent = formatRuDate(out.edd);
-        elCi4.textContent = '4% — ' + formatRuRange(out.eddCi4.from, out.eddCi4.to);
-        elCi90.textContent = '90% — ' + formatRuRange(out.eddCi90.from, out.eddCi90.to);
-        elCi21.textContent = '21% — ' + formatRuRange(out.eddCi21.from, out.eddCi21.to);
-        elGa.textContent = gaText;
-        elM13.textContent = formatRuDate(out.gestationMilestone13);
-        elTrim.textContent = formatRuRange(out.firstTrimesterWindowFrom, out.firstTrimesterWindowTo);
-        elUs.textContent = formatRuDate(out.plannedUltrasound);
-        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
-      }
-
-      function setMode(next) {
-        mode = next;
-        segments.forEach(function (btn) {
-          btn.classList.toggle('fc-calc__segment--active', btn.getAttribute('data-mode') === mode);
-        });
-        if (eventLabel) eventLabel.textContent = MODE_LABELS[mode] || 'Дата';
-      }
-
-      segments.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          setMode(btn.getAttribute('data-mode'));
-        });
-      });
-
-      if (currentInput && !currentInput.value) {
-        currentInput.value = todayIso();
-      }
+      form.addEventListener('change', hideResult);
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        setError(eventError, '');
-        setError(currentError, '');
-        setError(formError, '');
-        hideResult();
-
-        try {
-          showResults(
-            calculate({
-              mode: mode,
-              eventDate: eventInput.value,
-              currentDate: currentInput.value
-            })
-          );
-        } catch (err) {
-          setError(formError, err.message || 'Ошибка расчёта');
-        }
+        showResult();
       });
+
+      calcBtn.disabled = false;
+      calcBtn.classList.remove('fc-calc__btn--inactive');
     })();
   </script>
 </div>

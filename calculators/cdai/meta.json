@@ -1,0 +1,7 @@
+{
+  "slug": "cdai",
+  "title": "Индекс клинической активности заболевания ревматоидным артритом (CDAI)",
+  "sitePath": "/calculator/cdai",
+  "source": "Aletaha D et al., 2005; MSD",
+  "complexity": "B"
+}

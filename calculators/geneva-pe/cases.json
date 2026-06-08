@@ -1,0 +1,111 @@
+{
+  "slug": "geneva-pe",
+  "source": "ByMed — Женевская шкала (индекс Geneva)",
+  "cases": [
+    {
+      "name": "all negative",
+      "input": {
+        "age": 0,
+        "history": 0,
+        "surgery": 0,
+        "malignancy": 0,
+        "legPain": 0,
+        "hemoptysis": 0,
+        "edema": 0,
+        "heartRate": 0
+      },
+      "expected": {
+        "total": 0,
+        "category": "low",
+        "interpretation": "Низкая клиническая вероятность"
+      }
+    },
+    {
+      "name": "low boundary 3",
+      "input": {
+        "age": 0,
+        "history": 0,
+        "surgery": 0,
+        "malignancy": 0,
+        "legPain": 1,
+        "hemoptysis": 0,
+        "edema": 0,
+        "heartRate": 0
+      },
+      "expected": {
+        "total": 3,
+        "category": "low"
+      }
+    },
+    {
+      "name": "intermediate boundary 4",
+      "input": {
+        "age": 1,
+        "history": 1,
+        "surgery": 0,
+        "malignancy": 0,
+        "legPain": 0,
+        "hemoptysis": 0,
+        "edema": 0,
+        "heartRate": 0
+      },
+      "expected": {
+        "total": 4,
+        "category": "intermediate",
+        "interpretation": "Промежуточная клиническая вероятность"
+      }
+    },
+    {
+      "name": "intermediate boundary 10",
+      "input": {
+        "age": 0,
+        "history": 1,
+        "surgery": 0,
+        "malignancy": 0,
+        "legPain": 1,
+        "hemoptysis": 0,
+        "edema": 1,
+        "heartRate": 0
+      },
+      "expected": {
+        "total": 10,
+        "category": "intermediate"
+      }
+    },
+    {
+      "name": "high boundary 11",
+      "input": {
+        "age": 1,
+        "history": 1,
+        "surgery": 0,
+        "malignancy": 0,
+        "legPain": 1,
+        "hemoptysis": 0,
+        "edema": 1,
+        "heartRate": 0
+      },
+      "expected": {
+        "total": 11,
+        "category": "high",
+        "interpretation": "Высокая клиническая вероятность"
+      }
+    },
+    {
+      "name": "maximum score",
+      "input": {
+        "age": 1,
+        "history": 1,
+        "surgery": 1,
+        "malignancy": 1,
+        "legPain": 1,
+        "hemoptysis": 1,
+        "edema": 1,
+        "heartRate": 2
+      },
+      "expected": {
+        "total": 22,
+        "category": "high"
+      }
+    }
+  ]
+}
