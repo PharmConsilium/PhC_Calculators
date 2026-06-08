@@ -1,0 +1,167 @@
+{
+  "slug": "pregnancy-dating",
+  "source": "MSD Manuals — определение срока беременности по ПМ и УЗИ-биометрии",
+  "cases": [
+    {
+      "name": "только по менструации",
+      "input": {
+        "currentDate": "2026-06-08",
+        "lmp": "2026-03-01"
+      },
+      "expected": {
+        "lmp": {
+          "gestationDays": 99,
+          "gestationWeeks": 14,
+          "gestationRemainderDays": 1,
+          "gestationWeeksDecimal": 14.1,
+          "gestationText": "14,1 нед",
+          "edd": "2026-12-06"
+        }
+      }
+    },
+    {
+      "name": "КТР 60 мм на УЗИ 15.04.2026",
+      "input": {
+        "currentDate": "2026-06-08",
+        "usDate": "2026-04-15",
+        "crlMm": 60
+      },
+      "expected": {
+        "crl": {
+          "gestationDays": 86,
+          "gestationWeeks": 12,
+          "gestationRemainderDays": 2,
+          "gestationWeeksDecimal": 12.3,
+          "gestationText": "12,3 нед",
+          "edd": "2026-10-26"
+        }
+      }
+    },
+    {
+      "name": "БПР 50 мм",
+      "input": {
+        "currentDate": "2026-06-08",
+        "usDate": "2026-05-01",
+        "bpdMm": 50
+      },
+      "expected": {
+        "bpd": {
+          "gestationDays": 144,
+          "gestationWeeks": 20,
+          "gestationRemainderDays": 4,
+          "gestationWeeksDecimal": 20.6,
+          "gestationText": "20,6 нед",
+          "edd": "2026-09-14"
+        }
+      }
+    },
+    {
+      "name": "ОГ 180 мм",
+      "input": {
+        "currentDate": "2026-06-08",
+        "usDate": "2026-05-01",
+        "hcMm": 180
+      },
+      "expected": {
+        "hc": {
+          "gestationDays": 143,
+          "gestationWeeks": 20,
+          "gestationRemainderDays": 3,
+          "gestationWeeksDecimal": 20.4,
+          "gestationText": "20,4 нед",
+          "edd": "2026-09-15"
+        }
+      }
+    },
+    {
+      "name": "эталон MSD (ПМ 01.05, УЗИ 01.05, КТР 24, БПР 20, ОГ 84)",
+      "input": {
+        "currentDate": "2026-06-08",
+        "lmp": "2026-05-01",
+        "usDate": "2026-05-01",
+        "crlMm": 24,
+        "bpdMm": 20,
+        "hcMm": 84
+      },
+      "expected": {
+        "lmp": {
+          "gestationDays": 38,
+          "gestationWeeks": 5,
+          "gestationRemainderDays": 3,
+          "gestationWeeksDecimal": 5.4,
+          "gestationText": "5,4 нед",
+          "edd": "2027-02-05"
+        },
+        "crl": {
+          "gestationDays": 61,
+          "gestationWeeks": 8,
+          "gestationRemainderDays": 5,
+          "gestationWeeksDecimal": 8.7,
+          "gestationText": "8,7 нед",
+          "edd": "2026-12-06"
+        },
+        "bpd": {
+          "gestationDays": 84,
+          "gestationWeeks": 12,
+          "gestationRemainderDays": 0,
+          "gestationWeeksDecimal": 12,
+          "gestationText": "12 нед",
+          "edd": "2026-11-13"
+        },
+        "hc": {
+          "gestationDays": 89,
+          "gestationWeeks": 12,
+          "gestationRemainderDays": 5,
+          "gestationWeeksDecimal": 12.8,
+          "gestationText": "12,8 нед",
+          "edd": "2026-11-08"
+        }
+      }
+    },
+    {
+      "name": "все методы вместе",
+      "input": {
+        "currentDate": "2026-06-08",
+        "lmp": "2026-03-01",
+        "usDate": "2026-05-01",
+        "crlMm": 60,
+        "bpdMm": 50,
+        "hcMm": 180
+      },
+      "expected": {
+        "lmp": {
+          "gestationDays": 99,
+          "gestationWeeks": 14,
+          "gestationRemainderDays": 1,
+          "gestationWeeksDecimal": 14.1,
+          "gestationText": "14,1 нед",
+          "edd": "2026-12-06"
+        },
+        "crl": {
+          "gestationDays": 86,
+          "gestationWeeks": 12,
+          "gestationRemainderDays": 2,
+          "gestationWeeksDecimal": 12.3,
+          "gestationText": "12,3 нед",
+          "edd": "2026-11-11"
+        },
+        "bpd": {
+          "gestationDays": 144,
+          "gestationWeeks": 20,
+          "gestationRemainderDays": 4,
+          "gestationWeeksDecimal": 20.6,
+          "gestationText": "20,6 нед",
+          "edd": "2026-09-14"
+        },
+        "hc": {
+          "gestationDays": 143,
+          "gestationWeeks": 20,
+          "gestationRemainderDays": 3,
+          "gestationWeeksDecimal": 20.4,
+          "gestationText": "20,4 нед",
+          "edd": "2026-09-15"
+        }
+      }
+    }
+  ]
+}

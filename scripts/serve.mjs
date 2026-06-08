@@ -18,8 +18,27 @@ createServer(async (req, res) => {
   const path = (req.url || '/').split('?')[0];
   const file = join(root, decodeURIComponent(path === '/' ? '/calculators/bmi/preview.html' : path));
   try {
-    const data = await readFile(file);
-    res.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream' });
+    let data = await readFile(file, 'utf8');
+    // Локальный просмотр: фрагмент index.html → полная страница (без iframe, для Inspect в Cursor)
+    if (
+      extname(file) === '.html' &&
+      !/^\s*<!DOCTYPE/i.test(data) &&
+      data.includes('class="fc-calc"')
+    ) {
+      data = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Калькулятор — локальный просмотр</title>
+  <style>body{margin:0;padding:16px;background:#eff0f2;}</style>
+</head>
+<body>
+${data}
+</body>
+</html>`;
+    }
+    res.writeHead(200, { 'Content-Type': types[extname(file)] || 'text/html; charset=utf-8' });
     res.end(data);
   } catch {
     res.writeHead(404);
