@@ -1,0 +1,25 @@
+/* fluid-req: три показателя в результате */
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-results {
+  display: grid;
+  gap: 12px;
+}
+
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item {
+  padding: 10px 12px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item .fc-calc__result-label {
+  margin-bottom: 4px;
+}
+
+.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item .fc-calc__result-number {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.fc-calc[data-calculator="fluid-req"] .fc-calc__result-desc {
+  margin-top: 12px;
+}

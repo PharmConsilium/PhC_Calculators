@@ -1,0 +1,36 @@
+{
+  "slug": "fluid-req",
+  "source": "Гордеев, Александрович. АВС инфузионной терапии (2006)",
+  "cases": [
+    {
+      "name": "5 kg child",
+      "input": { "weightKg": 5 },
+      "expected": { "maintenanceMlPerHour": 20, "dailyMl": 480, "bolusMl": 100, "status": "OK" }
+    },
+    {
+      "name": "10 kg boundary",
+      "input": { "weightKg": 10 },
+      "expected": { "maintenanceMlPerHour": 40, "dailyMl": 960, "bolusMl": 200, "status": "OK" }
+    },
+    {
+      "name": "15 kg child",
+      "input": { "weightKg": 15 },
+      "expected": { "maintenanceMlPerHour": 50, "dailyMl": 1200, "bolusMl": 300, "status": "OK" }
+    },
+    {
+      "name": "20 kg boundary",
+      "input": { "weightKg": 20 },
+      "expected": { "maintenanceMlPerHour": 60, "dailyMl": 1440, "bolusMl": 400, "status": "OK" }
+    },
+    {
+      "name": "70 kg adult",
+      "input": { "weightKg": 70 },
+      "expected": { "maintenanceMlPerHour": 110, "dailyMl": 2640, "bolusMl": 1400, "status": "OK" }
+    },
+    {
+      "name": "12.5 kg decimal",
+      "input": { "weightKg": 12.5 },
+      "expected": { "maintenanceMlPerHour": 45, "dailyMl": 1080, "bolusMl": 250, "status": "OK" }
+    }
+  ]
+}
