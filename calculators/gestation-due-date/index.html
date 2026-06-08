@@ -1,0 +1,982 @@
+<!-- Публикация: весь файл → админка «HTML-код (виджет, калькулятор)» -->
+<div class="fc-calc" data-calculator="gestation-due-date">
+  <style>
+/* FC-CALC-STYLES — from shared/fc-calc.css */
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+/* gestation-due-date */
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__title {
+  font-size: var(--fc-title-size);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__segmented {
+  flex-wrap: wrap;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__segment {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 0;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-results {
+  display: grid;
+  gap: 12px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item {
+  padding: 10px 12px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: center;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-label {
+  margin-bottom: 4px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-number {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-desc {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Определение срока беременности и даты родов</h2>
+        <p class="fc-calc__hint">По дате последней менструации, зачатия, овуляции или искусственного осеменения</p>
+        <p class="fc-calc__formula"><strong>ПДПМ:</strong> +280 дн. &nbsp;|&nbsp; <strong>Зачатие / овуляция / ИО:</strong> +266 дн.</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-gestation-due-date-form" novalidate>
+          <div class="fc-calc__field">
+            <label for="fc-calc-gestation-due-date-current">Текущая дата</label>
+            <input type="date" id="fc-calc-gestation-due-date-current" name="currentDate" required />
+            <span class="fc-calc__error" id="fc-calc-gestation-due-date-current-error" role="alert"></span>
+          </div>
+
+          <p class="fc-calc__hint">Режим</p>
+          <div class="fc-calc__segmented" role="group" aria-label="Режим расчёта">
+            <button type="button" class="fc-calc__segment" data-mode="lmp">ПДПМ</button>
+            <button type="button" class="fc-calc__segment fc-calc__segment--active" data-mode="conception">Зачатие</button>
+            <button type="button" class="fc-calc__segment" data-mode="ovulation">Овуляция</button>
+            <button type="button" class="fc-calc__segment" data-mode="insemination">Искусственное осеменение</button>
+          </div>
+
+          <div class="fc-calc__field">
+            <label for="fc-calc-gestation-due-date-event" id="fc-calc-gestation-due-date-event-label">Дата зачатия</label>
+            <input type="date" id="fc-calc-gestation-due-date-event" name="eventDate" required />
+            <span class="fc-calc__error" id="fc-calc-gestation-due-date-event-error" role="alert"></span>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-gestation-due-date-form-error" role="alert"></span>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" class="fc-calc__btn" form="fc-calc-gestation-due-date-form">Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-gestation-due-date-result" aria-live="polite">
+        <div class="fc-calc__gdd-results">
+          <div class="fc-calc__gdd-result-item fc-calc__gdd-result-item--main">
+            <p class="fc-calc__result-label">Предполагаемая дата родов</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-edd">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-ci4"></p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-ci90"></p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-ci21"></p>
+          </div>
+          <div class="fc-calc__gdd-result-item">
+            <p class="fc-calc__result-label">Срок беременности</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-ga">—</p>
+          </div>
+          <div class="fc-calc__gdd-result-item">
+            <p class="fc-calc__result-label">Предполагаемый срок гестации</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-milestone13">—</p>
+          </div>
+          <div class="fc-calc__gdd-result-item">
+            <p class="fc-calc__result-label">Конец первого триместра</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-trimester">—</p>
+          </div>
+          <div class="fc-calc__gdd-result-item">
+            <p class="fc-calc__result-label">Плановое УЗИ</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-us">—</p>
+          </div>
+          <div class="fc-calc__gdd-result-item">
+            <p class="fc-calc__result-label">Анти-D профилактика</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-antid">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-antid-desc"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body" id="fc-calc-gestation-due-date-notes">
+        <p>Расчёт помогает в определении срока беременности, даты родов, срока гестации, окончания первого триместра беременности, даты планового УЗИ плода и анти-D профилактики у RhD-отрицательных рожениц по дате последней менструации и по известной дате зачатия, овуляции и искусственного осеменения (обычное и модифицированное правила Негеле).</p>
+        <p><strong>Дата родов</strong> = первый день последней менструации + 280 дней (правило Негеле).</p>
+        <p><strong>Дата родов</strong> = дата зачатия, овуляции или искусственного осеменения + 266 дней (модифицированное правило Негеле).</p>
+        <p><strong>Срок гестации (СГ):</strong></p>
+        <ul>
+          <li>СГ = текущая дата − первый день последней менструации</li>
+          <li>СГ = текущая дата − дата зачатия, овуляции или искусственного осеменения + 14 дней</li>
+        </ul>
+        <p>Акушерская неделя — 7 дней, акушерский месяц — 28 дней.</p>
+        <p>Первый триместр беременности: 0–13 недель.</p>
+        <p>Лучшее время для УЗИ плода: 18–20 недель.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var SLUG = 'gestation-due-date';
+      var LMP_TO_EDD_DAYS = 280;
+      var CONCEPTION_TO_EDD_DAYS = 266;
+      var LMP_OFFSET_DAYS = 14;
+      var OBSTETRIC_MONTH_DAYS = 28;
+      var EDD_CI = {
+        ci4: { low: -1, high: 1 },
+        ci21: { low: -4, high: 3 },
+        ci90: { low: -13, high: 6 }
+      };
+      var MODE_LABELS = {
+        lmp: 'Дата последней менструации',
+        conception: 'Дата зачатия',
+        ovulation: 'Дата овуляции',
+        insemination: 'Дата искусственного осеменения'
+      };
+
+      var root = document.querySelector('.fc-calc[data-calculator="' + SLUG + '"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-' + SLUG + '-form');
+      var mode = 'conception';
+      var segments = root.querySelectorAll('.fc-calc__segment');
+      var eventLabel = root.querySelector('#fc-calc-' + SLUG + '-event-label');
+      var eventInput = root.querySelector('#fc-calc-' + SLUG + '-event');
+      var currentInput = root.querySelector('#fc-calc-' + SLUG + '-current');
+      var eventError = root.querySelector('#fc-calc-' + SLUG + '-event-error');
+      var currentError = root.querySelector('#fc-calc-' + SLUG + '-current-error');
+      var formError = root.querySelector('#fc-calc-' + SLUG + '-form-error');
+      var resultWrap = root.querySelector('#fc-calc-' + SLUG + '-result');
+      var elEdd = root.querySelector('#fc-calc-' + SLUG + '-edd');
+      var elCi4 = root.querySelector('#fc-calc-' + SLUG + '-ci4');
+      var elCi90 = root.querySelector('#fc-calc-' + SLUG + '-ci90');
+      var elCi21 = root.querySelector('#fc-calc-' + SLUG + '-ci21');
+      var elGa = root.querySelector('#fc-calc-' + SLUG + '-ga');
+      var elM13 = root.querySelector('#fc-calc-' + SLUG + '-milestone13');
+      var elTrim = root.querySelector('#fc-calc-' + SLUG + '-trimester');
+      var elUs = root.querySelector('#fc-calc-' + SLUG + '-us');
+      var elAntiD = root.querySelector('#fc-calc-' + SLUG + '-antid');
+      var elAntiDDesc = root.querySelector('#fc-calc-' + SLUG + '-antid-desc');
+
+      function todayIso() {
+        var d = new Date();
+        var y = d.getFullYear();
+        var m = String(d.getMonth() + 1).padStart(2, '0');
+        var day = String(d.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + day;
+      }
+
+      function parseIsoDate(str) {
+        if (!str || typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return null;
+        var parts = str.split('-');
+        var d = new Date(Date.UTC(+parts[0], +parts[1] - 1, +parts[2]));
+        if (!isFinite(d.getTime())) return null;
+        if (d.toISOString().slice(0, 10) !== str) return null;
+        return d;
+      }
+
+      function formatIsoDateUTC(d) {
+        return new Date(d.getTime()).toISOString().slice(0, 10);
+      }
+
+      function addDaysUTC(d, days) {
+        var out = new Date(d.getTime());
+        out.setUTCDate(out.getUTCDate() + days);
+        return out;
+      }
+
+      function diffDaysUTC(from, to) {
+        return Math.trunc((to.getTime() - from.getTime()) / 86400000);
+      }
+
+      function formatRuDate(iso) {
+        var d = parseIsoDate(iso);
+        if (!d) return '—';
+        return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + ' г.';
+      }
+
+      function formatRuRange(from, to) {
+        return formatRuDate(from) + '–' + formatRuDate(to);
+      }
+
+      function dateInterval(edd, ci) {
+        return {
+          from: formatIsoDateUTC(addDaysUTC(edd, ci.low)),
+          to: formatIsoDateUTC(addDaysUTC(edd, ci.high))
+        };
+      }
+
+      function lmpFromEvent(m, eventDate) {
+        if (m === 'lmp') return eventDate;
+        return addDaysUTC(eventDate, -LMP_OFFSET_DAYS);
+      }
+
+      function eddFromEvent(m, eventDate) {
+        if (m === 'lmp') return addDaysUTC(eventDate, LMP_TO_EDD_DAYS);
+        return addDaysUTC(eventDate, CONCEPTION_TO_EDD_DAYS);
+      }
+
+      function gestationDaysInclusive(lmp, currentDate) {
+        var days = diffDaysUTC(lmp, currentDate);
+        if (days < 0) return 0;
+        return days + 1;
+      }
+
+      function roundObstetricMonths(days) {
+        return Math.round((days / OBSTETRIC_MONTH_DAYS) * 100) / 100;
+      }
+
+      function calculate(input) {
+        var eventDate = parseIsoDate(input.eventDate);
+        var currentDate = parseIsoDate(input.currentDate);
+        if (!eventDate) throw new Error('Укажите корректную дату');
+        if (!currentDate) throw new Error('Укажите корректную текущую дату');
+        if (eventDate.getTime() > currentDate.getTime()) {
+          throw new Error('Дата события не может быть позже текущей даты');
+        }
+
+        var m = input.mode;
+        var lmp = lmpFromEvent(m, eventDate);
+        var edd = eddFromEvent(m, eventDate);
+        var gestDays = gestationDaysInclusive(lmp, currentDate);
+        var gestMonths = roundObstetricMonths(gestDays);
+
+        return {
+          edd: formatIsoDateUTC(edd),
+          eddCi4: dateInterval(edd, EDD_CI.ci4),
+          eddCi21: dateInterval(edd, EDD_CI.ci21),
+          eddCi90: dateInterval(edd, EDD_CI.ci90),
+          gestationDays: gestDays,
+          gestationObstetricMonths: gestMonths,
+          gestationMilestone13: formatIsoDateUTC(addDaysUTC(lmp, 13 * 7)),
+          firstTrimesterWindowFrom: formatIsoDateUTC(addDaysUTC(lmp, 18 * 7)),
+          firstTrimesterWindowTo: formatIsoDateUTC(addDaysUTC(lmp, 20 * 7)),
+          plannedUltrasound: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7)),
+          antiD28: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7)),
+          antiD34: formatIsoDateUTC(addDaysUTC(lmp, 34 * 7))
+        };
+      }
+
+      function setError(el, msg) {
+        if (el) el.textContent = msg || '';
+      }
+
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function showResults(out) {
+        var gaText =
+          out.gestationDays + ' дн. (' + String(out.gestationObstetricMonths).replace('.', ',') + ' ак. месяцев)';
+        elEdd.textContent = formatRuDate(out.edd);
+        elCi4.textContent = '4% — ' + formatRuRange(out.eddCi4.from, out.eddCi4.to);
+        elCi90.textContent = '90% — ' + formatRuRange(out.eddCi90.from, out.eddCi90.to);
+        elCi21.textContent = '21% — ' + formatRuRange(out.eddCi21.from, out.eddCi21.to);
+        elGa.textContent = gaText;
+        elM13.textContent = formatRuDate(out.gestationMilestone13);
+        elTrim.textContent = formatRuRange(out.firstTrimesterWindowFrom, out.firstTrimesterWindowTo);
+        elUs.textContent = formatRuDate(out.plannedUltrasound);
+        elAntiD.textContent = formatRuDate(out.antiD28);
+        elAntiDDesc.textContent = 'Повторная доза: ' + formatRuDate(out.antiD34) + ' (34 нед.)';
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+      }
+
+      function setMode(next) {
+        mode = next;
+        segments.forEach(function (btn) {
+          btn.classList.toggle('fc-calc__segment--active', btn.getAttribute('data-mode') === mode);
+        });
+        if (eventLabel) eventLabel.textContent = MODE_LABELS[mode] || 'Дата';
+      }
+
+      segments.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setMode(btn.getAttribute('data-mode'));
+        });
+      });
+
+      if (currentInput && !currentInput.value) {
+        currentInput.value = todayIso();
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        setError(eventError, '');
+        setError(currentError, '');
+        setError(formError, '');
+        hideResult();
+
+        try {
+          showResults(
+            calculate({
+              mode: mode,
+              eventDate: eventInput.value,
+              currentDate: currentInput.value
+            })
+          );
+        } catch (err) {
+          setError(formError, err.message || 'Ошибка расчёта');
+        }
+      });
+    })();
+  </script>
+</div>

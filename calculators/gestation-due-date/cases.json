@@ -1,0 +1,39 @@
+{
+  "slug": "gestation-due-date",
+  "source": "akusher-lib.ru — правило Негеле",
+  "cases": [
+    {
+      "name": "conception 2026-06-08",
+      "input": {
+        "mode": "conception",
+        "eventDate": "2026-06-08",
+        "currentDate": "2026-06-08"
+      },
+      "expected": {
+        "edd": "2027-03-01",
+        "lmp": "2026-05-25",
+        "gestationDays": 15,
+        "gestationObstetricMonths": 0.54,
+        "gestationMilestone13": "2026-08-24",
+        "firstTrimesterWindowFrom": "2026-09-28",
+        "firstTrimesterWindowTo": "2026-10-12",
+        "plannedUltrasound": "2026-12-07",
+        "eddCi90": { "from": "2027-02-16", "to": "2027-03-07" },
+        "eddCi21": { "from": "2027-02-25", "to": "2027-03-04" }
+      }
+    },
+    {
+      "name": "lmp 2026-05-25",
+      "input": {
+        "mode": "lmp",
+        "eventDate": "2026-05-25",
+        "currentDate": "2026-06-08"
+      },
+      "expected": {
+        "edd": "2027-03-01",
+        "gestationDays": 15,
+        "gestationMilestone13": "2026-08-24"
+      }
+    }
+  ]
+}

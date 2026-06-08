@@ -1,0 +1,7 @@
+{
+  "slug": "gestation-due-date",
+  "title": "Определение срока беременности и даты родов",
+  "sitePath": "/calculator/gestation-due-date",
+  "source": "akusher-lib.ru — правило и модифицированное правило Негеле",
+  "complexity": "B"
+}
