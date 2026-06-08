@@ -641,27 +641,51 @@
   border-color: var(--fc-blue);
   box-shadow: inset 0 0 0 2px var(--fc-blue);
 }
-/* hydro-balance: ровная сетка полей */
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-section {
-  margin-bottom: 20px;
+/* hydro-balance: секции-панели и сетка полей */
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__head .fc-calc__hint {
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__section {
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__formula {
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: rgba(0, 94, 236, 0.22);
+  background: rgba(0, 94, 236, 0.05);
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
   text-align: left;
-  margin: 0 0 12px;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--3 {
-  grid-template-columns: minmax(0, 1fr);
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
@@ -669,20 +693,15 @@
 }
 
 @media (min-width: 640px) {
-  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-/* Ячейка сетки: подпись → поле → ошибка на фиксированных строках */
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell {
   display: grid;
-  grid-template-rows: minmax(2.75rem, auto) 48px minmax(1.125rem, auto);
-  gap: 8px;
+  grid-template-rows: minmax(2.5rem, auto) 44px minmax(1.125rem, auto);
+  gap: 6px;
   margin-bottom: 0;
   min-width: 0;
   text-align: left;
@@ -691,6 +710,8 @@
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell label {
   align-self: end;
   margin: 0;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.25;
   text-align: left;
 }
@@ -698,54 +719,78 @@
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell input,
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select {
   width: 100%;
-  height: 48px;
-  min-height: 48px;
+  height: 44px;
+  min-height: 44px;
   margin: 0;
+  padding: 0 12px;
+  font-size: 16px;
   box-sizing: border-box;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select {
+  padding-right: 28px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell input:focus,
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell .fc-calc__error {
   min-height: 1.125rem;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.125rem;
   text-align: left;
 }
 
-/* Полноширинные поля */
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full {
-  margin-bottom: 12px;
-  text-align: left;
-}
-
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full:last-child {
+  margin-top: 14px;
   margin-bottom: 0;
+  text-align: left;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
   text-align: left;
 }
 
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input,
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full select {
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input {
   width: 100%;
-  height: 48px;
-  min-height: 48px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
   box-sizing: border-box;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field-hint {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
-  text-align: left;
-  line-height: 1.35;
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--disabled {
-  opacity: 0.55;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__actions {
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__result-wrap {
+  padding: 18px;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-results {
@@ -753,16 +798,30 @@
   gap: 12px;
 }
 
+@media (min-width: 520px) {
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item {
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: var(--fc-bg-surface);
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
   text-align: center;
 }
 
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item--main {
+  grid-column: 1 / -1;
+  padding: 16px 18px;
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.22);
+}
+
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-label {
   margin-bottom: 4px;
+  font-size: 1rem;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-number {
@@ -770,9 +829,14 @@
   font-size: 1.5rem;
 }
 
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item--main .fc-calc__result-number {
+  font-size: 2rem;
+}
+
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-desc {
   margin: 6px 0 0;
   font-size: 14px;
+  opacity: 0.85;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__result-number--positive {
@@ -782,21 +846,59 @@
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__result-number--negative {
   color: #c2410c;
 }
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table {
+  min-width: 520px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table td,
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__notes-body p {
+  text-align: left;
+}
+
+@media (max-width: 479px) {
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--2,
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-panel {
+    padding: 14px;
+  }
+}
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
         <h2 class="fc-calc__title">Расчет гидробаланса</h2>
-        <p class="fc-calc__hint">Суточный водный баланс с учётом физиологической потребности по массе и возрасту.</p>
+        <p class="fc-calc__hint">Суточный водный баланс с учётом физиологической потребности по массе и возрасту</p>
         <p class="fc-calc__formula"><strong>Гидробаланс</strong> = Поступление − Физиологические потери − Патологические потери</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-hydro-balance-form" novalidate>
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Параметры пациента</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--4">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Параметры пациента</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--4">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-weight">Масса тела, кг</label>
                 <input type="number" id="fc-calc-hydro-balance-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="кг" required />
@@ -818,11 +920,13 @@
                 <span class="fc-calc__error" id="fc-calc-hydro-balance-rr-error" role="alert"></span>
               </div>
             </div>
+            </div>
           </div>
 
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Потери, мл/сут</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Потери, мл/сут</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-diuresis">Диурез</label>
                 <input type="number" id="fc-calc-hydro-balance-diuresis" name="diuresisMl" inputmode="decimal" min="0" step="any" placeholder="0" />
@@ -844,11 +948,13 @@
                 <span class="fc-calc__error" aria-hidden="true"></span>
               </div>
             </div>
+            </div>
           </div>
 
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Патологические потери (авто)</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Патологические потери (авто)</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-breathing">Нефизиологическая ИВЛ</label>
                 <select id="fc-calc-hydro-balance-breathing" name="breathingMode">
@@ -868,16 +974,18 @@
                 <span class="fc-calc__error" aria-hidden="true"></span>
               </div>
             </div>
-            <div class="fc-calc__field fc-calc__field--full" id="fc-calc-hydro-balance-surgery-hours-wrap" style="margin-top:12px">
+            <div class="fc-calc__field fc-calc__field--full" id="fc-calc-hydro-balance-surgery-hours-wrap">
               <label for="fc-calc-hydro-balance-surgery-hours">Длительность операции, ч</label>
               <input type="number" id="fc-calc-hydro-balance-surgery-hours" name="surgeryHours" inputmode="decimal" min="0" step="any" placeholder="ч" disabled />
               <span class="fc-calc__error" id="fc-calc-hydro-balance-surgery-hours-error" role="alert"></span>
             </div>
+            </div>
           </div>
 
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Поступление, мл/сут</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Поступление, мл/сут</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-iv">Парентеральное введение</label>
                 <input type="number" id="fc-calc-hydro-balance-iv" name="ivMl" inputmode="decimal" min="0" step="any" placeholder="0" />
@@ -888,6 +996,7 @@
                 <input type="number" id="fc-calc-hydro-balance-enteral" name="enteralMl" inputmode="decimal" min="0" step="any" placeholder="0" />
                 <span class="fc-calc__error" aria-hidden="true"></span>
               </div>
+            </div>
             </div>
           </div>
         </form>
@@ -924,21 +1033,101 @@
 
     <details class="fc-calc__notes">
       <summary class="fc-calc__notes-summary">
-        <span class="fc-calc__notes-title">Справка и предупреждения</span>
+        <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p><strong>Формула:</strong> Гидробаланс = Парентеральное + Энтеральное введение − Диурез − Патологические потери.</p>
-        <p><strong>ФП:</strong> до 65 лет — 30; 65–75 — 25; старше 75 — 20 мл/кг/сут.</p>
-        <p><strong>Автоматически учитываются в патологических потерях:</strong></p>
-        <ul>
-          <li>Внепочечные физиологические потери — 0,4×ФП</li>
-          <li>Лихорадка — 3 / 6 / 9 / 12 / 15 мл/кг при t° 37,5–38,5 / 38,5–39,5 / … / ≥41,5 °C</li>
-          <li>Одышка — 10 / 20 / 30 / 40 / 50 мл/кг при ЧД 25–35 / 35–45 / … / ≥65 /мин</li>
-          <li>ИВЛ без увлажнения (РО-6) — 1000 мл/сут</li>
-          <li>Операция — 2 / 4 / 6 мл/кг/ч (верхняя граница диапазона)</li>
-        </ul>
-        <p><strong>Справочно:</strong> должный диурез — 20 мл/кг/сут; внепочечные потери — 0,4×ФП.</p>
+        <p>Физиологическая потребность (<strong>ФП</strong>) — потребность организма в жидкости в единицу времени (сутки). Зависит от возраста: до 65 лет — 30 мл/кг/сут., 65–75 лет — 25 мл/кг/сут., старше 75 лет — 20 мл/кг/сут.</p>
+        <p>Таким образом формула расчёта:</p>
+        <p><strong>Гидробаланс</strong> = Внутривенная инфузия + Энтеральное введение − Физиологические потери − Патологические потери</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Вид потери жидкости организмом</th>
+                <th>Количество теряемой жидкости в сутки</th>
+                <th>Состав</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3"><strong>Физиологические потери</strong></td></tr>
+              <tr>
+                <td>Нормальное дыхание</td>
+                <td rowspan="3">В общей сумме физиологические внепочечные потери составляют 10 мл/кг м.т. (1/3&nbsp;ФП)</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация через кожу</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Нормальный стул</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Физиологический диурез</td>
+                <td>20 мл/кг м.т. (2/3&nbsp;ФП)</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr><td colspan="3"><strong>Патологические потери</strong></td></tr>
+              <tr>
+                <td>Потери с лихорадкой</td>
+                <td>3 мл/кг м.т. (0,1&nbsp;ФП) на каждый градус выше 37,5&nbsp;°C</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Потери с одышкой</td>
+                <td>10 мл/кг м.т. на каждые 10 дыханий в минуту выше 25</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Потери при ИВЛ без увлажнения и согревания газовой смеси (аппарат РО-6)</td>
+                <td>1000 мл/сут</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Потери при ИВЛ с увлажнением и согреванием газовой смеси (аппарат Vela)</td>
+                <td>0 мл/сут</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Потери с неушитой лапаротомной раны под повязкой</td>
+                <td>1–2 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация из раны при минимальной травматизации (паховая грыжа)</td>
+                <td>1–2 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация из раны при средней травматизации (холецистэктомия)</td>
+                <td>2–4 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация из раны при тяжёлой травматизации (кишечная непроходимость, резекция желудка)</td>
+                <td>4–6 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Рвота, отделяемое по зонду</td>
+                <td>—</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Отделяемое по дренажам</td>
+                <td>—</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Патологический диурез (полиурия)</td>
+                <td>—</td>
+                <td>Вода + электролиты</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p>Рвота, дренажи и прочие потери вводятся вручную. Патологический диурез учитывается в поле «Диурез».</p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
@@ -1153,8 +1342,7 @@
         else if (balance < 0) resultDesc.textContent = 'Отрицательный гидробаланс (дефицит жидкости)';
         else resultDesc.textContent = 'Нулевой гидробаланс';
 
-        root.querySelector('#fc-calc-hydro-balance-result-fp').textContent =
-          formatMl(fpInfo.fp) + ' (' + fpInfo.method + ')';
+        root.querySelector('#fc-calc-hydro-balance-result-fp').textContent = formatMl(fpInfo.fp);
         root.querySelector('#fc-calc-hydro-balance-result-diuresis').textContent = formatMl(expectedDiuresis);
         root.querySelector('#fc-calc-hydro-balance-result-physio').textContent = formatMl(extrarenal);
         var diuresisNote = root.querySelector('#fc-calc-hydro-balance-result-diuresis-note');

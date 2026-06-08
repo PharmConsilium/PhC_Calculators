@@ -1,0 +1,127 @@
+/* glasgow-coma: списки вариантов */
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-option {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__gcs-option-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__result-number--normal {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__result-number--mild {
+  color: #0f766e;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__result-number--moderate {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__result-number--severe {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__table {
+  min-width: 520px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__table td,
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__table .fc-calc__table-criterion {
+  font-weight: 600;
+  background: var(--fc-bg-page);
+}
+
+.fc-calc[data-calculator="glasgow-coma"] .fc-calc__notes-body p {
+  text-align: left;
+}

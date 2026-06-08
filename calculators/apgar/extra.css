@@ -1,0 +1,118 @@
+/* apgar: списки вариантов как на эталонном скрине */
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__result-number--normal {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__result-number--intermediate {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__result-number--low {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table {
+  min-width: 560px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table td,
+.fc-calc[data-calculator="apgar"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__notes-body p {
+  text-align: left;
+}

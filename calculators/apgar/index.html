@@ -1,8 +1,8 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Расчет физиологической потребности в жидкости
+  Название: Шкала Апгар
 -->
-<div class="fc-calc" data-calculator="fluid-req">
+<div class="fc-calc" data-calculator="apgar">
   <style>
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
@@ -641,72 +641,233 @@
   border-color: var(--fc-blue);
   box-shadow: inset 0 0 0 2px var(--fc-blue);
 }
-
-/* fluid-req: три показателя в результате */
-.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-results {
-  display: grid;
-  gap: 12px;
+/* apgar: списки вариантов как на эталонном скрине */
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item {
-  padding: 10px 12px;
-  background: var(--fc-bg-surface);
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-options {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
 }
 
-.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item .fc-calc__result-label {
-  margin-bottom: 4px;
-}
-
-.fc-calc[data-calculator="fluid-req"] .fc-calc__fluid-result-item .fc-calc__result-number {
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option {
+  display: block;
   margin: 0;
-  font-size: 1.5rem;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  transition: background 0.15s ease;
 }
 
-.fc-calc[data-calculator="fluid-req"] .fc-calc__result-desc {
-  margin-top: 12px;
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__apgar-option-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__result-number--normal {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__result-number--intermediate {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__result-number--low {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table {
+  min-width: 560px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__table td,
+.fc-calc[data-calculator="apgar"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="apgar"] .fc-calc__notes-body p {
+  text-align: left;
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Расчет физиологической потребности в жидкости</h2>
-        <p class="fc-calc__hint">Объём внутривенной инфузионной терапии для обеспечения физиологической потребности в жидкости по правилу 4-2-1.</p>
-        <p class="fc-calc__formula"><strong>0–10 кг:</strong> 4 мл/кг/ч &nbsp;|&nbsp; <strong>10–20 кг:</strong> +2 мл/кг/ч &nbsp;|&nbsp; <strong>&gt;20 кг:</strong> +1 мл/кг/ч</p>
+        <h2 class="fc-calc__title">Шкала Апгар</h2>
+        <p class="fc-calc__hint">Оценка состояния новорождённого по 5 критериям (0–2 балла каждый)</p>
       </header>
 
       <div class="fc-calc__body">
-        <form class="fc-calc__form" id="fc-calc-fluid-req-form" novalidate>
-          <div class="fc-calc__field">
-            <label for="fc-calc-fluid-req-weight">Масса тела (кг)</label>
-            <input type="number" id="fc-calc-fluid-req-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="кг" />
-            <span class="fc-calc__error" id="fc-calc-fluid-req-weight-error" role="alert"></span>
+        <form class="fc-calc__form" id="fc-calc-apgar-form" novalidate>
+          <div class="fc-calc__apgar-groups">
+            <fieldset class="fc-calc__apgar-group">
+              <legend class="fc-calc__apgar-legend">Окраска кожи</legend>
+              <div class="fc-calc__apgar-options">
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="appearance" value="0" />
+                  <span class="fc-calc__apgar-option-text">Генерализованная бледность или генерализованный цианоз</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="appearance" value="1" />
+                  <span class="fc-calc__apgar-option-text">Розовая окраска тела и синюшная окраска конечностей (акроцианоз)</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="appearance" value="2" />
+                  <span class="fc-calc__apgar-option-text">Розовая окраска всего тела и конечностей</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__apgar-group">
+              <legend class="fc-calc__apgar-legend">Частота сердечных сокращений</legend>
+              <div class="fc-calc__apgar-options">
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="pulse" value="0" />
+                  <span class="fc-calc__apgar-option-text">Отсутствует</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="pulse" value="1" />
+                  <span class="fc-calc__apgar-option-text">Менее 100 ударов в минуту</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="pulse" value="2" />
+                  <span class="fc-calc__apgar-option-text">100 и более ударов в минуту</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__apgar-group">
+              <legend class="fc-calc__apgar-legend">Рефлекторная возбудимость</legend>
+              <div class="fc-calc__apgar-options">
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="grimace" value="0" />
+                  <span class="fc-calc__apgar-option-text">Не реагирует</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="grimace" value="1" />
+                  <span class="fc-calc__apgar-option-text">Реакция слабо выражена (гримаса, движение)</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="grimace" value="2" />
+                  <span class="fc-calc__apgar-option-text">Реакция в виде движения, кашля, чихания, громкого крика</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__apgar-group">
+              <legend class="fc-calc__apgar-legend">Мышечный тонус</legend>
+              <div class="fc-calc__apgar-options">
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="activity" value="0" />
+                  <span class="fc-calc__apgar-option-text">Отсутствует, конечности свисают</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="activity" value="1" />
+                  <span class="fc-calc__apgar-option-text">Снижен, некоторое сгибание конечностей</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="activity" value="2" />
+                  <span class="fc-calc__apgar-option-text">Выражены активные движения</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__apgar-group">
+              <legend class="fc-calc__apgar-legend">Дыхание</legend>
+              <div class="fc-calc__apgar-options">
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="respiration" value="0" />
+                  <span class="fc-calc__apgar-option-text">Отсутствует</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="respiration" value="1" />
+                  <span class="fc-calc__apgar-option-text">Нерегулярное, крик слабый (гиповентиляция)</span>
+                </label>
+                <label class="fc-calc__apgar-option">
+                  <input type="radio" name="respiration" value="2" />
+                  <span class="fc-calc__apgar-option-text">Нормальное, крик громкий</span>
+                </label>
+              </div>
+            </fieldset>
           </div>
         </form>
       </div>
 
       <div class="fc-calc__actions">
-        <button type="submit" id="fc-calc-fluid-req-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-fluid-req-form" disabled>Рассчитать</button>
+        <button type="submit" id="fc-calc-apgar-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-apgar-form" disabled>Рассчитать</button>
       </div>
 
-      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-fluid-req-result" aria-live="polite">
-        <div class="fc-calc__fluid-results">
-          <div class="fc-calc__fluid-result-item">
-            <p class="fc-calc__result-label">Объем поддержания</p>
-            <p class="fc-calc__result-number" id="fc-calc-fluid-req-result-maintenance">—</p>
-          </div>
-          <div class="fc-calc__fluid-result-item">
-            <p class="fc-calc__result-label">Суточный объем</p>
-            <p class="fc-calc__result-number" id="fc-calc-fluid-req-result-daily">—</p>
-          </div>
-          <div class="fc-calc__fluid-result-item">
-            <p class="fc-calc__result-label">Болюс</p>
-            <p class="fc-calc__result-number" id="fc-calc-fluid-req-result-bolus">—</p>
-          </div>
-        </div>
-        <p class="fc-calc__result-desc" id="fc-calc-fluid-req-result-desc"></p>
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-apgar-result" aria-live="polite">
+        <p class="fc-calc__result-label">Общий результат</p>
+        <p class="fc-calc__result-number" id="fc-calc-apgar-result-number">—</p>
+        <p class="fc-calc__result-desc" id="fc-calc-apgar-result-desc"></p>
       </div>
     </div>
 
@@ -716,16 +877,63 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p>Калькулятор может быть использован для расчёта потребностей в жидкости у пациентов, не получающих воду перорально (послеоперационный период, дегидратация, рвота и др.).</p>
-        <p><strong>Формула (правило 4-2-1):</strong></p>
-        <ul>
-          <li>0–10 кг: 4 мл/кг/ч</li>
-          <li>10–20 кг: +2 мл/кг/ч (к первым 40 мл/ч)</li>
-          <li>&gt;20 кг: +1 мл/кг/ч (к первым 60 мл/ч)</li>
-        </ul>
-        <p><strong>Примеры поддержания:</strong> 5 кг → 20 мл/ч; 15 кг → 50 мл/ч; 70 кг → 110 мл/ч.</p>
-        <p><strong>Болюс (методика АВС):</strong> 20 мл/кг — ориентировочный объём болюсной инфузии при острой дегидратации (до 3 болюсов по клиническому состоянию).</p>
-        <p class="fc-calc__hint">Источник: В.И. Гордеев, Ю.С. Александрович. АВС инфузионной терапии и парентерального питания в педиатрии. СПб, 2006.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Критерии</th>
+                <th>Мнемонический</th>
+                <th>0</th>
+                <th>1</th>
+                <th>2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Окраска кожи</td>
+                <td>Внешний вид</td>
+                <td>Генерализованная бледность или генерализованный цианоз</td>
+                <td>Розовая окраска тела и синюшная окраска конечностей (акроцианоз)</td>
+                <td>Розовая окраска всего тела и конечностей</td>
+              </tr>
+              <tr>
+                <td>Частота сердечных сокращений</td>
+                <td>Пульс</td>
+                <td>Отсутствует</td>
+                <td>Менее 100 ударов в минуту</td>
+                <td>100 и более ударов в минуту</td>
+              </tr>
+              <tr>
+                <td>Рефлекторная возбудимость</td>
+                <td>Гримаса</td>
+                <td>Не реагирует</td>
+                <td>Реакция слабо выражена (гримаса, движение)</td>
+                <td>Реакция в виде движения, кашля, чихания, громкого крика</td>
+              </tr>
+              <tr>
+                <td>Мышечный тонус</td>
+                <td>Активность</td>
+                <td>Отсутствует, конечности свисают</td>
+                <td>Снижен, некоторое сгибание конечностей</td>
+                <td>Выражены активные движения</td>
+              </tr>
+              <tr>
+                <td>Дыхание</td>
+                <td>Дыхание</td>
+                <td>Отсутствует</td>
+                <td>Нерегулярное, крик слабый (гиповентиляция)</td>
+                <td>Нормальное, крик громкий</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Общая оценка <strong>7–10</strong> баллов считается нормальной, <strong>4–6</strong> — промежуточной, <strong>0–3</strong> — низкой.</p>
+        <p><strong>Источники:</strong></p>
+        <ol>
+          <li>Apgar V. A proposal of a New Method of Evaluation of the Newborn Infant. <em>Current Researches in Anesthesia and Analgesia.</em> 1953, 32: 261-267. PubMed ID: 13083014</li>
+          <li>Apgar V, Holaday DA, James LS, et al. Evaluation of the newborn infant. <em>JAMA.</em> 1958, 168: 1985-1988. PubMed ID: 13598635</li>
+          <li>Casey BM, McIntire DD, Leveno KJ. The continuing value of the Apgar score for the assessment of newborn infants. <em>N Engl J Med.</em> 2001 Feb 15;344(7):467-71. PubMed ID: 11172187</li>
+        </ol>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
@@ -739,104 +947,67 @@
 
   <script>
 (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="fluid-req"]');
+      var root = document.querySelector('.fc-calc[data-calculator="apgar"]');
       if (!root) return;
 
-      var form = root.querySelector('#fc-calc-fluid-req-form');
-      var calcBtn = root.querySelector('#fc-calc-fluid-req-btn');
-      var weightInput = root.querySelector('#fc-calc-fluid-req-weight');
-      var weightError = root.querySelector('#fc-calc-fluid-req-weight-error');
-      var resultWrap = root.querySelector('#fc-calc-fluid-req-result');
-      var resultMaintenance = root.querySelector('#fc-calc-fluid-req-result-maintenance');
-      var resultDaily = root.querySelector('#fc-calc-fluid-req-result-daily');
-      var resultBolus = root.querySelector('#fc-calc-fluid-req-result-bolus');
-      var resultDesc = root.querySelector('#fc-calc-fluid-req-result-desc');
-
-      function roundHalfUp(value, decimals) {
-        var factor = Math.pow(10, decimals);
-        return Math.round(value * factor + Number.EPSILON) / factor;
-      }
-
-      function parseWeight(value) {
-        var s = String(value || '').trim().replace(',', '.');
-        if (!s) return null;
-        if (!/^\d+(\.\d+)?$/.test(s)) return { error: true };
-        var n = Number(s);
-        if (!Number.isFinite(n) || n <= 0) return { error: true };
-        if (n > 500) return { error: true, message: 'Укажите массу до 500 кг' };
-        return n;
-      }
-
-      function formatNum(n, decimals) {
-        if (!Number.isFinite(n)) return '';
-        return String(roundHalfUp(n, decimals == null ? 1 : decimals)).replace('.', ',');
-      }
-
-      function fluidRate421(weightKg) {
-        var rate;
-        var breakdown;
-        if (weightKg <= 10) {
-          rate = 4 * weightKg;
-          breakdown = '4 × ' + formatNum(weightKg, 2) + ' = ' + formatNum(rate) + ' мл/ч';
-        } else if (weightKg <= 20) {
-          var extra10 = weightKg - 10;
-          rate = 40 + 2 * extra10;
-          breakdown = '40 + 2 × ' + formatNum(extra10, 2) + ' = ' + formatNum(rate) + ' мл/ч';
-        } else {
-          var extra20 = weightKg - 20;
-          rate = 60 + extra20;
-          breakdown = '60 + 1 × ' + formatNum(extra20, 2) + ' = ' + formatNum(rate) + ' мл/ч';
-        }
-        return {
-          maintenanceMlPerHour: roundHalfUp(rate, 1),
-          dailyMl: roundHalfUp(rate * 24, 0),
-          bolusMl: roundHalfUp(weightKg * 20, 0),
-          breakdown: breakdown,
-        };
-      }
+      var form = root.querySelector('#fc-calc-apgar-form');
+      var calcBtn = root.querySelector('#fc-calc-apgar-btn');
+      var criteriaIds = ['appearance', 'pulse', 'grimace', 'activity', 'respiration'];
 
       function hideResult() {
-        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        root.querySelector('#fc-calc-apgar-result').classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function getSelectedScores() {
+        var scores = {};
+        var complete = true;
+        for (var i = 0; i < criteriaIds.length; i++) {
+          var id = criteriaIds[i];
+          var checked = form.querySelector('input[name="' + id + '"]:checked');
+          if (!checked) {
+            complete = false;
+            continue;
+          }
+          scores[id] = Number(checked.value);
+        }
+        return { scores: scores, complete: complete };
+      }
+
+      function interpret(total) {
+        if (total >= 7) return { category: 'normal', text: 'Нормальная оценка (7–10 баллов)' };
+        if (total >= 4) return { category: 'intermediate', text: 'Промежуточная оценка (4–6 баллов)' };
+        return { category: 'low', text: 'Низкая оценка (0–3 балла)' };
       }
 
       function updateButton() {
-        var w = parseWeight(weightInput.value);
-        var ok = w !== null && !w.error;
+        var ok = getSelectedScores().complete;
         calcBtn.disabled = !ok;
         calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
       }
 
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        weightError.textContent = '';
-        hideResult();
-
-        var weight = parseWeight(weightInput.value);
-        if (weight === null || weight.error) {
-          weightError.textContent =
-            weight && weight.message ? weight.message : 'Укажите массу тела больше 0';
-          return;
-        }
-
-        var out = fluidRate421(weight);
-        resultMaintenance.textContent = formatNum(out.maintenanceMlPerHour) + ' мл/ч';
-        resultDaily.textContent = String(out.dailyMl).replace('.', ',') + ' мл';
-        resultBolus.textContent = String(out.bolusMl).replace('.', ',') + ' мл';
-        resultDesc.textContent = 'Правило 4-2-1: ' + out.breakdown + '; болюс: 20 × ' + formatNum(weight, 2) + ' = ' + String(out.bolusMl).replace('.', ',') + ' мл';
-        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
-      });
-
-      weightInput.addEventListener('input', function () {
+      form.addEventListener('change', function () {
         hideResult();
         updateButton();
       });
-      weightInput.addEventListener(
-        'wheel',
-        function (e) {
-          if (document.activeElement === weightInput) e.preventDefault();
-        },
-        { passive: false }
-      );
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var parsed = getSelectedScores();
+        if (!parsed.complete) return;
+
+        var total = 0;
+        for (var i = 0; i < criteriaIds.length; i++) {
+          total += parsed.scores[criteriaIds[i]];
+        }
+
+        var info = interpret(total);
+        var resultNumber = root.querySelector('#fc-calc-apgar-result-number');
+        resultNumber.textContent = String(total);
+        resultNumber.className = 'fc-calc__result-number fc-calc__result-number--' + info.category;
+
+        root.querySelector('#fc-calc-apgar-result-desc').textContent = info.text;
+        root.querySelector('#fc-calc-apgar-result').classList.remove('fc-calc__result-wrap--hidden');
+      });
 
       updateButton();
     })();

@@ -1,0 +1,1056 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Модель Гейла для риска развития рака молочной железы на протяжении 5 лет
+-->
+<div class="fc-calc" data-calculator="gail-breast">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+/* gail-breast */
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-option {
+  display: block;
+  margin: 0;
+  border-bottom: 1px solid var(--fc-border);
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-option-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="gail-breast"] select {
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  padding: 0 12px;
+  font-size: 15px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-results {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 480px) {
+  .fc-calc[data-calculator="gail-breast"] .fc-calc__gail-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__gail-result-item {
+  padding: 12px 14px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__sources {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__source-item {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: 8px;
+}
+
+.fc-calc[data-calculator="gail-breast"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="gail-breast"] .fc-calc__notes-body li {
+  text-align: left;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Модель Гейла для риска развития рака молочной железы на протяжении 5 лет</h2>
+        <p class="fc-calc__hint">Модель Гейла для стратификации риска развития рака молочной железы в ближайшие 5 лет (публикация 1999 г.)</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-gail-breast-form" novalidate>
+          <div class="fc-calc__gail-groups">
+            <div class="fc-calc__gail-field">
+              <label>Возраст менархе</label>
+              <div class="fc-calc__gail-options">
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="menarche" value="ge14" data-coef="1" />
+                  <span class="fc-calc__gail-option-text">Возраст начала менструаций ≥14 лет</span>
+                </label>
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="menarche" value="12_13" data-coef="1.1" />
+                  <span class="fc-calc__gail-option-text">12–13 лет</span>
+                </label>
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="menarche" value="lt12" data-coef="1.21" />
+                  <span class="fc-calc__gail-option-text"><12 лет</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="fc-calc__gail-field">
+              <label for="fc-calc-gail-breast-biopsies">Кол-во биопсий</label>
+              <select id="fc-calc-gail-breast-biopsies" name="fc-calc-gail-breast-biopsies" required>
+                <option value="">Выберите вариант</option>
+                <optgroup label="Возраст на консультации <50 лет">
+                  <option value="u50_0" data-coef="1">Нет биопсий</option>
+                  <option value="u50_1" data-coef="1.7">1 биопсия</option>
+                  <option value="u50_2" data-coef="2.88">≥2 биопсий</option>
+                </optgroup>
+                <optgroup label="Возраст на консультации ≥50 лет">
+                  <option value="ge50_0" data-coef="1">Нет биопсий</option>
+                  <option value="ge50_1" data-coef="1.27">1 биопсия</option>
+                  <option value="ge50_2" data-coef="1.62">≥2 биопсий</option>
+                </optgroup>
+              </select>
+              <span class="fc-calc__hint fc-calc__field-hint">Связан с возрастом на консультации</span>
+            </div>
+
+            <div class="fc-calc__gail-field">
+              <label for="fc-calc-gail-breast-first-birth">Возраст РПР, кол-во родственников</label>
+              <select id="fc-calc-gail-breast-first-birth" name="fc-calc-gail-breast-first-birth" required>
+                <option value="">Выберите вариант</option>
+                <optgroup label="Возраст при рождении первого ребёнка <20 лет">
+                  <option value="lt20_0" data-coef="1">Нет родственников 1-й степени с РМЖ</option>
+                  <option value="lt20_1" data-coef="2.61">1 родственник 1-й степени с РМЖ</option>
+                  <option value="lt20_2" data-coef="6.8">≥2 родственников 1-й степени с РМЖ</option>
+                </optgroup>
+                <optgroup label="Возраст при рождении первого ребёнка 20–24 года">
+                  <option value="20_24_0" data-coef="1.24">Нет родственников 1-й степени с РМЖ</option>
+                  <option value="20_24_1" data-coef="2.68">1 родственник 1-й степени с РМЖ</option>
+                  <option value="20_24_2" data-coef="5.78">≥2 родственников 1-й степени с РМЖ</option>
+                </optgroup>
+                <optgroup label="Возраст при рождении первого ребёнка 25–29 лет или nullipara">
+                  <option value="25_29_0" data-coef="1.55">Нет родственников 1-й степени с РМЖ</option>
+                  <option value="25_29_1" data-coef="2.76">1 родственник 1-й степени с РМЖ</option>
+                  <option value="25_29_2" data-coef="4.91">≥2 родственников 1-й степени с РМЖ</option>
+                </optgroup>
+                <optgroup label="Возраст при рождении первого ребёнка ≥30 лет">
+                  <option value="ge30_0" data-coef="1.93">Нет родственников 1-й степени с РМЖ</option>
+                  <option value="ge30_1" data-coef="2.83">1 родственник 1-й степени с РМЖ</option>
+                  <option value="ge30_2" data-coef="4.17">≥2 родственников 1-й степени с РМЖ</option>
+                </optgroup>
+              </select>
+              <span class="fc-calc__hint fc-calc__field-hint">Возраст при рождении первого ребёнка и родственники 1-й степени с РМЖ</span>
+            </div>
+
+            <div class="fc-calc__gail-field">
+              <label>Атипичная гиперплазия</label>
+              <div class="fc-calc__gail-options">
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="atypicalHyperplasia" value="none" data-coef="1" />
+                  <span class="fc-calc__gail-option-text">Биопсии не выполнялись</span>
+                </label>
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="atypicalHyperplasia" value="no_atyp" data-coef="0.93" />
+                  <span class="fc-calc__gail-option-text">Была выполнена, по крайней мере, одна биопсия, атипичная гиперплазия не выявлена</span>
+                </label>
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="atypicalHyperplasia" value="unknown" data-coef="1" />
+                  <span class="fc-calc__gail-option-text">Атипичная гиперплазия не выявлена, статус гиперплазии неизвестен для ≥1 биоптата</span>
+                </label>
+                <label class="fc-calc__gail-option">
+                  <input type="radio" name="atypicalHyperplasia" value="atyp" data-coef="1.82" />
+                  <span class="fc-calc__gail-option-text">Атипичная гиперплазия выявлена, по крайней мере, в одном биоптате</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="fc-calc__gail-field">
+              <label for="fc-calc-gail-breast-age-race">Возраст, раса на исходном уровне</label>
+              <select id="fc-calc-gail-breast-age-race" name="fc-calc-gail-breast-age-race" required>
+                <option value="">Выберите вариант</option>
+                <optgroup label="Чернокожие женщины">
+                  <option value="b_20_24" data-coef="0.014">20–24 года</option>
+                  <option value="b_25_29" data-coef="0.05">25–29 лет</option>
+                  <option value="b_30_34" data-coef="0.12">30–34 года</option>
+                  <option value="b_35_39" data-coef="0.224">35–39 лет</option>
+                  <option value="b_40_44" data-coef="0.31">40–44 года</option>
+                  <option value="b_45_49" data-coef="0.355">45–49 лет</option>
+                  <option value="b_50_54" data-coef="0.416">50–54 года</option>
+                  <option value="b_55_59" data-coef="0.511">55–59 лет</option>
+                  <option value="b_60_64" data-coef="0.562">60–64 года</option>
+                  <option value="b_65_69" data-coef="0.586">65–69 лет</option>
+                  <option value="b_70_74" data-coef="0.646">70–74 года</option>
+                  <option value="b_75_79" data-coef="0.713">75–79 лет</option>
+                  <option value="b_80_84" data-coef="0.659">80–84 года</option>
+                </optgroup>
+                <optgroup label="Белые женщины">
+                  <option value="w_20_24" data-coef="0.012">20–24 года</option>
+                  <option value="w_25_29" data-coef="0.049">25–29 лет</option>
+                  <option value="w_30_34" data-coef="0.134">30–34 года</option>
+                  <option value="w_35_39" data-coef="0.278">35–39 лет</option>
+                  <option value="w_40_44" data-coef="0.45">40–44 года</option>
+                  <option value="w_45_49" data-coef="0.584">45–49 лет</option>
+                  <option value="w_50_54" data-coef="0.703">50–54 года</option>
+                  <option value="w_55_59" data-coef="0.859">55–59 лет</option>
+                  <option value="w_60_64" data-coef="1.018">60–64 года</option>
+                  <option value="w_65_69" data-coef="1.116">65–69 лет</option>
+                  <option value="w_70_74" data-coef="1.157">70–74 года</option>
+                  <option value="w_75_79" data-coef="1.14">75–79 лет</option>
+                  <option value="w_80_84" data-coef="1.006">80–84 года</option>
+                </optgroup>
+              </select>
+              <span class="fc-calc__hint fc-calc__field-hint">Текущий возраст и раса пациентки</span>
+            </div>
+
+            <div class="fc-calc__gail-field">
+              <label for="fc-calc-gail-breast-decimals">Десятичная точность</label>
+              <select id="fc-calc-gail-breast-decimals" name="decimals">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-gail-breast-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-gail-breast-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-gail-breast-result" aria-live="polite">
+        <div class="fc-calc__gail-results">
+          <div class="fc-calc__gail-result-item">
+            <p class="fc-calc__result-label">Относит. риск</p>
+            <p class="fc-calc__result-number" id="fc-calc-gail-breast-result-rr">—</p>
+          </div>
+          <div class="fc-calc__gail-result-item">
+            <p class="fc-calc__result-label">Пятилетний риск</p>
+            <p class="fc-calc__result-number" id="fc-calc-gail-breast-result-five">—</p>
+          </div>
+        </div>
+        <p class="fc-calc__result-desc" id="fc-calc-gail-breast-result-desc"></p>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Убедитесь, что просмотрены все выпадающие варианты — могут быть выбраны несколько факторов риска, если они взаимосвязаны.</p>
+        <ul>
+          <li><strong>Кол-во биопсий</strong> — число ранее выполненных биопсий молочной железы. Связан с возрастом на консультации.</li>
+          <li><strong>Возраст РПР, кол-во родственников</strong> — возраст при рождении первого ребёнка. Связан с числом родственников 1-й степени с раком молочной железы.</li>
+          <li><strong>Возраст, раса</strong> — текущий возраст пациентки. Связан с расой.</li>
+        </ul>
+        <p><strong>Используемые уравнения:</strong></p>
+        <p>Относит. риск = Возраст менархе × Кол-во биопсий × Возраст РПР × Кол-во родст. × Атипичн. гиперплазия</p>
+        <p>Пятилетний риск = Относит. риск × Возраст/раса на исходном уровне</p>
+        <p>Цифры в скобках в исходной модели — дискретные коэффициенты, используемые в расчёте.</p>
+        <p><strong>Ссылки:</strong></p>
+        <div class="fc-calc__sources">
+          <p class="fc-calc__source-item">Gail MH, Constantino JP, Bryant J, et al. Weighing the Risks and Benefits of Tamoxifen Treatment for Preventing Breast Cancer. <em>J Natl Cancer Inst.</em> 1999;91(21):1829-1846. PubMed ID: 10547390</p>
+          <p class="fc-calc__source-item">Costantino JP, Gail MH, Pee D, et al. Validation studies for models projecting the risk of invasive and total breast cancer incidence. <em>J Natl Cancer Inst.</em> 1999 Sep 15;91(18):1541-8. PubMed ID: 10491430</p>
+        </div>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="gail-breast"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-gail-breast-form');
+      var calcBtn = root.querySelector('#fc-calc-gail-breast-btn');
+      var requiredSelects = [
+        'fc-calc-gail-breast-biopsies',
+        'fc-calc-gail-breast-first-birth',
+        'fc-calc-gail-breast-age-race',
+      ];
+      var requiredRadios = ['menarche', 'atypicalHyperplasia'];
+
+      function hideResult() {
+        root.querySelector('#fc-calc-gail-breast-result').classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function formatNum(n, decimals) {
+        return String(n).replace('.', ',');
+      }
+
+      function isReady() {
+        for (var i = 0; i < requiredRadios.length; i++) {
+          if (!form.querySelector('input[name="' + requiredRadios[i] + '"]:checked')) return false;
+        }
+        for (var j = 0; j < requiredSelects.length; j++) {
+          var sel = root.querySelector('#' + requiredSelects[j]);
+          if (!sel || !sel.value) return false;
+        }
+        return true;
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      function getDecimals() {
+        var sel = root.querySelector('#fc-calc-gail-breast-decimals');
+        return sel ? Number(sel.value) : 2;
+      }
+
+      function roundHalfUp(value, decimals) {
+        var factor = Math.pow(10, decimals);
+        return Math.round(value * factor + Number.EPSILON) / factor;
+      }
+
+      function getCoef(mapId) {
+        var el = root.querySelector('#' + mapId);
+        return el && el.value ? Number(el.options[el.selectedIndex].dataset.coef) : null;
+      }
+
+      function getRadioCoef(name) {
+        var checked = form.querySelector('input[name="' + name + '"]:checked');
+        return checked ? Number(checked.dataset.coef) : null;
+      }
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!isReady()) return;
+
+        var menarche = getRadioCoef('menarche');
+        var biopsies = getCoef('fc-calc-gail-breast-biopsies');
+        var firstBirth = getCoef('fc-calc-gail-breast-first-birth');
+        var atypical = getRadioCoef('atypicalHyperplasia');
+        var baseline = getCoef('fc-calc-gail-breast-age-race');
+        var decimals = getDecimals();
+
+        var relativeRisk = roundHalfUp(menarche * biopsies * firstBirth * atypical, decimals);
+        var fiveYearRisk = roundHalfUp(relativeRisk * baseline, decimals);
+
+        root.querySelector('#fc-calc-gail-breast-result-rr').textContent = formatNum(relativeRisk, decimals);
+        root.querySelector('#fc-calc-gail-breast-result-five').textContent =
+          formatNum(fiveYearRisk, decimals) + '%';
+
+        var desc = root.querySelector('#fc-calc-gail-breast-result-desc');
+        desc.textContent =
+          fiveYearRisk >= 1.67
+            ? 'Повышенный 5-летний риск (≥1,67%)'
+            : '5-летний риск ниже порога 1,67%';
+
+        root.querySelector('#fc-calc-gail-breast-result').classList.remove('fc-calc__result-wrap--hidden');
+      });
+
+      updateButton();
+    })();
+  </script>
+</div>

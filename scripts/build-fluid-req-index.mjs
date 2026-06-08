@@ -62,7 +62,7 @@ ${extra.trim() ? '\n' + extra.trim() : ''}
 
     <details class="fc-calc__notes">
       <summary class="fc-calc__notes-summary">
-        <span class="fc-calc__notes-title">Справка и предупреждения</span>
+        <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">

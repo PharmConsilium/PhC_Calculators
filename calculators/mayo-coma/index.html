@@ -1,0 +1,1167 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Шкала комы Мэйо
+-->
+<div class="fc-calc" data-calculator="mayo-coma">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+/* mayo-coma (FOUR): списки вариантов */
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--clear {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--somnolence,
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--stupor {
+  color: #0f766e;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--sopor {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--coma {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--brain-death {
+  color: #991b1b;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__table {
+  min-width: 420px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__table td,
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__notes-body li {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__coma-block {
+  margin: 14px 0;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__coma-block-title {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Шкала комы Мэйо</h2>
+        <p class="fc-calc__hint">FOUR (Full Outline of UnResponsiveness) — оценка уровня сознания у в том числе интубированных пациентов</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-mayo-coma-form" novalidate>
+          <div class="fc-calc__four-groups">
+            <fieldset class="fc-calc__four-group">
+              <legend class="fc-calc__four-legend">Глазные реакции (E)</legend>
+              <div class="fc-calc__four-options">
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="eye" value="4" />
+                  <span class="fc-calc__four-option-text">Глаза открыты, слежение и мигание по команде</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="eye" value="3" />
+                  <span class="fc-calc__four-option-text">Глаза открыты, но нет слежения</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="eye" value="2" />
+                  <span class="fc-calc__four-option-text">Глаза закрыты, открываются на громкий звук, но слежения нет</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="eye" value="1" />
+                  <span class="fc-calc__four-option-text">Глаза закрыты, открываются на боль, но слежения нет</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="eye" value="0" />
+                  <span class="fc-calc__four-option-text">Глаза остаются закрытыми в ответ на боль</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__four-group">
+              <legend class="fc-calc__four-legend">Двигательные реакции (M)</legend>
+              <div class="fc-calc__four-options">
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="motor" value="4" />
+                  <span class="fc-calc__four-option-text">Выполняет команды (знак отлично, кулак, знак мира)</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="motor" value="3" />
+                  <span class="fc-calc__four-option-text">Локализует боль</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="motor" value="2" />
+                  <span class="fc-calc__four-option-text">Сгибательный ответ на боль</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="motor" value="1" />
+                  <span class="fc-calc__four-option-text">Разгибательная поза на боль</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="motor" value="0" />
+                  <span class="fc-calc__four-option-text">Нет ответа на боль или генерализованный миоклонический эпистатус</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__four-group">
+              <legend class="fc-calc__four-legend">Стволовые рефлексы (B)</legend>
+              <div class="fc-calc__four-options">
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="brainstem" value="4" />
+                  <span class="fc-calc__four-option-text">Зрачковый и роговичный рефлексы сохранены</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="brainstem" value="3" />
+                  <span class="fc-calc__four-option-text">Один зрачок расширен и не реагирует на свет</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="brainstem" value="2" />
+                  <span class="fc-calc__four-option-text">Зрачковый или роговичный рефлекс отсутствует</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="brainstem" value="1" />
+                  <span class="fc-calc__four-option-text">Зрачковый и роговичный рефлексы отсутствуют</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="brainstem" value="0" />
+                  <span class="fc-calc__four-option-text">Отсутствуют зрачковый, роговичный и кашлевой рефлексы</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__four-group">
+              <legend class="fc-calc__four-legend">Дыхательный паттерн (R)</legend>
+              <div class="fc-calc__four-options">
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="respiration" value="4" />
+                  <span class="fc-calc__four-option-text">Не интубирован, регулярное дыхание</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="respiration" value="3" />
+                  <span class="fc-calc__four-option-text">Не интубирован, дыхание Чейн–Стокса</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="respiration" value="2" />
+                  <span class="fc-calc__four-option-text">Не интубирован, нерегулярное дыхание</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="respiration" value="1" />
+                  <span class="fc-calc__four-option-text">Сопротивляется аппарату ИВЛ</span>
+                </label>
+                <label class="fc-calc__four-option">
+                  <input type="radio" name="respiration" value="0" />
+                  <span class="fc-calc__four-option-text">Полностью синхронен с аппаратом ИВЛ или апноэ</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-mayo-coma-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-mayo-coma-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-mayo-coma-result" aria-live="polite">
+        <p class="fc-calc__result-label">Общий результат</p>
+        <p class="fc-calc__result-number" id="fc-calc-mayo-coma-result-number">—</p>
+        <p class="fc-calc__result-desc" id="fc-calc-mayo-coma-result-desc"></p>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Шкала разработана в 2005 году в клинике Mayo. В англоязычной литературе упоминается как шкала Full Outline of UnResponsiveness (FOUR).</p>
+        <p><strong>Оценка по баллам:</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Баллы</th>
+                <th>Интерпретация</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>16</td><td>сознание ясное</td></tr>
+              <tr><td>15</td><td>сомноленция</td></tr>
+              <tr><td>14</td><td>оглушение</td></tr>
+              <tr><td>9–12</td><td>сопор</td></tr>
+              <tr><td>4–8</td><td>кома</td></tr>
+              <tr><td>0–3</td><td>смерть мозга</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Преимущество по сравнению со шкалой комы Глазго: не надо добиваться речевого контакта у интубированного или трахеостомированного пациента.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Критерий</th>
+                <th>Ответная реакция</th>
+                <th>Оценка</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fc-calc__table-criterion" rowspan="5">Глазные реакции</td>
+                <td>Глаза открыты, слежение и мигание по команде</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                
+                <td>Глаза открыты, но нет слежения</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                
+                <td>Глаза закрыты, открываются на громкий звук, но слежения нет</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                
+                <td>Глаза закрыты, открываются на боль, но слежения нет</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                
+                <td>Глаза остаются закрытыми в ответ на боль</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="fc-calc__table-criterion" rowspan="5">Двигательные реакции</td>
+                <td>Выполняет команды (знак отлично, кулак, знак мира)</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                
+                <td>Локализует боль</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                
+                <td>Сгибательный ответ на боль</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                
+                <td>Разгибательная поза на боль</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                
+                <td>Нет ответа на боль или генерализованный миоклонический эпистатус</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="fc-calc__table-criterion" rowspan="5">Стволовые рефлексы</td>
+                <td>Зрачковый и роговичный рефлексы сохранены</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                
+                <td>Один зрачок расширен и не реагирует на свет</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                
+                <td>Зрачковый или роговичный рефлекс отсутствует</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                
+                <td>Зрачковый и роговичный рефлексы отсутствуют</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                
+                <td>Отсутствуют зрачковый, роговичный и кашлевой рефлексы</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="fc-calc__table-criterion" rowspan="5">Дыхательный паттерн</td>
+                <td>Не интубирован, регулярное дыхание</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                
+                <td>Не интубирован, дыхание Чейн–Стокса</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                
+                <td>Не интубирован, нерегулярное дыхание</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                
+                <td>Сопротивляется аппарату ИВЛ</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                
+                <td>Полностью синхронен с аппаратом ИВЛ или апноэ</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="fc-calc__coma-block">
+          <p class="fc-calc__coma-block-title">Кома I (умеренная)</p>
+          <ul>
+            <li>Пациент неразбудим</li>
+            <li>На болевые раздражения отмечаются некоординированные защитные движения (по типу отдергивания конечностей)</li>
+            <li>Иногда спонтанное двигательное беспокойство</li>
+            <li>Зрачковые и роговичные рефлексы обычно сохранены</li>
+            <li>Гемодинамика и дыхание относительно стабильны</li>
+            <li>ЭЭГ: диффузные изменения в виде нерегулярного альфа-ритма, медленной биоэлектрической активности</li>
+          </ul>
+        </div>
+        <div class="fc-calc__coma-block">
+          <p class="fc-calc__coma-block-title">Кома II (глубокая)</p>
+          <ul>
+            <li>Отсутствуют защитные реакции на боль</li>
+            <li>Патологические сгибательные или разгибательные движения</li>
+            <li>Мышечный тонус от гипер- до гипотонии, возможна диссоциация по оси тела</li>
+            <li>Отмечается снижение стволовых рефлексов</li>
+            <li>ЭЭГ: альфа-ритм отсутствует, преобладает медленноволновая активность</li>
+          </ul>
+        </div>
+        <div class="fc-calc__coma-block">
+          <p class="fc-calc__coma-block-title">Кома III (терминальная)</p>
+          <ul>
+            <li>Мышечная атония</li>
+            <li>Арефлексия (сухожильные рефлексы могут вызываться со спинального уровня)</li>
+            <li>Угнетение всех стволовых рефлексов (отсутствуют зрачковые, роговичные рефлексы, нет окулоцефалического рефлекса)</li>
+            <li>Выраженное нарушение гемодинамики (тенденция к гипотензии), диспноэ</li>
+            <li>ЭЭГ: редкие медленные волны</li>
+          </ul>
+        </div>
+        <p><strong>Источники:</strong></p>
+        <div class="fc-calc__sources">
+          <p class="fc-calc__source-item">1. Wijdicks EF, Bamlet WR, Maramattom BV, Manno EM, McClelland RL. (2005) Validation of a new coma scale: The FOUR score. <em>Ann Neurol</em>; 58(4):585-93.</p>
+          <p class="fc-calc__source-item">2. Iyer VN, Mandrekar JN, Danielson RD, Zubkov AY, Elmer JL, Wijdicks EF. (2009) Validity of the FOUR score coma scale in the medical intensive care unit. <em>Mayo Clin Proc</em>; 84(8):694-701.</p>
+          <p class="fc-calc__source-item">3. Bruno MA, Ledoux D et al. (2011) Comparison of the Full Outline of UnResponsiveness and Glasgow Liege Scale/Glasgow Coma Scale in an intensive care unit population. <em>Neurocrit Care</em>; 15(3):447-53.</p>
+          <p class="fc-calc__source-item">4. Fischer M, Rüegg S, Czaplinski A et al. (2010) Inter-rater reliability of the Full Outline of UnResponsiveness score and the Glasgow Coma Scale in critically ill patients: a prospective observational study. <em>Crit Care</em>; 14(2):R64.</p>
+        </div>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="mayo-coma"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-mayo-coma-form');
+      var calcBtn = root.querySelector('#fc-calc-mayo-coma-btn');
+      var criteriaIds = ['eye', 'motor', 'brainstem', 'respiration'];
+
+      function hideResult() {
+        root.querySelector('#fc-calc-mayo-coma-result').classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function getSelectedScores() {
+        var scores = {};
+        var complete = true;
+        for (var i = 0; i < criteriaIds.length; i++) {
+          var id = criteriaIds[i];
+          var checked = form.querySelector('input[name="' + id + '"]:checked');
+          if (!checked) {
+            complete = false;
+            continue;
+          }
+          scores[id] = Number(checked.value);
+        }
+        return { scores: scores, complete: complete };
+      }
+
+      function interpret(total) {
+        if (total === 16) return { category: 'clear', text: 'Сознание ясное' };
+        if (total === 15) return { category: 'somnolence', text: 'Сомноленция' };
+        if (total === 14) return { category: 'stupor', text: 'Оглушение' };
+        if (total >= 9 && total <= 13) return { category: 'sopor', text: 'Сопор' };
+        if (total >= 4 && total <= 8) return { category: 'coma', text: 'Кома' };
+        return { category: 'brain-death', text: 'Смерть мозга' };
+      }
+
+      function updateButton() {
+        var ok = getSelectedScores().complete;
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var parsed = getSelectedScores();
+        if (!parsed.complete) return;
+
+        var total =
+          parsed.scores.eye +
+          parsed.scores.motor +
+          parsed.scores.brainstem +
+          parsed.scores.respiration;
+        var info = interpret(total);
+        var resultNumber = root.querySelector('#fc-calc-mayo-coma-result-number');
+        resultNumber.textContent = String(total);
+        resultNumber.className = 'fc-calc__result-number fc-calc__result-number--' + info.category;
+
+        root.querySelector('#fc-calc-mayo-coma-result-desc').textContent = info.text;
+        root.querySelector('#fc-calc-mayo-coma-result').classList.remove('fc-calc__result-wrap--hidden');
+      });
+
+      updateButton();
+    })();
+  </script>
+</div>
