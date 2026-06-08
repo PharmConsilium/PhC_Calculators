@@ -23,15 +23,16 @@ ${extra.trim()}
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
         <h2 class="fc-calc__title">Расчет гидробаланса</h2>
-        <p class="fc-calc__hint">Суточный водный баланс с учётом физиологической потребности по массе и возрасту.</p>
+        <p class="fc-calc__hint">Суточный водный баланс с учётом физиологической потребности по массе и возрасту</p>
         <p class="fc-calc__formula"><strong>Гидробаланс</strong> = Поступление − Физиологические потери − Патологические потери</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-hydro-balance-form" novalidate>
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Параметры пациента</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--4">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Параметры пациента</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--4">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-weight">Масса тела, кг</label>
                 <input type="number" id="fc-calc-hydro-balance-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="кг" required />
@@ -53,11 +54,13 @@ ${extra.trim()}
                 <span class="fc-calc__error" id="fc-calc-hydro-balance-rr-error" role="alert"></span>
               </div>
             </div>
+            </div>
           </div>
 
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Потери, мл/сут</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Потери, мл/сут</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-diuresis">Диурез</label>
                 <input type="number" id="fc-calc-hydro-balance-diuresis" name="diuresisMl" inputmode="decimal" min="0" step="any" placeholder="0" />
@@ -79,11 +82,13 @@ ${extra.trim()}
                 <span class="fc-calc__error" aria-hidden="true"></span>
               </div>
             </div>
+            </div>
           </div>
 
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Патологические потери (авто)</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Патологические потери (авто)</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-breathing">Нефизиологическая ИВЛ</label>
                 <select id="fc-calc-hydro-balance-breathing" name="breathingMode">
@@ -103,16 +108,18 @@ ${extra.trim()}
                 <span class="fc-calc__error" aria-hidden="true"></span>
               </div>
             </div>
-            <div class="fc-calc__field fc-calc__field--full" id="fc-calc-hydro-balance-surgery-hours-wrap" style="margin-top:12px">
+            <div class="fc-calc__field fc-calc__field--full" id="fc-calc-hydro-balance-surgery-hours-wrap">
               <label for="fc-calc-hydro-balance-surgery-hours">Длительность операции, ч</label>
               <input type="number" id="fc-calc-hydro-balance-surgery-hours" name="surgeryHours" inputmode="decimal" min="0" step="any" placeholder="ч" disabled />
               <span class="fc-calc__error" id="fc-calc-hydro-balance-surgery-hours-error" role="alert"></span>
             </div>
+            </div>
           </div>
 
           <div class="fc-calc__hydro-section">
-            <p class="fc-calc__section" style="margin-top:0">Поступление, мл/сут</p>
-            <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
+            <div class="fc-calc__hydro-panel">
+              <h3 class="fc-calc__hydro-heading">Поступление, мл/сут</h3>
+              <div class="fc-calc__hydro-grid fc-calc__hydro-grid--2">
               <div class="fc-calc__field fc-calc__field--cell">
                 <label for="fc-calc-hydro-balance-iv">Парентеральное введение</label>
                 <input type="number" id="fc-calc-hydro-balance-iv" name="ivMl" inputmode="decimal" min="0" step="any" placeholder="0" />
@@ -123,6 +130,7 @@ ${extra.trim()}
                 <input type="number" id="fc-calc-hydro-balance-enteral" name="enteralMl" inputmode="decimal" min="0" step="any" placeholder="0" />
                 <span class="fc-calc__error" aria-hidden="true"></span>
               </div>
+            </div>
             </div>
           </div>
         </form>
@@ -159,21 +167,101 @@ ${extra.trim()}
 
     <details class="fc-calc__notes">
       <summary class="fc-calc__notes-summary">
-        <span class="fc-calc__notes-title">Справка и предупреждения</span>
+        <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p><strong>Формула:</strong> Гидробаланс = Парентеральное + Энтеральное введение − Диурез − Патологические потери.</p>
-        <p><strong>ФП:</strong> до 65 лет — 30; 65–75 — 25; старше 75 — 20 мл/кг/сут.</p>
-        <p><strong>Автоматически учитываются в патологических потерях:</strong></p>
-        <ul>
-          <li>Внепочечные физиологические потери — 0,4×ФП</li>
-          <li>Лихорадка — 3 / 6 / 9 / 12 / 15 мл/кг при t° 37,5–38,5 / 38,5–39,5 / … / ≥41,5 °C</li>
-          <li>Одышка — 10 / 20 / 30 / 40 / 50 мл/кг при ЧД 25–35 / 35–45 / … / ≥65 /мин</li>
-          <li>ИВЛ без увлажнения (РО-6) — 1000 мл/сут</li>
-          <li>Операция — 2 / 4 / 6 мл/кг/ч (верхняя граница диапазона)</li>
-        </ul>
-        <p><strong>Справочно:</strong> должный диурез — 20 мл/кг/сут; внепочечные потери — 0,4×ФП.</p>
+        <p>Физиологическая потребность (<strong>ФП</strong>) — потребность организма в жидкости в единицу времени (сутки). Зависит от возраста: до 65 лет — 30 мл/кг/сут., 65–75 лет — 25 мл/кг/сут., старше 75 лет — 20 мл/кг/сут.</p>
+        <p>Таким образом формула расчёта:</p>
+        <p><strong>Гидробаланс</strong> = Внутривенная инфузия + Энтеральное введение − Физиологические потери − Патологические потери</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Вид потери жидкости организмом</th>
+                <th>Количество теряемой жидкости в сутки</th>
+                <th>Состав</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3"><strong>Физиологические потери</strong></td></tr>
+              <tr>
+                <td>Нормальное дыхание</td>
+                <td rowspan="3">В общей сумме физиологические внепочечные потери составляют 10 мл/кг м.т. (1/3&nbsp;ФП)</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация через кожу</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Нормальный стул</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Физиологический диурез</td>
+                <td>20 мл/кг м.т. (2/3&nbsp;ФП)</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr><td colspan="3"><strong>Патологические потери</strong></td></tr>
+              <tr>
+                <td>Потери с лихорадкой</td>
+                <td>3 мл/кг м.т. (0,1&nbsp;ФП) на каждый градус выше 37,5&nbsp;°C</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Потери с одышкой</td>
+                <td>10 мл/кг м.т. на каждые 10 дыханий в минуту выше 25</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Потери при ИВЛ без увлажнения и согревания газовой смеси (аппарат РО-6)</td>
+                <td>1000 мл/сут</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Потери при ИВЛ с увлажнением и согреванием газовой смеси (аппарат Vela)</td>
+                <td>0 мл/сут</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Потери с неушитой лапаротомной раны под повязкой</td>
+                <td>1–2 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация из раны при минимальной травматизации (паховая грыжа)</td>
+                <td>1–2 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация из раны при средней травматизации (холецистэктомия)</td>
+                <td>2–4 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Перспирация из раны при тяжёлой травматизации (кишечная непроходимость, резекция желудка)</td>
+                <td>4–6 мл/кг м.т./час</td>
+                <td>Вода</td>
+              </tr>
+              <tr>
+                <td>Рвота, отделяемое по зонду</td>
+                <td>—</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Отделяемое по дренажам</td>
+                <td>—</td>
+                <td>Вода + электролиты</td>
+              </tr>
+              <tr>
+                <td>Патологический диурез (полиурия)</td>
+                <td>—</td>
+                <td>Вода + электролиты</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p>Рвота, дренажи и прочие потери вводятся вручную. Патологический диурез учитывается в поле «Диурез».</p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>

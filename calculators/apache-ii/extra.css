@@ -1,0 +1,119 @@
+/* apache-ii */
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-fields .fc-calc__field {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-fields select {
+  width: 100%;
+  min-height: 44px;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic-option {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--fc-border);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-chronic-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-arf {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-arf input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  min-height: 0;
+  padding: 0;
+  margin-top: 3px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  accent-color: var(--fc-blue);
+  flex-shrink: 0;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-arf input[type="checkbox"]:focus,
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-arf input[type="checkbox"]:focus-visible {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-mortality {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-page);
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-mortality p {
+  margin: 0 0 6px;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-mortality p:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__apache-mortality--hidden {
+  display: none;
+}
+
+.fc-calc[data-calculator="apache-ii"] .fc-calc__notes-body table {
+  font-size: 14px;
+}

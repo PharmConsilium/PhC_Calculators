@@ -1,0 +1,81 @@
+{
+  "slug": "apgar",
+  "source": "Шкала Апгар",
+  "cases": [
+    {
+      "name": "maximum score",
+      "input": {
+        "appearance": 2,
+        "pulse": 2,
+        "grimace": 2,
+        "activity": 2,
+        "respiration": 2
+      },
+      "expected": {
+        "total": 10,
+        "category": "normal",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "minimum score",
+      "input": {
+        "appearance": 0,
+        "pulse": 0,
+        "grimace": 0,
+        "activity": 0,
+        "respiration": 0
+      },
+      "expected": {
+        "total": 0,
+        "category": "low",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "normal threshold 7",
+      "input": {
+        "appearance": 2,
+        "pulse": 2,
+        "grimace": 1,
+        "activity": 1,
+        "respiration": 1
+      },
+      "expected": {
+        "total": 7,
+        "category": "normal",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "intermediate 6",
+      "input": {
+        "appearance": 1,
+        "pulse": 1,
+        "grimace": 1,
+        "activity": 1,
+        "respiration": 2
+      },
+      "expected": {
+        "total": 6,
+        "category": "intermediate",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "low 3",
+      "input": {
+        "appearance": 1,
+        "pulse": 0,
+        "grimace": 1,
+        "activity": 0,
+        "respiration": 1
+      },
+      "expected": {
+        "total": 3,
+        "category": "low",
+        "status": "OK"
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "slug": "apache-ii",
+  "source": "Knaus WA et al. Crit Care Med 1985; MSD",
+  "cases": [
+    {
+      "name": "baseline minimum",
+      "input": {
+        "temperature": "t0",
+        "map": "m0",
+        "heartRate": "h0",
+        "respiratoryRate": "r0",
+        "oxygenation": "o4",
+        "ph": "p0",
+        "sodium": "na0",
+        "potassium": "k0",
+        "creatinine": "cr0",
+        "hematocrit": "ht0",
+        "wbc": "w0",
+        "gcs": "15",
+        "age": "a0",
+        "chronic": "none",
+        "arf": false
+      },
+      "expected": {
+        "total": 0,
+        "gcs": 15
+      }
+    },
+    {
+      "name": "high temperature 4 points",
+      "input": {
+        "temperature": "t6",
+        "map": "m0",
+        "heartRate": "h0",
+        "respiratoryRate": "r0",
+        "oxygenation": "o4",
+        "ph": "p0",
+        "sodium": "na0",
+        "potassium": "k0",
+        "creatinine": "cr0",
+        "hematocrit": "ht0",
+        "wbc": "w0",
+        "gcs": "15",
+        "age": "a0",
+        "chronic": "none",
+        "arf": false
+      },
+      "expected": {
+        "total": 4
+      }
+    },
+    {
+      "name": "arf doubles creatinine",
+      "input": {
+        "temperature": "t0",
+        "map": "m0",
+        "heartRate": "h0",
+        "respiratoryRate": "r0",
+        "oxygenation": "o4",
+        "ph": "p0",
+        "sodium": "na0",
+        "potassium": "k0",
+        "creatinine": "cr2",
+        "hematocrit": "ht0",
+        "wbc": "w0",
+        "gcs": "15",
+        "age": "a0",
+        "chronic": "none",
+        "arf": true
+      },
+      "expected": {
+        "total": 4
+      }
+    }
+  ]
+}

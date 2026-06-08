@@ -9,8 +9,8 @@
 | — | (страница CMS) | H1 «Калькулятор …» над виджетом |
 | 1 | `fc-calc__card` | Белая карточка с тенью |
 | 1a | `fc-calc__tabs` | Опционально: вкладки формул |
-| 2 | `fc-calc__head` | Подзаголовок + серая подпись |
-| 3 | `fc-calc__body` | Поля, сегменты |
+| 2 | `fc-calc__head` | `h2.fc-calc__title` + `p.fc-calc__hint` (опц. `fc-calc__formula`) |
+| 3 | `fc-calc__body` | Секции `fc-calc__panel-section` → `fc-calc__panel` → `h3.fc-calc__panel-heading` + поля |
 | 4 | `fc-calc__actions` | Кнопка «Рассчитать» |
 | 5 | `fc-calc__result-wrap` | Серая плашка, синее значение |
 | 6 | `fc-calc__notes` | «Примечания» внутри карточки |
@@ -20,4 +20,4 @@
 
 ## Примечания
 
-Заголовок **«Примечания»** не менять. Только `#fc-calc-<slug>-notes`.
+Заголовок блока — **«Примечание»**. Только `#fc-calc-<slug>-notes`.

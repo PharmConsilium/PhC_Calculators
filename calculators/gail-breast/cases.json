@@ -1,0 +1,50 @@
+{
+  "slug": "gail-breast",
+  "source": "Gail MH et al. J Natl Cancer Inst 1999",
+  "cases": [
+    {
+      "name": "average white woman 50-54",
+      "input": {
+        "menarche": "ge14",
+        "biopsies": "ge50_0",
+        "firstBirthRelatives": "lt20_0",
+        "atypicalHyperplasia": "none",
+        "ageRace": "w_50_54"
+      },
+      "expected": {
+        "relativeRisk": 1,
+        "fiveYearRisk": 0.7,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "high risk profile",
+      "input": {
+        "menarche": "lt12",
+        "biopsies": "u50_2",
+        "firstBirthRelatives": "ge30_2",
+        "atypicalHyperplasia": "atyp",
+        "ageRace": "w_40_44"
+      },
+      "expected": {
+        "highRisk": true,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "white woman 35-39 baseline",
+      "input": {
+        "menarche": "12_13",
+        "biopsies": "u50_1",
+        "firstBirthRelatives": "20_24_0",
+        "atypicalHyperplasia": "no_atyp",
+        "ageRace": "w_35_39"
+      },
+      "expected": {
+        "relativeRisk": 2.16,
+        "fiveYearRisk": 0.6,
+        "status": "OK"
+      }
+    }
+  ]
+}

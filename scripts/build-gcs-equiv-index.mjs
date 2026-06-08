@@ -22,8 +22,8 @@ ${extra.trim()}
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Клинический конвертер «Эквивалентные дозы глюкокортикостероидов (ГКС) — системные»</h2>
-        <p class="fc-calc__hint">Пересчёт эквивалентных доз системных глюкокортикостероидов по <a href="https://clincalc.com/corticosteroids/" target="_blank" rel="noopener noreferrer">ClinCalc</a>.</p>
+        <h2 class="fc-calc__title">Эквивалентные дозы системных глюкокортикостероидов</h2>
+        <p class="fc-calc__hint">Пересчёт эквивалентных доз системных глюкокортикостероидов</p>
       </header>
 
       <div class="fc-calc__body">
@@ -66,7 +66,7 @@ ${extra.trim()}
 
       <details class="fc-calc__notes">
         <summary class="fc-calc__notes-summary">
-          <span class="fc-calc__notes-title">Справка и предупреждения</span>
+          <span class="fc-calc__notes-title">Примечание</span>
           <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
         </summary>
         <div class="fc-calc__notes-body">

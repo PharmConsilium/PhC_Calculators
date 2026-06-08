@@ -1,0 +1,31 @@
+{
+  "slug": "glasgow-coma",
+  "source": "Teasdale G, Jennett B, Lancet 1974",
+  "cases": [
+    {
+      "name": "maximum score",
+      "input": { "eye": 4, "verbal": 5, "motor": 6 },
+      "expected": { "total": 15, "category": "normal", "status": "OK" }
+    },
+    {
+      "name": "minimum score",
+      "input": { "eye": 1, "verbal": 1, "motor": 1 },
+      "expected": { "total": 3, "category": "severe", "status": "OK" }
+    },
+    {
+      "name": "coma threshold 8",
+      "input": { "eye": 2, "verbal": 3, "motor": 3 },
+      "expected": { "total": 8, "category": "severe", "status": "OK" }
+    },
+    {
+      "name": "mild 13",
+      "input": { "eye": 4, "verbal": 4, "motor": 5 },
+      "expected": { "total": 13, "category": "mild", "status": "OK" }
+    },
+    {
+      "name": "moderate 10",
+      "input": { "eye": 3, "verbal": 3, "motor": 4 },
+      "expected": { "total": 10, "category": "moderate", "status": "OK" }
+    }
+  ]
+}

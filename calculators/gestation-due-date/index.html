@@ -738,11 +738,6 @@
             <p class="fc-calc__result-label">Плановое УЗИ</p>
             <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-us">—</p>
           </div>
-          <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Анти-D профилактика</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-antid">—</p>
-            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-antid-desc"></p>
-          </div>
         </div>
       </div>
     </div>
@@ -753,7 +748,7 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body" id="fc-calc-gestation-due-date-notes">
-        <p>Расчёт помогает в определении срока беременности, даты родов, срока гестации, окончания первого триместра беременности, даты планового УЗИ плода и анти-D профилактики у RhD-отрицательных рожениц по дате последней менструации и по известной дате зачатия, овуляции и искусственного осеменения (обычное и модифицированное правила Негеле).</p>
+        <p>Расчёт помогает в определении срока беременности, даты родов, срока гестации, окончания первого триместра беременности и даты планового УЗИ плода по дате последней менструации и по известной дате зачатия, овуляции и искусственного осеменения (обычное и модифицированное правила Негеле).</p>
         <p><strong>Дата родов</strong> = первый день последней менструации + 280 дней (правило Негеле).</p>
         <p><strong>Дата родов</strong> = дата зачатия, овуляции или искусственного осеменения + 266 дней (модифицированное правило Негеле).</p>
         <p><strong>Срок гестации (СГ):</strong></p>
@@ -814,8 +809,6 @@
       var elM13 = root.querySelector('#fc-calc-' + SLUG + '-milestone13');
       var elTrim = root.querySelector('#fc-calc-' + SLUG + '-trimester');
       var elUs = root.querySelector('#fc-calc-' + SLUG + '-us');
-      var elAntiD = root.querySelector('#fc-calc-' + SLUG + '-antid');
-      var elAntiDDesc = root.querySelector('#fc-calc-' + SLUG + '-antid-desc');
 
       function todayIso() {
         var d = new Date();
@@ -910,9 +903,7 @@
           gestationMilestone13: formatIsoDateUTC(addDaysUTC(lmp, 13 * 7)),
           firstTrimesterWindowFrom: formatIsoDateUTC(addDaysUTC(lmp, 18 * 7)),
           firstTrimesterWindowTo: formatIsoDateUTC(addDaysUTC(lmp, 20 * 7)),
-          plannedUltrasound: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7)),
-          antiD28: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7)),
-          antiD34: formatIsoDateUTC(addDaysUTC(lmp, 34 * 7))
+          plannedUltrasound: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7))
         };
       }
 
@@ -935,8 +926,6 @@
         elM13.textContent = formatRuDate(out.gestationMilestone13);
         elTrim.textContent = formatRuRange(out.firstTrimesterWindowFrom, out.firstTrimesterWindowTo);
         elUs.textContent = formatRuDate(out.plannedUltrasound);
-        elAntiD.textContent = formatRuDate(out.antiD28);
-        elAntiDDesc.textContent = 'Повторная доза: ' + formatRuDate(out.antiD34) + ' (34 нед.)';
         resultWrap.classList.remove('fc-calc__result-wrap--hidden');
       }
 

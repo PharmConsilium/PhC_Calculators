@@ -12,14 +12,42 @@
 <div class="fc-calc__tab-panel fc-calc__tab-panel--active" id="panel-a">…форма…</div>
 ```
 
-## Подзаголовок
+## Заголовок и подзаголовок (обязательно)
+
+Эталон: `calculators/hydro-balance/`, `calculators/pregnancy-dating/`.
 
 ```html
-<h2 class="fc-calc__title">Оценка клиренса креатинина</h2>
-<p class="fc-calc__hint">Расчёт по формуле Cockcroft-Gault</p>
+<header class="fc-calc__head">
+  <h2 class="fc-calc__title">Полное название из meta.json</h2>
+  <p class="fc-calc__hint">Краткое описание: что считает калькулятор</p>
+  <!-- опционально: -->
+  <p class="fc-calc__formula"><strong>Результат</strong> = …</p>
+</header>
 ```
 
-(H1 страницы задаётся в админке — в виджете только подзаголовок.)
+- `fc-calc__title` — обычный вес, 1.25rem на мобильных → 36px на десктопе (стили в `shared/fc-calc.css`).
+- `fc-calc__hint` в шапке — по центру, до 34rem ширины.
+
+H1 страницы задаётся в админке — в виджете только `h2` + подпись.
+
+## Секции формы (обязательно для новых калькуляторов)
+
+Поля группируются в серые панели с заголовком `h3`. Стили — в `shared/fc-calc.css` (классы `fc-calc__panel-*`).
+
+```html
+<div class="fc-calc__panel-section">
+  <div class="fc-calc__panel">
+    <h3 class="fc-calc__panel-heading">Параметры пациента</h3>
+    <div class="fc-calc__field">
+      <label for="fc-calc-SLUG-weight">Масса тела, кг</label>
+      <input type="number" id="fc-calc-SLUG-weight" name="weightKg" required />
+      <span class="fc-calc__error" id="fc-calc-SLUG-weight-error" role="alert"></span>
+    </div>
+  </div>
+</div>
+```
+
+Готовый фрагмент: `templates/panel-section.html`. Не использовать голые `p.fc-calc__hint` между полями как заголовки секций.
 
 ## Пол (сегмент)
 

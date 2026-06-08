@@ -1,0 +1,64 @@
+{
+  "slug": "infusomat",
+  "source": "ByMed — инфузомат",
+  "cases": [
+    {
+      "name": "norepinephrine undiluted",
+      "input": {
+        "stockMgMl": 1,
+        "drugVolumeMl": 4,
+        "solventMl": 0,
+        "doseMcgKgMin": 0.1,
+        "weightKg": 70
+      },
+      "expected": {
+        "finalMgMl": 1,
+        "mlPerHour": 0.42,
+        "mlPerMin": 0.007
+      }
+    },
+    {
+      "name": "diluted to 50 ml",
+      "input": {
+        "stockMgMl": 1,
+        "drugVolumeMl": 4,
+        "solventMl": 46,
+        "doseMcgKgMin": 0.1,
+        "weightKg": 70
+      },
+      "expected": {
+        "finalMgMl": 0.08,
+        "mlPerHour": 5.25,
+        "totalVolumeMl": 50
+      }
+    },
+    {
+      "name": "concentration 0.2 percent equals 2 mg ml",
+      "input": {
+        "stockMgMl": 2,
+        "drugVolumeMl": 8,
+        "solventMl": 0,
+        "doseMcgKgMin": 0.1,
+        "weightKg": 70
+      },
+      "expected": {
+        "finalMgMl": 2,
+        "mlPerHour": 0.21
+      }
+    },
+    {
+      "name": "dopamine high dose",
+      "input": {
+        "stockMgMl": 40,
+        "drugVolumeMl": 5,
+        "solventMl": 45,
+        "doseMcgKgMin": 15,
+        "weightKg": 70
+      },
+      "expected": {
+        "finalMgMl": 4,
+        "mlPerHour": 15.75
+      }
+    }
+  ]
+}

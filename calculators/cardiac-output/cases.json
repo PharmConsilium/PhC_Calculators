@@ -1,0 +1,45 @@
+{
+  "slug": "cardiac-output",
+  "source": "medsoftpro.ru/kalkulyatory/cardiac-output",
+  "cases": [
+    {
+      "name": "adult under 70",
+      "input": {
+        "sao2": 98,
+        "svo2": 75,
+        "hemoglobin": 140,
+        "hr": 70,
+        "age": 45,
+        "height": 180,
+        "weight": 70,
+        "decimals": 2
+      },
+      "expected": {
+        "cardiacOutput": 5.42,
+        "bsa": 1.87,
+        "cardiacIndex": 2.9,
+        "strokeVolume": 77.43,
+        "vo2": 233.85,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "elderly over 70",
+      "input": {
+        "sao2": 98,
+        "svo2": 75,
+        "hemoglobin": 140,
+        "hr": 70,
+        "age": 75,
+        "height": 180,
+        "weight": 70,
+        "decimals": 2
+      },
+      "expected": {
+        "cardiacOutput": 4.77,
+        "vo2": 205.79,
+        "status": "OK"
+      }
+    }
+  ]
+}

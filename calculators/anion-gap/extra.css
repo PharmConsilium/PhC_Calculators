@@ -1,0 +1,42 @@
+/* anion-gap */
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid .fc-calc__field {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid .fc-calc__field-row select {
+  min-width: 7.5rem;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-page);
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details p {
+  margin: 0 0 6px;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details p:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details--hidden {
+  display: none;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__formula {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}

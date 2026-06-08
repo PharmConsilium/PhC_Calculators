@@ -1,24 +1,48 @@
-/* hydro-balance: ровная сетка полей */
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-section {
-  margin-bottom: 20px;
+/* hydro-balance: секции-панели и сетка полей */
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__head .fc-calc__hint {
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__section {
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__formula {
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: rgba(0, 94, 236, 0.22);
+  background: rgba(0, 94, 236, 0.05);
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
   text-align: left;
-  margin: 0 0 12px;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--3 {
-  grid-template-columns: minmax(0, 1fr);
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
@@ -26,20 +50,15 @@
 }
 
 @media (min-width: 640px) {
-  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-/* Ячейка сетки: подпись → поле → ошибка на фиксированных строках */
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell {
   display: grid;
-  grid-template-rows: minmax(2.75rem, auto) 48px minmax(1.125rem, auto);
-  gap: 8px;
+  grid-template-rows: minmax(2.5rem, auto) 44px minmax(1.125rem, auto);
+  gap: 6px;
   margin-bottom: 0;
   min-width: 0;
   text-align: left;
@@ -48,6 +67,8 @@
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell label {
   align-self: end;
   margin: 0;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.25;
   text-align: left;
 }
@@ -55,54 +76,78 @@
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell input,
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select {
   width: 100%;
-  height: 48px;
-  min-height: 48px;
+  height: 44px;
+  min-height: 44px;
   margin: 0;
+  padding: 0 12px;
+  font-size: 16px;
   box-sizing: border-box;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select {
+  padding-right: 28px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell input:focus,
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell select:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--cell .fc-calc__error {
   min-height: 1.125rem;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.125rem;
   text-align: left;
 }
 
-/* Полноширинные поля */
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full {
-  margin-bottom: 12px;
-  text-align: left;
-}
-
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full:last-child {
+  margin-top: 14px;
   margin-bottom: 0;
+  text-align: left;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
   text-align: left;
 }
 
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input,
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full select {
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input {
   width: 100%;
-  height: 48px;
-  min-height: 48px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
   box-sizing: border-box;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.fc-calc[data-calculator="hydro-balance"] .fc-calc__field-hint {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
-  text-align: left;
-  line-height: 1.35;
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__field--full input:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__field--disabled {
-  opacity: 0.55;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__actions {
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__result-wrap {
+  padding: 18px;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-results {
@@ -110,16 +155,30 @@
   gap: 12px;
 }
 
+@media (min-width: 520px) {
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item {
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: var(--fc-bg-surface);
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
   text-align: center;
 }
 
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item--main {
+  grid-column: 1 / -1;
+  padding: 16px 18px;
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.22);
+}
+
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-label {
   margin-bottom: 4px;
+  font-size: 1rem;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-number {
@@ -127,9 +186,14 @@
   font-size: 1.5rem;
 }
 
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item--main .fc-calc__result-number {
+  font-size: 2rem;
+}
+
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-result-item .fc-calc__result-desc {
   margin: 6px 0 0;
   font-size: 14px;
+  opacity: 0.85;
 }
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__result-number--positive {
@@ -138,4 +202,41 @@
 
 .fc-calc[data-calculator="hydro-balance"] .fc-calc__result-number--negative {
   color: #c2410c;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table {
+  min-width: 520px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table td,
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="hydro-balance"] .fc-calc__notes-body p {
+  text-align: left;
+}
+
+@media (max-width: 479px) {
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--2,
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-grid--4 {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="hydro-balance"] .fc-calc__hydro-panel {
+    padding: 14px;
+  }
 }

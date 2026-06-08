@@ -199,8 +199,7 @@
         else if (balance < 0) resultDesc.textContent = 'Отрицательный гидробаланс (дефицит жидкости)';
         else resultDesc.textContent = 'Нулевой гидробаланс';
 
-        root.querySelector('#fc-calc-hydro-balance-result-fp').textContent =
-          formatMl(fpInfo.fp) + ' (' + fpInfo.method + ')';
+        root.querySelector('#fc-calc-hydro-balance-result-fp').textContent = formatMl(fpInfo.fp);
         root.querySelector('#fc-calc-hydro-balance-result-diuresis').textContent = formatMl(expectedDiuresis);
         root.querySelector('#fc-calc-hydro-balance-result-physio').textContent = formatMl(extrarenal);
         var diuresisNote = root.querySelector('#fc-calc-hydro-balance-result-diuresis-note');

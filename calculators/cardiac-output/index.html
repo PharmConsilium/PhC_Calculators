@@ -1,0 +1,1148 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Калькулятор сердечного выброса
+-->
+<div class="fc-calc" data-calculator="cardiac-output">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* cardiac-output — medsoftpro layout */
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__formula {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: rgba(0, 94, 236, 0.22);
+  background: rgba(0, 94, 236, 0.05);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--half {
+  grid-column: span 3;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--third {
+  grid-column: span 2;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid .fc-calc__field {
+  display: grid;
+  grid-template-rows: minmax(2.75rem, auto) 44px;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid .fc-calc__field label {
+  align-self: end;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid .fc-calc__field input {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  margin: 0;
+  box-sizing: border-box;
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-results {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 520px) {
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item {
+  padding: 14px 16px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item--main {
+  grid-column: 1 / -1;
+  padding: 18px;
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.22);
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item--main .fc-calc__result-number {
+  font-size: 2rem;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item .fc-calc__result-label {
+  margin-bottom: 6px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__co-result-item .fc-calc__result-number {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__result-wrap {
+  padding: 18px;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body ul {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body ul {
+  margin: 8px 0 12px;
+  padding-left: 1.25rem;
+}
+
+.fc-calc[data-calculator="cardiac-output"] .fc-calc__notes-body li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+@media (max-width: 639px) {
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--half,
+  .fc-calc[data-calculator="cardiac-output"] .fc-calc__co-field--third {
+    grid-column: span 1;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Сердечный выброс</h2>
+        <p class="fc-calc__hint">Расчёт сердечного выброса, сердечного индекса и ударного объёма по методу Фика</p>
+        <p class="fc-calc__formula"><strong>СВ</strong> = VO₂ / ((SaO₂ − SvO₂) × Hb × 13,4) &nbsp;|&nbsp; <strong>ППТ</strong> = √(Рост × Вес / 3600)</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-cardiac-output-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
+
+              <div class="fc-calc__co-grid">
+                <div class="fc-calc__field fc-calc__co-field--half">
+                  <label for="fc-calc-cardiac-output-sao2">SaO₂, %</label>
+                  <input type="number" id="fc-calc-cardiac-output-sao2" name="sao2" inputmode="decimal" min="0" max="100" step="any" required />
+                </div>
+                <div class="fc-calc__field fc-calc__co-field--half">
+                  <label for="fc-calc-cardiac-output-svo2">SvO₂, %</label>
+                  <input type="number" id="fc-calc-cardiac-output-svo2" name="svo2" inputmode="decimal" min="0" max="100" step="any" required />
+                </div>
+                <div class="fc-calc__field fc-calc__co-field--half">
+                  <label for="fc-calc-cardiac-output-hb">Гемоглобин, г/л</label>
+                  <input type="number" id="fc-calc-cardiac-output-hb" name="hemoglobin" inputmode="decimal" min="0" step="any" required />
+                </div>
+                <div class="fc-calc__field fc-calc__co-field--half">
+                  <label for="fc-calc-cardiac-output-hr">ЧСС, уд/мин</label>
+                  <input type="number" id="fc-calc-cardiac-output-hr" name="hr" inputmode="numeric" min="0" step="1" required />
+                </div>
+                <div class="fc-calc__field fc-calc__co-field--third">
+                  <label for="fc-calc-cardiac-output-age">Возраст, лет</label>
+                  <input type="number" id="fc-calc-cardiac-output-age" name="age" inputmode="numeric" min="0" step="1" required />
+                </div>
+                <div class="fc-calc__field fc-calc__co-field--third">
+                  <label for="fc-calc-cardiac-output-height">Рост, см</label>
+                  <input type="number" id="fc-calc-cardiac-output-height" name="height" inputmode="decimal" min="0" step="any" required />
+                </div>
+                <div class="fc-calc__field fc-calc__co-field--third">
+                  <label for="fc-calc-cardiac-output-weight">Вес, кг</label>
+                  <input type="number" id="fc-calc-cardiac-output-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-cardiac-output-form-error" role="alert"></span>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-cardiac-output-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-cardiac-output-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-cardiac-output-result" aria-live="polite">
+        <div class="fc-calc__co-results">
+          <div class="fc-calc__co-result-item fc-calc__co-result-item--main">
+            <p class="fc-calc__result-label">СВ (сердечный выброс)</p>
+            <p class="fc-calc__result-number" id="fc-calc-cardiac-output-result-co">—</p>
+          </div>
+          <div class="fc-calc__co-result-item">
+            <p class="fc-calc__result-label">ППТ (площадь поверхности тела)</p>
+            <p class="fc-calc__result-number" id="fc-calc-cardiac-output-result-bsa">—</p>
+          </div>
+          <div class="fc-calc__co-result-item">
+            <p class="fc-calc__result-label">СИ (сердечный индекс)</p>
+            <p class="fc-calc__result-number" id="fc-calc-cardiac-output-result-ci">—</p>
+          </div>
+          <div class="fc-calc__co-result-item">
+            <p class="fc-calc__result-label">УО (ударный объём)</p>
+            <p class="fc-calc__result-number" id="fc-calc-cardiac-output-result-sv">—</p>
+          </div>
+          <div class="fc-calc__co-result-item">
+            <p class="fc-calc__result-label">VO₂ (потребление O₂)</p>
+            <p class="fc-calc__result-number" id="fc-calc-cardiac-output-result-vo2">—</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p><strong>Уравнения калькулятора:</strong></p>
+        <ul>
+          <li>СВ (л/мин) = VO₂ / ((SaO₂ − SvO₂) × Hb × 13,4)</li>
+          <li>VO₂ = 125 мл O₂/мин × ППТ; при возрасте &gt; 70 лет — 110 мл O₂/мин × ППТ</li>
+          <li>ППТ = √(Рост, см × Вес, кг / 3600)</li>
+          <li>СИ = СВ / ППТ</li>
+          <li>УО = СВ / ЧСС × 1000</li>
+        </ul>
+        <ul>
+          <li>SaO₂ и SvO₂ вводятся в процентах; в формуле используются десятичные доли.</li>
+          <li>Гемоглобин вводится в г/л; в формуле переводится в г/дл.</li>
+        </ul>
+
+        <p><strong>Методы измерения СВ, СИ и УО</strong></p>
+        <p><strong>Инвазивные</strong></p>
+        <ul>
+          <li><strong>Термодилюция</strong> — введение холодного раствора и регистрация изменения температуры крови в лёгочной артерии; применяется в реанимации.</li>
+          <li><strong>Катетеризация лёгочной артерии</strong> — прямое измерение СВ, СИ и ударного объёма с высокой точностью.</li>
+        </ul>
+        <p><strong>Неинвазивные</strong></p>
+        <ul>
+          <li><strong>Эхокардиография</strong> — оценка ударного объёма и СВ по данным ультразвукового исследования.</li>
+          <li><strong>Биоимпеданс</strong> — расчёт по электрическому сопротивлению тканей.</li>
+        </ul>
+
+        <p><strong>Референсные значения</strong></p>
+        <ul>
+          <li>СВ: 4,0–8,0 л/мин</li>
+          <li>СИ: 2,5–4,0 л/мин/м²</li>
+          <li>УО: 60–100 мл/удар</li>
+        </ul>
+
+        <p><strong>Клиническое значение</strong></p>
+        <ul>
+          <li><strong>Сердечная недостаточность</strong> — снижение СВ и СИ отражает тяжесть состояния и ответ на терапию.</li>
+          <li><strong>Шок</strong> (кардиогенный, гиповолемический, септический) — СВ и СИ помогают уточнить механизм и тактику лечения.</li>
+          <li><strong>Интенсивная терапия</strong> — мониторинг гемодинамики при ОИМ, сепсисе, тяжёлой травме.</li>
+        </ul>
+
+        <p><strong>Факторы, влияющие на СВ, СИ и УО</strong></p>
+        <ul>
+          <li><strong>Преднагрузка</strong> — степень растяжения миокарда перед систолой; при гиперволемии УО и СВ обычно растут.</li>
+          <li><strong>Постнагрузка</strong> — сопротивление выбросу; при артериальной гипертензии УО и СВ снижаются.</li>
+          <li><strong>Сократимость миокарда</strong> — при её снижении (например, после инфаркта) уменьшаются УО и СВ.</li>
+        </ul>
+
+        <p>СВ, СИ и УО — базовые показатели гемодинамики для оценки работы сердечно-сосудистой системы.</p>
+
+        <p class="fc-calc__hint">Источник: <a href="https://medsoftpro.ru/kalkulyatory/cardiac-output" target="_blank" rel="noopener noreferrer">medsoftpro.ru</a></p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="cardiac-output"]');
+      if (!root) return;
+
+      var VO2_YOUNG = 125;
+      var VO2_ELDERLY = 110;
+      var VO2_AGE_THRESHOLD = 70;
+      var HEMOGLOBIN_FACTOR = 13.4;
+
+      var form = root.querySelector('#fc-calc-cardiac-output-form');
+      var calcBtn = root.querySelector('#fc-calc-cardiac-output-btn');
+      var formError = root.querySelector('#fc-calc-cardiac-output-form-error');
+      var resultWrap = root.querySelector('#fc-calc-cardiac-output-result');
+
+      var inputs = {
+        sao2: root.querySelector('#fc-calc-cardiac-output-sao2'),
+        svo2: root.querySelector('#fc-calc-cardiac-output-svo2'),
+        hemoglobin: root.querySelector('#fc-calc-cardiac-output-hb'),
+        hr: root.querySelector('#fc-calc-cardiac-output-hr'),
+        age: root.querySelector('#fc-calc-cardiac-output-age'),
+        height: root.querySelector('#fc-calc-cardiac-output-height'),
+        weight: root.querySelector('#fc-calc-cardiac-output-weight')
+      };
+
+      function roundHalfUp(value, decimals) {
+        var factor = Math.pow(10, decimals);
+        return Math.round(value * factor + Number.EPSILON) / factor;
+      }
+
+      function parseNumber(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+        var n = Number(s);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function parsePositive(value) {
+        var n = parseNumber(value);
+        return n != null && n > 0 ? n : null;
+      }
+
+      function parsePercent(value) {
+        var n = parseNumber(value);
+        if (n == null || n < 0 || n > 100) return null;
+        return n;
+      }
+
+      function parseAge(value) {
+        var n = parseNumber(value);
+        if (n == null || n < 0 || !Number.isInteger(n)) return null;
+        return n;
+      }
+
+      function formatNum(n, decimals) {
+        return String(n).replace('.', ',');
+      }
+
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function isReady() {
+        return (
+          parsePercent(inputs.sao2.value) != null &&
+          parsePercent(inputs.svo2.value) != null &&
+          parsePositive(inputs.hemoglobin.value) != null &&
+          parsePositive(inputs.hr.value) != null &&
+          parseAge(inputs.age.value) != null &&
+          parsePositive(inputs.height.value) != null &&
+          parsePositive(inputs.weight.value) != null
+        );
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      function calculate() {
+        var sao2 = parsePercent(inputs.sao2.value);
+        var svo2 = parsePercent(inputs.svo2.value);
+        var hemoglobin = parsePositive(inputs.hemoglobin.value);
+        var hr = parsePositive(inputs.hr.value);
+        var age = parseAge(inputs.age.value);
+        var height = parsePositive(inputs.height.value);
+        var weight = parsePositive(inputs.weight.value);
+        var decimals = 2;
+
+        if ([sao2, svo2, hemoglobin, hr, age, height, weight].some(function (v) { return v == null; })) {
+          throw new Error('Заполните все поля корректными значениями');
+        }
+        if (svo2 >= sao2) {
+          throw new Error('SvO₂ должно быть ниже SaO₂');
+        }
+
+        var bsa = Math.sqrt((height * weight) / 3600);
+        var vo2 = (age > VO2_AGE_THRESHOLD ? VO2_ELDERLY : VO2_YOUNG) * bsa;
+        var denominator = ((sao2 - svo2) / 100) * (hemoglobin / 10) * HEMOGLOBIN_FACTOR;
+        var co = vo2 / denominator;
+        var ci = co / bsa;
+        var sv = (co / hr) * 1000;
+
+        return {
+          vo2: roundHalfUp(vo2, decimals),
+          co: roundHalfUp(co, decimals),
+          bsa: roundHalfUp(bsa, decimals),
+          ci: roundHalfUp(ci, decimals),
+          sv: roundHalfUp(sv, decimals),
+          decimals: decimals
+        };
+      }
+
+      function showResults(out) {
+        root.querySelector('#fc-calc-cardiac-output-result-co').textContent =
+          formatNum(out.co, out.decimals) + ' л/мин';
+        root.querySelector('#fc-calc-cardiac-output-result-bsa').textContent =
+          formatNum(out.bsa, out.decimals) + ' м²';
+        root.querySelector('#fc-calc-cardiac-output-result-ci').textContent =
+          formatNum(out.ci, out.decimals) + ' л/мин/м²';
+        root.querySelector('#fc-calc-cardiac-output-result-sv').textContent =
+          formatNum(out.sv, out.decimals) + ' мл';
+        root.querySelector('#fc-calc-cardiac-output-result-vo2').textContent =
+          formatNum(out.vo2, out.decimals) + ' мл/мин';
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+      }
+
+      form.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        formError.textContent = '';
+        hideResult();
+
+        if (!isReady()) {
+          formError.textContent = 'Заполните все поля';
+          return;
+        }
+
+        try {
+          showResults(calculate());
+        } catch (err) {
+          formError.textContent = err.message || 'Ошибка расчёта';
+        }
+      });
+
+      updateButton();
+    })();
+  </script>
+</div>

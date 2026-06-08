@@ -20,7 +20,10 @@ test('template and shared styles exist', async () => {
   assert.match(html, /fc-calc__result-wrap/);
   assert.match(html, /fc-calc__notes/);
   assert.match(html, /fc-calc__notes-title/);
-  assert.match(html, /Примечания/);
+  assert.match(html, /Примечание/);
+  assert.match(html, /fc-calc__panel-section/);
+  assert.match(html, /fc-calc__panel-heading/);
+  assert.match(css, /fc-calc__panel-section/);
   assert.match(html, /fc-calc__foot/);
 });
 
