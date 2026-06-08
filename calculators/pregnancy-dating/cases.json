@@ -162,6 +162,25 @@
           "edd": "2026-09-15"
         }
       }
+    },
+    {
+      "name": "КТР 2,4 см = 24 мм",
+      "input": {
+        "currentDate": "2026-06-08",
+        "usDate": "2026-05-01",
+        "crl": 2.4,
+        "crlUnit": "cm"
+      },
+      "expected": {
+        "crl": {
+          "gestationDays": 61,
+          "gestationWeeks": 8,
+          "gestationRemainderDays": 5,
+          "gestationWeeksDecimal": 8.7,
+          "gestationText": "8,7 нед",
+          "edd": "2026-12-06"
+        }
+      }
     }
   ]
 }

@@ -424,6 +424,11 @@
   min-width: 0;
 }
 
+.fc-calc .fc-calc__field-row select {
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+}
+
 .fc-calc .fc-calc__units {
   display: flex;
   flex-shrink: 0;
@@ -678,18 +683,54 @@
           <p class="fc-calc__hint">Измерение в 1-м триместре</p>
           <div class="fc-calc__field">
             <label for="fc-calc-pregnancy-dating-crl">Копчиково-теменной размер (КТР)</label>
-            <input type="number" id="fc-calc-pregnancy-dating-crl" name="crlMm" inputmode="decimal" min="0" step="any" placeholder="мм" />
+            <div class="fc-calc__field-row">
+              <input type="number" id="fc-calc-pregnancy-dating-crl" name="crl" inputmode="decimal" min="0" step="any" />
+              <select id="fc-calc-pregnancy-dating-crl-unit" name="crlUnit" aria-label="Единица измерения КТР">
+                <option value="mm" selected>mm</option>
+                <option value="cm">cm</option>
+                <option value="m">m</option>
+                <option value="in">in</option>
+                <option value="ft">ft</option>
+                <option value="yd">yd</option>
+                <option value="micm">micm</option>
+                <option value="nm">nm</option>
+              </select>
+            </div>
             <span class="fc-calc__error" id="fc-calc-pregnancy-dating-crl-error" role="alert"></span>
           </div>
           <p class="fc-calc__hint">Измерение во 2–3-м триместре</p>
           <div class="fc-calc__field">
             <label for="fc-calc-pregnancy-dating-bpd">Бипариетальный размер (БПР)</label>
-            <input type="number" id="fc-calc-pregnancy-dating-bpd" name="bpdMm" inputmode="decimal" min="0" step="any" placeholder="мм" />
+            <div class="fc-calc__field-row">
+              <input type="number" id="fc-calc-pregnancy-dating-bpd" name="bpd" inputmode="decimal" min="0" step="any" />
+              <select id="fc-calc-pregnancy-dating-bpd-unit" name="bpdUnit" aria-label="Единица измерения БПР">
+                <option value="mm" selected>mm</option>
+                <option value="cm">cm</option>
+                <option value="m">m</option>
+                <option value="in">in</option>
+                <option value="ft">ft</option>
+                <option value="yd">yd</option>
+                <option value="micm">micm</option>
+                <option value="nm">nm</option>
+              </select>
+            </div>
             <span class="fc-calc__error" id="fc-calc-pregnancy-dating-bpd-error" role="alert"></span>
           </div>
           <div class="fc-calc__field">
             <label for="fc-calc-pregnancy-dating-hc">Окружность головы (ОГ)</label>
-            <input type="number" id="fc-calc-pregnancy-dating-hc" name="hcMm" inputmode="decimal" min="0" step="any" placeholder="мм" />
+            <div class="fc-calc__field-row">
+              <input type="number" id="fc-calc-pregnancy-dating-hc" name="hc" inputmode="decimal" min="0" step="any" />
+              <select id="fc-calc-pregnancy-dating-hc-unit" name="hcUnit" aria-label="Единица измерения ОГ">
+                <option value="mm" selected>mm</option>
+                <option value="cm">cm</option>
+                <option value="m">m</option>
+                <option value="in">in</option>
+                <option value="ft">ft</option>
+                <option value="yd">yd</option>
+                <option value="micm">micm</option>
+                <option value="nm">nm</option>
+              </select>
+            </div>
             <span class="fc-calc__error" id="fc-calc-pregnancy-dating-hc-error" role="alert"></span>
           </div>
           <span class="fc-calc__error" id="fc-calc-pregnancy-dating-form-error" role="alert"></span>
@@ -711,7 +752,7 @@
 
     <details class="fc-calc__notes">
       <summary class="fc-calc__notes-summary">
-        <span class="fc-calc__notes-title">Примечания</span>
+        <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body" id="fc-calc-pregnancy-dating-notes">
@@ -719,9 +760,9 @@
         <p><strong>Дата родов по менструации</strong> — первый день последней менструации + 280 дней (40 недель). Срок беременности — от первого дня ПМ до текущей даты.</p>
         <p><strong>Беременность по менструации</strong> — срок на текущую дату (от ПМ до сегодня).</p>
         <p><strong>Беременность по КТР, БПР и ОГ</strong> — срок <em>на момент УЗИ</em> (как в MSD), не пересчитывается на текущую дату.</p>
-        <p>КТР: недели = 5,2876 + (0,1584 × КТР) − (0,0007 × КТР²). БПР: дни = 2 × БПР + 44,2. ОГ: недели = exp(1,854 + 0,010451 × ОГ − 0,000029919 × ОГ² + 0,000000043156 × ОГ³).</p>
+        <p>КТР: недели = 5,2876 + (0,1584 × КТР) − (0,0007 × КТР²). БПР: дни = 2 × БПР + 44,2. ОГ: недели = exp(1,854 + 0,010451 × ОГ − 0,000029919 × ОГ² + 0,000000043156 × ОГ³). Формулы используют миллиметры; при выборе другой единицы значения автоматически переводятся в мм.</p>
         <p class="fc-calc__hint">Даты по КТР — для 1-го триместра; по БПР и ОГ — предпочтительно для 2-го триместра.</p>
-        <p><strong>Литература</strong></p>
+        <p><strong>Источники</strong></p>
         <ol>
           <li>Mul T, Mongelli M, Gardosi J. A comparative analysis of second-trimester ultrasound dating formulae in pregnancies conceived with artificial reproductive techniques. <em>Ultrasound Obstet Gynecol.</em> 1996 Dec;8(6):397-402. <a href="https://pubmed.ncbi.nlm.nih.gov/9014279/" target="_blank" rel="noopener noreferrer">PubMed 9014279</a></li>
           <li>Westerway SC, Davison A, Cowell S. Ultrasonic fetal measurements: new Australian standards for the new millennium. <em>Aust N Z J Obstet Gynaecol.</em> 2000 Aug;40(3):297-302. <a href="https://pubmed.ncbi.nlm.nih.gov/11065037/" target="_blank" rel="noopener noreferrer">PubMed 11065037</a></li>
@@ -754,7 +795,27 @@
       var crlInput = root.querySelector('#fc-calc-pregnancy-dating-crl');
       var bpdInput = root.querySelector('#fc-calc-pregnancy-dating-bpd');
       var hcInput = root.querySelector('#fc-calc-pregnancy-dating-hc');
+      var crlUnitInput = root.querySelector('#fc-calc-pregnancy-dating-crl-unit');
+      var bpdUnitInput = root.querySelector('#fc-calc-pregnancy-dating-bpd-unit');
+      var hcUnitInput = root.querySelector('#fc-calc-pregnancy-dating-hc-unit');
       var formError = root.querySelector('#fc-calc-pregnancy-dating-form-error');
+
+      var LENGTH_TO_MM = {
+        mm: 1,
+        cm: 10,
+        m: 1000,
+        in: 25.4,
+        ft: 304.8,
+        yd: 914.4,
+        micm: 0.001,
+        nm: 0.000001,
+      };
+
+      function convertLengthToMm(value, unit) {
+        var factor = LENGTH_TO_MM[unit || 'mm'];
+        if (factor == null) throw new Error('Неизвестная единица измерения');
+        return value * factor;
+      }
 
       function todayIso() {
         var d = new Date();
@@ -876,9 +937,17 @@
           throw new Error('Дата УЗИ не может быть позже текущей даты');
         }
 
-        var crlMm = parseOptionalPositive(input.crlMm);
-        var bpdMm = parseOptionalPositive(input.bpdMm);
-        var hcMm = parseOptionalPositive(input.hcMm);
+        var defaultUnit = input.lengthUnit || 'mm';
+
+        function toMm(raw, legacy, unit) {
+          var n = parseOptionalPositive(raw != null && raw !== '' ? raw : legacy);
+          if (n == null) return null;
+          return convertLengthToMm(n, unit || defaultUnit);
+        }
+
+        var crlMm = toMm(input.crl, input.crlMm, input.crlUnit);
+        var bpdMm = toMm(input.bpd, input.bpdMm, input.bpdUnit);
+        var hcMm = toMm(input.hc, input.hcMm, input.hcUnit);
 
         if ((crlMm != null || bpdMm != null || hcMm != null) && !usDate) {
           throw new Error('Укажите дату УЗИ для расчёта по биометрии');
@@ -951,9 +1020,12 @@
           currentDate: currentInput.value || null,
           lmp: lmpInput.value || null,
           usDate: usDateInput.value || null,
-          crlMm: crlInput.value,
-          bpdMm: bpdInput.value,
-          hcMm: hcInput.value,
+          crl: crlInput.value,
+          crlUnit: crlUnitInput ? crlUnitInput.value : 'mm',
+          bpd: bpdInput.value,
+          bpdUnit: bpdUnitInput ? bpdUnitInput.value : 'mm',
+          hc: hcInput.value,
+          hcUnit: hcUnitInput ? hcUnitInput.value : 'mm',
         };
       }
 

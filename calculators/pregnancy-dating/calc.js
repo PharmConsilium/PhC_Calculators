@@ -5,6 +5,26 @@
 
 const PREGNANCY_DAYS = 280;
 
+/** Коэффициенты перевода в мм (как в MSD Manuals) */
+export const LENGTH_TO_MM = {
+  mm: 1,
+  cm: 10,
+  m: 1000,
+  in: 25.4,
+  ft: 304.8,
+  yd: 914.4,
+  micm: 0.001,
+  nm: 1e-6,
+};
+
+export function convertLengthToMm(value, unit = 'mm') {
+  const factor = LENGTH_TO_MM[unit];
+  if (factor == null) {
+    throw new Error('Неизвестная единица измерения');
+  }
+  return value * factor;
+}
+
 function parseIsoDate(dateStr) {
   if (typeof dateStr !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
   const d = new Date(`${dateStr}T00:00:00.000Z`);
@@ -114,9 +134,17 @@ export function calculate(input) {
     throw new Error('Дата УЗИ не может быть позже текущей даты');
   }
 
-  const crlMm = parseOptionalPositive(input.crlMm);
-  const bpdMm = parseOptionalPositive(input.bpdMm);
-  const hcMm = parseOptionalPositive(input.hcMm);
+  const defaultUnit = input.lengthUnit || 'mm';
+
+  function toMm(raw, unit) {
+    const n = parseOptionalPositive(raw);
+    if (n == null) return null;
+    return convertLengthToMm(n, unit || defaultUnit);
+  }
+
+  const crlMm = toMm(input.crl ?? input.crlMm, input.crlUnit);
+  const bpdMm = toMm(input.bpd ?? input.bpdMm, input.bpdUnit);
+  const hcMm = toMm(input.hc ?? input.hcMm, input.hcUnit);
 
   if ((crlMm != null || bpdMm != null || hcMm != null) && !usDate) {
     throw new Error('Укажите дату УЗИ для расчёта по биометрии');
