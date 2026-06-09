@@ -1,6 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название: Индекс клинической активности заболевания ревматоидным артритом (CDAI)
+  Сборка: 2026-06-09 — вертикальная раскладка суставов
 -->
 <div class="fc-calc" data-calculator="cdai">
   <style>
@@ -719,12 +720,25 @@
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row {
   display: grid;
   gap: 14px;
+  align-items: stretch;
 }
 
 @media (min-width: 520px) {
   .fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row .fc-calc__field label {
+  min-height: 2.6em;
+  line-height: 1.25;
+  margin-bottom: 6px;
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-panel .fc-calc__panel-heading {
@@ -1023,9 +1037,9 @@
           </div>
 
           <div class="fc-calc__panel-section">
-          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="tjc">
+          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="tjc" data-cdai-layout="v2">
             <h3 class="fc-calc__panel-heading">Количество болезненных суставов</h3>
-            <div class="fc-calc__cdai-panel-body">
+            <div class="fc-calc__cdai-panel-body" style="display:flex;flex-direction:column;gap:14px;max-width:36rem;margin:0 auto;">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="fc-calc-cdai-tjc-right-shoulder" name="fc-calc-cdai-tjc-right-shoulder" data-joint-prefix="tjc" data-side="right" data-joint="shoulder" />
@@ -1243,9 +1257,9 @@
           </div>
 
           <div class="fc-calc__panel-section">
-          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="sjc">
+          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="sjc" data-cdai-layout="v2">
             <h3 class="fc-calc__panel-heading">Количество припухших суставов</h3>
-            <div class="fc-calc__cdai-panel-body">
+            <div class="fc-calc__cdai-panel-body" style="display:flex;flex-direction:column;gap:14px;max-width:36rem;margin:0 auto;">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="fc-calc-cdai-sjc-right-shoulder" name="fc-calc-cdai-sjc-right-shoulder" data-joint-prefix="sjc" data-side="right" data-joint="shoulder" />

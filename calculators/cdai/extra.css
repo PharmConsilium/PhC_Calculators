@@ -2,12 +2,25 @@
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row {
   display: grid;
   gap: 14px;
+  align-items: stretch;
 }
 
 @media (min-width: 520px) {
   .fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="cdai"] .fc-calc__cdai-assess-row .fc-calc__field label {
+  min-height: 2.6em;
+  line-height: 1.25;
+  margin-bottom: 6px;
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-panel .fc-calc__panel-heading {

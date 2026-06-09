@@ -1,0 +1,79 @@
+/* martin-ldl */
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__formula {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: rgba(0, 94, 236, 0.22);
+  background: rgba(0, 94, 236, 0.05);
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-panel {
+  padding: 16px 18px;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-panel .fc-calc__panel-heading {
+  margin-bottom: 14px;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(6rem, 8rem) 5.5rem;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-label {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-value {
+  margin: 0;
+  padding: 10px 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row--primary .fc-calc__martin-result-value {
+  font-size: 22px;
+  color: var(--fc-blue);
+  border-color: rgba(0, 94, 236, 0.35);
+  background: rgba(0, 94, 236, 0.06);
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-unit {
+  margin: 0;
+  font-size: 14px;
+  color: var(--fc-text-muted, #5c6370);
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+
+  .fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-label {
+    grid-column: 1 / -1;
+  }
+
+  .fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-unit {
+    text-align: right;
+  }
+}

@@ -91,9 +91,9 @@ function renderPanel(prefix, title, shortLabel) {
   const rightKnee = renderSideJoints(prefix, SIDES[0], [KNEE_JOINT]);
   const leftKnee = renderSideJoints(prefix, SIDES[1], [KNEE_JOINT]);
 
-  return `          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="${prefix}">
+  return `          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="${prefix}" data-cdai-layout="v2">
             <h3 class="fc-calc__panel-heading">${title}</h3>
-            <div class="fc-calc__cdai-panel-body">
+            <div class="fc-calc__cdai-panel-body" style="display:flex;flex-direction:column;gap:14px;max-width:36rem;margin:0 auto;">
 ${rightUpper}
 ${rightHand}
 ${leftUpper}
@@ -119,6 +119,7 @@ ${leftKnee}
 const html = `<!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название: Индекс клинической активности заболевания ревматоидным артритом (CDAI)
+  Сборка: ${new Date().toISOString().slice(0, 10)} — вертикальная раскладка суставов
 -->
 <div class="fc-calc" data-calculator="cdai">
   <style>

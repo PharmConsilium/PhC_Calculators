@@ -1,0 +1,60 @@
+{
+  "cases": [
+    {
+      "name": "typical lipid panel",
+      "input": {
+        "totalChol": 200,
+        "hdl": 50,
+        "triglycerides": 150,
+        "decimals": 1
+      },
+      "expected": {
+        "nonHdl": 150,
+        "coefficient": 5.7,
+        "ldl": 123.7
+      }
+    },
+    {
+      "name": "moderate TG",
+      "input": {
+        "totalChol": 180,
+        "hdl": 45,
+        "triglycerides": 120,
+        "decimals": 1
+      },
+      "expected": {
+        "nonHdl": 135,
+        "coefficient": 5.2,
+        "ldl": 111.9
+      }
+    },
+    {
+      "name": "low TG boundary",
+      "input": {
+        "totalChol": 150,
+        "hdl": 60,
+        "triglycerides": 7,
+        "decimals": 0
+      },
+      "expected": {
+        "nonHdl": 90,
+        "coefficient": 3.5,
+        "ldl": 88
+      }
+    },
+    {
+      "name": "high non-HDL column",
+      "input": {
+        "totalChol": 250,
+        "hdl": 40,
+        "triglycerides": 80,
+        "decimals": 0
+      },
+      "expected": {
+        "nonHdl": 210,
+        "coefficient": 4.3,
+        "ldl": 191
+      }
+    }
+  ]
+}
