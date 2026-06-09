@@ -734,7 +734,10 @@
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-panel-body {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 14px;
+  max-width: 36rem;
+  margin: 0 auto;
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-joints-row {
@@ -743,15 +746,10 @@
   gap: 14px;
 }
 
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hands {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-side {
   padding: 0;
   min-width: 0;
+  width: 100%;
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-joint {
@@ -800,6 +798,7 @@
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand {
+  width: 100%;
   margin: 6px 0;
   border: none;
   overflow: visible;
@@ -816,22 +815,6 @@
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-legend-bar {
-  padding: 5px 8px;
-  text-align: center;
-  background: var(--fc-bg-page);
-  border: 1px solid var(--fc-border);
-  border-top: none;
-  border-radius: 0;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-legend {
-  display: block;
-  font-size: 12px;
-  line-height: 1.4;
   color: var(--fc-text);
 }
 
@@ -1043,7 +1026,6 @@
           <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="tjc">
             <h3 class="fc-calc__panel-heading">Количество болезненных суставов</h3>
             <div class="fc-calc__cdai-panel-body">
-              <div class="fc-calc__cdai-joints-row">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="fc-calc-cdai-tjc-right-shoulder" name="fc-calc-cdai-tjc-right-shoulder" data-joint-prefix="tjc" data-side="right" data-joint="shoulder" />
@@ -1058,28 +1040,8 @@
                   <span>Запястье</span>
                 </label>
               </div>
-              <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
-                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Плечо</span>
-                  <input type="checkbox" id="fc-calc-cdai-tjc-left-shoulder" name="fc-calc-cdai-tjc-left-shoulder" data-joint-prefix="tjc" data-side="left" data-joint="shoulder" />
-                </label>
-                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Локоть</span>
-                  <input type="checkbox" id="fc-calc-cdai-tjc-left-elbow" name="fc-calc-cdai-tjc-left-elbow" data-joint-prefix="tjc" data-side="left" data-joint="elbow" />
-                </label>
-                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Запястье</span>
-                  <input type="checkbox" id="fc-calc-cdai-tjc-left-wrist" name="fc-calc-cdai-tjc-left-wrist" data-joint-prefix="tjc" data-side="left" data-joint="wrist" />
-                </label>
-              </div>
-              </div>
-              <div class="fc-calc__cdai-hands">
               <div class="fc-calc__cdai-hand">
                 <div class="fc-calc__cdai-hand-title-bar">Правая рука</div>
-                <div class="fc-calc__cdai-hand-legend-bar">
-                  <span class="fc-calc__cdai-hand-legend">MCP 1–5</span>
-                  <span class="fc-calc__cdai-hand-legend">IP 1, PIP 2–5</span>
-                </div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1158,12 +1120,22 @@
                   </div>
                 </div>
               </div>
+              <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
+                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
+                  <span>Плечо</span>
+                  <input type="checkbox" id="fc-calc-cdai-tjc-left-shoulder" name="fc-calc-cdai-tjc-left-shoulder" data-joint-prefix="tjc" data-side="left" data-joint="shoulder" />
+                </label>
+                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
+                  <span>Локоть</span>
+                  <input type="checkbox" id="fc-calc-cdai-tjc-left-elbow" name="fc-calc-cdai-tjc-left-elbow" data-joint-prefix="tjc" data-side="left" data-joint="elbow" />
+                </label>
+                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
+                  <span>Запястье</span>
+                  <input type="checkbox" id="fc-calc-cdai-tjc-left-wrist" name="fc-calc-cdai-tjc-left-wrist" data-joint-prefix="tjc" data-side="left" data-joint="wrist" />
+                </label>
+              </div>
               <div class="fc-calc__cdai-hand">
                 <div class="fc-calc__cdai-hand-title-bar">Левая рука</div>
-                <div class="fc-calc__cdai-hand-legend-bar">
-                  <span class="fc-calc__cdai-hand-legend">MCP 1–5</span>
-                  <span class="fc-calc__cdai-hand-legend">IP 1, PIP 2–5</span>
-                </div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1242,7 +1214,6 @@
                   </div>
                 </div>
               </div>
-              </div>
               <div class="fc-calc__cdai-joints-row">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
@@ -1275,7 +1246,6 @@
           <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="sjc">
             <h3 class="fc-calc__panel-heading">Количество припухших суставов</h3>
             <div class="fc-calc__cdai-panel-body">
-              <div class="fc-calc__cdai-joints-row">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="fc-calc-cdai-sjc-right-shoulder" name="fc-calc-cdai-sjc-right-shoulder" data-joint-prefix="sjc" data-side="right" data-joint="shoulder" />
@@ -1290,28 +1260,8 @@
                   <span>Запястье</span>
                 </label>
               </div>
-              <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
-                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Плечо</span>
-                  <input type="checkbox" id="fc-calc-cdai-sjc-left-shoulder" name="fc-calc-cdai-sjc-left-shoulder" data-joint-prefix="sjc" data-side="left" data-joint="shoulder" />
-                </label>
-                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Локоть</span>
-                  <input type="checkbox" id="fc-calc-cdai-sjc-left-elbow" name="fc-calc-cdai-sjc-left-elbow" data-joint-prefix="sjc" data-side="left" data-joint="elbow" />
-                </label>
-                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Запястье</span>
-                  <input type="checkbox" id="fc-calc-cdai-sjc-left-wrist" name="fc-calc-cdai-sjc-left-wrist" data-joint-prefix="sjc" data-side="left" data-joint="wrist" />
-                </label>
-              </div>
-              </div>
-              <div class="fc-calc__cdai-hands">
               <div class="fc-calc__cdai-hand">
                 <div class="fc-calc__cdai-hand-title-bar">Правая рука</div>
-                <div class="fc-calc__cdai-hand-legend-bar">
-                  <span class="fc-calc__cdai-hand-legend">MCP 1–5</span>
-                  <span class="fc-calc__cdai-hand-legend">IP 1, PIP 2–5</span>
-                </div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1390,12 +1340,22 @@
                   </div>
                 </div>
               </div>
+              <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
+                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
+                  <span>Плечо</span>
+                  <input type="checkbox" id="fc-calc-cdai-sjc-left-shoulder" name="fc-calc-cdai-sjc-left-shoulder" data-joint-prefix="sjc" data-side="left" data-joint="shoulder" />
+                </label>
+                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
+                  <span>Локоть</span>
+                  <input type="checkbox" id="fc-calc-cdai-sjc-left-elbow" name="fc-calc-cdai-sjc-left-elbow" data-joint-prefix="sjc" data-side="left" data-joint="elbow" />
+                </label>
+                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
+                  <span>Запястье</span>
+                  <input type="checkbox" id="fc-calc-cdai-sjc-left-wrist" name="fc-calc-cdai-sjc-left-wrist" data-joint-prefix="sjc" data-side="left" data-joint="wrist" />
+                </label>
+              </div>
               <div class="fc-calc__cdai-hand">
                 <div class="fc-calc__cdai-hand-title-bar">Левая рука</div>
-                <div class="fc-calc__cdai-hand-legend-bar">
-                  <span class="fc-calc__cdai-hand-legend">MCP 1–5</span>
-                  <span class="fc-calc__cdai-hand-legend">IP 1, PIP 2–5</span>
-                </div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1474,7 +1434,6 @@
                   </div>
                 </div>
               </div>
-              </div>
               <div class="fc-calc__cdai-joints-row">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
@@ -1544,7 +1503,6 @@
         <p><strong>Ссылки:</strong></p>
         <p class="fc-calc__source-item">Aletaha D, Nell VP, Stamm T, et al. Acute phase reactants add little to composite disease activity indices for rheumatoid arthritis: validation of a clinical activity score. <em>Arthritis Res Ther.</em> 2005;7(4):R796-806. <a href="https://pubmed.ncbi.nlm.nih.gov/15987481/" target="_blank" rel="noopener noreferrer">PubMed 15987481</a></p>
         <p class="fc-calc__source-item">Aletaha D, Smolen J. The Simplified Disease Activity Index (SDAI) and the Clinical Disease Activity Index (CDAI): a review of their usefulness and validity in rheumatoid arthritis. <em>Clin Exp Rheumatol.</em> 2005 Sep-Oct;23(5 Suppl 39):S100-8. <a href="https://pubmed.ncbi.nlm.nih.gov/16273793/" target="_blank" rel="noopener noreferrer">PubMed 16273793</a></p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%98%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%20%D0%BA%D0%BB%D0%B8%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B9%20%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20%D0%B7%D0%B0%D0%B1%D0%BE%D0%BB%D0%B5%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D1%80%D0%B5%D0%B2%D0%BC%D0%B0%D1%82%D0%BE%D0%B8%D0%B4%D0%BD%D1%8B%D0%BC%20%D0%B0%D1%80%D1%82%D1%80%D0%B8%D1%82%D0%BE%D0%BC%20CDAI" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

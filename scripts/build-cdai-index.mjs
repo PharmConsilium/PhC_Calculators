@@ -70,10 +70,6 @@ function renderHandGrid(prefix, sideId, handLabel) {
   ).join('\n');
   return `              <div class="fc-calc__cdai-hand">
                 <div class="fc-calc__cdai-hand-title-bar">${handLabel}</div>
-                <div class="fc-calc__cdai-hand-legend-bar">
-                  <span class="fc-calc__cdai-hand-legend">MCP 1–5</span>
-                  <span class="fc-calc__cdai-hand-legend">IP 1, PIP 2–5</span>
-                </div>
                 <div class="fc-calc__cdai-hand-grid">
 ${fingers}
                 </div>
@@ -88,21 +84,23 @@ ${items}
 }
 
 function renderPanel(prefix, title, shortLabel) {
-  const upperRow = SIDES.map((side) => renderSideJoints(prefix, side, LARGE_JOINTS)).join('\n');
-  const hands = SIDES.map((side) => renderHandGrid(prefix, side.id, side.label)).join('\n');
-  const lowerRow = SIDES.map((side) => renderSideJoints(prefix, side, [KNEE_JOINT])).join('\n');
+  const rightUpper = renderSideJoints(prefix, SIDES[0], LARGE_JOINTS);
+  const rightHand = renderHandGrid(prefix, 'right', SIDES[0].label);
+  const leftUpper = renderSideJoints(prefix, SIDES[1], LARGE_JOINTS);
+  const leftHand = renderHandGrid(prefix, 'left', SIDES[1].label);
+  const rightKnee = renderSideJoints(prefix, SIDES[0], [KNEE_JOINT]);
+  const leftKnee = renderSideJoints(prefix, SIDES[1], [KNEE_JOINT]);
 
   return `          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="${prefix}">
             <h3 class="fc-calc__panel-heading">${title}</h3>
             <div class="fc-calc__cdai-panel-body">
+${rightUpper}
+${rightHand}
+${leftUpper}
+${leftHand}
               <div class="fc-calc__cdai-joints-row">
-${upperRow}
-              </div>
-              <div class="fc-calc__cdai-hands">
-${hands}
-              </div>
-              <div class="fc-calc__cdai-joints-row">
-${lowerRow}
+${rightKnee}
+${leftKnee}
               </div>
             </div>
             <div class="fc-calc__cdai-panel-foot">
@@ -202,7 +200,6 @@ ${renderPanel('sjc', 'Количество припухших суставов',
         <p><strong>Ссылки:</strong></p>
         <p class="fc-calc__source-item">Aletaha D, Nell VP, Stamm T, et al. Acute phase reactants add little to composite disease activity indices for rheumatoid arthritis: validation of a clinical activity score. <em>Arthritis Res Ther.</em> 2005;7(4):R796-806. <a href="https://pubmed.ncbi.nlm.nih.gov/15987481/" target="_blank" rel="noopener noreferrer">PubMed 15987481</a></p>
         <p class="fc-calc__source-item">Aletaha D, Smolen J. The Simplified Disease Activity Index (SDAI) and the Clinical Disease Activity Index (CDAI): a review of their usefulness and validity in rheumatoid arthritis. <em>Clin Exp Rheumatol.</em> 2005 Sep-Oct;23(5 Suppl 39):S100-8. <a href="https://pubmed.ncbi.nlm.nih.gov/16273793/" target="_blank" rel="noopener noreferrer">PubMed 16273793</a></p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%98%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%20%D0%BA%D0%BB%D0%B8%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B9%20%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20%D0%B7%D0%B0%D0%B1%D0%BE%D0%BB%D0%B5%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D1%80%D0%B5%D0%B2%D0%BC%D0%B0%D1%82%D0%BE%D0%B8%D0%B4%D0%BD%D1%8B%D0%BC%20%D0%B0%D1%80%D1%82%D1%80%D0%B8%D1%82%D0%BE%D0%BC%20CDAI" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
