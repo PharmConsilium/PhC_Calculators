@@ -27,6 +27,10 @@
   text-align: left;
 }
 
+.fc-calc[data-calculator="cdai"] .fc-calc__cdai-side-heading {
+  margin-top: 6px;
+}
+
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-panel-body {
   display: flex;
   flex-direction: column;
@@ -137,35 +141,6 @@
   border-radius: 0 0 var(--fc-radius) var(--fc-radius);
   padding: 10px 4px 10px;
   min-width: 0;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger-stem {
-  width: 62%;
-  min-width: 22px;
-  background: #b0b5bf;
-  border-radius: 0 0 5px 5px;
-  flex-shrink: 0;
-}
-
-/* от плашки руки вниз: мизинец короче всех, средний — самый длинный */
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--1 .fc-calc__cdai-hand-finger-stem {
-  height: 28px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--2 .fc-calc__cdai-hand-finger-stem {
-  height: 50px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--3 .fc-calc__cdai-hand-finger-stem {
-  height: 76px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--4 .fc-calc__cdai-hand-finger-stem {
-  height: 58px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--5 .fc-calc__cdai-hand-finger-stem {
-  height: 14px;
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-cell {

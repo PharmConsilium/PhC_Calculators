@@ -1,59 +1,68 @@
 {
   "cases": [
     {
-      "name": "typical lipid panel",
+      "name": "NOA example 7/3/4",
       "input": {
-        "totalChol": 200,
-        "hdl": 50,
-        "triglycerides": 150,
-        "decimals": 1
+        "totalChol": 7,
+        "hdl": 3,
+        "triglycerides": 4
       },
       "expected": {
-        "nonHdl": 150,
-        "coefficient": 5.7,
-        "ldl": 123.7
+        "martinLdl": 2.44,
+        "sampsonLdl": 2.52,
+        "friedewaldLdl": 2.18
+      }
+    },
+    {
+      "name": "typical lipid panel",
+      "input": {
+        "totalChol": 5.17,
+        "hdl": 1.29,
+        "triglycerides": 1.69
+      },
+      "expected": {
+        "martinLdl": 3.2,
+        "sampsonLdl": 3.19,
+        "friedewaldLdl": 3.11
       }
     },
     {
       "name": "moderate TG",
       "input": {
-        "totalChol": 180,
-        "hdl": 45,
-        "triglycerides": 120,
-        "decimals": 1
+        "totalChol": 4.66,
+        "hdl": 1.16,
+        "triglycerides": 1.35
       },
       "expected": {
-        "nonHdl": 135,
-        "coefficient": 5.2,
-        "ldl": 111.9
+        "martinLdl": 2.93,
+        "sampsonLdl": 2.94,
+        "friedewaldLdl": 2.88
       }
     },
     {
-      "name": "low TG boundary",
+      "name": "example 6.9/2/3",
       "input": {
-        "totalChol": 150,
-        "hdl": 60,
-        "triglycerides": 7,
-        "decimals": 0
+        "totalChol": 6.9,
+        "hdl": 2,
+        "triglycerides": 3
       },
       "expected": {
-        "nonHdl": 90,
-        "coefficient": 3.5,
-        "ldl": 88
+        "martinLdl": 3.67,
+        "sampsonLdl": 3.67,
+        "friedewaldLdl": 3.53
       }
     },
     {
-      "name": "high non-HDL column",
+      "name": "user example 9/2/3 mmol/L",
       "input": {
-        "totalChol": 250,
-        "hdl": 40,
-        "triglycerides": 80,
-        "decimals": 0
+        "totalChol": 9,
+        "hdl": 2,
+        "triglycerides": 3
       },
       "expected": {
-        "nonHdl": 210,
-        "coefficient": 4.3,
-        "ldl": 191
+        "martinLdl": 5.77,
+        "sampsonLdl": 5.63,
+        "friedewaldLdl": 5.63
       }
     }
   ]

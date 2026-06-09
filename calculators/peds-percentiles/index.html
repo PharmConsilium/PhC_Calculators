@@ -1,0 +1,5437 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Процентили в педиатрии
+  Сборка: 2026-06-09o
+-->
+<div class="fc-calc" data-calculator="peds-percentiles" data-build="2026-06-09y">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__mode-select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--fc-text);
+  background: var(--fc-bg-input, #f8f8f9);
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__mode-hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__mode-fields {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--fc-border, #d1d5db);
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__mode-panel[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__input-unit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__input-unit-row input[type="number"] {
+  flex: 1 1 10rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface, #fff);
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__unit-segmented {
+  flex: 0 0 auto;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__unit-segmented .fc-calc__segment {
+  min-width: 3.25rem;
+  padding: 10px 12px;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__unit-fixed {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 16px;
+  color: var(--fc-text);
+  background: var(--fc-bg-card, #eff0f2);
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-part {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-part input[type="number"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__age-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__result-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__result-list li {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__result-list li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-row,
+  .fc-calc[data-calculator="peds-percentiles"] .fc-calc__age-row {
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Процентили в педиатрии</h2>
+        <p class="fc-calc__hint">Расчёт процентилей по стандартам ВОЗ: вес, рост, ИМТ, ОГ, масса при рождении, масса плода, целевой рост</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-peds-percentiles-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Введите данные</h3>
+              <div class="fc-calc__field">
+                <label for="fc-calc-peds-percentiles-mode">Калькулятор</label>
+                <select class="fc-calc__mode-select" id="fc-calc-peds-percentiles-mode" name="mode" required>
+            <option value="baby" selected>Вес, рост, окружность головы до 2-х лет</option>
+            <option value="birthweight">Вес при рождении</option>
+            <option value="bmi">ИМТ</option>
+            <option value="height">Рост до 5-ти лет</option>
+            <option value="head">Окружность головы до 5-ти лет</option>
+            <option value="weight">Вес до 5-ти лет</option>
+            <option value="fetal">Вес плода</option>
+            <option value="targetHeight">Потенциал роста ребенка на основании роста родителей</option>
+                </select>
+              </div>
+              <p class="fc-calc__mode-hint" id="fc-calc-peds-percentiles-mode-hint">Возраст до 2 лет (24 мес.): укажите годы и/или месяцы. Заполните хотя бы одно измерение.</p>
+              <div class="fc-calc__mode-fields">
+              <div class="fc-calc__mode-panel fc-calc__mode-panel--active" data-mode="baby">
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол</span>
+              <div class="fc-calc__segmented" data-sex-group="baby">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Возраст</span>
+                  <div class="fc-calc__baby-age-row">
+                    <div class="fc-calc__baby-age-part">
+                      <input type="number" id="fc-calc-peds-percentiles-baby-age-years" inputmode="numeric" min="0" max="5" step="1" placeholder="0" aria-label="Годы" />
+                      <span class="fc-calc__unit-fixed">лет</span>
+                    </div>
+                    <div class="fc-calc__baby-age-part">
+                      <input type="number" id="fc-calc-peds-percentiles-baby-age-months" inputmode="numeric" min="0" max="11" step="1" placeholder="0" aria-label="Месяцы" />
+                      <span class="fc-calc__unit-fixed">мес.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Вес</span>
+                  <div class="fc-calc__baby-age-row">
+                    <div class="fc-calc__baby-age-part">
+                      <input type="number" id="fc-calc-peds-percentiles-baby-weight-kg" inputmode="decimal" min="0" step="any" placeholder="0" aria-label="Килограммы" />
+                      <span class="fc-calc__unit-fixed">кг</span>
+                    </div>
+                    <div class="fc-calc__baby-age-part">
+                      <input type="number" id="fc-calc-peds-percentiles-baby-weight-g" inputmode="numeric" min="0" max="999" step="1" placeholder="0" aria-label="Граммы" />
+                      <span class="fc-calc__unit-fixed">г</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-baby-height">Рост</label>
+                  <div class="fc-calc__input-unit-row">
+                    <input type="number" id="fc-calc-peds-percentiles-baby-height" inputmode="decimal" min="0" step="any" placeholder="0" />
+                    <span class="fc-calc__unit-fixed">см</span>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-baby-head">Окружность головы</label>
+                  <div class="fc-calc__input-unit-row">
+                    <input type="number" id="fc-calc-peds-percentiles-baby-head" inputmode="decimal" min="0" step="any" placeholder="0" />
+                    <span class="fc-calc__unit-fixed">см</span>
+                  </div>
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="birthweight" hidden>
+                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-bw-weeks">Гестационный возраст, нед.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-bw-weeks" inputmode="numeric" min="20" max="41" step="1" placeholder="нед." />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-bw-days">Дни</label>
+                    <input type="number" id="fc-calc-peds-percentiles-bw-days" inputmode="numeric" min="0" max="6" step="1" placeholder="0" />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-bw-weight">Масса при рождении, г</label>
+                  <input type="number" id="fc-calc-peds-percentiles-bw-weight" inputmode="numeric" min="0" step="1" placeholder="г" />
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="bmi" hidden>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол</span>
+              <div class="fc-calc__segmented" data-sex-group="bmi">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-bmi-years">Возраст, лет</label>
+                    <input type="number" id="fc-calc-peds-percentiles-bmi-years" inputmode="numeric" min="0" max="19" step="1" placeholder="лет" />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-bmi-months">Мес.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-bmi-months" inputmode="numeric" min="0" max="11" step="1" placeholder="мес." />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-bmi-weight">Масса, кг</label>
+                  <input type="number" id="fc-calc-peds-percentiles-bmi-weight" inputmode="decimal" min="0" step="any" placeholder="кг" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-bmi-height">Рост, см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-bmi-height" inputmode="decimal" min="0" step="any" placeholder="см" />
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="height" hidden>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол</span>
+              <div class="fc-calc__segmented" data-sex-group="height">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-height-years">Возраст, лет</label>
+                    <input type="number" id="fc-calc-peds-percentiles-height-years" inputmode="numeric" min="0" max="5" step="1" />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-height-months">Мес.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-height-months" inputmode="numeric" min="0" max="11" step="1" />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-height-cm">Рост, см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-height-cm" inputmode="decimal" min="0" step="any" placeholder="см" />
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="head" hidden>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол</span>
+              <div class="fc-calc__segmented" data-sex-group="head">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-head-years">Возраст, лет</label>
+                    <input type="number" id="fc-calc-peds-percentiles-head-years" inputmode="numeric" min="0" max="5" step="1" />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-head-months">Мес.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-head-months" inputmode="numeric" min="0" max="11" step="1" />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-head-cm">Окружность головы, см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-head-cm" inputmode="decimal" min="0" step="any" placeholder="см" />
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="weight" hidden>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол</span>
+              <div class="fc-calc__segmented" data-sex-group="weight">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-weight-years">Возраст, лет</label>
+                    <input type="number" id="fc-calc-peds-percentiles-weight-years" inputmode="numeric" min="0" max="5" step="1" />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-weight-months">Мес.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-weight-months" inputmode="numeric" min="0" max="11" step="1" />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Вес</span>
+                  <div class="fc-calc__baby-age-row">
+                    <div class="fc-calc__baby-age-part">
+                      <input type="number" id="fc-calc-peds-percentiles-weight-kg" inputmode="decimal" min="0" step="any" placeholder="0" aria-label="Килограммы" />
+                      <span class="fc-calc__unit-fixed">кг</span>
+                    </div>
+                    <div class="fc-calc__baby-age-part">
+                      <input type="number" id="fc-calc-peds-percentiles-weight-g" inputmode="numeric" min="0" max="999" step="1" placeholder="0" aria-label="Граммы" />
+                      <span class="fc-calc__unit-fixed">г</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="fetal" hidden>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол плода</span>
+              <div class="fc-calc__segmented" data-sex-group="fetal">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-fetal-weeks">Срок, нед.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-fetal-weeks" inputmode="numeric" min="14" max="40" step="1" />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-fetal-days">Дни</label>
+                    <input type="number" id="fc-calc-peds-percentiles-fetal-days" inputmode="numeric" min="0" max="6" step="1" />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-fetal-ac">Окружность живота (AC), см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-fetal-ac" inputmode="decimal" min="0" step="any" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-fetal-fl">Длина бедренной кости (FL), см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-fetal-fl" inputmode="decimal" min="0" step="any" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-fetal-hc">Окружность головы (HC), см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-fetal-hc" inputmode="decimal" min="0" step="any" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-fetal-bpd">Бипариетальный размер (BPD), см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-fetal-bpd" inputmode="decimal" min="0" step="any" />
+                </div>
+              </div>
+              <div class="fc-calc__mode-panel" data-mode="targetHeight" hidden>
+                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол ребёнка</span>
+              <div class="fc-calc__segmented" data-sex-group="target">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="male">Мальчик</button>
+                <button type="button" class="fc-calc__segment" data-sex="female">Девочка</button>
+              </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-mother-h">Рост матери, см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-mother-h" inputmode="decimal" min="0" step="any" placeholder="см" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-father-h">Рост отца, см</label>
+                  <input type="number" id="fc-calc-peds-percentiles-father-h" inputmode="decimal" min="0" step="any" placeholder="см" />
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-peds-percentiles-result" aria-live="polite">
+            <div class="fc-calc__result" id="fc-calc-peds-percentiles-result-box">
+              <p class="fc-calc__result-label">Результат</p>
+              <div class="fc-calc__result-number" id="fc-calc-peds-percentiles-result-main">—</div>
+              <p class="fc-calc__result-desc" id="fc-calc-peds-percentiles-result-desc"></p>
+              <ul class="fc-calc__result-list" id="fc-calc-peds-percentiles-result-list"></ul>
+            </div>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-peds-percentiles-form-error" role="alert"></span>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-peds-percentiles-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-peds-percentiles-form" disabled>Рассчитать</button>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор объединяет расчёт педиатрических процентилей по стандартам ВОЗ (метод LMS): вес, рост, ИМТ, окружность головы, масса при рождении и масса плода.</p>
+        <p><strong>Потенциал роста ребенка на основании роста родителей</strong> рассчитывается по среднему росту родителей: для мальчиков (рост отца + рост матери + 13) / 2, для девочек (рост отца + рост матери − 13) / 2; диапазон ±8,5 см.</p>
+        <p><strong>Масса плода</strong> — формула Hadlock по параметрам УЗИ (AC, FL, HC, BPD); процентиль — по кривым ВОЗ.</p>
+        <p>Процентиль показывает долю детей того же пола и возраста с меньшим значением показателя. Оценка проводится в динамике; резкий переход через 2+ «канала» процентилей требует консультации педиатра.</p>
+        <p class="fc-calc__hint">Источник: Всемирная организация здравоохранения.</p>
+        <p class="fc-calc__hint">Справочно. Не заменяет осмотр врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  var WHO_LMS = {"source":"WHO Child Growth Standards (height/head/weight: official 0–60 mo; other: CDC z-score tables)","weightInf":{"male":[{"x":0,"L":1.815151075,"M":3.530203168,"S":0.152385273},{"x":0.5,"L":1.547523128,"M":4.003106424,"S":0.146025021},{"x":1.5,"L":1.068795548,"M":4.879525083,"S":0.136478767},{"x":2.5,"L":0.695973505,"M":5.672888765,"S":0.129677511},{"x":3.5,"L":0.41981509,"M":6.391391982,"S":0.124717085},{"x":4.5,"L":0.219866801,"M":7.041836432,"S":0.121040119},{"x":5.5,"L":0.077505598,"M":7.630425182,"S":0.1182712},{"x":6.5,"L":-0.02190761,"M":8.162951035,"S":0.116153695},{"x":7.5,"L":-0.0894409,"M":8.644832479,"S":0.114510349},{"x":8.5,"L":-0.1334091,"M":9.081119817,"S":0.113217163},{"x":9.5,"L":-0.1600954,"M":9.476500305,"S":0.11218624},{"x":10.5,"L":-0.17429685,"M":9.835307701,"S":0.111354536},{"x":11.5,"L":-0.1797189,"M":10.16153567,"S":0.110676413},{"x":12.5,"L":-0.179254,"M":10.45885399,"S":0.110118635},{"x":13.5,"L":-0.17518447,"M":10.7306256,"S":0.109656941},{"x":14.5,"L":-0.16932268,"M":10.97992482,"S":0.109273653},{"x":15.5,"L":-0.1631139,"M":11.20955529,"S":0.10895596},{"x":16.5,"L":-0.15770999,"M":11.4220677,"S":0.108694678},{"x":17.5,"L":-0.15402279,"M":11.61977698,"S":0.108483324},{"x":18.5,"L":-0.15276214,"M":11.80477902,"S":0.108317416},{"x":19.5,"L":-0.15446658,"M":11.9789663,"S":0.108193944},{"x":20.5,"L":-0.15952202,"M":12.14404334,"S":0.108110954},{"x":21.5,"L":-0.16817926,"M":12.30154103,"S":0.108067236},{"x":22.5,"L":-0.1805668,"M":12.45283028,"S":0.108062078},{"x":23.5,"L":-0.19670196,"M":12.59913494,"S":0.108095077},{"x":24.5,"L":-0.21650121,"M":12.74154396,"S":0.108166005},{"x":25.5,"L":-0.23979048,"M":12.88102276,"S":0.108274705},{"x":26.5,"L":-0.26631585,"M":13.01842382,"S":0.108421024},{"x":27.5,"L":-0.29575496,"M":13.1544966,"S":0.108604769},{"x":28.5,"L":-0.32772936,"M":13.28989667,"S":0.108825681},{"x":29.5,"L":-0.36181746,"M":13.42519408,"S":0.109083423},{"x":30.5,"L":-0.39756808,"M":13.56088113,"S":0.109377581},{"x":31.5,"L":-0.43452025,"M":13.69737858,"S":0.109707646},{"x":32.5,"L":-0.47218875,"M":13.83504622,"S":0.110073084},{"x":33.5,"L":-0.51012309,"M":13.97418199,"S":0.110473238},{"x":34.5,"L":-0.54788557,"M":14.1150324,"S":0.1109074},{"x":35.5,"L":-0.5850701,"M":14.25779618,"S":0.111374787},{"x":36,"L":-0.60333785,"M":14.32994444,"S":0.111620652}],"female":[{"x":0,"L":1.509187507,"M":3.39918645,"S":0.142106724},{"x":0.5,"L":1.357944315,"M":3.79752846,"S":0.138075916},{"x":1.5,"L":1.105537708,"M":4.544776513,"S":0.131733888},{"x":2.5,"L":0.902596648,"M":5.230584214,"S":0.126892697},{"x":3.5,"L":0.734121414,"M":5.859960798,"S":0.123025182},{"x":4.5,"L":0.590235275,"M":6.437587751,"S":0.119840911},{"x":5.5,"L":0.464391566,"M":6.967850457,"S":0.117166868},{"x":6.5,"L":0.352164071,"M":7.454854109,"S":0.11489384},{"x":7.5,"L":0.250497889,"M":7.902436186,"S":0.112949644},{"x":8.5,"L":0.15724751,"M":8.314178377,"S":0.11128469},{"x":9.5,"L":0.070885725,"M":8.693418423,"S":0.109863709},{"x":10.5,"L":-0.00968493,"M":9.043261854,"S":0.10866078},{"x":11.5,"L":-0.085258,"M":9.366593571,"S":0.10765621},{"x":12.5,"L":-0.15640945,"M":9.666089185,"S":0.106834517},{"x":13.5,"L":-0.22355869,"M":9.944226063,"S":0.106183085},{"x":14.5,"L":-0.28701346,"M":10.20329397,"S":0.105691242},{"x":15.5,"L":-0.34699919,"M":10.4454058,"S":0.105349631},{"x":16.5,"L":-0.40368918,"M":10.67250698,"S":0.105149754},{"x":17.5,"L":-0.45721877,"M":10.88638558,"S":0.105083666},{"x":18.5,"L":-0.50770077,"M":11.08868151,"S":0.105143752},{"x":19.5,"L":-0.55523599,"M":11.28089537,"S":0.105322575},{"x":20.5,"L":-0.59992113,"M":11.46439708,"S":0.10561278},{"x":21.5,"L":-0.64185418,"M":11.64043402,"S":0.106007025},{"x":22.5,"L":-0.6811381,"M":11.81013895,"S":0.106497957},{"x":23.5,"L":-0.71788283,"M":11.97453748,"S":0.107078197},{"x":24.5,"L":-0.75220617,"M":12.13455528,"S":0.107740346},{"x":25.5,"L":-0.78423359,"M":12.2910249,"S":0.108477009},{"x":26.5,"L":-0.81409743,"M":12.44469237,"S":0.109280822},{"x":27.5,"L":-0.8419355,"M":12.59622335,"S":0.110144488},{"x":28.5,"L":-0.86788939,"M":12.74620911,"S":0.111060814},{"x":29.5,"L":-0.89210264,"M":12.89517218,"S":0.112022758},{"x":30.5,"L":-0.91471881,"M":13.04357164,"S":0.113023466},{"x":31.5,"L":-0.93587966,"M":13.19180827,"S":0.114056316},{"x":32.5,"L":-0.95572344,"M":13.34022934,"S":0.115114952},{"x":33.5,"L":-0.97438101,"M":13.48913357,"S":0.116193337},{"x":34.5,"L":-0.99198075,"M":13.63877446,"S":0.11728575},{"x":35.5,"L":-1.00864074,"M":13.78936547,"S":0.118386847},{"x":36,"L":-1.01665314,"M":13.86507382,"S":0.118939087}]},"lengthInf":{"male":[{"x":0,"L":1.267004226,"M":49.98888408,"S":0.053112191},{"x":0.5,"L":0.511237696,"M":52.6959753,"S":0.048692684},{"x":1.5,"L":-0.45224446,"M":56.62842855,"S":0.04411683},{"x":2.5,"L":-0.990594599,"M":59.60895343,"S":0.041795583},{"x":3.5,"L":-1.285837689,"M":62.07700027,"S":0.040454126},{"x":4.5,"L":-1.43031238,"M":64.2168641,"S":0.039633879},{"x":5.5,"L":-1.47657547,"M":66.1253149,"S":0.039123813},{"x":6.5,"L":-1.456837849,"M":67.8601799,"S":0.038811994},{"x":7.5,"L":-1.391898768,"M":69.45908458,"S":0.038633209},{"x":8.5,"L":-1.29571459,"M":70.94803912,"S":0.038546833},{"x":9.5,"L":-1.177919048,"M":72.34586111,"S":0.038526262},{"x":10.5,"L":-1.045326049,"M":73.6666541,"S":0.038553387},{"x":11.5,"L":-0.902800887,"M":74.92129717,"S":0.038615501},{"x":12.5,"L":-0.753908107,"M":76.11837536,"S":0.038703461},{"x":13.5,"L":-0.601263523,"M":77.26479911,"S":0.038810557},{"x":14.5,"L":-0.446805039,"M":78.36622309,"S":0.038931784},{"x":15.5,"L":-0.291974772,"M":79.4273405,"S":0.039063356},{"x":16.5,"L":-0.13784767,"M":80.45209492,"S":0.039202382},{"x":17.5,"L":0.014776155,"M":81.44383603,"S":0.039346629},{"x":18.5,"L":0.165304169,"M":82.40543643,"S":0.039494365},{"x":19.5,"L":0.313301809,"M":83.33938063,"S":0.039644238},{"x":20.5,"L":0.458455471,"M":84.24783394,"S":0.039795189},{"x":21.5,"L":0.600544631,"M":85.13269658,"S":0.039946388},{"x":22.5,"L":0.739438953,"M":85.9956488,"S":0.040097181},{"x":23.5,"L":0.875000447,"M":86.8381751,"S":0.04024706},{"x":24.5,"L":1.00720807,"M":87.66160934,"S":0.040395626},{"x":25.5,"L":0.837251351,"M":88.45247282,"S":0.040577525},{"x":26.5,"L":0.681492975,"M":89.22326434,"S":0.040723122},{"x":27.5,"L":0.538779654,"M":89.97549228,"S":0.040833194},{"x":28.5,"L":0.407697153,"M":90.71040853,"S":0.040909059},{"x":29.5,"L":0.286762453,"M":91.42907762,"S":0.040952433},{"x":30.5,"L":0.174489485,"M":92.13242379,"S":0.04096533},{"x":31.5,"L":0.069444521,"M":92.82127167,"S":0.040949976},{"x":32.5,"L":-0.029720564,"M":93.49637946,"S":0.040908737},{"x":33.5,"L":-0.124251789,"M":94.15846546,"S":0.040844062},{"x":34.5,"L":-0.215288396,"M":94.80822923,"S":0.040758431},{"x":35.5,"L":-0.30385434,"M":95.44636981,"S":0.040654312}],"female":[{"x":null,"L":null,"M":null,"S":null},{"x":0,"L":-1.295960857,"M":49.28639612,"S":0.05008556},{"x":0.5,"L":-0.809249882,"M":51.68358057,"S":0.046818545},{"x":1.5,"L":-0.050782985,"M":55.28612813,"S":0.0434439},{"x":2.5,"L":0.476851407,"M":58.09381906,"S":0.041716103},{"x":3.5,"L":0.843299612,"M":60.45980763,"S":0.040705173},{"x":4.5,"L":1.097562257,"M":62.53669656,"S":0.040079765},{"x":5.5,"L":1.272509641,"M":64.40632762,"S":0.039686845},{"x":6.5,"L":1.390428859,"M":66.11841553,"S":0.039444555},{"x":7.5,"L":1.466733925,"M":67.70574419,"S":0.039304738},{"x":8.5,"L":1.512301976,"M":69.19123614,"S":0.03923711},{"x":9.5,"L":1.534950767,"M":70.59163924,"S":0.039221665},{"x":10.5,"L":1.540390875,"M":71.91961673,"S":0.039244672},{"x":11.5,"L":1.532852892,"M":73.1850104,"S":0.03929642},{"x":12.5,"L":1.51550947,"M":74.39564379,"S":0.039369875},{"x":13.5,"L":1.490765028,"M":75.5578544,"S":0.039459832},{"x":14.5,"L":1.460458255,"M":76.67685871,"S":0.039562382},{"x":15.5,"L":1.426006009,"M":77.75700986,"S":0.039674542},{"x":16.5,"L":1.388507095,"M":78.80198406,"S":0.03979401},{"x":17.5,"L":1.348818127,"M":79.81491852,"S":0.039918994},{"x":18.5,"L":1.307609654,"M":80.79851532,"S":0.040048084},{"x":19.5,"L":1.265408149,"M":81.75512092,"S":0.040180162},{"x":20.5,"L":1.222627732,"M":82.6867881,"S":0.04031434},{"x":21.5,"L":1.179594365,"M":83.59532461,"S":0.040449904},{"x":22.5,"L":1.136564448,"M":84.48233206,"S":0.040586283},{"x":23.5,"L":1.093731947,"M":85.34923624,"S":0.040723015},{"x":24.5,"L":1.051272912,"M":86.1973169,"S":0.040859727},{"x":25.5,"L":1.041951175,"M":87.09026318,"S":0.041142161},{"x":26.5,"L":1.012592236,"M":87.95714182,"S":0.041349399},{"x":27.5,"L":0.970541909,"M":88.7960184,"S":0.041500428},{"x":28.5,"L":0.921129988,"M":89.6055115,"S":0.041610508},{"x":29.5,"L":0.868221392,"M":90.38476689,"S":0.041691761},{"x":30.5,"L":0.81454413,"M":91.13341722,"S":0.04175368},{"x":31.5,"L":0.761957977,"M":91.8515436,"S":0.041803562},{"x":32.5,"L":0.711660228,"M":92.5396352,"S":0.041846882},{"x":33.5,"L":0.664323379,"M":93.19854429,"S":0.041887626},{"x":34.5,"L":0.620285102,"M":93.82945392,"S":0.041928568},{"x":35.5,"L":0.57955631,"M":94.43382278,"S":0.041971514}]},"headInf":{"male":[{"x":0,"L":4.427825037,"M":35.81366835,"S":0.052172542},{"x":0.5,"L":4.310927464,"M":37.19361054,"S":0.047259148},{"x":1.5,"L":3.869576802,"M":39.20742929,"S":0.040947903},{"x":2.5,"L":3.305593039,"M":40.65233195,"S":0.037027722},{"x":3.5,"L":2.720590297,"M":41.76516959,"S":0.034364245},{"x":4.5,"L":2.16804824,"M":42.66116148,"S":0.032462175},{"x":5.5,"L":1.675465689,"M":43.40488731,"S":0.031064702},{"x":6.5,"L":1.255160322,"M":44.03609923,"S":0.03002267},{"x":7.5,"L":0.91054114,"M":44.58096912,"S":0.029242173},{"x":8.5,"L":0.639510474,"M":45.05761215,"S":0.028660454},{"x":9.5,"L":0.436978864,"M":45.4790756,"S":0.0282336},{"x":10.5,"L":0.296275856,"M":45.85505706,"S":0.027929764},{"x":11.5,"L":0.210107251,"M":46.19295427,"S":0.027725179},{"x":12.5,"L":0.171147024,"M":46.49853438,"S":0.027601686},{"x":13.5,"L":0.172393886,"M":46.77637684,"S":0.027545148},{"x":14.5,"L":0.207371541,"M":47.03017599,"S":0.027544382},{"x":15.5,"L":0.270226126,"M":47.2629533,"S":0.027590417},{"x":16.5,"L":0.355757274,"M":47.47720989,"S":0.02767598},{"x":17.5,"L":0.459407627,"M":47.67503833,"S":0.027795115},{"x":18.5,"L":0.577227615,"M":47.85820606,"S":0.0279429},{"x":19.5,"L":0.705826778,"M":48.02821867,"S":0.028115241},{"x":20.5,"L":0.842319055,"M":48.18636864,"S":0.028308707},{"x":21.5,"L":0.984266833,"M":48.3337732,"S":0.028520407},{"x":22.5,"L":1.129626698,"M":48.47140432,"S":0.028747896},{"x":23.5,"L":1.276691223,"M":48.60011223,"S":0.028989089},{"x":24.5,"L":1.424084853,"M":48.72064621,"S":0.029242207},{"x":25.5,"L":1.570621291,"M":48.83366629,"S":0.029505723},{"x":26.5,"L":1.715393998,"M":48.93976089,"S":0.029778323},{"x":27.5,"L":1.857652984,"M":49.03945383,"S":0.030058871},{"x":28.5,"L":1.996810563,"M":49.13321432,"S":0.030346384},{"x":29.5,"L":2.132411346,"M":49.22146409,"S":0.030640006},{"x":30.5,"L":2.264111009,"M":49.30458348,"S":0.030938992},{"x":31.5,"L":2.391658052,"M":49.38291658,"S":0.031242693},{"x":32.5,"L":2.514878222,"M":49.45677569,"S":0.031550537},{"x":33.5,"L":2.633661226,"M":49.526445,"S":0.031862026},{"x":34.5,"L":2.747949445,"M":49.59218385,"S":0.03217672},{"x":35.5,"L":2.857728375,"M":49.65422952,"S":0.032494231},{"x":36,"L":2.910932095,"M":49.68393611,"S":0.032653934}],"female":[{"x":0,"L":-1.298749689,"M":34.7115617,"S":0.046905108},{"x":0.5,"L":-1.440271514,"M":36.03453876,"S":0.042999604},{"x":1.5,"L":-1.581016348,"M":37.97671987,"S":0.038067862},{"x":2.5,"L":-1.593136386,"M":39.3801263,"S":0.035079612},{"x":3.5,"L":-1.521492427,"M":40.46773733,"S":0.033096443},{"x":4.5,"L":-1.394565915,"M":41.34841008,"S":0.03170963},{"x":5.5,"L":-1.231713389,"M":42.0833507,"S":0.030709039},{"x":6.5,"L":-1.046582628,"M":42.71033603,"S":0.029974303},{"x":7.5,"L":-0.848932692,"M":43.25428882,"S":0.029430992},{"x":8.5,"L":-0.645779124,"M":43.73249646,"S":0.029030379},{"x":9.5,"L":-0.442165412,"M":44.15742837,"S":0.028739112},{"x":10.5,"L":-0.24163206,"M":44.53836794,"S":0.028533537},{"x":11.5,"L":-0.046673786,"M":44.88240562,"S":0.028396382},{"x":12.5,"L":0.141031094,"M":45.19507651,"S":0.028314722},{"x":13.5,"L":0.320403169,"M":45.48078147,"S":0.028278682},{"x":14.5,"L":0.490807133,"M":45.74307527,"S":0.028280585},{"x":15.5,"L":0.65193505,"M":45.98486901,"S":0.028314363},{"x":16.5,"L":0.803718086,"M":46.20857558,"S":0.028375159},{"x":17.5,"L":0.946259679,"M":46.41621635,"S":0.028459033},{"x":18.5,"L":1.079784984,"M":46.60950084,"S":0.028562759},{"x":19.5,"L":1.204602687,"M":46.78988722,"S":0.028683666},{"x":20.5,"L":1.321076285,"M":46.95862881,"S":0.028819525},{"x":21.5,"L":1.429602576,"M":47.11681039,"S":0.028968459},{"x":22.5,"L":1.530595677,"M":47.26537682,"S":0.029128879},{"x":23.5,"L":1.624475262,"M":47.40515585,"S":0.029299426},{"x":24.5,"L":1.71165803,"M":47.53687649,"S":0.029478937},{"x":25.5,"L":1.792551616,"M":47.66118396,"S":0.029666406},{"x":26.5,"L":1.867550375,"M":47.77865186,"S":0.02986096},{"x":27.5,"L":1.93703258,"M":47.8897923,"S":0.030061839},{"x":28.5,"L":2.001358669,"M":47.99506422,"S":0.030268375},{"x":29.5,"L":2.060870301,"M":48.09488048,"S":0.030479985},{"x":30.5,"L":2.115889982,"M":48.18961365,"S":0.03069615},{"x":31.5,"L":2.16672113,"M":48.2796011,"S":0.030916413},{"x":32.5,"L":2.21364844,"M":48.36514917,"S":0.031140368},{"x":33.5,"L":2.256943216,"M":48.44653703,"S":0.031367651},{"x":34.5,"L":2.296844024,"M":48.52401894,"S":0.031597939},{"x":35.5,"L":2.333589434,"M":48.59782828,"S":0.031830942},{"x":36,"L":2.350847202,"M":48.63342328,"S":0.031948378}]},"headChild":{"male":[{"x":0,"L":1,"M":34.4618,"S":0.0369},{"x":1,"L":1,"M":35.1634,"S":0.0347},{"x":2,"L":1,"M":35.8649,"S":0.0326},{"x":3,"L":1,"M":36.5216,"S":0.032},{"x":4,"L":1,"M":37.0926,"S":0.0315},{"x":5,"L":1,"M":37.601,"S":0.0311},{"x":6,"L":1,"M":38.0609,"S":0.0307},{"x":7,"L":1,"M":38.4824,"S":0.0304},{"x":8,"L":1,"M":38.8724,"S":0.0301},{"x":9,"L":1,"M":39.2368,"S":0.0299},{"x":10,"L":1,"M":39.5797,"S":0.0297},{"x":11,"L":1,"M":39.9033,"S":0.0295},{"x":12,"L":1,"M":40.2096,"S":0.0293},{"x":13,"L":1,"M":40.5008,"S":0.0292},{"x":14,"L":1,"M":46.5844,"S":0.0279},{"x":15,"L":1,"M":46.806,"S":0.0279},{"x":16,"L":1,"M":47.0088,"S":0.028},{"x":17,"L":1,"M":47.1962,"S":0.028},{"x":18,"L":1,"M":47.3711,"S":0.028},{"x":19,"L":1,"M":47.5357,"S":0.028},{"x":20,"L":1,"M":47.6919,"S":0.0281},{"x":21,"L":1,"M":47.8408,"S":0.0281},{"x":22,"L":1,"M":47.9833,"S":0.0281},{"x":23,"L":1,"M":48.1201,"S":0.0282},{"x":24,"L":1,"M":48.2515,"S":0.0282},{"x":25,"L":1,"M":48.3777,"S":0.0283},{"x":26,"L":1,"M":48.4989,"S":0.0283},{"x":27,"L":1,"M":48.6151,"S":0.0283},{"x":28,"L":1,"M":48.7264,"S":0.0284},{"x":29,"L":1,"M":48.8331,"S":0.0284},{"x":30,"L":1,"M":48.9351,"S":0.0285},{"x":31,"L":1,"M":49.0327,"S":0.0285},{"x":32,"L":1,"M":49.126,"S":0.0286},{"x":33,"L":1,"M":49.2153,"S":0.0286},{"x":34,"L":1,"M":49.3007,"S":0.0286},{"x":35,"L":1,"M":49.3826,"S":0.0287},{"x":36,"L":1,"M":49.4612,"S":0.0287},{"x":37,"L":1,"M":49.5367,"S":0.0288},{"x":38,"L":1,"M":49.6093,"S":0.0288},{"x":39,"L":1,"M":49.6791,"S":0.0288},{"x":40,"L":1,"M":49.7465,"S":0.0289},{"x":41,"L":1,"M":49.8116,"S":0.0289},{"x":42,"L":1,"M":49.8745,"S":0.0289},{"x":43,"L":1,"M":49.9354,"S":0.029},{"x":44,"L":1,"M":49.9942,"S":0.029},{"x":45,"L":1,"M":50.0512,"S":0.029},{"x":46,"L":1,"M":50.1064,"S":0.0291},{"x":47,"L":1,"M":50.1598,"S":0.0291},{"x":48,"L":1,"M":50.2115,"S":0.0291},{"x":49,"L":1,"M":50.2617,"S":0.0292},{"x":50,"L":1,"M":50.3105,"S":0.0292},{"x":51,"L":1,"M":50.3578,"S":0.0292},{"x":52,"L":1,"M":50.4039,"S":0.0292},{"x":53,"L":1,"M":50.4488,"S":0.0293},{"x":54,"L":1,"M":50.4926,"S":0.0293},{"x":55,"L":1,"M":50.5354,"S":0.0293},{"x":56,"L":1,"M":50.5772,"S":0.0294},{"x":57,"L":1,"M":50.6183,"S":0.0294},{"x":58,"L":1,"M":50.6587,"S":0.0294},{"x":59,"L":1,"M":50.6984,"S":0.0294},{"x":60,"L":1,"M":50.7375,"S":0.0295}],"female":[{"x":0,"L":1,"M":33.8787,"S":0.035},{"x":1,"L":1,"M":34.5529,"S":0.0337},{"x":2,"L":1,"M":35.2272,"S":0.0325},{"x":3,"L":1,"M":35.843,"S":0.0323},{"x":4,"L":1,"M":36.3761,"S":0.0322},{"x":5,"L":1,"M":36.8472,"S":0.032},{"x":6,"L":1,"M":37.2711,"S":0.0319},{"x":7,"L":1,"M":37.6584,"S":0.0318},{"x":8,"L":1,"M":38.0167,"S":0.0317},{"x":9,"L":1,"M":38.3516,"S":0.0317},{"x":10,"L":1,"M":38.6673,"S":0.0316},{"x":11,"L":1,"M":38.9661,"S":0.0315},{"x":12,"L":1,"M":39.2501,"S":0.0315},{"x":13,"L":1,"M":39.521,"S":0.0314},{"x":14,"L":1,"M":45.4265,"S":0.0301},{"x":15,"L":1,"M":45.6551,"S":0.0301},{"x":16,"L":1,"M":45.865,"S":0.03},{"x":17,"L":1,"M":46.0598,"S":0.0299},{"x":18,"L":1,"M":46.2424,"S":0.0299},{"x":19,"L":1,"M":46.4152,"S":0.0298},{"x":20,"L":1,"M":46.5801,"S":0.0298},{"x":21,"L":1,"M":46.7384,"S":0.0297},{"x":22,"L":1,"M":46.8913,"S":0.0297},{"x":23,"L":1,"M":47.0391,"S":0.0296},{"x":24,"L":1,"M":47.1822,"S":0.0296},{"x":25,"L":1,"M":47.3204,"S":0.0295},{"x":26,"L":1,"M":47.4536,"S":0.0295},{"x":27,"L":1,"M":47.5817,"S":0.0295},{"x":28,"L":1,"M":47.7045,"S":0.0294},{"x":29,"L":1,"M":47.8219,"S":0.0294},{"x":30,"L":1,"M":47.934,"S":0.0293},{"x":31,"L":1,"M":48.041,"S":0.0293},{"x":32,"L":1,"M":48.1432,"S":0.0293},{"x":33,"L":1,"M":48.2408,"S":0.0292},{"x":34,"L":1,"M":48.3343,"S":0.0292},{"x":35,"L":1,"M":48.4239,"S":0.0292},{"x":36,"L":1,"M":48.5099,"S":0.0291},{"x":37,"L":1,"M":48.5926,"S":0.0291},{"x":38,"L":1,"M":48.6722,"S":0.0291},{"x":39,"L":1,"M":48.7489,"S":0.029},{"x":40,"L":1,"M":48.8228,"S":0.029},{"x":41,"L":1,"M":48.8941,"S":0.029},{"x":42,"L":1,"M":48.9629,"S":0.0289},{"x":43,"L":1,"M":49.0294,"S":0.0289},{"x":44,"L":1,"M":49.0937,"S":0.0289},{"x":45,"L":1,"M":49.156,"S":0.0289},{"x":46,"L":1,"M":49.2164,"S":0.0288},{"x":47,"L":1,"M":49.2751,"S":0.0288},{"x":48,"L":1,"M":49.3321,"S":0.0288},{"x":49,"L":1,"M":49.3877,"S":0.0288},{"x":50,"L":1,"M":49.4419,"S":0.0287},{"x":51,"L":1,"M":49.4947,"S":0.0287},{"x":52,"L":1,"M":49.5464,"S":0.0287},{"x":53,"L":1,"M":49.5969,"S":0.0287},{"x":54,"L":1,"M":49.6464,"S":0.0286},{"x":55,"L":1,"M":49.6947,"S":0.0286},{"x":56,"L":1,"M":49.7421,"S":0.0286},{"x":57,"L":1,"M":49.7885,"S":0.0286},{"x":58,"L":1,"M":49.8341,"S":0.0285},{"x":59,"L":1,"M":49.8789,"S":0.0285},{"x":60,"L":1,"M":49.9229,"S":0.0285}]},"weightChild":{"male":[{"x":0,"L":0.3487,"M":3.3464,"S":0.14602},{"x":1,"L":0.2297,"M":4.4709,"S":0.13395},{"x":2,"L":0.197,"M":5.5675,"S":0.12385},{"x":3,"L":0.1738,"M":6.3762,"S":0.11727},{"x":4,"L":0.1553,"M":7.0023,"S":0.11316},{"x":5,"L":0.1395,"M":7.5105,"S":0.1108},{"x":6,"L":0.1257,"M":7.934,"S":0.10958},{"x":7,"L":0.1134,"M":8.297,"S":0.10902},{"x":8,"L":0.1021,"M":8.6151,"S":0.10882},{"x":9,"L":0.0917,"M":8.9014,"S":0.10881},{"x":10,"L":0.082,"M":9.1649,"S":0.10891},{"x":11,"L":0.073,"M":9.4122,"S":0.10906},{"x":12,"L":0.0644,"M":9.6479,"S":0.10925},{"x":13,"L":0.0563,"M":9.8749,"S":0.10949},{"x":14,"L":0.0487,"M":10.0953,"S":0.10976},{"x":15,"L":0.0413,"M":10.3108,"S":0.11007},{"x":16,"L":0.0343,"M":10.5228,"S":0.11041},{"x":17,"L":0.0275,"M":10.7319,"S":0.11079},{"x":18,"L":0.0211,"M":10.9385,"S":0.11119},{"x":19,"L":0.0148,"M":11.143,"S":0.11164},{"x":20,"L":0.0087,"M":11.3462,"S":0.11211},{"x":21,"L":0.0029,"M":11.5486,"S":0.11261},{"x":22,"L":-0.0028,"M":11.7504,"S":0.11314},{"x":23,"L":-0.0083,"M":11.9514,"S":0.11369},{"x":24,"L":-0.0137,"M":12.1515,"S":0.11426},{"x":25,"L":-0.0189,"M":12.3502,"S":0.11485},{"x":26,"L":-0.024,"M":12.5466,"S":0.11544},{"x":27,"L":-0.0289,"M":12.7401,"S":0.11604},{"x":28,"L":-0.0337,"M":12.9303,"S":0.11664},{"x":29,"L":-0.0385,"M":13.1169,"S":0.11723},{"x":30,"L":-0.0431,"M":13.3,"S":0.11781},{"x":31,"L":-0.0476,"M":13.4798,"S":0.11839},{"x":32,"L":-0.052,"M":13.6567,"S":0.11896},{"x":33,"L":-0.0564,"M":13.8309,"S":0.11953},{"x":34,"L":-0.0606,"M":14.0031,"S":0.12008},{"x":35,"L":-0.0648,"M":14.1736,"S":0.12062},{"x":36,"L":-0.0689,"M":14.3429,"S":0.12116},{"x":37,"L":-0.0729,"M":14.5113,"S":0.12168},{"x":38,"L":-0.0769,"M":14.6791,"S":0.1222},{"x":39,"L":-0.0808,"M":14.8466,"S":0.12271},{"x":40,"L":-0.0846,"M":15.014,"S":0.12322},{"x":41,"L":-0.0883,"M":15.1813,"S":0.12373},{"x":42,"L":-0.092,"M":15.3486,"S":0.12425},{"x":43,"L":-0.0957,"M":15.5158,"S":0.12478},{"x":44,"L":-0.0993,"M":15.6828,"S":0.12531},{"x":45,"L":-0.1028,"M":15.8497,"S":0.12586},{"x":46,"L":-0.1063,"M":16.0163,"S":0.12643},{"x":47,"L":-0.1097,"M":16.1827,"S":0.127},{"x":48,"L":-0.1131,"M":16.3489,"S":0.12759},{"x":49,"L":-0.1165,"M":16.515,"S":0.12819},{"x":50,"L":-0.1198,"M":16.6811,"S":0.1288},{"x":51,"L":-0.123,"M":16.8471,"S":0.12943},{"x":52,"L":-0.1262,"M":17.0132,"S":0.13005},{"x":53,"L":-0.1294,"M":17.1792,"S":0.13069},{"x":54,"L":-0.1325,"M":17.3452,"S":0.13133},{"x":55,"L":-0.1356,"M":17.5111,"S":0.13197},{"x":56,"L":-0.1387,"M":17.6768,"S":0.13261},{"x":57,"L":-0.1417,"M":17.8422,"S":0.13325},{"x":58,"L":-0.1447,"M":18.0073,"S":0.13389},{"x":59,"L":-0.1477,"M":18.1722,"S":0.13453},{"x":60,"L":-0.1506,"M":18.3366,"S":0.13517}],"female":[{"x":0,"L":0.3809,"M":3.2322,"S":0.14171},{"x":1,"L":0.1714,"M":4.1873,"S":0.13724},{"x":2,"L":0.0962,"M":5.1282,"S":0.13},{"x":3,"L":0.0402,"M":5.8458,"S":0.12619},{"x":4,"L":-0.005,"M":6.4237,"S":0.12402},{"x":5,"L":-0.043,"M":6.8985,"S":0.12274},{"x":6,"L":-0.0756,"M":7.297,"S":0.12204},{"x":7,"L":-0.1039,"M":7.6422,"S":0.12178},{"x":8,"L":-0.1288,"M":7.9487,"S":0.12181},{"x":9,"L":-0.1507,"M":8.2254,"S":0.12199},{"x":10,"L":-0.17,"M":8.48,"S":0.12223},{"x":11,"L":-0.1872,"M":8.7192,"S":0.12247},{"x":12,"L":-0.2024,"M":8.9481,"S":0.12268},{"x":13,"L":-0.2158,"M":9.1699,"S":0.12283},{"x":14,"L":-0.2278,"M":9.387,"S":0.12294},{"x":15,"L":-0.2384,"M":9.6008,"S":0.12299},{"x":16,"L":-0.2478,"M":9.8124,"S":0.12303},{"x":17,"L":-0.2562,"M":10.0226,"S":0.12306},{"x":18,"L":-0.2637,"M":10.2315,"S":0.12309},{"x":19,"L":-0.2703,"M":10.4393,"S":0.12315},{"x":20,"L":-0.2762,"M":10.6464,"S":0.12323},{"x":21,"L":-0.2815,"M":10.8534,"S":0.12335},{"x":22,"L":-0.2862,"M":11.0608,"S":0.1235},{"x":23,"L":-0.2903,"M":11.2688,"S":0.12369},{"x":24,"L":-0.2941,"M":11.4775,"S":0.1239},{"x":25,"L":-0.2975,"M":11.6864,"S":0.12414},{"x":26,"L":-0.3005,"M":11.8947,"S":0.12441},{"x":27,"L":-0.3032,"M":12.1015,"S":0.12472},{"x":28,"L":-0.3057,"M":12.3059,"S":0.12506},{"x":29,"L":-0.308,"M":12.5073,"S":0.12545},{"x":30,"L":-0.3101,"M":12.7055,"S":0.12587},{"x":31,"L":-0.312,"M":12.9006,"S":0.12633},{"x":32,"L":-0.3138,"M":13.093,"S":0.12683},{"x":33,"L":-0.3155,"M":13.2837,"S":0.12737},{"x":34,"L":-0.3171,"M":13.4731,"S":0.12794},{"x":35,"L":-0.3186,"M":13.6618,"S":0.12855},{"x":36,"L":-0.3201,"M":13.8503,"S":0.12919},{"x":37,"L":-0.3216,"M":14.0385,"S":0.12988},{"x":38,"L":-0.323,"M":14.2265,"S":0.13059},{"x":39,"L":-0.3243,"M":14.414,"S":0.13135},{"x":40,"L":-0.3257,"M":14.601,"S":0.13213},{"x":41,"L":-0.327,"M":14.7873,"S":0.13293},{"x":42,"L":-0.3283,"M":14.9727,"S":0.13376},{"x":43,"L":-0.3296,"M":15.1573,"S":0.1346},{"x":44,"L":-0.3309,"M":15.341,"S":0.13545},{"x":45,"L":-0.3322,"M":15.524,"S":0.1363},{"x":46,"L":-0.3335,"M":15.7064,"S":0.13716},{"x":47,"L":-0.3348,"M":15.8882,"S":0.138},{"x":48,"L":-0.3361,"M":16.0697,"S":0.13884},{"x":49,"L":-0.3374,"M":16.2511,"S":0.13968},{"x":50,"L":-0.3387,"M":16.4322,"S":0.14051},{"x":51,"L":-0.34,"M":16.6133,"S":0.14132},{"x":52,"L":-0.3414,"M":16.7942,"S":0.14213},{"x":53,"L":-0.3427,"M":16.9748,"S":0.14293},{"x":54,"L":-0.344,"M":17.1551,"S":0.14371},{"x":55,"L":-0.3453,"M":17.3347,"S":0.14448},{"x":56,"L":-0.3466,"M":17.5136,"S":0.14525},{"x":57,"L":-0.3479,"M":17.6916,"S":0.146},{"x":58,"L":-0.3492,"M":17.8686,"S":0.14675},{"x":59,"L":-0.3505,"M":18.0445,"S":0.14748},{"x":60,"L":-0.3518,"M":18.2193,"S":0.14821}]},"heightChild":{"male":[{"x":0,"L":1,"M":49.8842,"S":0.03795},{"x":1,"L":1,"M":51.1152,"S":0.03723},{"x":2,"L":1,"M":52.3461,"S":0.03652},{"x":3,"L":1,"M":53.3905,"S":0.03609},{"x":4,"L":1,"M":54.3881,"S":0.0357},{"x":5,"L":1,"M":55.3374,"S":0.03534},{"x":6,"L":1,"M":56.2357,"S":0.03501},{"x":7,"L":1,"M":57.0851,"S":0.0347},{"x":8,"L":1,"M":57.8889,"S":0.03442},{"x":9,"L":1,"M":58.6536,"S":0.03416},{"x":10,"L":1,"M":59.3872,"S":0.03392},{"x":11,"L":1,"M":60.0894,"S":0.03369},{"x":12,"L":1,"M":60.7605,"S":0.03348},{"x":13,"L":1,"M":61.4013,"S":0.03329},{"x":14,"L":1,"M":78.0497,"S":0.03174},{"x":15,"L":1,"M":79.1458,"S":0.03197},{"x":16,"L":1,"M":80.2113,"S":0.03222},{"x":17,"L":1,"M":81.2487,"S":0.0325},{"x":18,"L":1,"M":82.2587,"S":0.03279},{"x":19,"L":1,"M":83.2418,"S":0.0331},{"x":20,"L":1,"M":84.1996,"S":0.03342},{"x":21,"L":1,"M":85.1348,"S":0.03376},{"x":22,"L":1,"M":86.0477,"S":0.0341},{"x":23,"L":1,"M":86.941,"S":0.03445},{"x":24,"L":1,"M":87.8161,"S":0.03479},{"x":25,"L":1,"M":87.972,"S":0.03542},{"x":26,"L":1,"M":88.8065,"S":0.03576},{"x":27,"L":1,"M":89.6197,"S":0.0361},{"x":28,"L":1,"M":90.412,"S":0.03642},{"x":29,"L":1,"M":91.1828,"S":0.03674},{"x":30,"L":1,"M":91.9327,"S":0.03704},{"x":31,"L":1,"M":92.6631,"S":0.03733},{"x":32,"L":1,"M":93.3753,"S":0.03761},{"x":33,"L":1,"M":94.0711,"S":0.03787},{"x":34,"L":1,"M":94.7532,"S":0.03812},{"x":35,"L":1,"M":95.4236,"S":0.03836},{"x":36,"L":1,"M":96.0835,"S":0.03858},{"x":37,"L":1,"M":96.7337,"S":0.03879},{"x":38,"L":1,"M":97.3749,"S":0.039},{"x":39,"L":1,"M":98.0073,"S":0.03919},{"x":40,"L":1,"M":98.631,"S":0.03937},{"x":41,"L":1,"M":99.2459,"S":0.03954},{"x":42,"L":1,"M":99.8515,"S":0.03971},{"x":43,"L":1,"M":100.4485,"S":0.03986},{"x":44,"L":1,"M":101.0374,"S":0.04002},{"x":45,"L":1,"M":101.6186,"S":0.04016},{"x":46,"L":1,"M":102.1933,"S":0.04031},{"x":47,"L":1,"M":102.7625,"S":0.04045},{"x":48,"L":1,"M":103.3273,"S":0.04059},{"x":49,"L":1,"M":103.8886,"S":0.04073},{"x":50,"L":1,"M":104.4473,"S":0.04086},{"x":51,"L":1,"M":105.0041,"S":0.041},{"x":52,"L":1,"M":105.5596,"S":0.04113},{"x":53,"L":1,"M":106.1138,"S":0.04126},{"x":54,"L":1,"M":106.6668,"S":0.04139},{"x":55,"L":1,"M":107.2188,"S":0.04152},{"x":56,"L":1,"M":107.7697,"S":0.04165},{"x":57,"L":1,"M":108.3198,"S":0.04177},{"x":58,"L":1,"M":108.8689,"S":0.0419},{"x":59,"L":1,"M":109.417,"S":0.04202},{"x":60,"L":1,"M":109.9638,"S":0.04214}],"female":[{"x":0,"L":1,"M":49.1477,"S":0.0379},{"x":1,"L":1,"M":50.3298,"S":0.03742},{"x":2,"L":1,"M":51.512,"S":0.03694},{"x":3,"L":1,"M":52.4695,"S":0.03669},{"x":4,"L":1,"M":53.3809,"S":0.03647},{"x":5,"L":1,"M":54.2454,"S":0.03627},{"x":6,"L":1,"M":55.0642,"S":0.03609},{"x":7,"L":1,"M":55.8406,"S":0.03593},{"x":8,"L":1,"M":56.5767,"S":0.03578},{"x":9,"L":1,"M":57.2761,"S":0.03564},{"x":10,"L":1,"M":57.9436,"S":0.03552},{"x":11,"L":1,"M":58.5816,"S":0.0354},{"x":12,"L":1,"M":59.1922,"S":0.0353},{"x":13,"L":1,"M":59.7773,"S":0.0352},{"x":14,"L":1,"M":76.3817,"S":0.03514},{"x":15,"L":1,"M":77.5099,"S":0.03534},{"x":16,"L":1,"M":78.6055,"S":0.03555},{"x":17,"L":1,"M":79.671,"S":0.03576},{"x":18,"L":1,"M":80.7079,"S":0.03598},{"x":19,"L":1,"M":81.7182,"S":0.0362},{"x":20,"L":1,"M":82.7036,"S":0.03643},{"x":21,"L":1,"M":83.6654,"S":0.03666},{"x":22,"L":1,"M":84.604,"S":0.03688},{"x":23,"L":1,"M":85.5202,"S":0.03711},{"x":24,"L":1,"M":86.4153,"S":0.03734},{"x":25,"L":1,"M":86.5904,"S":0.03786},{"x":26,"L":1,"M":87.4462,"S":0.03808},{"x":27,"L":1,"M":88.283,"S":0.0383},{"x":28,"L":1,"M":89.1004,"S":0.03851},{"x":29,"L":1,"M":89.8991,"S":0.03872},{"x":30,"L":1,"M":90.6797,"S":0.03893},{"x":31,"L":1,"M":91.443,"S":0.03913},{"x":32,"L":1,"M":92.1906,"S":0.03933},{"x":33,"L":1,"M":92.9239,"S":0.03952},{"x":34,"L":1,"M":93.6444,"S":0.03971},{"x":35,"L":1,"M":94.3533,"S":0.03989},{"x":36,"L":1,"M":95.0515,"S":0.04006},{"x":37,"L":1,"M":95.7399,"S":0.04024},{"x":38,"L":1,"M":96.4187,"S":0.04041},{"x":39,"L":1,"M":97.0885,"S":0.04057},{"x":40,"L":1,"M":97.7493,"S":0.04073},{"x":41,"L":1,"M":98.4015,"S":0.04089},{"x":42,"L":1,"M":99.0448,"S":0.04105},{"x":43,"L":1,"M":99.6795,"S":0.0412},{"x":44,"L":1,"M":100.3058,"S":0.04135},{"x":45,"L":1,"M":100.9238,"S":0.0415},{"x":46,"L":1,"M":101.5337,"S":0.04164},{"x":47,"L":1,"M":102.136,"S":0.04179},{"x":48,"L":1,"M":102.7312,"S":0.04193},{"x":49,"L":1,"M":103.3197,"S":0.04206},{"x":50,"L":1,"M":103.9021,"S":0.0422},{"x":51,"L":1,"M":104.4786,"S":0.04233},{"x":52,"L":1,"M":105.0494,"S":0.04246},{"x":53,"L":1,"M":105.6148,"S":0.04259},{"x":54,"L":1,"M":106.1748,"S":0.04272},{"x":55,"L":1,"M":106.7295,"S":0.04285},{"x":56,"L":1,"M":107.2788,"S":0.04298},{"x":57,"L":1,"M":107.8227,"S":0.0431},{"x":58,"L":1,"M":108.3613,"S":0.04322},{"x":59,"L":1,"M":108.8948,"S":0.04334},{"x":60,"L":1,"M":109.4233,"S":0.04347}]},"bmiChild":{"male":[{"x":0,"L":-2,"M":14.127093399364153,"S":0.09},{"x":0.5,"L":-2,"M":14.415915978083552,"S":0.09},{"x":1.5,"L":-2,"M":15.216281523190876,"S":0.09},{"x":2.5,"L":-2,"M":15.96545404981099,"S":0.09},{"x":3.5,"L":-2,"M":16.585707749678896,"S":0.09},{"x":4.5,"L":-2,"M":17.076062878693016,"S":0.09},{"x":5.5,"L":-2,"M":17.450715244515916,"S":0.09},{"x":6.5,"L":-2,"M":17.726262575517797,"S":0.09},{"x":7.5,"L":-2,"M":17.9183688044576,"S":0.09},{"x":8.5,"L":-2,"M":18.040917154331012,"S":0.09},{"x":9.5,"L":-2,"M":18.105920134649075,"S":0.09},{"x":10.5,"L":-2,"M":18.123666491101293,"S":0.09},{"x":11.5,"L":-2,"M":18.10292574063753,"S":0.09},{"x":12.5,"L":-2,"M":18.051158495756766,"S":0.09},{"x":13.5,"L":-2,"M":17.974701326187,"S":0.09},{"x":14.5,"L":-2,"M":17.878930416686664,"S":0.09},{"x":15.5,"L":-2,"M":17.768400767188666,"S":0.09},{"x":16.5,"L":-2,"M":17.646964632798177,"S":0.09},{"x":17.5,"L":-2,"M":17.517872088568094,"S":0.09},{"x":18.5,"L":-2,"M":17.383856730960634,"S":0.09},{"x":19.5,"L":-2,"M":17.24720820554275,"S":0.09},{"x":20.5,"L":-2,"M":17.109834984728355,"S":0.09},{"x":21.5,"L":-2,"M":16.973317677802907,"S":0.09},{"x":22.5,"L":-2,"M":16.83895414578706,"S":0.09},{"x":23.5,"L":-2,"M":16.707803194729085,"S":0.09},{"x":24,"L":-2.01118107,"M":16.57502768,"S":0.080592465},{"x":24.5,"L":-2,"M":16.580712086591113,"S":0.09},{"x":25.5,"L":-2,"M":16.463811690495383,"S":0.09},{"x":26.5,"L":-2,"M":16.353178954670632,"S":0.09},{"x":27.5,"L":-2,"M":16.248967502056658,"S":0.09},{"x":28.5,"L":-2,"M":16.151295336273655,"S":0.09},{"x":29.5,"L":-2,"M":16.060235005373016,"S":0.09},{"x":30.5,"L":-2,"M":15.975811069987834,"S":0.09},{"x":31.5,"L":-2,"M":15.897997752198453,"S":0.09},{"x":32.5,"L":-2,"M":15.826723936426266,"S":0.09},{"x":33.5,"L":-2,"M":15.761866720739775,"S":0.09},{"x":34.5,"L":-2,"M":15.703259553455721,"S":0.09},{"x":35.5,"L":-2,"M":15.650692970731175,"S":0.09},{"x":36.5,"L":-1.419991255,"M":16.00030401,"S":0.072634432},{"x":37.5,"L":-1.404277619,"M":15.96304277,"S":0.072327649},{"x":38.5,"L":-1.39586317,"M":15.92695418,"S":0.07206864},{"x":39.5,"L":-1.394935252,"M":15.89202582,"S":0.071856805},{"x":40.5,"L":-1.401671596,"M":15.85824093,"S":0.071691278},{"x":41.5,"L":-1.416100312,"M":15.82558822,"S":0.071571093},{"x":42.5,"L":-1.438164899,"M":15.79405728,"S":0.071495113},{"x":43.5,"L":-1.467669032,"M":15.76364255,"S":0.071462106},{"x":44.5,"L":-1.504376347,"M":15.73433668,"S":0.071470646},{"x":45.5,"L":-1.547942838,"M":15.70613566,"S":0.071519218},{"x":46.5,"L":-1.597896397,"M":15.67904062,"S":0.071606277},{"x":47.5,"L":-1.653732283,"M":15.65305192,"S":0.071730167},{"x":48.5,"L":-1.714869347,"M":15.62817269,"S":0.071889214},{"x":49.5,"L":-1.780673181,"M":15.604408,"S":0.072081737},{"x":50.5,"L":-1.850468473,"M":15.58176458,"S":0.072306081},{"x":51.5,"L":-1.923551865,"M":15.56025067,"S":0.072560637},{"x":52.5,"L":-1.999220429,"M":15.5398746,"S":0.07284384},{"x":53.5,"L":-2.076707178,"M":15.52064993,"S":0.073154324},{"x":54.5,"L":-2.155348017,"M":15.50258427,"S":0.073490667},{"x":55.5,"L":-2.234438552,"M":15.48568973,"S":0.073851672},{"x":56.5,"L":-2.313321723,"M":15.46997718,"S":0.074236235},{"x":57.5,"L":-2.391381273,"M":15.45545692,"S":0.074643374},{"x":58.5,"L":-2.468032491,"M":15.44213961,"S":0.075072264},{"x":59.5,"L":-2.542781541,"M":15.43003207,"S":0.075522104},{"x":60.5,"L":-2.61516595,"M":15.41914163,"S":0.07599225},{"x":61.5,"L":-2.684789516,"M":15.40947356,"S":0.076482128},{"x":62.5,"L":-2.751316949,"M":15.40103139,"S":0.076991232},{"x":63.5,"L":-2.81445945,"M":15.39381785,"S":0.077519149},{"x":64.5,"L":-2.87402476,"M":15.38783094,"S":0.07806539},{"x":65.5,"L":-2.92984048,"M":15.38306945,"S":0.078629592},{"x":66.5,"L":-2.981796828,"M":15.37952958,"S":0.079211369},{"x":67.5,"L":-3.029831343,"M":15.37720582,"S":0.079810334},{"x":68.5,"L":-3.073924224,"M":15.37609107,"S":0.080426086},{"x":69.5,"L":-3.114093476,"M":15.37617677,"S":0.081058206},{"x":70.5,"L":-3.15039004,"M":15.37745304,"S":0.081706249},{"x":71.5,"L":-3.182893018,"M":15.37990886,"S":0.082369741},{"x":72.5,"L":-3.21170511,"M":15.38353217,"S":0.083048178},{"x":73.5,"L":-3.23694834,"M":15.38831005,"S":0.083741021},{"x":74.5,"L":-3.25876011,"M":15.39422883,"S":0.0844477},{"x":75.5,"L":-3.277281546,"M":15.40127496,"S":0.085167651},{"x":76.5,"L":-3.292683774,"M":15.40943252,"S":0.085900184},{"x":77.5,"L":-3.305124073,"M":15.41868691,"S":0.086644667},{"x":78.5,"L":-3.314768951,"M":15.42902273,"S":0.087400421},{"x":79.5,"L":-3.321785992,"M":15.44042439,"S":0.088166744},{"x":80.5,"L":-3.326345795,"M":15.45287581,"S":0.088942897},{"x":81.5,"L":-3.328602731,"M":15.46636218,"S":0.089728202},{"x":82.5,"L":-3.328725277,"M":15.48086704,"S":0.090521875},{"x":83.5,"L":-3.32687018,"M":15.49637465,"S":0.091323162},{"x":84.5,"L":-3.323188896,"M":15.51286936,"S":0.092131305},{"x":85.5,"L":-3.317827016,"M":15.53033563,"S":0.092945544},{"x":86.5,"L":-3.310923871,"M":15.54875807,"S":0.093765118},{"x":87.5,"L":-3.302612272,"M":15.56812143,"S":0.09458927},{"x":88.5,"L":-3.293018361,"M":15.58841065,"S":0.095417247},{"x":89.5,"L":-3.282260813,"M":15.60961101,"S":0.096248301},{"x":90.5,"L":-3.270454609,"M":15.63170735,"S":0.097081694},{"x":91.5,"L":-3.257703616,"M":15.65468563,"S":0.097916698},{"x":92.5,"L":-3.244108214,"M":15.67853139,"S":0.098752593},{"x":93.5,"L":-3.229761713,"M":15.70323052,"S":0.099588675},{"x":94.5,"L":-3.214751287,"M":15.72876911,"S":0.100424251},{"x":95.5,"L":-3.199158184,"M":15.75513347,"S":0.101258643},{"x":96.5,"L":-3.18305795,"M":15.78231007,"S":0.102091189},{"x":97.5,"L":-3.166520664,"M":15.8102856,"S":0.102921245},{"x":98.5,"L":-3.1496103,"M":15.83904708,"S":0.103748189},{"x":99.5,"L":-3.132389637,"M":15.86858123,"S":0.104571386},{"x":100.5,"L":-3.114911153,"M":15.89887562,"S":0.105390269},{"x":101.5,"L":-3.097226399,"M":15.92991765,"S":0.106204258},{"x":102.5,"L":-3.079383079,"M":15.96169481,"S":0.107012788},{"x":103.5,"L":-3.061423765,"M":15.99419489,"S":0.107815327},{"x":104.5,"L":-3.043386071,"M":16.02740607,"S":0.108611374},{"x":105.5,"L":-3.025310003,"M":16.0613159,"S":0.109400388},{"x":106.5,"L":-3.007225737,"M":16.09591292,"S":0.110181915},{"x":107.5,"L":-2.989164598,"M":16.13118532,"S":0.110955478},{"x":108.5,"L":-2.971148225,"M":16.16712234,"S":0.111720691},{"x":109.5,"L":-2.953208047,"M":16.20371168,"S":0.112477059},{"x":110.5,"L":-2.935363951,"M":16.24094239,"S":0.1132242},{"x":111.5,"L":-2.917635157,"M":16.27880346,"S":0.113961734},{"x":112.5,"L":-2.900039803,"M":16.31728385,"S":0.114689291},{"x":113.5,"L":-2.882593796,"M":16.35637267,"S":0.115406523},{"x":114.5,"L":-2.865311266,"M":16.39605916,"S":0.116113097},{"x":115.5,"L":-2.848204697,"M":16.43633265,"S":0.116808702},{"x":116.5,"L":-2.831285052,"M":16.47718256,"S":0.117493042},{"x":117.5,"L":-2.81456189,"M":16.51859843,"S":0.11816584},{"x":118.5,"L":-2.79804347,"M":16.56056987,"S":0.118826835},{"x":119.5,"L":-2.781736856,"M":16.60308661,"S":0.119475785},{"x":120.5,"L":-2.765648008,"M":16.64613844,"S":0.120112464},{"x":121.5,"L":-2.749782197,"M":16.68971518,"S":0.120736656},{"x":122.5,"L":-2.734142443,"M":16.73380695,"S":0.121348181},{"x":123.5,"L":-2.718732873,"M":16.77840363,"S":0.121946849},{"x":124.5,"L":-2.703555506,"M":16.82349538,"S":0.122532501},{"x":125.5,"L":-2.688611957,"M":16.86907238,"S":0.123104991},{"x":126.5,"L":-2.673903164,"M":16.91512487,"S":0.123664186},{"x":127.5,"L":-2.659429443,"M":16.96164317,"S":0.124209969},{"x":128.5,"L":-2.645190534,"M":17.00861766,"S":0.124742239},{"x":129.5,"L":-2.631185649,"M":17.05603879,"S":0.125260905},{"x":130.5,"L":-2.617413511,"M":17.10389705,"S":0.125765895},{"x":131.5,"L":-2.603872392,"M":17.15218302,"S":0.126257147},{"x":132.5,"L":-2.590560148,"M":17.20088732,"S":0.126734613},{"x":133.5,"L":-2.577474253,"M":17.25000062,"S":0.12719826},{"x":134.5,"L":-2.564611831,"M":17.29951367,"S":0.127648067},{"x":135.5,"L":-2.551969684,"M":17.34941726,"S":0.128084023},{"x":136.5,"L":-2.539539972,"M":17.39970308,"S":0.128506192},{"x":137.5,"L":-2.527325681,"M":17.45036072,"S":0.128914497},{"x":138.5,"L":-2.515320235,"M":17.50138161,"S":0.129309001},{"x":139.5,"L":-2.503519447,"M":17.55275674,"S":0.129689741},{"x":140.5,"L":-2.491918934,"M":17.60447714,"S":0.130056765},{"x":141.5,"L":-2.480514136,"M":17.6565339,"S":0.130410133},{"x":142.5,"L":-2.469300331,"M":17.70891811,"S":0.130749913},{"x":143.5,"L":-2.458272656,"M":17.76162094,"S":0.131076187},{"x":144.5,"L":-2.447426113,"M":17.81463359,"S":0.131389042},{"x":145.5,"L":-2.436755595,"M":17.86794729,"S":0.131688579},{"x":146.5,"L":-2.426255887,"M":17.92155332,"S":0.131974905},{"x":147.5,"L":-2.415921689,"M":17.97544299,"S":0.132248138},{"x":148.5,"L":-2.405747619,"M":18.02960765,"S":0.132508403},{"x":149.5,"L":-2.395728233,"M":18.08403868,"S":0.132755834},{"x":150.5,"L":-2.385858029,"M":18.1387275,"S":0.132990575},{"x":151.5,"L":-2.376131459,"M":18.19366555,"S":0.133212776},{"x":152.5,"L":-2.366542942,"M":18.24884431,"S":0.133422595},{"x":153.5,"L":-2.357086871,"M":18.3042553,"S":0.133620197},{"x":154.5,"L":-2.347757625,"M":18.35989003,"S":0.133805756},{"x":155.5,"L":-2.338549576,"M":18.41574009,"S":0.133979452},{"x":156.5,"L":-2.3294571,"M":18.47179706,"S":0.13414147},{"x":157.5,"L":-2.320474586,"M":18.52805255,"S":0.134292005},{"x":158.5,"L":-2.311596446,"M":18.5844982,"S":0.134431256},{"x":159.5,"L":-2.302817124,"M":18.64112567,"S":0.134559427},{"x":160.5,"L":-2.294131107,"M":18.69792663,"S":0.134676731},{"x":161.5,"L":-2.285532933,"M":18.75489278,"S":0.134783385},{"x":162.5,"L":-2.277017201,"M":18.81201584,"S":0.134879611},{"x":163.5,"L":-2.268578584,"M":18.86928753,"S":0.134965637},{"x":164.5,"L":-2.260211837,"M":18.92669959,"S":0.135041695},{"x":165.5,"L":-2.251911809,"M":18.98424378,"S":0.135108024},{"x":166.5,"L":-2.243673453,"M":19.04191185,"S":0.135164867},{"x":167.5,"L":-2.235491842,"M":19.09969557,"S":0.135212469},{"x":168.5,"L":-2.227362173,"M":19.15758672,"S":0.135251083},{"x":169.5,"L":-2.21927979,"M":19.21557707,"S":0.135280963},{"x":170.5,"L":-2.211240187,"M":19.27365839,"S":0.135302371},{"x":171.5,"L":-2.203239029,"M":19.33182247,"S":0.135315568},{"x":172.5,"L":-2.195272161,"M":19.39006106,"S":0.135320824},{"x":173.5,"L":-2.187335625,"M":19.44836594,"S":0.135318407},{"x":174.5,"L":-2.179425674,"M":19.50672885,"S":0.135308594},{"x":175.5,"L":-2.171538789,"M":19.56514153,"S":0.135291662},{"x":176.5,"L":-2.163671689,"M":19.62359571,"S":0.135267891},{"x":177.5,"L":-2.155821357,"M":19.6820831,"S":0.135237567},{"x":178.5,"L":-2.147985046,"M":19.74059538,"S":0.135200976},{"x":179.5,"L":-2.140160305,"M":19.7991242,"S":0.135158409},{"x":180.5,"L":-2.132344989,"M":19.85766121,"S":0.135110159},{"x":181.5,"L":-2.124537282,"M":19.916198,"S":0.135056522},{"x":182.5,"L":-2.116735712,"M":19.97472615,"S":0.134997797},{"x":183.5,"L":-2.108939167,"M":20.03323719,"S":0.134934285},{"x":184.5,"L":-2.10114692,"M":20.09172262,"S":0.134866291},{"x":185.5,"L":-2.093358637,"M":20.15017387,"S":0.134794121},{"x":186.5,"L":-2.085574403,"M":20.20858236,"S":0.134718085},{"x":187.5,"L":-2.077794735,"M":20.26693944,"S":0.134638494},{"x":188.5,"L":-2.070020599,"M":20.32523642,"S":0.134555663},{"x":189.5,"L":-2.062253431,"M":20.38346455,"S":0.13446991},{"x":190.5,"L":-2.054495145,"M":20.44161501,"S":0.134381553},{"x":191.5,"L":-2.046748156,"M":20.49967894,"S":0.134290916},{"x":192.5,"L":-2.039015385,"M":20.5576474,"S":0.134198323},{"x":193.5,"L":-2.031300282,"M":20.6155114,"S":0.134104101},{"x":194.5,"L":-2.023606828,"M":20.67326189,"S":0.134008581},{"x":195.5,"L":-2.015942013,"M":20.73088905,"S":0.133912066},{"x":196.5,"L":-2.008305745,"M":20.7883851,"S":0.133814954},{"x":197.5,"L":-2.000706389,"M":20.84574003,"S":0.133717552},{"x":198.5,"L":-1.993150137,"M":20.90294449,"S":0.1336202},{"x":199.5,"L":-1.985643741,"M":20.95998909,"S":0.133523244},{"x":200.5,"L":-1.97819451,"M":21.01686433,"S":0.133427032},{"x":201.5,"L":-1.970810308,"M":21.07356067,"S":0.133331914},{"x":202.5,"L":-1.96349954,"M":21.1300685,"S":0.133238245},{"x":203.5,"L":-1.956271141,"M":21.18637813,"S":0.133146383},{"x":204.5,"L":-1.949134561,"M":21.24247982,"S":0.13305669},{"x":205.5,"L":-1.942099744,"M":21.29836376,"S":0.132969531},{"x":206.5,"L":-1.935177101,"M":21.35402009,"S":0.132885274},{"x":207.5,"L":-1.92837748,"M":21.40943891,"S":0.132804292},{"x":208.5,"L":-1.921712136,"M":21.46461026,"S":0.132726962},{"x":209.5,"L":-1.915192685,"M":21.51952414,"S":0.132653664},{"x":210.5,"L":-1.908831065,"M":21.57417053,"S":0.132584784},{"x":211.5,"L":-1.902639482,"M":21.62853937,"S":0.132520711},{"x":212.5,"L":-1.896630358,"M":21.68262062,"S":0.132461838},{"x":213.5,"L":-1.890816268,"M":21.73640419,"S":0.132408563},{"x":214.5,"L":-1.885209876,"M":21.78988003,"S":0.132361289},{"x":215.5,"L":-1.879823505,"M":21.84303819,"S":0.132320427},{"x":216.5,"L":-1.874670324,"M":21.8958685,"S":0.132286382},{"x":217.5,"L":-1.869760299,"M":21.94836168,"S":0.1322596},{"x":218.5,"L":-1.865113245,"M":22.00050569,"S":0.132240418},{"x":219.5,"L":-1.860734944,"M":22.05229242,"S":0.13222933},{"x":220.5,"L":-1.85663384,"M":22.10371305,"S":0.132226801},{"x":221.5,"L":-1.852827186,"M":22.15475603,"S":0.132233201},{"x":222.5,"L":-1.849323204,"M":22.20541249,"S":0.132248993},{"x":223.5,"L":-1.846131607,"M":22.255673,"S":0.132274625},{"x":224.5,"L":-1.843261294,"M":22.30552831,"S":0.132310549},{"x":225.5,"L":-1.840720248,"M":22.3549693,"S":0.132357221},{"x":226.5,"L":-1.83851544,"M":22.40398706,"S":0.132415103},{"x":227.5,"L":-1.83665586,"M":22.45257182,"S":0.132484631},{"x":228.5,"L":-1.835138046,"M":22.50071778,"S":0.132566359},{"x":229.5,"L":-1.833972004,"M":22.54841437,"S":0.132660699},{"x":230.5,"L":-1.833157751,"M":22.59565422,"S":0.132768153},{"x":231.5,"L":-1.83269562,"M":22.64242956,"S":0.132889211},{"x":232.5,"L":-1.832584342,"M":22.68873292,"S":0.133024368},{"x":233.5,"L":-1.832820974,"M":22.73455713,"S":0.133174129},{"x":234.5,"L":-1.833400825,"M":22.7798953,"S":0.133338999},{"x":235.5,"L":-1.834317405,"M":22.82474087,"S":0.133519496},{"x":236.5,"L":-1.83555752,"M":22.86908912,"S":0.133716192},{"x":237.5,"L":-1.837119466,"M":22.91293151,"S":0.133929525},{"x":238.5,"L":-1.838987063,"M":22.95626373,"S":0.134160073},{"x":239.5,"L":-1.841146139,"M":22.99908062,"S":0.134408381},{"x":240,"L":-1.84233016,"M":23.02029424,"S":0.134539365},{"x":240.5,"L":-1.843580575,"M":23.04137734,"S":0.134675001}],"female":[{"x":0,"L":-2,"M":13.993323054280596,"S":0.09},{"x":0.5,"L":-2,"M":14.216603480424729,"S":0.09},{"x":1.5,"L":-2,"M":14.86894585642431,"S":0.09},{"x":2.5,"L":-2,"M":15.498524112355502,"S":0.09},{"x":3.5,"L":-2,"M":16.031021207868708,"S":0.09},{"x":4.5,"L":-2,"M":16.460889111688093,"S":0.09},{"x":5.5,"L":-2,"M":16.797387752490124,"S":0.09},{"x":6.5,"L":-2,"M":17.05274405158222,"S":0.09},{"x":7.5,"L":-2,"M":17.238916475757527,"S":0.09},{"x":8.5,"L":-2,"M":17.366694263112116,"S":0.09},{"x":9.5,"L":-2,"M":17.445525230695786,"S":0.09},{"x":10.5,"L":-2,"M":17.48358050771799,"S":0.09},{"x":11.5,"L":-2,"M":17.48788941134881,"S":0.09},{"x":12.5,"L":-2,"M":17.464485068451133,"S":0.09},{"x":13.5,"L":-2,"M":17.418540188577573,"S":0.09},{"x":14.5,"L":-2,"M":17.354486765129007,"S":0.09},{"x":15.5,"L":-2,"M":17.276120074212184,"S":0.09},{"x":16.5,"L":-2,"M":17.186686023915225,"S":0.09},{"x":17.5,"L":-2,"M":17.08895723980467,"S":0.09},{"x":18.5,"L":-2,"M":16.985297128939543,"S":0.09},{"x":19.5,"L":-2,"M":16.877714677387093,"S":0.09},{"x":20.5,"L":-2,"M":16.76791157015881,"S":0.09},{"x":21.5,"L":-2,"M":16.65732258946238,"S":0.09},{"x":22.5,"L":-2,"M":16.547150613992358,"S":0.09},{"x":23.5,"L":-2,"M":16.438397175315906,"S":0.09},{"x":24.5,"L":-2,"M":16.33188711103323,"S":0.09},{"x":25.5,"L":-2,"M":16.20499467217313,"S":0.09},{"x":26.5,"L":-2,"M":16.0857734737691,"S":0.09},{"x":27.5,"L":-2,"M":15.975459835869598,"S":0.09},{"x":28.5,"L":-2,"M":15.874921723020524,"S":0.09},{"x":29.5,"L":-2,"M":15.784711941885224,"S":0.09},{"x":30.5,"L":-2,"M":15.705118487532708,"S":0.09},{"x":31.5,"L":-2,"M":15.63620703805535,"S":0.09},{"x":32.5,"L":-2,"M":15.577857601190233,"S":0.09},{"x":33.5,"L":-2,"M":15.529797655815212,"S":0.09},{"x":34.5,"L":-2,"M":15.491624802753478,"S":0.09},{"x":35.5,"L":-2,"M":15.462835678185465,"S":0.09},{"x":null,"L":null,"M":null,"S":null},{"x":24,"L":-0.98660853,"M":16.42339664,"S":0.085451785},{"x":36.5,"L":-2.096828937,"M":15.69924188,"S":0.078605255},{"x":37.5,"L":-2.189211877,"M":15.65523282,"S":0.078378696},{"x":38.5,"L":-2.279991982,"M":15.61321371,"S":0.078196674},{"x":39.5,"L":-2.368732949,"M":15.57316843,"S":0.078058667},{"x":40.5,"L":-2.455021314,"M":15.53508019,"S":0.077964169},{"x":41.5,"L":-2.538471972,"M":15.49893145,"S":0.077912684},{"x":42.5,"L":-2.618732901,"M":15.46470384,"S":0.077903716},{"x":43.5,"L":-2.695488973,"M":15.43237817,"S":0.077936763},{"x":44.5,"L":-2.768464816,"M":15.40193436,"S":0.078011309},{"x":45.5,"L":-2.837426693,"M":15.37335154,"S":0.078126817},{"x":46.5,"L":-2.902178205,"M":15.34660842,"S":0.078282739},{"x":47.5,"L":-2.962580386,"M":15.32168181,"S":0.078478449},{"x":48.5,"L":-3.018521987,"M":15.29854897,"S":0.078713325},{"x":49.5,"L":-3.069936555,"M":15.27718618,"S":0.078986694},{"x":50.5,"L":-3.116795864,"M":15.2575692,"S":0.079297841},{"x":51.5,"L":-3.159107331,"M":15.23967338,"S":0.079646006},{"x":52.5,"L":-3.196911083,"M":15.22347371,"S":0.080030389},{"x":53.5,"L":-3.230276759,"M":15.20894491,"S":0.080450145},{"x":54.5,"L":-3.259300182,"M":15.19606152,"S":0.080904391},{"x":55.5,"L":-3.284099963,"M":15.18479799,"S":0.081392203},{"x":56.5,"L":-3.30481415,"M":15.17512871,"S":0.081912623},{"x":57.5,"L":-3.321596954,"M":15.16702811,"S":0.082464661},{"x":58.5,"L":-3.334615646,"M":15.16047068,"S":0.083047295},{"x":59.5,"L":-3.344047622,"M":15.15543107,"S":0.083659478},{"x":60.5,"L":-3.35007771,"M":15.15188405,"S":0.084300139},{"x":61.5,"L":-3.352893805,"M":15.14980479,"S":0.0849682},{"x":62.5,"L":-3.352691376,"M":15.14916825,"S":0.085662539},{"x":63.5,"L":-3.34966438,"M":15.14994984,"S":0.086382035},{"x":64.5,"L":-3.343998803,"M":15.15212585,"S":0.087125591},{"x":65.5,"L":-3.335889574,"M":15.15567186,"S":0.087892047},{"x":66.5,"L":-3.325522491,"M":15.16056419,"S":0.088680264},{"x":67.5,"L":-3.31307846,"M":15.16677947,"S":0.089489106},{"x":68.5,"L":-3.298732648,"M":15.17429464,"S":0.090317434},{"x":69.5,"L":-3.282653831,"M":15.18308694,"S":0.091164117},{"x":70.5,"L":-3.265003896,"M":15.1931339,"S":0.092028028},{"x":71.5,"L":-3.245937506,"M":15.20441335,"S":0.092908048},{"x":72.5,"L":-3.225606516,"M":15.21690296,"S":0.093803033},{"x":73.5,"L":-3.204146115,"M":15.2305815,"S":0.094711916},{"x":74.5,"L":-3.181690237,"M":15.24542745,"S":0.095633595},{"x":75.5,"L":-3.158363475,"M":15.26141966,"S":0.096566992},{"x":76.5,"L":-3.134282833,"M":15.27853728,"S":0.097511046},{"x":77.5,"L":-3.109557879,"M":15.29675967,"S":0.09846471},{"x":78.5,"L":-3.084290931,"M":15.31606644,"S":0.099426955},{"x":79.5,"L":-3.058577292,"M":15.33643745,"S":0.100396769},{"x":80.5,"L":-3.032505499,"M":15.35785274,"S":0.101373159},{"x":81.5,"L":-3.0061576,"M":15.38029261,"S":0.10235515},{"x":82.5,"L":-2.979609448,"M":15.40373754,"S":0.103341788},{"x":83.5,"L":-2.952930993,"M":15.42816819,"S":0.104332139},{"x":84.5,"L":-2.926186592,"M":15.45356545,"S":0.105325289},{"x":85.5,"L":-2.899435307,"M":15.47991037,"S":0.106320346},{"x":86.5,"L":-2.872731211,"M":15.50718419,"S":0.10731644},{"x":87.5,"L":-2.846123683,"M":15.53536829,"S":0.108312721},{"x":88.5,"L":-2.819657704,"M":15.56444426,"S":0.109308364},{"x":89.5,"L":-2.793374145,"M":15.5943938,"S":0.110302563},{"x":90.5,"L":-2.767310047,"M":15.6251988,"S":0.111294537},{"x":91.5,"L":-2.741498897,"M":15.65684126,"S":0.112283526},{"x":92.5,"L":-2.715970894,"M":15.68930333,"S":0.113268793},{"x":93.5,"L":-2.690753197,"M":15.7225673,"S":0.114249622},{"x":94.5,"L":-2.665870146,"M":15.75661555,"S":0.115225321},{"x":95.5,"L":-2.641343436,"M":15.79143062,"S":0.116195218},{"x":96.5,"L":-2.617192204,"M":15.82699517,"S":0.117158667},{"x":97.5,"L":-2.593430614,"M":15.86329241,"S":0.118115073},{"x":98.5,"L":-2.570076037,"M":15.90030484,"S":0.119063807},{"x":99.5,"L":-2.547141473,"M":15.93801545,"S":0.12000429},{"x":100.5,"L":-2.524635245,"M":15.97640787,"S":0.120935994},{"x":101.5,"L":-2.502569666,"M":16.01546483,"S":0.121858355},{"x":102.5,"L":-2.48095189,"M":16.05516984,"S":0.12277087},{"x":103.5,"L":-2.459785573,"M":16.09550688,"S":0.123673085},{"x":104.5,"L":-2.439080117,"M":16.13645881,"S":0.124564484},{"x":105.5,"L":-2.418838304,"M":16.17800955,"S":0.125444639},{"x":106.5,"L":-2.399063683,"M":16.22014281,"S":0.126313121},{"x":107.5,"L":-2.379756861,"M":16.26284277,"S":0.127169545},{"x":108.5,"L":-2.360920527,"M":16.30609316,"S":0.128013515},{"x":109.5,"L":-2.342557728,"M":16.34987759,"S":0.128844639},{"x":110.5,"L":-2.324663326,"M":16.39418118,"S":0.129662637},{"x":111.5,"L":-2.307240716,"M":16.43898741,"S":0.130467138},{"x":112.5,"L":-2.290287663,"M":16.48428082,"S":0.131257852},{"x":113.5,"L":-2.273803847,"M":16.53004554,"S":0.132034479},{"x":114.5,"L":-2.257782149,"M":16.57626713,"S":0.132796819},{"x":115.5,"L":-2.242227723,"M":16.62292864,"S":0.133544525},{"x":116.5,"L":-2.227132805,"M":16.67001572,"S":0.134277436},{"x":117.5,"L":-2.212495585,"M":16.71751288,"S":0.134995324},{"x":118.5,"L":-2.19831275,"M":16.76540496,"S":0.135697996},{"x":119.5,"L":-2.184580762,"M":16.81367689,"S":0.136385276},{"x":120.5,"L":-2.171295888,"M":16.86231366,"S":0.137057004},{"x":121.5,"L":-2.158454232,"M":16.91130036,"S":0.137713039},{"x":122.5,"L":-2.146051754,"M":16.96062216,"S":0.138353254},{"x":123.5,"L":-2.134084303,"M":17.0102643,"S":0.138977537},{"x":124.5,"L":-2.122547629,"M":17.06021213,"S":0.139585795},{"x":125.5,"L":-2.111437411,"M":17.11045106,"S":0.140177947},{"x":126.5,"L":-2.100749266,"M":17.16096656,"S":0.140753927},{"x":127.5,"L":-2.090478774,"M":17.21174424,"S":0.141313686},{"x":128.5,"L":-2.080621484,"M":17.26276973,"S":0.141857186},{"x":129.5,"L":-2.071172932,"M":17.31402878,"S":0.142384404},{"x":130.5,"L":-2.062128649,"M":17.3655072,"S":0.142895332},{"x":131.5,"L":-2.053484173,"M":17.4171909,"S":0.143389972},{"x":132.5,"L":-2.045235058,"M":17.46906585,"S":0.143868341},{"x":133.5,"L":-2.03737688,"M":17.52111811,"S":0.144330469},{"x":134.5,"L":-2.029906684,"M":17.57333347,"S":0.144776372},{"x":135.5,"L":-2.022817914,"M":17.62569869,"S":0.145206138},{"x":136.5,"L":-2.016107084,"M":17.67819987,"S":0.145619819},{"x":137.5,"L":-2.009769905,"M":17.7308234,"S":0.146017491},{"x":138.5,"L":-2.003802134,"M":17.78355575,"S":0.146399239},{"x":139.5,"L":-1.998199572,"M":17.83638347,"S":0.146765161},{"x":140.5,"L":-1.992958064,"M":17.88929321,"S":0.147115364},{"x":141.5,"L":-1.988073505,"M":17.94227168,"S":0.147449967},{"x":142.5,"L":-1.983541835,"M":17.9953057,"S":0.147769097},{"x":143.5,"L":-1.979359041,"M":18.04838216,"S":0.148072891},{"x":144.5,"L":-1.975521156,"M":18.10148804,"S":0.148361495},{"x":145.5,"L":-1.972024258,"M":18.15461039,"S":0.148635067},{"x":146.5,"L":-1.968864465,"M":18.20773639,"S":0.148893769},{"x":147.5,"L":-1.966037938,"M":18.26085325,"S":0.149137776},{"x":148.5,"L":-1.963540872,"M":18.31394832,"S":0.14936727},{"x":149.5,"L":-1.961369499,"M":18.36700902,"S":0.149582439},{"x":150.5,"L":-1.959520079,"M":18.42002284,"S":0.149783482},{"x":151.5,"L":-1.9579889,"M":18.47297739,"S":0.149970604},{"x":152.5,"L":-1.956772271,"M":18.52586035,"S":0.15014402},{"x":153.5,"L":-1.95586652,"M":18.57865951,"S":0.15030395},{"x":154.5,"L":-1.955267984,"M":18.63136275,"S":0.150450621},{"x":155.5,"L":-1.954973011,"M":18.68395801,"S":0.15058427},{"x":156.5,"L":-1.954977947,"M":18.73643338,"S":0.150705138},{"x":157.5,"L":-1.955279136,"M":18.788777,"S":0.150813475},{"x":158.5,"L":-1.955872909,"M":18.84097713,"S":0.150909535},{"x":159.5,"L":-1.956755579,"M":18.89302212,"S":0.150993582},{"x":160.5,"L":-1.957923436,"M":18.94490041,"S":0.151065883},{"x":161.5,"L":-1.959372737,"M":18.99660055,"S":0.151126714},{"x":162.5,"L":-1.9610997,"M":19.04811118,"S":0.151176355},{"x":163.5,"L":-1.963100496,"M":19.09942105,"S":0.151215094},{"x":164.5,"L":-1.96537124,"M":19.15051899,"S":0.151243223},{"x":165.5,"L":-1.967907983,"M":19.20139397,"S":0.151261042},{"x":166.5,"L":-1.970706706,"M":19.25203503,"S":0.151268855},{"x":167.5,"L":-1.973763307,"M":19.30243131,"S":0.151266974},{"x":168.5,"L":-1.977073595,"M":19.35257209,"S":0.151255713},{"x":169.5,"L":-1.980633277,"M":19.40244671,"S":0.151235395},{"x":170.5,"L":-1.984437954,"M":19.45204465,"S":0.151206347},{"x":171.5,"L":-1.988483106,"M":19.50135548,"S":0.151168902},{"x":172.5,"L":-1.992764085,"M":19.55036888,"S":0.151123398},{"x":173.5,"L":-1.997276103,"M":19.59907464,"S":0.15107018},{"x":174.5,"L":-2.002014224,"M":19.64746266,"S":0.151009595},{"x":175.5,"L":-2.00697335,"M":19.69552294,"S":0.150942},{"x":176.5,"L":-2.012148213,"M":19.7432456,"S":0.150867753},{"x":177.5,"L":-2.017533363,"M":19.79062086,"S":0.150787221},{"x":178.5,"L":-2.023123159,"M":19.83763907,"S":0.150700774},{"x":179.5,"L":-2.028911755,"M":19.88429066,"S":0.150608788},{"x":180.5,"L":-2.034893091,"M":19.9305662,"S":0.150511645},{"x":181.5,"L":-2.041060881,"M":19.97645636,"S":0.150409731},{"x":182.5,"L":-2.047408604,"M":20.02195192,"S":0.15030344},{"x":183.5,"L":-2.05392949,"M":20.06704377,"S":0.150193169},{"x":184.5,"L":-2.060616513,"M":20.11172291,"S":0.150079322},{"x":185.5,"L":-2.067462375,"M":20.15598047,"S":0.149962308},{"x":186.5,"L":-2.074459502,"M":20.19980767,"S":0.14984254},{"x":187.5,"L":-2.081600029,"M":20.24319586,"S":0.149720441},{"x":188.5,"L":-2.088875793,"M":20.28613648,"S":0.149596434},{"x":189.5,"L":-2.096278323,"M":20.32862109,"S":0.149470953},{"x":190.5,"L":-2.103798828,"M":20.37064138,"S":0.149344433},{"x":191.5,"L":-2.111428194,"M":20.41218911,"S":0.149217319},{"x":192.5,"L":-2.119156972,"M":20.45325617,"S":0.14909006},{"x":193.5,"L":-2.126975375,"M":20.49383457,"S":0.14896311},{"x":194.5,"L":-2.134873266,"M":20.5339164,"S":0.148836931},{"x":195.5,"L":-2.142840157,"M":20.57349387,"S":0.148711989},{"x":196.5,"L":-2.150865204,"M":20.61255929,"S":0.148588757},{"x":197.5,"L":-2.158937201,"M":20.65110506,"S":0.148467715},{"x":198.5,"L":-2.167044578,"M":20.6891237,"S":0.148349348},{"x":199.5,"L":-2.175176987,"M":20.72660728,"S":0.14823412},{"x":200.5,"L":-2.183317362,"M":20.76355011,"S":0.148122614},{"x":201.5,"L":-2.191457792,"M":20.79994337,"S":0.148015249},{"x":202.5,"L":-2.199583649,"M":20.83578051,"S":0.147912564},{"x":203.5,"L":-2.207681525,"M":20.87105449,"S":0.147815078},{"x":204.5,"L":-2.215737645,"M":20.90575839,"S":0.147723315},{"x":205.5,"L":-2.223739902,"M":20.93988477,"S":0.147637768},{"x":206.5,"L":-2.231667995,"M":20.97342858,"S":0.147559083},{"x":207.5,"L":-2.239511942,"M":21.00638171,"S":0.147487716},{"x":208.5,"L":-2.247257081,"M":21.0387374,"S":0.14742421},{"x":209.5,"L":-2.254885145,"M":21.07048996,"S":0.147369174},{"x":210.5,"L":-2.26238209,"M":21.10163241,"S":0.147323144},{"x":211.5,"L":-2.269731517,"M":21.13215845,"S":0.147286698},{"x":212.5,"L":-2.276917229,"M":21.16206171,"S":0.147260415},{"x":213.5,"L":-2.283925442,"M":21.1913351,"S":0.147244828},{"x":214.5,"L":-2.290731442,"M":21.21997472,"S":0.147240683},{"x":215.5,"L":-2.29732427,"M":21.24797262,"S":0.147248467},{"x":216.5,"L":-2.303687802,"M":21.27532239,"S":0.14726877},{"x":217.5,"L":-2.309799971,"M":21.30201933,"S":0.147302299},{"x":218.5,"L":-2.315651874,"M":21.32805489,"S":0.147349514},{"x":219.5,"L":-2.32121731,"M":21.35342563,"S":0.147411215},{"x":220.5,"L":-2.326481911,"M":21.37812462,"S":0.147487979},{"x":221.5,"L":-2.331428139,"M":21.40214589,"S":0.147580453},{"x":222.5,"L":-2.336038473,"M":21.42548351,"S":0.147689289},{"x":223.5,"L":-2.34029545,"M":21.44813156,"S":0.14781515},{"x":224.5,"L":-2.344181703,"M":21.47008412,"S":0.147958706},{"x":225.5,"L":-2.34768,"M":21.49133529,"S":0.148120633},{"x":226.5,"L":-2.350773286,"M":21.51187918,"S":0.148301619},{"x":227.5,"L":-2.353444725,"M":21.53170989,"S":0.148502355},{"x":228.5,"L":-2.355677743,"M":21.55082155,"S":0.148723546},{"x":229.5,"L":-2.35745607,"M":21.56920824,"S":0.148965902},{"x":230.5,"L":-2.358763788,"M":21.58686406,"S":0.149230142},{"x":231.5,"L":-2.359585369,"M":21.60378309,"S":0.149516994},{"x":232.5,"L":-2.359905726,"M":21.61995939,"S":0.149827195},{"x":233.5,"L":-2.359710258,"M":21.635387,"S":0.150161492},{"x":234.5,"L":-2.358980464,"M":21.65006126,"S":0.150520734},{"x":235.5,"L":-2.357714508,"M":21.6639727,"S":0.150905439},{"x":236.5,"L":-2.355892424,"M":21.67711736,"S":0.151316531},{"x":237.5,"L":-2.353501353,"M":21.68948935,"S":0.151754808},{"x":238.5,"L":-2.350528726,"M":21.70108288,"S":0.152221086},{"x":239.5,"L":-2.346962247,"M":21.71189225,"S":0.152716206},{"x":240,"L":-2.34495843,"M":21.71699934,"S":0.152974718},{"x":240.5,"L":-2.342796948,"M":21.72190973,"S":0.153240872}]},"weightForLength":{"male":[{"x":45,"L":1.44903689,"M":2.289757735,"S":0.149236691},{"x":45.5,"L":1.31794165,"M":2.38617219,"S":0.144790131},{"x":46.5,"L":1.041730589,"M":2.587097922,"S":0.1365472},{"x":47.5,"L":0.756615683,"M":2.797952593,"S":0.129156077},{"x":48.5,"L":0.472617587,"M":3.017679791,"S":0.122589498},{"x":49.5,"L":0.197455933,"M":3.245225583,"S":0.116802688},{"x":50.5,"L":-0.063272822,"M":3.479567767,"S":0.111734963},{"x":51.5,"L":-0.305663778,"M":3.719739648,"S":0.107316407},{"x":52.5,"L":-0.527210764,"M":3.964838222,"S":0.10347453},{"x":53.5,"L":-0.726356263,"M":4.214033476,"S":0.100139369},{"x":54.5,"L":-0.902380499,"M":4.466562625,"S":0.097246097},{"x":55.5,"L":-1.055126826,"M":4.721730669,"S":0.09473644},{"x":56.5,"L":-1.184933443,"M":4.978903744,"S":0.092558749},{"x":57.5,"L":-1.292531809,"M":5.237504753,"S":0.09066765},{"x":58.5,"L":-1.378973111,"M":5.497008915,"S":0.089023438},{"x":59.5,"L":-1.445563111,"M":5.756939907,"S":0.087591418},{"x":60.5,"L":-1.49380121,"M":6.016866693,"S":0.086341291},{"x":61.5,"L":-1.525332827,"M":6.276400575,"S":0.085246598},{"x":62.5,"L":-1.541839648,"M":6.535195541,"S":0.084284401},{"x":63.5,"L":-1.545098045,"M":6.792942366,"S":0.083434649},{"x":64.5,"L":-1.536863318,"M":7.049370425,"S":0.08268004},{"x":65.5,"L":-1.518786093,"M":7.304248994,"S":0.082005843},{"x":66.5,"L":-1.49249029,"M":7.557381995,"S":0.081399411},{"x":67.5,"L":-1.459487925,"M":7.808610136,"S":0.080850107},{"x":68.5,"L":-1.421167427,"M":8.057810266,"S":0.08034908},{"x":69.5,"L":-1.378835366,"M":8.304892397,"S":0.079888977},{"x":70.5,"L":-1.333634661,"M":8.549802669,"S":0.079463915},{"x":71.5,"L":-1.286605147,"M":8.792519752,"S":0.079069193},{"x":72.5,"L":-1.238665517,"M":9.033054944,"S":0.07870118},{"x":73.5,"L":-1.19066716,"M":9.271448675,"S":0.078357096},{"x":74.5,"L":-1.143316882,"M":9.507773605,"S":0.078035021},{"x":75.5,"L":-1.097263403,"M":9.742129356,"S":0.077733651},{"x":76.5,"L":-1.053083813,"M":9.974642178,"S":0.077452242},{"x":77.5,"L":-1.011294273,"M":10.20546331,"S":0.077190512},{"x":78.5,"L":-0.972360231,"M":10.43476723,"S":0.076948562},{"x":79.5,"L":-0.936705887,"M":10.66274993,"S":0.076726804},{"x":80.5,"L":-0.904722736,"M":10.88962699,"S":0.076525901},{"x":81.5,"L":-0.876777097,"M":11.11563177,"S":0.076346711},{"x":82.5,"L":-0.853216568,"M":11.34101346,"S":0.076190236},{"x":83.5,"L":-0.834375406,"M":11.56603512,"S":0.076057579},{"x":84.5,"L":-0.820578855,"M":11.79097176,"S":0.075949901},{"x":85.5,"L":-0.81214646,"M":12.01610828,"S":0.075868383},{"x":86.5,"L":-0.809394398,"M":12.24173753,"S":0.075814185},{"x":87.5,"L":-0.812636889,"M":12.46815824,"S":0.075788413},{"x":88.5,"L":-0.822186712,"M":12.69567298,"S":0.075792075},{"x":89.5,"L":-0.838354876,"M":12.92458613,"S":0.075826044},{"x":90.5,"L":-0.861449493,"M":13.15520182,"S":0.075891019},{"x":91.5,"L":-0.891773904,"M":13.38782185,"S":0.075987476},{"x":92.5,"L":-0.929617736,"M":13.6227442,"S":0.076115636},{"x":93.5,"L":-0.975268944,"M":13.86025986,"S":0.076275395},{"x":94.5,"L":-1.028990493,"M":14.10065234,"S":0.076466299},{"x":95.5,"L":-1.091024455,"M":14.34419522,"S":0.076687482},{"x":96.5,"L":-1.161574946,"M":14.59115139,"S":0.076937631},{"x":97.5,"L":-1.240820737,"M":14.84177007,"S":0.077214912},{"x":98.5,"L":-1.328879402,"M":15.0962879,"S":0.077516968},{"x":99.5,"L":-1.425809463,"M":15.35492729,"S":0.077840877},{"x":100.5,"L":-1.531575592,"M":15.61789822,"S":0.078183177},{"x":101.5,"L":-1.646081976,"M":15.88539464,"S":0.078539804},{"x":102.5,"L":-1.769082483,"M":16.15760201,"S":0.078906277},{"x":103.5,"L":-1.900221246,"M":16.43469418,"S":0.079277694}],"female":[{"x":45,"L":0.666839915,"M":2.305396985,"S":0.168969897},{"x":45.5,"L":0.699616404,"M":2.403256702,"S":0.157654766},{"x":46.5,"L":0.747915684,"M":2.606020484,"S":0.139389663},{"x":47.5,"L":0.751754737,"M":2.817114082,"S":0.125837223},{"x":48.5,"L":0.691329975,"M":3.035356101,"S":0.115888948},{"x":49.5,"L":0.559107556,"M":3.259693318,"S":0.108648608},{"x":50.5,"L":0.361549127,"M":3.48922017,"S":0.103402703},{"x":51.5,"L":0.116436203,"M":3.723195489,"S":0.099599651},{"x":52.5,"L":-0.152509094,"M":3.961034945,"S":0.096830356},{"x":53.5,"L":-0.421478627,"M":4.202270022,"S":0.09480477},{"x":54.5,"L":-0.671388289,"M":4.446476028,"S":0.093323068},{"x":55.5,"L":-0.889973526,"M":4.693220151,"S":0.092246459},{"x":56.5,"L":-1.071844454,"M":4.942029343,"S":0.091473166},{"x":57.5,"L":-1.216671445,"M":5.192403337,"S":0.090923715},{"x":58.5,"L":-1.327360462,"M":5.443830096,"S":0.090532906},{"x":59.5,"L":-1.408261687,"M":5.69581328,"S":0.090246768},{"x":60.5,"L":-1.464051065,"M":5.947889759,"S":0.090021128},{"x":61.5,"L":-1.499105627,"M":6.199640267,"S":0.089820688},{"x":62.5,"L":-1.517197913,"M":6.450695818,"S":0.089618171},{"x":63.5,"L":-1.521479703,"M":6.700736725,"S":0.089393174},{"x":64.5,"L":-1.514481331,"M":6.949493534,"S":0.089131254},{"x":65.5,"L":-1.498204976,"M":7.196744733,"S":0.088822943},{"x":66.5,"L":-1.474231858,"M":7.442313819,"S":0.088462854},{"x":67.5,"L":-1.443808911,"M":7.686067039,"S":0.088048963},{"x":68.5,"L":-1.407959107,"M":7.92790936,"S":0.087581916},{"x":69.5,"L":-1.367521025,"M":8.167783677,"S":0.087064605},{"x":70.5,"L":-1.32324327,"M":8.405666621,"S":0.086501667},{"x":71.5,"L":-1.275834578,"M":8.641566305,"S":0.085899159},{"x":72.5,"L":-1.226014257,"M":8.875519723,"S":0.085264271},{"x":73.5,"L":-1.174555804,"M":9.107590221,"S":0.084605096},{"x":74.5,"L":-1.122323639,"M":9.337865054,"S":0.083930435},{"x":75.5,"L":-1.070302348,"M":9.566453061,"S":0.083249631},{"x":76.5,"L":-1.019617172,"M":9.793482492,"S":0.082572421},{"x":77.5,"L":-0.971544123,"M":10.01909902,"S":0.081908788},{"x":78.5,"L":-0.927495981,"M":10.24346467,"S":0.081268832},{"x":79.5,"L":-0.889046221,"M":10.46675386,"S":0.080662561},{"x":80.5,"L":-0.857844783,"M":10.6891553,"S":0.080099785},{"x":81.5,"L":-0.835600041,"M":10.91086924,"S":0.079589888},{"x":82.5,"L":-0.824007806,"M":11.13210717,"S":0.079141623},{"x":83.5,"L":-0.824673085,"M":11.35309164,"S":0.078762888},{"x":84.5,"L":-0.839021353,"M":11.57405623,"S":0.078460511},{"x":85.5,"L":-0.868191531,"M":11.79524697,"S":0.078240047},{"x":86.5,"L":-0.912987527,"M":12.0169203,"S":0.078105554},{"x":87.5,"L":-0.973732843,"M":12.23934838,"S":0.078059544},{"x":88.5,"L":-1.050238631,"M":12.46281861,"S":0.078102898},{"x":89.5,"L":-1.141750538,"M":12.68763627,"S":0.078234935},{"x":90.5,"L":-1.246935039,"M":12.9141268,"S":0.078453576},{"x":91.5,"L":-1.363881842,"M":13.1426393,"S":0.078755652},{"x":92.5,"L":-1.490235591,"M":13.37354263,"S":0.079137144},{"x":93.5,"L":-1.623204367,"M":13.60723197,"S":0.079593737},{"x":94.5,"L":-1.759750536,"M":13.84412275,"S":0.080121122},{"x":95.5,"L":-1.896722704,"M":14.08464853,"S":0.080715361},{"x":96.5,"L":-2.031079769,"M":14.32925018,"S":0.081372938},{"x":97.5,"L":-2.159985258,"M":14.57837334,"S":0.082090922},{"x":98.5,"L":-2.280992946,"M":14.8324557,"S":0.082866693},{"x":99.5,"L":-2.392125361,"M":15.09192012,"S":0.083697706},{"x":100.5,"L":-2.491985117,"M":15.35716167,"S":0.08458092},{"x":101.5,"L":-2.579688446,"M":15.62854849,"S":0.085512655},{"x":102.5,"L":-2.654922113,"M":15.90640903,"S":0.086487929},{"x":103.5,"L":-2.717782155,"M":16.19103966,"S":0.087500575}]}};
+  var OMNI_BABY = {
+  "source": "Omni Calculator baby-percentile customJs tables",
+  "tables": {
+    "girlsWeightPercentile": {
+      "0": [
+        2.4,
+        2.8,
+        3.2,
+        3.7,
+        4.2
+      ],
+      "1": [
+        3.2,
+        3.6,
+        4.2,
+        4.8,
+        5.4
+      ],
+      "2": [
+        4,
+        4.5,
+        5.1,
+        5.9,
+        6.5
+      ],
+      "3": [
+        4.6,
+        5.1,
+        5.8,
+        6.7,
+        7.4
+      ],
+      "4": [
+        5.1,
+        5.6,
+        6.4,
+        7.3,
+        8.1
+      ],
+      "5": [
+        5.5,
+        6.1,
+        6.9,
+        7.8,
+        8.7
+      ],
+      "6": [
+        5.8,
+        6.4,
+        7.3,
+        8.3,
+        9.2
+      ],
+      "7": [
+        6.1,
+        6.7,
+        7.6,
+        8.7,
+        9.6
+      ],
+      "8": [
+        6.3,
+        7,
+        7.9,
+        9,
+        10
+      ],
+      "9": [
+        6.6,
+        7.3,
+        8.2,
+        9.3,
+        10.4
+      ],
+      "10": [
+        6.8,
+        7.5,
+        8.5,
+        9.6,
+        10.7
+      ],
+      "11": [
+        7,
+        7.7,
+        8.7,
+        9.9,
+        11
+      ],
+      "12": [
+        7.1,
+        7.9,
+        8.9,
+        10.2,
+        11.3
+      ],
+      "13": [
+        7.3,
+        8.1,
+        9.2,
+        10.4,
+        11.6
+      ],
+      "14": [
+        7.5,
+        8.3,
+        9.4,
+        10.7,
+        11.9
+      ],
+      "15": [
+        7.7,
+        8.5,
+        9.6,
+        10.9,
+        12.2
+      ],
+      "16": [
+        7.8,
+        8.7,
+        9.8,
+        11.2,
+        12.5
+      ],
+      "17": [
+        8,
+        8.8,
+        10,
+        11.4,
+        12.7
+      ],
+      "18": [
+        8.2,
+        9,
+        10.2,
+        11.6,
+        13
+      ],
+      "19": [
+        8.3,
+        9.2,
+        10.4,
+        11.9,
+        13.3
+      ],
+      "20": [
+        8.5,
+        9.4,
+        10.6,
+        12.1,
+        13.5
+      ],
+      "21": [
+        8.7,
+        9.6,
+        10.9,
+        12.4,
+        13.8
+      ],
+      "22": [
+        8.8,
+        9.8,
+        11.1,
+        12.6,
+        14.1
+      ],
+      "23": [
+        9,
+        9.9,
+        11.3,
+        12.8,
+        14.3
+      ],
+      "24": [
+        9.2,
+        10.1,
+        11.5,
+        13.1,
+        14.6
+      ]
+    },
+    "boysWeightPercentile": {
+      "0": [
+        2.5,
+        2.9,
+        3.3,
+        3.9,
+        4.3
+      ],
+      "1": [
+        3.4,
+        3.9,
+        4.5,
+        5.1,
+        5.7
+      ],
+      "2": [
+        4.4,
+        4.9,
+        5.6,
+        6.3,
+        7
+      ],
+      "3": [
+        5.1,
+        5.6,
+        6.4,
+        7.2,
+        7.9
+      ],
+      "4": [
+        5.6,
+        6.2,
+        7,
+        7.9,
+        8.6
+      ],
+      "5": [
+        6.1,
+        6.7,
+        7.5,
+        8.4,
+        9.2
+      ],
+      "6": [
+        6.4,
+        7.1,
+        7.9,
+        8.9,
+        9.7
+      ],
+      "7": [
+        6.7,
+        7.4,
+        8.3,
+        9.3,
+        10.2
+      ],
+      "8": [
+        7,
+        7.7,
+        8.6,
+        9.6,
+        10.5
+      ],
+      "9": [
+        7.2,
+        7.9,
+        8.9,
+        10,
+        10.9
+      ],
+      "10": [
+        7.5,
+        8.2,
+        9.2,
+        10.3,
+        11.2
+      ],
+      "11": [
+        7.7,
+        8.4,
+        9.4,
+        10.5,
+        11.5
+      ],
+      "12": [
+        7.8,
+        8.6,
+        9.6,
+        10.8,
+        11.8
+      ],
+      "13": [
+        8,
+        8.8,
+        9.9,
+        11.1,
+        12.1
+      ],
+      "14": [
+        8.2,
+        9,
+        10.1,
+        11.3,
+        12.4
+      ],
+      "15": [
+        8.4,
+        9.2,
+        10.3,
+        11.6,
+        12.7
+      ],
+      "16": [
+        8.5,
+        9.4,
+        10.5,
+        11.8,
+        12.9
+      ],
+      "17": [
+        8.7,
+        9.6,
+        10.7,
+        12,
+        13.2
+      ],
+      "18": [
+        8.9,
+        9.7,
+        10.9,
+        12.3,
+        13.5
+      ],
+      "19": [
+        9,
+        9.9,
+        11.1,
+        12.5,
+        13.7
+      ],
+      "20": [
+        9.2,
+        10.1,
+        11.3,
+        12.7,
+        14
+      ],
+      "21": [
+        9.3,
+        10.3,
+        11.5,
+        13,
+        14.3
+      ],
+      "22": [
+        9.5,
+        10.5,
+        11.8,
+        13.2,
+        14.5
+      ],
+      "23": [
+        9.7,
+        10.6,
+        12,
+        13.4,
+        14.8
+      ],
+      "24": [
+        9.8,
+        10.8,
+        12.2,
+        13.7,
+        15.1
+      ]
+    },
+    "girlsHeightPercentile": {
+      "0": [
+        45.6,
+        47.2,
+        49.1,
+        51.1,
+        52.2
+      ],
+      "1": [
+        50,
+        51.7,
+        53.7,
+        55.7,
+        56.9
+      ],
+      "2": [
+        53.2,
+        55,
+        57.1,
+        59.2,
+        60.4
+      ],
+      "3": [
+        55.8,
+        57.6,
+        59.8,
+        62,
+        63.3
+      ],
+      "4": [
+        58,
+        59.8,
+        62.1,
+        64.3,
+        65.7
+      ],
+      "5": [
+        59.9,
+        61.7,
+        64,
+        66.3,
+        67.7
+      ],
+      "6": [
+        61.5,
+        63.4,
+        65.7,
+        68.1,
+        69.5
+      ],
+      "7": [
+        62.9,
+        64.9,
+        67.3,
+        69.7,
+        71.1
+      ],
+      "8": [
+        64.3,
+        66.3,
+        68.7,
+        71.2,
+        72.6
+      ],
+      "9": [
+        65.6,
+        67.6,
+        70.1,
+        72.6,
+        74.1
+      ],
+      "10": [
+        66.8,
+        68.9,
+        71.5,
+        74,
+        75.5
+      ],
+      "11": [
+        68,
+        70.2,
+        72.8,
+        75.4,
+        76.9
+      ],
+      "12": [
+        69.2,
+        71.3,
+        74,
+        76.7,
+        78.3
+      ],
+      "13": [
+        70.3,
+        72.5,
+        75.2,
+        77.9,
+        79.5
+      ],
+      "14": [
+        71.3,
+        73.6,
+        76.4,
+        79.2,
+        80.8
+      ],
+      "15": [
+        72.4,
+        74.7,
+        77.5,
+        80.3,
+        82
+      ],
+      "16": [
+        73.3,
+        75.7,
+        78.6,
+        81.5,
+        83.2
+      ],
+      "17": [
+        74.3,
+        76.7,
+        79.7,
+        82.6,
+        84.4
+      ],
+      "18": [
+        75.2,
+        77.7,
+        80.7,
+        83.7,
+        85.5
+      ],
+      "19": [
+        76.2,
+        78.7,
+        81.7,
+        84.8,
+        86.6
+      ],
+      "20": [
+        77,
+        79.6,
+        82.7,
+        85.8,
+        87.7
+      ],
+      "21": [
+        77.9,
+        80.5,
+        83.7,
+        86.8,
+        88.7
+      ],
+      "22": [
+        78.7,
+        81.4,
+        84.6,
+        87.8,
+        89.7
+      ],
+      "23": [
+        79.6,
+        82.2,
+        85.5,
+        88.8,
+        90.7
+      ],
+      "24": [
+        80.3,
+        83.1,
+        86.4,
+        89.8,
+        91.7
+      ]
+    },
+    "boysHeightPercentile": {
+      "0": [
+        46.3,
+        47.9,
+        49.9,
+        51.8,
+        53.4
+      ],
+      "1": [
+        51.1,
+        52.7,
+        54.7,
+        56.7,
+        58.4
+      ],
+      "2": [
+        54.7,
+        56.4,
+        58.4,
+        60.5,
+        62.2
+      ],
+      "3": [
+        57.6,
+        59.3,
+        61.4,
+        63.5,
+        65.3
+      ],
+      "4": [
+        60,
+        61.7,
+        63.9,
+        66,
+        67.8
+      ],
+      "5": [
+        61.9,
+        63.7,
+        65.9,
+        68.1,
+        69.9
+      ],
+      "6": [
+        63.6,
+        65.4,
+        67.6,
+        69.8,
+        71.6
+      ],
+      "7": [
+        65.1,
+        66.9,
+        69.2,
+        71.4,
+        73.2
+      ],
+      "8": [
+        66.5,
+        68.3,
+        70.6,
+        72.9,
+        74.7
+      ],
+      "9": [
+        67.7,
+        69.6,
+        72,
+        74.3,
+        76.2
+      ],
+      "10": [
+        69,
+        70.9,
+        73.3,
+        75.6,
+        77.6
+      ],
+      "11": [
+        70.2,
+        72.1,
+        74.5,
+        77,
+        78.9
+      ],
+      "12": [
+        71.3,
+        73.3,
+        75.7,
+        78.2,
+        80.2
+      ],
+      "13": [
+        72.4,
+        74.4,
+        76.9,
+        79.4,
+        81.5
+      ],
+      "14": [
+        73.4,
+        75.5,
+        78,
+        80.6,
+        82.7
+      ],
+      "15": [
+        74.4,
+        76.5,
+        79.1,
+        81.8,
+        83.9
+      ],
+      "16": [
+        75.4,
+        77.5,
+        80.2,
+        82.9,
+        85.1
+      ],
+      "17": [
+        76.3,
+        78.5,
+        81.2,
+        84,
+        86.2
+      ],
+      "18": [
+        77.2,
+        79.5,
+        82.3,
+        85.1,
+        87.3
+      ],
+      "19": [
+        78.1,
+        80.4,
+        83.2,
+        86.1,
+        88.4
+      ],
+      "20": [
+        78.9,
+        81.3,
+        84.2,
+        87.1,
+        89.5
+      ],
+      "21": [
+        79.7,
+        82.2,
+        85.1,
+        88.1,
+        90.5
+      ],
+      "22": [
+        80.5,
+        83,
+        86,
+        89.1,
+        91.6
+      ],
+      "23": [
+        81.3,
+        83.8,
+        86.9,
+        90,
+        92.6
+      ],
+      "24": [
+        82.1,
+        84.6,
+        87.8,
+        91,
+        93.6
+      ]
+    },
+    "girlsCircumferencePercentile": {
+      "0": [
+        31.7,
+        32.7,
+        33.9,
+        35.1,
+        36.1
+      ],
+      "1": [
+        34.3,
+        35.3,
+        36.5,
+        37.8,
+        38.8
+      ],
+      "2": [
+        36,
+        37,
+        38.3,
+        39.5,
+        40.5
+      ],
+      "3": [
+        37.2,
+        38.2,
+        39.5,
+        40.8,
+        41.9
+      ],
+      "4": [
+        38.2,
+        39.3,
+        40.6,
+        41.9,
+        43
+      ],
+      "5": [
+        39,
+        40.1,
+        41.5,
+        42.8,
+        43.9
+      ],
+      "6": [
+        39.7,
+        40.8,
+        42.2,
+        43.5,
+        44.6
+      ],
+      "7": [
+        40.4,
+        41.5,
+        42.8,
+        44.2,
+        45.3
+      ],
+      "8": [
+        40.9,
+        42,
+        43.4,
+        44.7,
+        45.9
+      ],
+      "9": [
+        41.3,
+        42.4,
+        43.8,
+        45.2,
+        46.3
+      ],
+      "10": [
+        41.7,
+        42.8,
+        44.2,
+        45.6,
+        46.8
+      ],
+      "11": [
+        42,
+        43.2,
+        44.6,
+        46,
+        47.1
+      ],
+      "12": [
+        42.3,
+        43.5,
+        44.9,
+        46.3,
+        47.5
+      ],
+      "13": [
+        42.6,
+        43.8,
+        45.2,
+        46.6,
+        47.7
+      ],
+      "14": [
+        42.9,
+        44,
+        45.4,
+        46.8,
+        48
+      ],
+      "15": [
+        43.1,
+        44.2,
+        45.7,
+        47.1,
+        48.2
+      ],
+      "16": [
+        43.3,
+        44.4,
+        45.9,
+        47.3,
+        48.5
+      ],
+      "17": [
+        43.5,
+        44.6,
+        46.1,
+        47.5,
+        48.7
+      ],
+      "18": [
+        43.6,
+        44.8,
+        46.2,
+        47.7,
+        48.8
+      ],
+      "19": [
+        43.8,
+        45,
+        46.4,
+        47.8,
+        49
+      ],
+      "20": [
+        44,
+        45.1,
+        46.6,
+        48,
+        49.2
+      ],
+      "21": [
+        44.1,
+        45.3,
+        46.7,
+        48.2,
+        49.4
+      ],
+      "22": [
+        44.3,
+        45.4,
+        46.9,
+        48.3,
+        49.5
+      ],
+      "23": [
+        44.4,
+        45.6,
+        47,
+        48.5,
+        49.7
+      ],
+      "24": [
+        44.6,
+        45.7,
+        47.2,
+        48.6,
+        49.8
+      ]
+    },
+    "boysCircumferencePercentile": {
+      "0": [
+        32.1,
+        33.1,
+        34.5,
+        35.8,
+        36.9
+      ],
+      "1": [
+        35.1,
+        36.1,
+        37.3,
+        38.5,
+        39.5
+      ],
+      "2": [
+        36.9,
+        37.9,
+        39.1,
+        40.3,
+        41.3
+      ],
+      "3": [
+        38.3,
+        39.3,
+        40.5,
+        41.7,
+        42.7
+      ],
+      "4": [
+        39.4,
+        40.4,
+        41.6,
+        42.9,
+        43.9
+      ],
+      "5": [
+        40.3,
+        41.3,
+        42.6,
+        43.8,
+        44.8
+      ],
+      "6": [
+        41,
+        42.1,
+        43.3,
+        44.6,
+        45.6
+      ],
+      "7": [
+        41.7,
+        42.7,
+        44,
+        45.3,
+        46.3
+      ],
+      "8": [
+        42.2,
+        43.2,
+        44.5,
+        45.8,
+        46.9
+      ],
+      "9": [
+        42.6,
+        43.7,
+        45,
+        46.3,
+        47.4
+      ],
+      "10": [
+        43,
+        44.1,
+        45.4,
+        46.7,
+        47.8
+      ],
+      "11": [
+        43.4,
+        44.4,
+        45.8,
+        47.1,
+        48.2
+      ],
+      "12": [
+        43.6,
+        44.7,
+        46.1,
+        47.4,
+        48.5
+      ],
+      "13": [
+        43.9,
+        45,
+        46.3,
+        47.7,
+        48.8
+      ],
+      "14": [
+        44.1,
+        45.2,
+        46.6,
+        47.9,
+        49
+      ],
+      "15": [
+        44.3,
+        45.5,
+        46.8,
+        48.2,
+        49.3
+      ],
+      "16": [
+        44.5,
+        45.6,
+        47,
+        48.4,
+        49.5
+      ],
+      "17": [
+        44.7,
+        45.8,
+        47.2,
+        48.6,
+        49.7
+      ],
+      "18": [
+        44.9,
+        46,
+        47.4,
+        48.7,
+        49.9
+      ],
+      "19": [
+        45,
+        46.2,
+        47.5,
+        48.9,
+        50
+      ],
+      "20": [
+        45.2,
+        46.3,
+        47.7,
+        49.1,
+        50.2
+      ],
+      "21": [
+        45.3,
+        46.4,
+        47.8,
+        49.2,
+        50.4
+      ],
+      "22": [
+        45.4,
+        46.6,
+        48,
+        49.4,
+        50.5
+      ],
+      "23": [
+        45.6,
+        46.7,
+        48.1,
+        49.5,
+        50.7
+      ],
+      "24": [
+        45.7,
+        46.8,
+        48.3,
+        49.7,
+        50.8
+      ]
+    }
+  }
+};
+  var BIRTH_WEIGHT = {
+  "source": "Nicolaides KH et al. FMF fetal and neonatal population weight charts, 2018 (daily, as Omni birthweight-percentile)",
+  "percentiles": [
+    3,
+    5,
+    10,
+    25,
+    50,
+    75,
+    90,
+    95,
+    97
+  ],
+  "points": [
+    {
+      "days": 140,
+      "bw": [
+        262,
+        268,
+        279,
+        298,
+        321,
+        345,
+        368,
+        383,
+        393
+      ]
+    },
+    {
+      "days": 141,
+      "bw": [
+        269,
+        275,
+        286,
+        306,
+        329,
+        354,
+        378,
+        393,
+        403
+      ]
+    },
+    {
+      "days": 142,
+      "bw": [
+        275,
+        283,
+        294,
+        314,
+        337,
+        363,
+        387,
+        403,
+        413
+      ]
+    },
+    {
+      "days": 143,
+      "bw": [
+        283,
+        290,
+        301,
+        322,
+        346,
+        372,
+        398,
+        414,
+        424
+      ]
+    },
+    {
+      "days": 144,
+      "bw": [
+        290,
+        297,
+        309,
+        330,
+        355,
+        382,
+        408,
+        424,
+        435
+      ]
+    },
+    {
+      "days": 145,
+      "bw": [
+        297,
+        305,
+        317,
+        339,
+        364,
+        392,
+        418,
+        435,
+        446
+      ]
+    },
+    {
+      "days": 146,
+      "bw": [
+        305,
+        313,
+        325,
+        347,
+        374,
+        402,
+        429,
+        446,
+        458
+      ]
+    },
+    {
+      "days": 147,
+      "bw": [
+        313,
+        321,
+        334,
+        356,
+        383,
+        412,
+        440,
+        458,
+        470
+      ]
+    },
+    {
+      "days": 148,
+      "bw": [
+        320,
+        329,
+        342,
+        365,
+        393,
+        423,
+        452,
+        470,
+        482
+      ]
+    },
+    {
+      "days": 149,
+      "bw": [
+        329,
+        337,
+        351,
+        374,
+        403,
+        434,
+        463,
+        482,
+        494
+      ]
+    },
+    {
+      "days": 150,
+      "bw": [
+        337,
+        345,
+        359,
+        384,
+        413,
+        445,
+        475,
+        494,
+        507
+      ]
+    },
+    {
+      "days": 151,
+      "bw": [
+        345,
+        354,
+        368,
+        394,
+        423,
+        456,
+        487,
+        506,
+        520
+      ]
+    },
+    {
+      "days": 152,
+      "bw": [
+        354,
+        363,
+        378,
+        403,
+        434,
+        467,
+        499,
+        519,
+        533
+      ]
+    },
+    {
+      "days": 153,
+      "bw": [
+        363,
+        372,
+        387,
+        413,
+        445,
+        479,
+        512,
+        532,
+        546
+      ]
+    },
+    {
+      "days": 154,
+      "bw": [
+        371,
+        381,
+        397,
+        424,
+        456,
+        491,
+        524,
+        546,
+        560
+      ]
+    },
+    {
+      "days": 155,
+      "bw": [
+        381,
+        391,
+        406,
+        434,
+        467,
+        503,
+        537,
+        559,
+        574
+      ]
+    },
+    {
+      "days": 156,
+      "bw": [
+        390,
+        400,
+        416,
+        445,
+        479,
+        515,
+        551,
+        573,
+        588
+      ]
+    },
+    {
+      "days": 157,
+      "bw": [
+        399,
+        410,
+        427,
+        456,
+        491,
+        528,
+        564,
+        587,
+        603
+      ]
+    },
+    {
+      "days": 158,
+      "bw": [
+        409,
+        420,
+        437,
+        467,
+        503,
+        541,
+        578,
+        602,
+        617
+      ]
+    },
+    {
+      "days": 159,
+      "bw": [
+        419,
+        430,
+        447,
+        478,
+        515,
+        554,
+        592,
+        616,
+        633
+      ]
+    },
+    {
+      "days": 160,
+      "bw": [
+        429,
+        440,
+        458,
+        490,
+        527,
+        568,
+        607,
+        632,
+        648
+      ]
+    },
+    {
+      "days": 161,
+      "bw": [
+        439,
+        451,
+        469,
+        502,
+        540,
+        582,
+        622,
+        647,
+        664
+      ]
+    },
+    {
+      "days": 162,
+      "bw": [
+        450,
+        462,
+        481,
+        514,
+        553,
+        596,
+        637,
+        663,
+        680
+      ]
+    },
+    {
+      "days": 163,
+      "bw": [
+        461,
+        473,
+        492,
+        526,
+        566,
+        610,
+        652,
+        678,
+        696
+      ]
+    },
+    {
+      "days": 164,
+      "bw": [
+        472,
+        484,
+        504,
+        538,
+        580,
+        624,
+        668,
+        695,
+        713
+      ]
+    },
+    {
+      "days": 165,
+      "bw": [
+        483,
+        495,
+        516,
+        551,
+        594,
+        639,
+        683,
+        711,
+        730
+      ]
+    },
+    {
+      "days": 166,
+      "bw": [
+        494,
+        507,
+        528,
+        564,
+        608,
+        654,
+        700,
+        728,
+        747
+      ]
+    },
+    {
+      "days": 167,
+      "bw": [
+        505,
+        519,
+        540,
+        577,
+        622,
+        670,
+        716,
+        745,
+        765
+      ]
+    },
+    {
+      "days": 168,
+      "bw": [
+        517,
+        531,
+        553,
+        591,
+        636,
+        686,
+        733,
+        763,
+        783
+      ]
+    },
+    {
+      "days": 169,
+      "bw": [
+        529,
+        543,
+        565,
+        604,
+        651,
+        702,
+        750,
+        781,
+        801
+      ]
+    },
+    {
+      "days": 170,
+      "bw": [
+        541,
+        556,
+        578,
+        618,
+        666,
+        718,
+        768,
+        799,
+        820
+      ]
+    },
+    {
+      "days": 171,
+      "bw": [
+        554,
+        568,
+        592,
+        633,
+        682,
+        734,
+        785,
+        818,
+        839
+      ]
+    },
+    {
+      "days": 172,
+      "bw": [
+        566,
+        581,
+        605,
+        647,
+        697,
+        751,
+        804,
+        836,
+        859
+      ]
+    },
+    {
+      "days": 173,
+      "bw": [
+        579,
+        594,
+        619,
+        662,
+        713,
+        768,
+        822,
+        856,
+        878
+      ]
+    },
+    {
+      "days": 174,
+      "bw": [
+        592,
+        608,
+        633,
+        677,
+        729,
+        786,
+        841,
+        875,
+        898
+      ]
+    },
+    {
+      "days": 175,
+      "bw": [
+        605,
+        621,
+        647,
+        692,
+        746,
+        804,
+        860,
+        895,
+        919
+      ]
+    },
+    {
+      "days": 176,
+      "bw": [
+        619,
+        635,
+        661,
+        708,
+        763,
+        822,
+        879,
+        915,
+        940
+      ]
+    },
+    {
+      "days": 177,
+      "bw": [
+        633,
+        649,
+        676,
+        723,
+        780,
+        840,
+        899,
+        936,
+        961
+      ]
+    },
+    {
+      "days": 178,
+      "bw": [
+        646,
+        664,
+        691,
+        739,
+        797,
+        859,
+        919,
+        957,
+        982
+      ]
+    },
+    {
+      "days": 179,
+      "bw": [
+        661,
+        678,
+        706,
+        756,
+        814,
+        878,
+        939,
+        978,
+        1004
+      ]
+    },
+    {
+      "days": 180,
+      "bw": [
+        675,
+        693,
+        722,
+        772,
+        832,
+        897,
+        960,
+        1000,
+        1026
+      ]
+    },
+    {
+      "days": 181,
+      "bw": [
+        690,
+        708,
+        737,
+        789,
+        851,
+        917,
+        981,
+        1022,
+        1049
+      ]
+    },
+    {
+      "days": 182,
+      "bw": [
+        705,
+        723,
+        753,
+        806,
+        869,
+        937,
+        1003,
+        1044,
+        1072
+      ]
+    },
+    {
+      "days": 183,
+      "bw": [
+        720,
+        739,
+        769,
+        823,
+        888,
+        957,
+        1024,
+        1067,
+        1095
+      ]
+    },
+    {
+      "days": 184,
+      "bw": [
+        735,
+        755,
+        786,
+        841,
+        907,
+        978,
+        1047,
+        1090,
+        1119
+      ]
+    },
+    {
+      "days": 185,
+      "bw": [
+        750,
+        771,
+        803,
+        859,
+        926,
+        999,
+        1069,
+        1113,
+        1143
+      ]
+    },
+    {
+      "days": 186,
+      "bw": [
+        766,
+        787,
+        819,
+        877,
+        946,
+        1020,
+        1092,
+        1137,
+        1168
+      ]
+    },
+    {
+      "days": 187,
+      "bw": [
+        782,
+        803,
+        837,
+        896,
+        966,
+        1042,
+        1115,
+        1161,
+        1192
+      ]
+    },
+    {
+      "days": 188,
+      "bw": [
+        799,
+        820,
+        854,
+        914,
+        986,
+        1064,
+        1138,
+        1186,
+        1218
+      ]
+    },
+    {
+      "days": 189,
+      "bw": [
+        815,
+        837,
+        872,
+        933,
+        1007,
+        1086,
+        1162,
+        1211,
+        1243
+      ]
+    },
+    {
+      "days": 190,
+      "bw": [
+        832,
+        854,
+        890,
+        952,
+        1027,
+        1108,
+        1187,
+        1236,
+        1269
+      ]
+    },
+    {
+      "days": 191,
+      "bw": [
+        849,
+        872,
+        908,
+        972,
+        1049,
+        1131,
+        1211,
+        1262,
+        1296
+      ]
+    },
+    {
+      "days": 192,
+      "bw": [
+        866,
+        889,
+        926,
+        992,
+        1070,
+        1154,
+        1236,
+        1288,
+        1322
+      ]
+    },
+    {
+      "days": 193,
+      "bw": [
+        883,
+        907,
+        945,
+        1012,
+        1092,
+        1178,
+        1261,
+        1314,
+        1349
+      ]
+    },
+    {
+      "days": 194,
+      "bw": [
+        901,
+        925,
+        964,
+        1032,
+        1114,
+        1202,
+        1287,
+        1341,
+        1377
+      ]
+    },
+    {
+      "days": 195,
+      "bw": [
+        919,
+        944,
+        983,
+        1053,
+        1136,
+        1226,
+        1313,
+        1368,
+        1405
+      ]
+    },
+    {
+      "days": 196,
+      "bw": [
+        937,
+        962,
+        1003,
+        1074,
+        1159,
+        1250,
+        1339,
+        1395,
+        1433
+      ]
+    },
+    {
+      "days": 197,
+      "bw": [
+        955,
+        981,
+        1022,
+        1095,
+        1182,
+        1275,
+        1366,
+        1423,
+        1461
+      ]
+    },
+    {
+      "days": 198,
+      "bw": [
+        974,
+        1000,
+        1042,
+        1116,
+        1205,
+        1300,
+        1393,
+        1451,
+        1490
+      ]
+    },
+    {
+      "days": 199,
+      "bw": [
+        993,
+        1020,
+        1062,
+        1138,
+        1228,
+        1326,
+        1420,
+        1480,
+        1520
+      ]
+    },
+    {
+      "days": 200,
+      "bw": [
+        1012,
+        1039,
+        1083,
+        1160,
+        1252,
+        1351,
+        1448,
+        1508,
+        1549
+      ]
+    },
+    {
+      "days": 201,
+      "bw": [
+        1031,
+        1059,
+        1103,
+        1182,
+        1276,
+        1377,
+        1476,
+        1538,
+        1579
+      ]
+    },
+    {
+      "days": 202,
+      "bw": [
+        1050,
+        1079,
+        1124,
+        1204,
+        1300,
+        1404,
+        1504,
+        1567,
+        1610
+      ]
+    },
+    {
+      "days": 203,
+      "bw": [
+        1070,
+        1099,
+        1145,
+        1227,
+        1325,
+        1430,
+        1532,
+        1597,
+        1640
+      ]
+    },
+    {
+      "days": 204,
+      "bw": [
+        1090,
+        1120,
+        1167,
+        1250,
+        1350,
+        1457,
+        1561,
+        1627,
+        1672
+      ]
+    },
+    {
+      "days": 205,
+      "bw": [
+        1110,
+        1140,
+        1188,
+        1273,
+        1375,
+        1485,
+        1591,
+        1658,
+        1703
+      ]
+    },
+    {
+      "days": 206,
+      "bw": [
+        1130,
+        1161,
+        1210,
+        1297,
+        1400,
+        1512,
+        1620,
+        1689,
+        1735
+      ]
+    },
+    {
+      "days": 207,
+      "bw": [
+        1151,
+        1182,
+        1232,
+        1321,
+        1426,
+        1540,
+        1650,
+        1720,
+        1767
+      ]
+    },
+    {
+      "days": 208,
+      "bw": [
+        1172,
+        1204,
+        1255,
+        1344,
+        1452,
+        1568,
+        1681,
+        1752,
+        1799
+      ]
+    },
+    {
+      "days": 209,
+      "bw": [
+        1193,
+        1225,
+        1277,
+        1369,
+        1478,
+        1597,
+        1711,
+        1784,
+        1832
+      ]
+    },
+    {
+      "days": 210,
+      "bw": [
+        1214,
+        1247,
+        1300,
+        1393,
+        1505,
+        1625,
+        1742,
+        1816,
+        1865
+      ]
+    },
+    {
+      "days": 211,
+      "bw": [
+        1235,
+        1269,
+        1323,
+        1418,
+        1531,
+        1654,
+        1773,
+        1848,
+        1899
+      ]
+    },
+    {
+      "days": 212,
+      "bw": [
+        1257,
+        1291,
+        1346,
+        1443,
+        1558,
+        1683,
+        1805,
+        1881,
+        1933
+      ]
+    },
+    {
+      "days": 213,
+      "bw": [
+        1278,
+        1313,
+        1369,
+        1468,
+        1586,
+        1713,
+        1836,
+        1914,
+        1967
+      ]
+    },
+    {
+      "days": 214,
+      "bw": [
+        1300,
+        1336,
+        1393,
+        1493,
+        1613,
+        1743,
+        1868,
+        1948,
+        2001
+      ]
+    },
+    {
+      "days": 215,
+      "bw": [
+        1322,
+        1359,
+        1416,
+        1519,
+        1641,
+        1773,
+        1901,
+        1981,
+        2036
+      ]
+    },
+    {
+      "days": 216,
+      "bw": [
+        1345,
+        1381,
+        1440,
+        1544,
+        1669,
+        1803,
+        1933,
+        2015,
+        2071
+      ]
+    },
+    {
+      "days": 217,
+      "bw": [
+        1367,
+        1404,
+        1464,
+        1570,
+        1697,
+        1833,
+        1966,
+        2050,
+        2106
+      ]
+    },
+    {
+      "days": 218,
+      "bw": [
+        1389,
+        1428,
+        1489,
+        1596,
+        1725,
+        1864,
+        1999,
+        2084,
+        2142
+      ]
+    },
+    {
+      "days": 219,
+      "bw": [
+        1412,
+        1451,
+        1513,
+        1623,
+        1754,
+        1895,
+        2032,
+        2119,
+        2177
+      ]
+    },
+    {
+      "days": 220,
+      "bw": [
+        1435,
+        1475,
+        1538,
+        1649,
+        1782,
+        1926,
+        2066,
+        2154,
+        2213
+      ]
+    },
+    {
+      "days": 221,
+      "bw": [
+        1458,
+        1498,
+        1562,
+        1676,
+        1811,
+        1958,
+        2100,
+        2189,
+        2250
+      ]
+    },
+    {
+      "days": 222,
+      "bw": [
+        1481,
+        1522,
+        1587,
+        1703,
+        1840,
+        1989,
+        2134,
+        2225,
+        2286
+      ]
+    },
+    {
+      "days": 223,
+      "bw": [
+        1505,
+        1546,
+        1612,
+        1729,
+        1870,
+        2021,
+        2168,
+        2261,
+        2323
+      ]
+    },
+    {
+      "days": 224,
+      "bw": [
+        1528,
+        1570,
+        1638,
+        1757,
+        1899,
+        2053,
+        2202,
+        2297,
+        2360
+      ]
+    },
+    {
+      "days": 225,
+      "bw": [
+        1552,
+        1594,
+        1663,
+        1784,
+        1929,
+        2085,
+        2237,
+        2333,
+        2397
+      ]
+    },
+    {
+      "days": 226,
+      "bw": [
+        1575,
+        1619,
+        1688,
+        1811,
+        1958,
+        2117,
+        2272,
+        2369,
+        2435
+      ]
+    },
+    {
+      "days": 227,
+      "bw": [
+        1599,
+        1643,
+        1714,
+        1839,
+        1988,
+        2150,
+        2307,
+        2406,
+        2472
+      ]
+    },
+    {
+      "days": 228,
+      "bw": [
+        1623,
+        1668,
+        1740,
+        1866,
+        2018,
+        2183,
+        2342,
+        2443,
+        2510
+      ]
+    },
+    {
+      "days": 229,
+      "bw": [
+        1647,
+        1692,
+        1765,
+        1894,
+        2049,
+        2215,
+        2377,
+        2479,
+        2548
+      ]
+    },
+    {
+      "days": 230,
+      "bw": [
+        1671,
+        1717,
+        1791,
+        1922,
+        2079,
+        2248,
+        2412,
+        2516,
+        2586
+      ]
+    },
+    {
+      "days": 231,
+      "bw": [
+        1695,
+        1742,
+        1817,
+        1950,
+        2109,
+        2281,
+        2448,
+        2554,
+        2625
+      ]
+    },
+    {
+      "days": 232,
+      "bw": [
+        1719,
+        1767,
+        1843,
+        1978,
+        2140,
+        2314,
+        2484,
+        2591,
+        2663
+      ]
+    },
+    {
+      "days": 233,
+      "bw": [
+        1743,
+        1792,
+        1869,
+        2006,
+        2170,
+        2348,
+        2520,
+        2628,
+        2702
+      ]
+    },
+    {
+      "days": 234,
+      "bw": [
+        1768,
+        1817,
+        1895,
+        2034,
+        2201,
+        2381,
+        2555,
+        2666,
+        2740
+      ]
+    },
+    {
+      "days": 235,
+      "bw": [
+        1792,
+        1842,
+        1922,
+        2063,
+        2232,
+        2414,
+        2591,
+        2704,
+        2779
+      ]
+    },
+    {
+      "days": 236,
+      "bw": [
+        1816,
+        1867,
+        1948,
+        2091,
+        2262,
+        2448,
+        2627,
+        2741,
+        2818
+      ]
+    },
+    {
+      "days": 237,
+      "bw": [
+        1841,
+        1892,
+        1974,
+        2119,
+        2293,
+        2481,
+        2663,
+        2779,
+        2857
+      ]
+    },
+    {
+      "days": 238,
+      "bw": [
+        1865,
+        1917,
+        2000,
+        2148,
+        2324,
+        2515,
+        2700,
+        2817,
+        2896
+      ]
+    },
+    {
+      "days": 239,
+      "bw": [
+        1889,
+        1942,
+        2027,
+        2176,
+        2355,
+        2548,
+        2736,
+        2855,
+        2935
+      ]
+    },
+    {
+      "days": 240,
+      "bw": [
+        1914,
+        1967,
+        2053,
+        2204,
+        2386,
+        2582,
+        2772,
+        2892,
+        2974
+      ]
+    },
+    {
+      "days": 241,
+      "bw": [
+        1938,
+        1993,
+        2079,
+        2233,
+        2416,
+        2615,
+        2808,
+        2930,
+        3012
+      ]
+    },
+    {
+      "days": 242,
+      "bw": [
+        1963,
+        2018,
+        2106,
+        2261,
+        2447,
+        2649,
+        2844,
+        2968,
+        3051
+      ]
+    },
+    {
+      "days": 243,
+      "bw": [
+        1987,
+        2043,
+        2132,
+        2289,
+        2478,
+        2682,
+        2880,
+        3006,
+        3090
+      ]
+    },
+    {
+      "days": 244,
+      "bw": [
+        2011,
+        2068,
+        2158,
+        2317,
+        2509,
+        2716,
+        2916,
+        3044,
+        3129
+      ]
+    },
+    {
+      "days": 245,
+      "bw": [
+        2035,
+        2093,
+        2184,
+        2346,
+        2539,
+        2749,
+        2952,
+        3081,
+        3168
+      ]
+    },
+    {
+      "days": 246,
+      "bw": [
+        2059,
+        2117,
+        2210,
+        2374,
+        2570,
+        2782,
+        2988,
+        3119,
+        3207
+      ]
+    },
+    {
+      "days": 247,
+      "bw": [
+        2084,
+        2142,
+        2236,
+        2402,
+        2600,
+        2815,
+        3024,
+        3156,
+        3245
+      ]
+    },
+    {
+      "days": 248,
+      "bw": [
+        2108,
+        2167,
+        2262,
+        2430,
+        2631,
+        2849,
+        3060,
+        3194,
+        3284
+      ]
+    },
+    {
+      "days": 249,
+      "bw": [
+        2131,
+        2192,
+        2288,
+        2457,
+        2661,
+        2882,
+        3096,
+        3231,
+        3322
+      ]
+    },
+    {
+      "days": 250,
+      "bw": [
+        2155,
+        2216,
+        2313,
+        2485,
+        2691,
+        2914,
+        3131,
+        3268,
+        3361
+      ]
+    },
+    {
+      "days": 251,
+      "bw": [
+        2179,
+        2240,
+        2339,
+        2513,
+        2721,
+        2947,
+        3166,
+        3305,
+        3399
+      ]
+    },
+    {
+      "days": 252,
+      "bw": [
+        2202,
+        2265,
+        2364,
+        2540,
+        2751,
+        2980,
+        3201,
+        3342,
+        3437
+      ]
+    },
+    {
+      "days": 253,
+      "bw": [
+        2226,
+        2289,
+        2389,
+        2567,
+        2781,
+        3012,
+        3236,
+        3379,
+        3474
+      ]
+    },
+    {
+      "days": 254,
+      "bw": [
+        2249,
+        2312,
+        2414,
+        2594,
+        2810,
+        3044,
+        3271,
+        3415,
+        3512
+      ]
+    },
+    {
+      "days": 255,
+      "bw": [
+        2272,
+        2336,
+        2439,
+        2621,
+        2839,
+        3076,
+        3306,
+        3451,
+        3549
+      ]
+    },
+    {
+      "days": 256,
+      "bw": [
+        2294,
+        2360,
+        2464,
+        2648,
+        2868,
+        3108,
+        3340,
+        3487,
+        3586
+      ]
+    },
+    {
+      "days": 257,
+      "bw": [
+        2317,
+        2383,
+        2488,
+        2674,
+        2897,
+        3139,
+        3374,
+        3523,
+        3623
+      ]
+    },
+    {
+      "days": 258,
+      "bw": [
+        2339,
+        2406,
+        2512,
+        2700,
+        2926,
+        3170,
+        3407,
+        3558,
+        3659
+      ]
+    },
+    {
+      "days": 259,
+      "bw": [
+        2362,
+        2429,
+        2536,
+        2726,
+        2954,
+        3201,
+        3441,
+        3593,
+        3695
+      ]
+    },
+    {
+      "days": 260,
+      "bw": [
+        2384,
+        2452,
+        2560,
+        2752,
+        2982,
+        3232,
+        3474,
+        3627,
+        3731
+      ]
+    },
+    {
+      "days": 261,
+      "bw": [
+        2405,
+        2474,
+        2583,
+        2777,
+        3010,
+        3262,
+        3507,
+        3662,
+        3766
+      ]
+    },
+    {
+      "days": 262,
+      "bw": [
+        2427,
+        2496,
+        2607,
+        2802,
+        3037,
+        3292,
+        3539,
+        3696,
+        3801
+      ]
+    },
+    {
+      "days": 263,
+      "bw": [
+        2448,
+        2518,
+        2629,
+        2827,
+        3064,
+        3321,
+        3571,
+        3729,
+        3836
+      ]
+    },
+    {
+      "days": 264,
+      "bw": [
+        2469,
+        2539,
+        2652,
+        2852,
+        3091,
+        3350,
+        3602,
+        3762,
+        3870
+      ]
+    },
+    {
+      "days": 265,
+      "bw": [
+        2489,
+        2561,
+        2674,
+        2876,
+        3117,
+        3379,
+        3634,
+        3795,
+        3904
+      ]
+    },
+    {
+      "days": 266,
+      "bw": [
+        2510,
+        2581,
+        2696,
+        2899,
+        3143,
+        3407,
+        3664,
+        3827,
+        3937
+      ]
+    },
+    {
+      "days": 267,
+      "bw": [
+        2530,
+        2602,
+        2718,
+        2923,
+        3169,
+        3435,
+        3695,
+        3859,
+        3970
+      ]
+    },
+    {
+      "days": 268,
+      "bw": [
+        2549,
+        2622,
+        2739,
+        2946,
+        3194,
+        3463,
+        3724,
+        3890,
+        4002
+      ]
+    },
+    {
+      "days": 269,
+      "bw": [
+        2568,
+        2642,
+        2760,
+        2968,
+        3219,
+        3490,
+        3754,
+        3921,
+        4034
+      ]
+    },
+    {
+      "days": 270,
+      "bw": [
+        2587,
+        2662,
+        2780,
+        2991,
+        3243,
+        3517,
+        3782,
+        3951,
+        4065
+      ]
+    },
+    {
+      "days": 271,
+      "bw": [
+        2606,
+        2681,
+        2800,
+        3012,
+        3267,
+        3543,
+        3811,
+        3981,
+        4095
+      ]
+    },
+    {
+      "days": 272,
+      "bw": [
+        2624,
+        2700,
+        2820,
+        3034,
+        3290,
+        3568,
+        3839,
+        4010,
+        4125
+      ]
+    },
+    {
+      "days": 273,
+      "bw": [
+        2642,
+        2718,
+        2839,
+        3055,
+        3313,
+        3593,
+        3866,
+        4039,
+        4155
+      ]
+    },
+    {
+      "days": 274,
+      "bw": [
+        2659,
+        2736,
+        2858,
+        3075,
+        3335,
+        3618,
+        3892,
+        4066,
+        4184
+      ]
+    },
+    {
+      "days": 275,
+      "bw": [
+        2676,
+        2753,
+        2877,
+        3095,
+        3357,
+        3642,
+        3918,
+        4094,
+        4212
+      ]
+    },
+    {
+      "days": 276,
+      "bw": [
+        2692,
+        2770,
+        2894,
+        3114,
+        3379,
+        3665,
+        3944,
+        4120,
+        4239
+      ]
+    },
+    {
+      "days": 277,
+      "bw": [
+        2709,
+        2787,
+        2912,
+        3133,
+        3399,
+        3688,
+        3968,
+        4146,
+        4266
+      ]
+    },
+    {
+      "days": 278,
+      "bw": [
+        2724,
+        2803,
+        2929,
+        3152,
+        3420,
+        3710,
+        3993,
+        4172,
+        4292
+      ]
+    },
+    {
+      "days": 279,
+      "bw": [
+        2739,
+        2819,
+        2945,
+        3170,
+        3439,
+        3732,
+        4016,
+        4196,
+        4318
+      ]
+    },
+    {
+      "days": 280,
+      "bw": [
+        2754,
+        2834,
+        2961,
+        3187,
+        3458,
+        3752,
+        4039,
+        4220,
+        4343
+      ]
+    },
+    {
+      "days": 281,
+      "bw": [
+        2768,
+        2848,
+        2977,
+        3204,
+        3477,
+        3773,
+        4061,
+        4244,
+        4367
+      ]
+    },
+    {
+      "days": 282,
+      "bw": [
+        2782,
+        2862,
+        2991,
+        3220,
+        3494,
+        3792,
+        4082,
+        4266,
+        4390
+      ]
+    },
+    {
+      "days": 283,
+      "bw": [
+        2795,
+        2876,
+        3006,
+        3236,
+        3512,
+        3811,
+        4103,
+        4288,
+        4412
+      ]
+    },
+    {
+      "days": 284,
+      "bw": [
+        2807,
+        2889,
+        3019,
+        3251,
+        3528,
+        3829,
+        4123,
+        4309,
+        4434
+      ]
+    },
+    {
+      "days": 285,
+      "bw": [
+        2820,
+        2902,
+        3033,
+        3265,
+        3544,
+        3847,
+        4142,
+        4329,
+        4455
+      ]
+    },
+    {
+      "days": 286,
+      "bw": [
+        2831,
+        2914,
+        3045,
+        3279,
+        3559,
+        3864,
+        4160,
+        4348,
+        4475
+      ]
+    },
+    {
+      "days": 287,
+      "bw": [
+        2842,
+        2925,
+        3057,
+        3292,
+        3574,
+        3880,
+        4177,
+        4366,
+        4494
+      ]
+    },
+    {
+      "days": 288,
+      "bw": [
+        2853,
+        2936,
+        3069,
+        3304,
+        3588,
+        3895,
+        4194,
+        4384,
+        4512
+      ]
+    },
+    {
+      "days": 289,
+      "bw": [
+        2863,
+        2946,
+        3080,
+        3316,
+        3601,
+        3910,
+        4210,
+        4401,
+        4529
+      ]
+    },
+    {
+      "days": 290,
+      "bw": [
+        2872,
+        2956,
+        3090,
+        3328,
+        3613,
+        3923,
+        4225,
+        4417,
+        4546
+      ]
+    },
+    {
+      "days": 291,
+      "bw": [
+        2881,
+        2965,
+        3099,
+        3338,
+        3625,
+        3936,
+        4239,
+        4432,
+        4561
+      ]
+    },
+    {
+      "days": 292,
+      "bw": [
+        2889,
+        2973,
+        3108,
+        3348,
+        3636,
+        3948,
+        4253,
+        4446,
+        4576
+      ]
+    },
+    {
+      "days": 293,
+      "bw": [
+        2896,
+        2981,
+        3117,
+        3357,
+        3646,
+        3960,
+        4265,
+        4459,
+        4590
+      ]
+    },
+    {
+      "days": 294,
+      "bw": [
+        2903,
+        2988,
+        3124,
+        3365,
+        3655,
+        3970,
+        4277,
+        4471,
+        4602
+      ]
+    },
+    {
+      "days": 295,
+      "bw": [
+        2910,
+        2995,
+        3131,
+        3373,
+        3664,
+        3980,
+        4287,
+        4483,
+        4614
+      ]
+    },
+    {
+      "days": 296,
+      "bw": [
+        2915,
+        3001,
+        3138,
+        3380,
+        3672,
+        3989,
+        4297,
+        4493,
+        4625
+      ]
+    },
+    {
+      "days": 297,
+      "bw": [
+        2920,
+        3006,
+        3143,
+        3387,
+        3679,
+        3997,
+        4306,
+        4502,
+        4635
+      ]
+    },
+    {
+      "days": 298,
+      "bw": [
+        2925,
+        3011,
+        3148,
+        3392,
+        3685,
+        4004,
+        4314,
+        4511,
+        4644
+      ]
+    },
+    {
+      "days": 299,
+      "bw": [
+        2929,
+        3015,
+        3153,
+        3397,
+        3691,
+        4010,
+        4321,
+        4518,
+        4651
+      ]
+    },
+    {
+      "days": 300,
+      "bw": [
+        2932,
+        3018,
+        3156,
+        3401,
+        3696,
+        4015,
+        4327,
+        4525,
+        4658
+      ]
+    }
+  ]
+};
+  var FETAL_WEIGHT = {
+  "source": "WHO Fetal Growth Charts (estimated fetal weight percentiles, g)",
+  "percentiles": [2.5, 5, 10, 25, 50, 75, 90, 95, 97.5],
+  "weeks": {
+    "14": [70, 73, 78, 83, 90, 98, 104, 109, 113],
+    "15": [89, 93, 99, 106, 114, 124, 132, 138, 144],
+    "16": [113, 117, 124, 133, 144, 155, 166, 174, 181],
+    "17": [141, 146, 155, 166, 179, 193, 207, 217, 225],
+    "18": [174, 181, 192, 206, 222, 239, 255, 268, 278],
+    "19": [214, 223, 235, 252, 272, 292, 313, 328, 340],
+    "20": [260, 271, 286, 307, 330, 355, 380, 399, 413],
+    "21": [314, 327, 345, 370, 398, 428, 458, 481, 497],
+    "22": [375, 392, 412, 443, 476, 512, 548, 575, 595],
+    "23": [445, 465, 489, 525, 565, 608, 650, 682, 705],
+    "24": [523, 548, 576, 618, 665, 715, 765, 803, 830],
+    "25": [611, 641, 673, 723, 778, 836, 894, 938, 970],
+    "26": [707, 743, 780, 838, 902, 971, 1038, 1087, 1125],
+    "27": [813, 855, 898, 964, 1039, 1118, 1196, 1251, 1295],
+    "28": [929, 977, 1026, 1102, 1189, 1279, 1368, 1429, 1481],
+    "29": [1053, 1108, 1165, 1251, 1350, 1453, 1554, 1622, 1682],
+    "30": [1185, 1247, 1313, 1410, 1523, 1640, 1753, 1828, 1897],
+    "31": [1326, 1394, 1470, 1579, 1707, 1838, 1964, 2046, 2126],
+    "32": [1473, 1548, 1635, 1757, 1901, 2047, 2187, 2276, 2367],
+    "33": [1626, 1708, 1807, 1942, 2103, 2266, 2419, 2516, 2619],
+    "34": [1785, 1872, 1985, 2134, 2312, 2492, 2659, 2764, 2880],
+    "35": [1948, 2038, 2167, 2330, 2527, 2723, 2904, 3018, 3148],
+    "36": [2113, 2205, 2352, 2531, 2745, 2959, 3153, 3277, 3422],
+    "37": [2280, 2372, 2537, 2733, 2966, 3195, 3403, 3538, 3697],
+    "38": [2446, 2536, 2723, 2935, 3186, 3432, 3652, 3799, 3973],
+    "39": [2612, 2696, 2905, 3135, 3403, 3664, 3897, 4058, 4247],
+    "40": [2775, 2849, 3084, 3333, 3617, 3892, 4135, 4312, 4515]
+  }
+};
+  /** LMS z-score and percentile utilities (WHO). */
+
+const MAX_AGE_MONTHS = 24;
+
+/** Возраст: отдельно годы и/или месяцы (хотя бы одно поле). */
+function ageYearsAndMonthsToMonths(yearsValue, monthsValue, maxMonths = MAX_AGE_MONTHS) {
+  const yearsStr =
+    yearsValue === null || yearsValue === undefined ? '' : String(yearsValue).trim();
+  const monthsStr =
+    monthsValue === null || monthsValue === undefined ? '' : String(monthsValue).trim();
+  if (!yearsStr && !monthsStr) return NaN;
+
+  const years = yearsStr ? parseInt(yearsStr.replace(',', '.'), 10) : 0;
+  const months = monthsStr ? parseInt(monthsStr.replace(',', '.'), 10) : 0;
+  if (!Number.isFinite(years) || years < 0) return NaN;
+  if (!Number.isFinite(months) || months < 0) return NaN;
+  if (years > 0 && months > 11) return NaN;
+  if (years === 0 && months > maxMonths) return NaN;
+
+  const total = years * 12 + months;
+  return total > maxMonths ? NaN : total;
+}
+
+/** Масса: отдельно кг и/или г (хотя бы одно поле). */
+function weightKgAndGramsToKg(kgValue, gramsValue) {
+  const kgStr = kgValue === null || kgValue === undefined ? '' : String(kgValue).trim();
+  const gStr = gramsValue === null || gramsValue === undefined ? '' : String(gramsValue).trim();
+  if (!kgStr && !gStr) return NaN;
+
+  if (!gStr) {
+    const kgOnly = Number(kgStr.replace(',', '.'));
+    if (!Number.isFinite(kgOnly) || kgOnly <= 0 || kgOnly > 30) return NaN;
+    return kgOnly;
+  }
+
+  const kg = kgStr ? parseInt(kgStr.replace(',', '.'), 10) : 0;
+  const grams = parseInt(gStr.replace(',', '.'), 10);
+  if (!Number.isFinite(kg) || kg < 0) return NaN;
+  if (!Number.isFinite(grams) || grams < 0) return NaN;
+  if (kg > 0 && grams > 999) return NaN;
+  if (kg === 0 && grams > 25000) return NaN;
+
+  const total = kg + grams / 1000;
+  return total > 0 && total <= 30 ? total : NaN;
+}
+
+function lmsZ(value, L, M, S) {
+  if (!Number.isFinite(value) || value <= 0 || !Number.isFinite(M) || M <= 0) return NaN;
+  if (Math.abs(L) < 1e-7) return Math.log(value / M) / S;
+  return (Math.pow(value / M, L) - 1) / (L * S);
+}
+
+function zToPercentile(z) {
+  if (!Number.isFinite(z)) return NaN;
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const d = 0.3989423 * Math.exp((-z * z) / 2);
+  let p =
+    d *
+    t *
+    (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  if (z > 0) p = 1 - p;
+  return p * 100;
+}
+
+function percentileFromLms(value, L, M, S) {
+  return zToPercentile(lmsZ(value, L, M, S));
+}
+
+function interpolateLms(table, x) {
+  const rows = table.filter((r) => r.x != null && Number.isFinite(r.x));
+  if (!rows.length) return null;
+  if (x <= rows[0].x) return rows[0];
+  if (x >= rows[rows.length - 1].x) return rows[rows.length - 1];
+  for (let i = 0; i < rows.length - 1; i += 1) {
+    const a = rows[i];
+    const b = rows[i + 1];
+    if (x >= a.x && x <= b.x) {
+      const t = (x - a.x) / (b.x - a.x);
+      return {
+        x,
+        L: a.L + t * (b.L - a.L),
+        M: a.M + t * (b.M - a.M),
+        S: a.S + t * (b.S - a.S),
+      };
+    }
+  }
+  return rows[rows.length - 1];
+}
+
+/** Значение измерения на заданном процентиле (LMS, бинарный поиск). */
+function lmsValueAtPercentile(table, ageMonths, percentile) {
+  const lms = interpolateLms(table, ageMonths);
+  if (!lms?.M) return NaN;
+  let lo = lms.M * 0.5;
+  let hi = lms.M * 1.5;
+  for (let i = 0; i < 60; i += 1) {
+    const mid = (lo + hi) / 2;
+    const p = percentileFromLms(mid, lms.L, lms.M, lms.S);
+    if (p < percentile) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+/** WHO LMS: точный процентиль + канал P3/P15/P50/P85/P97 (как Omni child-height-percentile). */
+function percentileFromLmsCanal(table, ageMonths, value) {
+  const lms = interpolateLms(table, ageMonths);
+  if (!lms) throw new Error('Нет данных для расчёта');
+  const exact = percentileFromLms(value, lms.L, lms.M, lms.S);
+  if (!Number.isFinite(exact)) throw new Error('Некорректное значение измерения');
+
+  const thresholds = OMNI_PCT_LABELS.map((p) => lmsValueAtPercentile(table, ageMonths, p));
+  let percentileLo;
+  let percentileHi;
+  if (value < thresholds[0]) {
+    percentileLo = 3;
+    percentileHi = 3;
+  } else if (value >= thresholds[4]) {
+    percentileLo = 97;
+    percentileHi = 97;
+  } else {
+    let found = false;
+    for (let i = 0; i < thresholds.length - 1; i += 1) {
+      if (value >= thresholds[i] && value < thresholds[i + 1]) {
+        percentileLo = OMNI_PCT_LABELS[i];
+        percentileHi = OMNI_PCT_LABELS[i + 1];
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      percentileLo = 97;
+      percentileHi = 97;
+    }
+  }
+
+  return {
+    percentile: Math.round(exact * 10) / 10,
+    percentileLo,
+    percentileHi,
+    band: omniPercentileBand(percentileLo, percentileHi),
+  };
+}
+
+const BAND_EDGES = [3, 5, 10, 15, 25, 50, 75, 85, 90, 95, 97];
+
+const OMNI_PCT_LABELS = [3, 15, 50, 85, 97];
+
+/** Omni baby-percentile: пороги P3/P15/P50/P85/P97 по целым месяцам (Math.round). */
+function percentileFromOmniTable(ageMonths, value, table) {
+  if (!Number.isFinite(ageMonths) || ageMonths < 0 || ageMonths > 24) {
+    throw new Error('Возраст вне диапазона таблицы');
+  }
+  const roundedAge = Math.round(ageMonths);
+  const thresholds = table[String(roundedAge)] || table[roundedAge];
+  if (!thresholds?.length) throw new Error('Нет данных для расчёта');
+  if (value < thresholds[0]) {
+    return { percentileLo: 3, percentileHi: 3 };
+  }
+  if (value > thresholds[4]) {
+    return { percentileLo: 97, percentileHi: 97 };
+  }
+  for (let i = 0; i < thresholds.length - 1; i += 1) {
+    if (value >= thresholds[i] && value < thresholds[i + 1]) {
+      return {
+        percentileLo: OMNI_PCT_LABELS[i],
+        percentileHi: OMNI_PCT_LABELS[i + 1],
+      };
+    }
+  }
+  return { percentileLo: 97, percentileHi: 97 };
+}
+
+function omniPercentileBand(lo, hi) {
+  if (lo === hi) {
+    if (lo <= 3) return 'ниже 3-го процентиля';
+    if (lo >= 97) return 'выше 97-го процентиля';
+    return `около ${lo}-го процентиля`;
+  }
+  return `между ${lo}-м и ${hi}-м процентилем`;
+}
+
+function percentileBand(p) {
+  if (!Number.isFinite(p)) return '—';
+  const rounded = Math.round(p);
+  for (let i = 0; i < BAND_EDGES.length - 1; i += 1) {
+    const lo = BAND_EDGES[i];
+    const hi = BAND_EDGES[i + 1];
+    if (p >= lo && p < hi) {
+      return `между ${lo}-м и ${hi}-м процентилем`;
+    }
+  }
+  if (p < BAND_EDGES[0]) return `ниже ${BAND_EDGES[0]}-го процентиля`;
+  return `выше ${BAND_EDGES[BAND_EDGES.length - 1]}-го процентиля`;
+}
+
+const OMNI_BIRTH_PCT_LABELS = [5, 10, 25, 50, 75, 95];
+
+function pickBirthWeightRowByDays(gestDays, points) {
+  if (gestDays < points[0].days || gestDays > points[points.length - 1].days) {
+    throw new Error('Гестационный возраст вне диапазона таблицы');
+  }
+  if (gestDays <= points[0].days) return points[0];
+  for (let m = 1; m < points.length; m += 1) {
+    if (gestDays <= points[m].days && gestDays > points[m - 1].days) return points[m];
+  }
+  return points[points.length - 1];
+}
+
+/** Вес при рождении — как Omni birthweight-percentile (Nicolaides FMF, по дням). */
+function percentileFromOmniBirthWeight(weightG, gestDays, tableData) {
+  const row = pickBirthWeightRowByDays(gestDays, tableData.points);
+  // bw: 0=P3, 1=P5, 2=P10, 3=P25, 4=P50, 5=P75, 6=P90, 7=P95, 8=P97
+  const thresholds = [1, 2, 3, 4, 5, 7].map((i) => row.bw[i]);
+  const p97 = row.bw[8];
+  if (weightG < thresholds[0]) {
+    return { percentile: 3, percentileHi: 3, band: 'ниже 5-го процентиля' };
+  }
+  if (weightG >= p97) {
+    return { percentile: 97, percentileHi: 97, band: 'выше 95-го процентиля' };
+  }
+  if (weightG >= thresholds[5]) {
+    const frac = (weightG - thresholds[5]) / (p97 - thresholds[5]);
+    const p = 95 + frac * 2;
+    return {
+      percentile: Math.round(p * 10) / 10,
+      percentileHi: 97,
+      band: 'между 95-м и 97-м процентилем',
+    };
+  }
+  for (let i = 0; i < thresholds.length - 1; i += 1) {
+    if (weightG >= thresholds[i] && weightG < thresholds[i + 1]) {
+      const frac = (weightG - thresholds[i]) / (thresholds[i + 1] - thresholds[i]);
+      const p = OMNI_BIRTH_PCT_LABELS[i] + frac * (OMNI_BIRTH_PCT_LABELS[i + 1] - OMNI_BIRTH_PCT_LABELS[i]);
+      return {
+        percentile: Math.round(p * 10) / 10,
+        percentileHi: OMNI_BIRTH_PCT_LABELS[i + 1],
+        band: `между ${OMNI_BIRTH_PCT_LABELS[i]}-м и ${OMNI_BIRTH_PCT_LABELS[i + 1]}-м процентилем`,
+      };
+    }
+  }
+  return { percentile: 97, percentileHi: 97, band: 'выше 95-го процентиля' };
+}
+
+function percentileFromTable(weightG, xValue, tableData) {
+  const pctLabels = tableData.percentiles;
+  const useDays = Array.isArray(tableData.points);
+  const rows = useDays ? tableData.points : null;
+
+  if (useDays) {
+    const days = xValue;
+    if (days < rows[0].days || days > rows[rows.length - 1].days) {
+      throw new Error('Гестационный возраст вне диапазона таблицы');
+    }
+    let i0 = 0;
+    for (let i = 0; i < rows.length - 1; i += 1) {
+      if (days >= rows[i].days && days <= rows[i + 1].days) {
+        i0 = i;
+        break;
+      }
+    }
+    const a = rows[i0];
+    const b = rows[i0 + 1];
+    const t = b.days === a.days ? 0 : (days - a.days) / (b.days - a.days);
+    const thresholds = a.bw.map((v, i) => Math.round(v + t * (b.bw[i] - v)));
+    return percentileFromThresholds(weightG, thresholds, pctLabels);
+  }
+
+  const weeks = tableData.weeks;
+  const weekKeys = Object.keys(weeks)
+    .map(Number)
+    .sort((a, b) => a - b);
+  if (xValue < weekKeys[0] || xValue > weekKeys[weekKeys.length - 1]) {
+    throw new Error('Гестационный возраст вне диапазона таблицы');
+  }
+  let w0 = weekKeys[0];
+  let w1 = weekKeys[weekKeys.length - 1];
+  for (let i = 0; i < weekKeys.length - 1; i += 1) {
+    if (xValue >= weekKeys[i] && xValue <= weekKeys[i + 1]) {
+      w0 = weekKeys[i];
+      w1 = weekKeys[i + 1];
+      break;
+    }
+  }
+  const t = w0 === w1 ? 0 : (xValue - w0) / (w1 - w0);
+  const row0 = weeks[String(w0)];
+  const row1 = weeks[String(w1)];
+  const thresholds = row0.map((v, i) => v + t * (row1[i] - v));
+  return percentileFromThresholds(weightG, thresholds, pctLabels);
+}
+
+function percentileFromThresholds(weightG, thresholds, pctLabels) {
+  if (weightG <= thresholds[0]) {
+    return { percentile: pctLabels[0] * 0.5, band: `ниже ${pctLabels[0]}-го процентиля` };
+  }
+  const last = thresholds.length - 1;
+  if (weightG >= thresholds[last]) {
+    return {
+      percentile: pctLabels[last] + (100 - pctLabels[last]) * 0.5,
+      band: `выше ${pctLabels[last]}-го процентиля`,
+    };
+  }
+  for (let i = 0; i < thresholds.length - 1; i += 1) {
+    if (weightG >= thresholds[i] && weightG < thresholds[i + 1]) {
+      const frac = (weightG - thresholds[i]) / (thresholds[i + 1] - thresholds[i]);
+      const p = pctLabels[i] + frac * (pctLabels[i + 1] - pctLabels[i]);
+      return {
+        percentile: p,
+        band: `между ${pctLabels[i]}-м и ${pctLabels[i + 1]}-м процентилем`,
+      };
+    }
+  }
+  return { percentile: 50, band: percentileBand(50) };
+}
+
+function hadlockFetalWeightG({ ac, fl, hc, bpd }) {
+  const log10 =
+    1.3596 -
+    0.00386 * ac * fl +
+    0.0064 * hc +
+    0.00061 * bpd * ac +
+    0.0424 * ac +
+    0.174 * fl;
+  return Math.pow(10, log10);
+}
+
+/** WHO stature-for-age, 20 лет (240 мес.) — сравнение потенциала с популяцией. */
+const ADULT_HEIGHT_LMS = {
+  male: { L: 1.167279219, M: 176.8492322, S: 0.040369574 },
+  female: { L: 1.108046193, M: 163.338251, S: 0.039636316 },
+};
+
+function targetHeightCm(sex, motherCm, fatherCm) {
+  const potential =
+    sex === 'male'
+      ? (motherCm + 13 + fatherCm) / 2
+      : (fatherCm - 13 + motherCm) / 2;
+  const potentialCm = Math.round(potential * 10) / 10;
+  const lms = ADULT_HEIGHT_LMS[sex];
+  const zScore = lmsZ(potentialCm, lms.L, lms.M, lms.S);
+  const percentile = zToPercentile(zScore);
+  return {
+    potentialCm,
+    targetCm: potentialCm,
+    rangeLowCm: Math.round((potential - 8.5) * 10) / 10,
+    rangeHighCm: Math.round((potential + 8.5) * 10) / 10,
+    zScore: Math.round(zScore * 100) / 100,
+    percentile: Math.round(percentile * 10) / 10,
+  };
+}
+
+  /**
+ * Процентили в педиатрии — расчёт по стандартам ВОЗ (LMS).
+ * Референсы: Omni Calculator percentile tools, MSD (целевой рост).
+ */
+
+const MODES = {
+  baby: 'Вес, рост, окружность головы до 2-х лет',
+  birthweight: 'Вес при рождении',
+  bmi: 'ИМТ',
+  height: 'Рост до 5-ти лет',
+  head: 'Окружность головы до 5-ти лет',
+  weight: 'Вес до 5-ти лет',
+  fetal: 'Вес плода',
+  targetHeight: 'Потенциал роста ребенка на основании роста родителей',
+};
+
+function parseSex(sex) {
+  if (sex === 'male' || sex === 'female') return sex;
+  throw new Error('Укажите пол ребёнка');
+}
+
+function ageToMonths(input) {
+  if (input.ageMonths != null && input.ageMonths !== '') {
+    const m = Number(input.ageMonths);
+    if (!Number.isFinite(m) || m < 0) throw new Error('Некорректный возраст');
+    return m;
+  }
+  const years = Number(input.ageYears || 0);
+  const months = Number(input.ageMonthsPart || 0);
+  const days = Number(input.ageDays || 0);
+  if (days > 0 && years === 0 && months === 0) return days / 30.4375;
+  return years * 12 + months;
+}
+
+function lmsPercentile(table, sex, ageMonths, value) {
+  const rows = table[sex];
+  if (!rows?.length) throw new Error('Нет данных для расчёта');
+  const lms = interpolateLms(rows, ageMonths);
+  const p = percentileFromLms(value, lms.L, lms.M, lms.S);
+  if (!Number.isFinite(p)) throw new Error('Некорректное значение измерения');
+  return {
+    percentile: Math.round(p * 10) / 10,
+    band: percentileBand(p),
+  };
+}
+
+function omniBabyTable(sex, kind) {
+  const prefix = sex === 'male' ? 'boys' : 'girls';
+  return OMNI_BABY.tables[`${prefix}${kind}`];
+}
+
+function omniBabyPercentile(sex, kind, ageMonths, value) {
+  const { percentileLo, percentileHi } = percentileFromOmniTable(
+    ageMonths,
+    value,
+    omniBabyTable(sex, kind)
+  );
+  return {
+    percentile: percentileLo,
+    percentileHi,
+    band: omniPercentileBand(percentileLo, percentileHi),
+  };
+}
+
+function formatPercentileLabel(p, pHi) {
+  if (pHi != null && pHi !== p) {
+    return `${Math.round(p)}–${Math.round(pHi)}-й процентиль`;
+  }
+  return `${Math.round(p)}-й процентиль`;
+}
+
+function metricResult(label, value, unit, p, band, pHi) {
+  const hi = pHi ?? p;
+  return {
+    label,
+    value,
+    unit,
+    percentile: p,
+    percentileHi: hi,
+    band,
+    text: `${label}: ${band} (${formatPercentileLabel(p, hi)})`,
+  };
+}
+
+function calcBaby(input) {
+  const sex = parseSex(input.sex);
+  const ageMonths = ageToMonths(input);
+  if (ageMonths > 24) throw new Error('Калькулятор младенца: возраст до 2 лет (24 мес.)');
+  const results = [];
+  if (input.weightKg != null && input.weightKg !== '') {
+    const w = Number(input.weightKg);
+    const { percentile, percentileHi, band } = omniBabyPercentile(sex, 'WeightPercentile', ageMonths, w);
+    results.push(metricResult('Вес', w, 'кг', percentile, band, percentileHi));
+  }
+  if (input.heightCm != null && input.heightCm !== '') {
+    const h = Number(input.heightCm);
+    const { percentile, percentileHi, band } = omniBabyPercentile(sex, 'HeightPercentile', ageMonths, h);
+    results.push(metricResult('Рост', h, 'см', percentile, band, percentileHi));
+  }
+  if (input.headCm != null && input.headCm !== '') {
+    const hc = Number(input.headCm);
+    const { percentile, percentileHi, band } = omniBabyPercentile(sex, 'CircumferencePercentile', ageMonths, hc);
+    results.push(metricResult('Окружность головы', hc, 'см', percentile, band, percentileHi));
+  }
+  if (!results.length) throw new Error('Укажите хотя бы одно измерение');
+  return { mode: 'baby', results, summary: results.map((r) => r.text).join('; ') };
+}
+
+function calcBmi(input) {
+  const sex = parseSex(input.sex);
+  const ageMonths = ageToMonths(input);
+  if (ageMonths > 228) throw new Error('Возраст до 19 лет');
+  const w = Number(input.weightKg);
+  const h = Number(input.heightCm) / 100;
+  if (!Number.isFinite(w) || !Number.isFinite(h) || h <= 0) {
+    throw new Error('Укажите массу и рост');
+  }
+  const bmi = w / (h * h);
+  const { percentile, band } = lmsPercentile(WHO_LMS.bmiChild, sex, ageMonths, bmi);
+  return {
+    mode: 'bmi',
+    bmi: Math.round(bmi * 100) / 100,
+    percentile,
+    band,
+    summary: `ИМТ ${Math.round(bmi * 100) / 100} кг/м²: ${band}`,
+  };
+}
+
+const MAX_HEIGHT_AGE_MONTHS = 60;
+
+function calcHeight(input) {
+  const sex = parseSex(input.sex);
+  const ageMonths = ageToMonths(input);
+  if (ageMonths > MAX_HEIGHT_AGE_MONTHS) {
+    throw new Error('Процентиль роста: возраст до 5 лет (60 мес.)');
+  }
+  const h = Number(input.heightCm);
+  const rows = WHO_LMS.heightChild[sex];
+  const { percentile, percentileLo, percentileHi, band } = percentileFromLmsCanal(rows, ageMonths, h);
+  return {
+    mode: 'height',
+    heightCm: h,
+    percentile,
+    percentileLo,
+    percentileHi,
+    band,
+    summary: `Рост ${h} см: ${band}`,
+  };
+}
+
+const MAX_HEAD_AGE_MONTHS = 60;
+
+function calcHead(input) {
+  const sex = parseSex(input.sex);
+  const ageMonths = ageToMonths(input);
+  if (ageMonths > MAX_HEAD_AGE_MONTHS) {
+    throw new Error('Окружность головы: возраст до 5 лет (60 мес.)');
+  }
+  const hc = Number(input.headCm);
+  const rows = WHO_LMS.headChild[sex];
+  const { percentile, percentileLo, percentileHi, band } = percentileFromLmsCanal(rows, ageMonths, hc);
+  return {
+    mode: 'head',
+    headCm: hc,
+    percentile,
+    percentileLo,
+    percentileHi,
+    band,
+    summary: `ОГ ${hc} см: ${band}`,
+  };
+}
+
+const MAX_WEIGHT_AGE_MONTHS = 60;
+
+function calcWeight(input) {
+  const sex = parseSex(input.sex);
+  const ageMonths = ageToMonths(input);
+  if (ageMonths > MAX_WEIGHT_AGE_MONTHS) {
+    throw new Error('Вес: возраст до 5 лет (60 мес.)');
+  }
+  const w = Number(input.weightKg);
+  const rows = WHO_LMS.weightChild[sex];
+  const { percentile, percentileLo, percentileHi, band } = percentileFromLmsCanal(rows, ageMonths, w);
+  return {
+    mode: 'weight',
+    weightKg: w,
+    percentile,
+    percentileLo,
+    percentileHi,
+    band,
+    summary: `Вес ${w} кг: ${band}`,
+  };
+}
+
+function calcBirthWeight(input) {
+  const week = Number(input.gestWeeks);
+  const day = Number(input.gestDays || 0);
+  const gestDays = week * 7 + day;
+  const weightG = Number(input.weightG);
+  if (!Number.isFinite(week) || week < 20 || week > 41) {
+    throw new Error('Гестационный возраст 20–41 нед');
+  }
+  if (gestDays < 140 || gestDays > 300) {
+    throw new Error('Гестационный возраст вне диапазона таблицы FMF (20–41 нед)');
+  }
+  const { percentile, percentileHi, band } = percentileFromOmniBirthWeight(
+    weightG,
+    gestDays,
+    BIRTH_WEIGHT
+  );
+  return {
+    mode: 'birthweight',
+    weightG,
+    gestWeeks: Math.round((gestDays / 7) * 10) / 10,
+    percentile: Math.round(percentile * 10) / 10,
+    percentileHi,
+    band,
+    summary: `Масса при рождении ${weightG} г (${week} нед. ${day} дн.): ${band}`,
+  };
+}
+
+function calcFetal(input) {
+  const sex = parseSex(input.sex);
+  const week = Number(input.gestWeeks);
+  const day = Number(input.gestDays || 0);
+  const gestWeeks = week + day / 7;
+  if (gestWeeks < 14 || gestWeeks > 40) throw new Error('Срок беременности 14–40 нед');
+
+  const ac = Number(input.acCm);
+  const fl = Number(input.flCm);
+  const hc = Number(input.hcCm);
+  const bpd = Number(input.bpdCm);
+  const efwG = Math.round(hadlockFetalWeightG({ ac, fl, hc, bpd }));
+  const { percentile, band } = percentileFromTable(efwG, gestWeeks, FETAL_WEIGHT);
+
+  let note = 'Масса плода в пределах нормы';
+  if (percentile < 10) note = 'Малый для гестационного возраста (МГВ, <10-го процентиля)';
+  if (percentile > 90) note = 'Крупный для гестационного возраста (КГВ, >90-го процентиля)';
+
+  return {
+    mode: 'fetal',
+    sex,
+    gestWeeks: Math.round(gestWeeks * 10) / 10,
+    efwG,
+    percentile: Math.round(percentile * 10) / 10,
+    band,
+    note,
+    summary: `Расчётная масса плода ${efwG} г: ${band}. ${note}`,
+  };
+}
+
+function calcTargetHeight(input) {
+  const sex = parseSex(input.sex);
+  const mother = Number(input.motherHeightCm);
+  const father = Number(input.fatherHeightCm);
+  const { potentialCm, targetCm, rangeLowCm, rangeHighCm, zScore, percentile } = targetHeightCm(
+    sex,
+    mother,
+    father
+  );
+  return {
+    mode: 'targetHeight',
+    potentialCm,
+    targetCm,
+    rangeLowCm,
+    rangeHighCm,
+    zScore,
+    percentile,
+    summary: `Потенциал роста ${potentialCm} см (${percentile}-й процентиль)`,
+  };
+}
+
+function calculate(input) {
+  const mode = input.mode;
+  switch (mode) {
+    case 'baby':
+      return calcBaby(input);
+    case 'bmi':
+      return calcBmi(input);
+    case 'height':
+      return calcHeight(input);
+    case 'head':
+      return calcHead(input);
+    case 'weight':
+      return calcWeight(input);
+    case 'birthweight':
+      return calcBirthWeight(input);
+    case 'fetal':
+      return calcFetal(input);
+    case 'targetHeight':
+      return calcTargetHeight(input);
+    default:
+      throw new Error('Неизвестный режим расчёта');
+  }
+}
+
+    var root = document.querySelector('.fc-calc[data-calculator="peds-percentiles"]');
+  if (!root) return;
+
+  var form = root.querySelector('#fc-calc-peds-percentiles-form');
+  var modeSelect = root.querySelector('#fc-calc-peds-percentiles-mode');
+  var calcBtn = root.querySelector('#fc-calc-peds-percentiles-btn');
+  var resultWrap = root.querySelector('#fc-calc-peds-percentiles-result');
+  var resultMain = root.querySelector('#fc-calc-peds-percentiles-result-main');
+  var resultDesc = root.querySelector('#fc-calc-peds-percentiles-result-desc');
+  var resultList = root.querySelector('#fc-calc-peds-percentiles-result-list');
+  var formError = root.querySelector('#fc-calc-peds-percentiles-form-error');
+  var modeHint = root.querySelector('#fc-calc-peds-percentiles-mode-hint');
+
+  var MODE_HINTS = {
+    baby: 'Возраст до 2 лет (24 мес.): укажите годы и/или месяцы. Заполните хотя бы одно измерение.',
+    birthweight: 'Гестационный возраст 20–41 нед., масса при рождении в граммах.',
+    bmi: 'Возраст до 19 лет. Укажите массу и рост.',
+    height: 'Возраст до 5 лет (60 мес.): укажите годы и/или месяцы. Рост в сантиметрах.',
+    head: 'Возраст до 5 лет (60 мес.): укажите годы и/или месяцы. Окружность головы в сантиметрах.',
+    weight: 'Возраст до 5 лет (60 мес.): укажите годы и/или месяцы. Масса: кг и/или г.',
+    fetal: 'Срок 14–40 нед. Параметры УЗИ: AC, FL, HC, BPD (см).',
+    targetHeight: 'Рост матери и отца в сантиметрах, пол ребёнка.',
+  };
+
+  function num(id) {
+    var el = root.querySelector(id);
+    if (!el) return null;
+    var s = String(el.value || '').trim().replace(',', '.');
+    if (!s) return null;
+    var n = Number(s);
+    return Number.isFinite(n) ? n : { error: true };
+  }
+
+  function rawValue(id) {
+    var el = root.querySelector(id);
+    if (!el) return '';
+    return String(el.value || '').trim();
+  }
+
+  function getSex(group) {
+    var seg = root.querySelector('[data-sex-group="' + group + '"]');
+    if (!seg) return 'male';
+    var active = seg.querySelector('.fc-calc__segment--active');
+    return active ? active.getAttribute('data-sex') : 'male';
+  }
+
+  function readWeightKg(kgId, gId) {
+    var kg = rawValue(kgId);
+    var g = rawValue(gId);
+    if (!kg && !g) return null;
+    var w = weightKgAndGramsToKg(kg, g);
+    return Number.isFinite(w) ? w : { error: true };
+  }
+
+  root.querySelectorAll('.fc-calc__segmented').forEach(function (seg) {
+    seg.querySelectorAll('.fc-calc__segment').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        seg.querySelectorAll('.fc-calc__segment').forEach(function (b) {
+          b.classList.remove('fc-calc__segment--active');
+        });
+        btn.classList.add('fc-calc__segment--active');
+        updateBtn();
+      });
+    });
+  });
+
+  function showMode(mode) {
+    root.querySelectorAll('.fc-calc__mode-panel').forEach(function (panel) {
+      var active = panel.getAttribute('data-mode') === mode;
+      panel.classList.toggle('fc-calc__mode-panel--active', active);
+      panel.hidden = !active;
+    });
+    if (modeHint && MODE_HINTS[mode]) modeHint.textContent = MODE_HINTS[mode];
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+    formError.textContent = '';
+    updateBtn();
+  }
+
+  modeSelect.addEventListener('change', function () {
+    showMode(modeSelect.value);
+  });
+
+  function canCalculate() {
+    var mode = modeSelect.value;
+    try {
+      buildInput(mode);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function buildInput(mode) {
+    var input = { mode: mode };
+    if (mode === 'baby') {
+      input.sex = getSex('baby');
+      var ageYears = rawValue('#fc-calc-peds-percentiles-baby-age-years');
+      var ageMonthsPart = rawValue('#fc-calc-peds-percentiles-baby-age-months');
+      var ageMonths = ageYearsAndMonthsToMonths(ageYears, ageMonthsPart);
+      if (!Number.isFinite(ageMonths)) throw new Error('age');
+      input.ageMonths = ageMonths;
+      var w = readWeightKg(
+        '#fc-calc-peds-percentiles-baby-weight-kg',
+        '#fc-calc-peds-percentiles-baby-weight-g'
+      );
+      var h = num('#fc-calc-peds-percentiles-baby-height');
+      var hc = num('#fc-calc-peds-percentiles-baby-head');
+      if (w && !w.error) input.weightKg = w;
+      else if (w && w.error) throw new Error('weight');
+      if (h && !h.error) input.heightCm = h;
+      if (hc && !hc.error) input.headCm = hc;
+      if (!input.weightKg && !input.heightCm && !input.headCm) throw new Error('measure');
+    } else if (mode === 'birthweight') {
+      var bw = num('#fc-calc-peds-percentiles-bw-weeks');
+      var bd = num('#fc-calc-peds-percentiles-bw-days') || 0;
+      var bwg = num('#fc-calc-peds-percentiles-bw-weight');
+      if (bw == null || bw.error || bwg == null || bwg.error) throw new Error('bw');
+      input.gestWeeks = bw;
+      input.gestDays = bd.error ? 0 : bd;
+      input.weightG = bwg;
+    } else if (mode === 'bmi') {
+      input.sex = getSex('bmi');
+      var by = num('#fc-calc-peds-percentiles-bmi-years') || 0;
+      var bm = num('#fc-calc-peds-percentiles-bmi-months') || 0;
+      if (by && by.error) throw new Error('age');
+      if (bm && bm.error) throw new Error('age');
+      input.ageYears = by || 0;
+      input.ageMonthsPart = bm || 0;
+      var bmw = num('#fc-calc-peds-percentiles-bmi-weight');
+      var bmh = num('#fc-calc-peds-percentiles-bmi-height');
+      if (bmw && bmh && !bmw.error && !bmh.error) {
+        input.weightKg = bmw;
+        input.heightCm = bmh;
+      } else throw new Error('bmi');
+    } else if (mode === 'height') {
+      input.sex = getSex('height');
+      var hy = rawValue('#fc-calc-peds-percentiles-height-years');
+      var hm = rawValue('#fc-calc-peds-percentiles-height-months');
+      var hAge = ageYearsAndMonthsToMonths(hy, hm, 60);
+      if (!Number.isFinite(hAge)) throw new Error('ageHeight');
+      input.ageMonths = hAge;
+      var hc2 = num('#fc-calc-peds-percentiles-height-cm');
+      if (hc2 == null || hc2.error) throw new Error('h');
+      input.heightCm = hc2;
+    } else if (mode === 'head') {
+      input.sex = getSex('head');
+      var headY = rawValue('#fc-calc-peds-percentiles-head-years');
+      var headM = rawValue('#fc-calc-peds-percentiles-head-months');
+      var headAge = ageYearsAndMonthsToMonths(headY, headM, 60);
+      if (!Number.isFinite(headAge)) throw new Error('ageHead');
+      input.ageMonths = headAge;
+      var hd = num('#fc-calc-peds-percentiles-head-cm');
+      if (hd == null || hd.error) throw new Error('hd');
+      input.headCm = hd;
+    } else if (mode === 'weight') {
+      input.sex = getSex('weight');
+      var wy = rawValue('#fc-calc-peds-percentiles-weight-years');
+      var wm = rawValue('#fc-calc-peds-percentiles-weight-months');
+      var wAge = ageYearsAndMonthsToMonths(wy, wm, 60);
+      if (!Number.isFinite(wAge)) throw new Error('ageWeight');
+      input.ageMonths = wAge;
+      var wk = readWeightKg(
+        '#fc-calc-peds-percentiles-weight-kg',
+        '#fc-calc-peds-percentiles-weight-g'
+      );
+      if (wk == null || wk.error) throw new Error('wk');
+      input.weightKg = wk;
+    } else if (mode === 'fetal') {
+      input.sex = getSex('fetal');
+      var fw = num('#fc-calc-peds-percentiles-fetal-weeks');
+      var fd = num('#fc-calc-peds-percentiles-fetal-days') || 0;
+      input.gestWeeks = fw;
+      input.gestDays = fd.error ? 0 : fd;
+      input.acCm = num('#fc-calc-peds-percentiles-fetal-ac');
+      input.flCm = num('#fc-calc-peds-percentiles-fetal-fl');
+      input.hcCm = num('#fc-calc-peds-percentiles-fetal-hc');
+      input.bpdCm = num('#fc-calc-peds-percentiles-fetal-bpd');
+      if (fw == null || fw.error) throw new Error('fw');
+      ['acCm', 'flCm', 'hcCm', 'bpdCm'].forEach(function (k) {
+        if (input[k] == null || input[k].error) throw new Error('fetal');
+      });
+    } else if (mode === 'targetHeight') {
+      input.sex = getSex('target');
+      input.motherHeightCm = num('#fc-calc-peds-percentiles-mother-h');
+      input.fatherHeightCm = num('#fc-calc-peds-percentiles-father-h');
+      if (
+        input.motherHeightCm == null ||
+        input.motherHeightCm.error ||
+        input.fatherHeightCm == null ||
+        input.fatherHeightCm.error
+      ) {
+        throw new Error('th');
+      }
+    }
+    return input;
+  }
+
+  function updateBtn() {
+    var ok = canCalculate();
+    calcBtn.disabled = !ok;
+    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+  }
+
+  form.querySelectorAll('input, select').forEach(function (el) {
+    el.addEventListener('input', updateBtn);
+    el.addEventListener('change', updateBtn);
+  });
+
+  function pctLabel(p, pHi) {
+    if (pHi != null && pHi !== p) {
+      return Math.round(p) + '–' + Math.round(pHi) + '-й процентиль';
+    }
+    return Math.round(p) + '-й процентиль';
+  }
+
+  function renderResult(out) {
+    resultList.innerHTML = '';
+    if (out.mode === 'baby') {
+      resultMain.textContent = 'Процентили младенца';
+      resultDesc.textContent = '';
+      out.results.forEach(function (r) {
+        var li = document.createElement('li');
+        li.textContent =
+          r.label + ': ' + r.band + ' (' + pctLabel(r.percentile, r.percentileHi) + ')';
+        resultList.appendChild(li);
+      });
+    } else if (out.mode === 'targetHeight') {
+      resultMain.textContent = '—';
+      resultDesc.textContent = '';
+      var thRows = [
+        ['Потенциал роста', out.potentialCm + ' см'],
+        ['Z-показатель', String(out.zScore)],
+        [
+          'Процентиль роста',
+          out.percentile % 1 === 0 ? String(out.percentile) : out.percentile.toFixed(1),
+        ],
+      ];
+      thRows.forEach(function (row) {
+        var li = document.createElement('li');
+        li.textContent = row[0] + ': ' + row[1];
+        resultList.appendChild(li);
+      });
+    } else if (out.mode === 'fetal') {
+      resultMain.textContent = out.efwG + ' г';
+      resultDesc.textContent = out.band + '. ' + (out.note || '');
+    } else if (out.mode === 'bmi') {
+      resultMain.textContent = out.bmi + ' кг/м²';
+      resultDesc.textContent = out.band + ' (~' + Math.round(out.percentile) + '-й процентиль)';
+    } else if (out.mode === 'height' || out.mode === 'head' || out.mode === 'weight') {
+      var exactPct =
+        out.percentile % 1 === 0 ? String(out.percentile) : out.percentile.toFixed(1);
+      resultMain.textContent = exactPct + '-й процентиль';
+      resultDesc.textContent = out.band;
+    } else {
+      resultMain.textContent = pctLabel(out.percentile, out.percentileHi);
+      resultDesc.textContent = out.band + (out.summary ? ' — ' + out.summary : '');
+    }
+    resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.textContent = '';
+    try {
+      var input = buildInput(modeSelect.value);
+      var out = calculate(input);
+      renderResult(out);
+    } catch (err) {
+      var fieldErrors = {
+        age: 'Укажите возраст до 2 лет (годы и/или месяцы, не более 24 мес.)',
+        ageHeight: 'Укажите возраст до 5 лет (годы и/или месяцы, не более 60 мес.)',
+        ageHead: 'Укажите возраст до 5 лет (годы и/или месяцы, не более 60 мес.)',
+        ageWeight: 'Укажите возраст до 5 лет (годы и/или месяцы, не более 60 мес.)',
+        weight: 'Укажите массу: кг и/или г (граммы 0–999 при указании кг)',
+        measure: 'Укажите хотя бы одно: вес, рост или окружность головы',
+      };
+      formError.textContent =
+        fieldErrors[err.message] ||
+        (err.message && !/^(bw|bmi|h|hd|wk|fw|fetal|th)$/.test(err.message)
+          ? err.message
+          : 'Проверьте введённые данные');
+    }
+  });
+
+  showMode(modeSelect.value);
+
+})();
+  </script>
+</div>

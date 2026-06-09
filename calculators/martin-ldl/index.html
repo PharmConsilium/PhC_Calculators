@@ -1,9 +1,9 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Уравнение Мартина для липопротеинов низкой плотности (ХС-ЛПНП)
-  Сборка: 2026-06-08
+  Название: Расчёт ХС ЛПНП
+  Сборка: 2026-06-09m
 -->
-<div class="fc-calc" data-calculator="martin-ldl">
+<div class="fc-calc" data-calculator="martin-ldl" data-build="2026-06-09m">
   <style>
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
@@ -716,83 +716,138 @@
     padding: 14px;
   }
 }
-/* martin-ldl */
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__formula {
-  max-width: 36rem;
-  margin-left: auto;
-  margin-right: auto;
-  border-color: rgba(0, 94, 236, 0.22);
-  background: rgba(0, 94, 236, 0.05);
-}
-
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-panel {
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-panel {
   padding: 16px 18px;
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-panel .fc-calc__panel-heading {
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-panel .fc-calc__panel-heading {
   margin-bottom: 14px;
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row {
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(6rem, 8rem) 5.5rem;
-  gap: 8px;
+  grid-template-columns: minmax(8rem, 10rem) 1fr;
+  gap: 10px 14px;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row:last-child {
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field:last-of-type {
   margin-bottom: 0;
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-label {
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field-label {
   margin: 0;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.25;
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-value {
-  margin: 0;
-  padding: 10px 12px;
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field-input {
+  width: 100%;
   min-height: 44px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--fc-text);
+  background: var(--fc-bg-input, #f8f8f9);
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field-input:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 2px rgba(0, 94, 236, 0.15);
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field-input::-webkit-outer-spin-button,
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__head .fc-calc__hint {
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field-input::placeholder {
+  color: var(--fc-text);
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field .fc-calc__error {
+  grid-column: 1 / -1;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl {
+  margin-bottom: 16px;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl:last-of-type {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl-value-row {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl-value {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  display: block;
   font-size: 18px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  background: var(--fc-bg-surface);
-  border: 1px solid var(--fc-border);
+  line-height: 1.3;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  color: var(--fc-blue);
+  background: rgba(0, 94, 236, 0.05);
+  border: 1px solid rgba(0, 94, 236, 0.28);
   border-radius: var(--fc-radius);
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row--primary .fc-calc__martin-result-value {
-  font-size: 22px;
-  color: var(--fc-blue);
-  border-color: rgba(0, 94, 236, 0.35);
-  background: rgba(0, 94, 236, 0.06);
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl-unit {
+  font-size: 14px;
+  color: var(--fc-text);
 }
 
-.fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-unit {
-  margin: 0;
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-ldl-formula {
+  margin: 6px 0 0;
   font-size: 14px;
-  color: var(--fc-text-muted, #5c6370);
-  text-align: left;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="martin-ldl"] #fc-calc-martin-ldl-warning {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--fc-error, #dc2626);
+}
+
+.fc-calc[data-calculator="martin-ldl"] .fc-calc__result-wrap {
+  margin-top: 16px;
 }
 
 @media (max-width: 480px) {
-  .fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-row {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-  }
-
-  .fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-label {
-    grid-column: 1 / -1;
-  }
-
-  .fc-calc[data-calculator="martin-ldl"] .fc-calc__martin-result-unit {
-    text-align: right;
+  .fc-calc[data-calculator="martin-ldl"] .fc-calc__noa-field {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 }
   </style>
@@ -800,56 +855,61 @@
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Уравнение Мартина для липопротеинов низкой плотности (ХС-ЛПНП)</h2>
-        <p class="fc-calc__hint">Расчёт холестерина ЛПНП по уравнению Мартина с индивидуальным коэффициентом на основе триглицеридов и холестерина не-ЛПВП</p>
-        <p class="fc-calc__formula"><strong>ХС ЛПНП</strong> = ХС не-ЛПВП − (Триглицериды / Новый коэффициент)</p>
+        <h2 class="fc-calc__title">Расчёт ХС ЛПНП</h2>
+        <p class="fc-calc__hint">Формулы Мартина-Хопкинса, Сэмпсона и Фридвальда (ммоль/л)</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-martin-ldl-form" novalidate>
           <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
-              <div class="fc-calc__field">
-                <label for="fc-calc-martin-ldl-total">Общий холестерин</label>
-                <div class="fc-calc__field-row">
-                  <input type="number" id="fc-calc-martin-ldl-total" name="total" inputmode="decimal" min="0" step="any" required />
-                  <select id="fc-calc-martin-ldl-total-unit" name="totalUnit" aria-label="Единица общий холестерин">
-                    <option value="mg/dL" selected>mg/dL</option>
-                  </select>
-                </div>
+            <div class="fc-calc__panel fc-calc__noa-panel">
+              <h3 class="fc-calc__panel-heading">Введите данные:</h3>
+              <div class="fc-calc__noa-field">
+                <label class="fc-calc__noa-field-label" for="fc-calc-martin-ldl-total">Холестерин</label>
+                <input type="number" class="fc-calc__noa-field-input" id="fc-calc-martin-ldl-total" name="total" inputmode="decimal" min="0" step="any" placeholder="ммоль/л" required />
                 <span class="fc-calc__error" id="fc-calc-martin-ldl-total-error" role="alert"></span>
               </div>
-              <div class="fc-calc__field">
-                <label for="fc-calc-martin-ldl-hdl">Холестерин ЛПВП</label>
-                <div class="fc-calc__field-row">
-                  <input type="number" id="fc-calc-martin-ldl-hdl" name="hdl" inputmode="decimal" min="0" step="any" required />
-                  <select id="fc-calc-martin-ldl-hdl-unit" name="hdlUnit" aria-label="Единица холестерин лпвп">
-                    <option value="mg/dL" selected>mg/dL</option>
-                  </select>
-                </div>
+              <div class="fc-calc__noa-field">
+                <label class="fc-calc__noa-field-label" for="fc-calc-martin-ldl-hdl">ХС ЛПВП</label>
+                <input type="number" class="fc-calc__noa-field-input" id="fc-calc-martin-ldl-hdl" name="hdl" inputmode="decimal" min="0" step="any" placeholder="ммоль/л" required />
                 <span class="fc-calc__error" id="fc-calc-martin-ldl-hdl-error" role="alert"></span>
               </div>
-              <div class="fc-calc__field">
-                <label for="fc-calc-martin-ldl-tg">Триглицериды</label>
-                <div class="fc-calc__field-row">
-                  <input type="number" id="fc-calc-martin-ldl-tg" name="tg" inputmode="decimal" min="0" step="any" required />
-                  <select id="fc-calc-martin-ldl-tg-unit" name="tgUnit" aria-label="Единица триглицериды">
-                    <option value="mg/dL" selected>mg/dL</option>
-                  </select>
-                </div>
+              <div class="fc-calc__noa-field">
+                <label class="fc-calc__noa-field-label" for="fc-calc-martin-ldl-tg">Триглицериды</label>
+                <input type="number" class="fc-calc__noa-field-input" id="fc-calc-martin-ldl-tg" name="tg" inputmode="decimal" min="0" step="any" placeholder="ммоль/л" required />
                 <span class="fc-calc__error" id="fc-calc-martin-ldl-tg-error" role="alert"></span>
               </div>
+            </div>
+          </div>
 
-              <div class="fc-calc__field">
-                <label for="fc-calc-martin-ldl-decimals">Десятичная точность</label>
-                <select id="fc-calc-martin-ldl-decimals" name="decimals">
-                  <option value="0">0</option>
-                  <option value="1" selected>1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
-              </div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-martin-ldl-result" aria-live="polite">
+            <div class="fc-calc__panel fc-calc__noa-panel">
+              <h3 class="fc-calc__panel-heading">Результат:</h3>
+          <div class="fc-calc__noa-ldl">
+            <p class="fc-calc__noa-ldl-title">ХС ЛПНП (1)</p>
+            <div class="fc-calc__noa-ldl-value-row">
+              <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-martin">—</span>
+              <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
+            </div>
+            <p class="fc-calc__noa-ldl-formula">Формула Мартина-Хопкинса</p>
+          </div>
+          <div class="fc-calc__noa-ldl">
+            <p class="fc-calc__noa-ldl-title">ХС ЛПНП (2)</p>
+            <div class="fc-calc__noa-ldl-value-row">
+              <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-sampson">—</span>
+              <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
+            </div>
+            <p class="fc-calc__noa-ldl-formula">Формула Сэмпсона</p>
+          </div>
+          <div class="fc-calc__noa-ldl">
+            <p class="fc-calc__noa-ldl-title">ХС ЛПНП (3)</p>
+            <div class="fc-calc__noa-ldl-value-row">
+              <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-friedewald">—</span>
+              <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
+            </div>
+            <p class="fc-calc__noa-ldl-formula">Формула Фридвальда</p>
+          </div>
+              <p class="fc-calc__result-desc" id="fc-calc-martin-ldl-warning"></p>
             </div>
           </div>
 
@@ -860,30 +920,6 @@
       <div class="fc-calc__actions">
         <button type="submit" id="fc-calc-martin-ldl-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-martin-ldl-form" disabled>Рассчитать</button>
       </div>
-
-      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-martin-ldl-result" aria-live="polite">
-        <div class="fc-calc__panel fc-calc__martin-result-panel">
-          <h3 class="fc-calc__panel-heading">Результаты</h3>
-
-          <div class="fc-calc__martin-result-row">
-            <p class="fc-calc__martin-result-label">Холестерин не-ЛПВП</p>
-            <p class="fc-calc__martin-result-value" id="fc-calc-martin-ldl-nonhdl">—</p>
-            <p class="fc-calc__martin-result-unit">mg/dL</p>
-          </div>
-
-          <div class="fc-calc__martin-result-row">
-            <p class="fc-calc__martin-result-label">Новый коэффициент</p>
-            <p class="fc-calc__martin-result-value" id="fc-calc-martin-ldl-coef">—</p>
-            <p class="fc-calc__martin-result-unit" aria-hidden="true"></p>
-          </div>
-
-          <div class="fc-calc__martin-result-row fc-calc__martin-result-row--primary">
-            <p class="fc-calc__martin-result-label">Холестерин ЛПНП</p>
-            <p class="fc-calc__martin-result-value" id="fc-calc-martin-ldl-ldl">—</p>
-            <p class="fc-calc__martin-result-unit">mg/dL</p>
-          </div>
-        </div>
-      </div>
     </div>
 
     <details class="fc-calc__notes">
@@ -892,307 +928,15 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p>Новый коэффициент представляет собой соотношение между триглицеридами и холестерином ЛПОНП. Это соотношение меняется в зависимости от уровней триглицеридов и холестерина не-ЛПВП.</p>
-        <p>Новый коэффициент повышает точность определения холестерина ЛПНП в широком диапазоне уровней триглицеридов. Значения коэффициента приведены в таблице ниже.</p>
-        <p><strong>Используемые уравнения:</strong></p>
-        <ul>
-          <li>Холестерин не-ЛПВП = Общий холестерин − Холестерин ЛПВП</li>
-          <li>Холестерин ЛПНП = Холестерин не-ЛПВП − (Триглицериды / Новый коэффициент)</li>
-        </ul>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table fc-calc__table--compact">
-            <caption>Новые коэффициенты на основе триглицеридов и холестерина не-ЛПВП</caption>
-            <thead>
-              <tr>
-                <th scope="col">Триглицериды, мг/дл</th>
-                <th scope="colgroup" colspan="6">Холестерин не-ЛПВП, мг/дл</th>
-              </tr>
-              <tr>
-                <th scope="col"></th>
-                <th><100</th>
-                <th>100–129</th>
-                <th>130–159</th>
-                <th>160–189</th>
-                <th>190–219</th>
-                <th>≥220</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">7–49</th>
-                <td>3,5</td>
-                <td>3,4</td>
-                <td>3,3</td>
-                <td>3,3</td>
-                <td>3,2</td>
-                <td>3,1</td>
-              </tr>
-              <tr>
-                <th scope="row">50–56</th>
-                <td>4</td>
-                <td>3,9</td>
-                <td>3,7</td>
-                <td>3,6</td>
-                <td>3,6</td>
-                <td>3,4</td>
-              </tr>
-              <tr>
-                <th scope="row">57–61</th>
-                <td>4,3</td>
-                <td>4,1</td>
-                <td>4</td>
-                <td>3,9</td>
-                <td>3,8</td>
-                <td>3,6</td>
-              </tr>
-              <tr>
-                <th scope="row">62–66</th>
-                <td>4,5</td>
-                <td>4,3</td>
-                <td>4,1</td>
-                <td>4</td>
-                <td>3,9</td>
-                <td>3,9</td>
-              </tr>
-              <tr>
-                <th scope="row">67–71</th>
-                <td>4,7</td>
-                <td>4,4</td>
-                <td>4,3</td>
-                <td>4,2</td>
-                <td>4,1</td>
-                <td>3,9</td>
-              </tr>
-              <tr>
-                <th scope="row">72–75</th>
-                <td>4,8</td>
-                <td>4,6</td>
-                <td>4,4</td>
-                <td>4,2</td>
-                <td>4,2</td>
-                <td>4,1</td>
-              </tr>
-              <tr>
-                <th scope="row">76–79</th>
-                <td>4,9</td>
-                <td>4,6</td>
-                <td>4,5</td>
-                <td>4,3</td>
-                <td>4,3</td>
-                <td>4,2</td>
-              </tr>
-              <tr>
-                <th scope="row">80–83</th>
-                <td>5</td>
-                <td>4,8</td>
-                <td>4,6</td>
-                <td>4,4</td>
-                <td>4,3</td>
-                <td>4,2</td>
-              </tr>
-              <tr>
-                <th scope="row">84–87</th>
-                <td>5,1</td>
-                <td>4,8</td>
-                <td>4,6</td>
-                <td>4,5</td>
-                <td>4,4</td>
-                <td>4,3</td>
-              </tr>
-              <tr>
-                <th scope="row">88–92</th>
-                <td>5,2</td>
-                <td>4,9</td>
-                <td>4,7</td>
-                <td>4,6</td>
-                <td>4,4</td>
-                <td>4,3</td>
-              </tr>
-              <tr>
-                <th scope="row">93–96</th>
-                <td>5,3</td>
-                <td>5</td>
-                <td>4,8</td>
-                <td>4,7</td>
-                <td>4,5</td>
-                <td>4,4</td>
-              </tr>
-              <tr>
-                <th scope="row">97–100</th>
-                <td>5,4</td>
-                <td>5,1</td>
-                <td>4,8</td>
-                <td>4,7</td>
-                <td>4,5</td>
-                <td>4,3</td>
-              </tr>
-              <tr>
-                <th scope="row">101–105</th>
-                <td>5,5</td>
-                <td>5,2</td>
-                <td>5</td>
-                <td>4,7</td>
-                <td>4,6</td>
-                <td>4,5</td>
-              </tr>
-              <tr>
-                <th scope="row">106–110</th>
-                <td>5,6</td>
-                <td>5,3</td>
-                <td>5</td>
-                <td>4,8</td>
-                <td>4,6</td>
-                <td>4,5</td>
-              </tr>
-              <tr>
-                <th scope="row">111–115</th>
-                <td>5,7</td>
-                <td>5,4</td>
-                <td>5,1</td>
-                <td>4,9</td>
-                <td>4,7</td>
-                <td>4,5</td>
-              </tr>
-              <tr>
-                <th scope="row">116–120</th>
-                <td>5,8</td>
-                <td>5,5</td>
-                <td>5,2</td>
-                <td>5</td>
-                <td>4,8</td>
-                <td>4,6</td>
-              </tr>
-              <tr>
-                <th scope="row">121–126</th>
-                <td>6</td>
-                <td>5,5</td>
-                <td>5,3</td>
-                <td>5</td>
-                <td>4,8</td>
-                <td>4,6</td>
-              </tr>
-              <tr>
-                <th scope="row">127–132</th>
-                <td>6,1</td>
-                <td>5,7</td>
-                <td>5,3</td>
-                <td>5,1</td>
-                <td>4,9</td>
-                <td>4,7</td>
-              </tr>
-              <tr>
-                <th scope="row">133–138</th>
-                <td>6,2</td>
-                <td>5,8</td>
-                <td>5,4</td>
-                <td>5,2</td>
-                <td>5</td>
-                <td>4,7</td>
-              </tr>
-              <tr>
-                <th scope="row">139–146</th>
-                <td>6,3</td>
-                <td>5,9</td>
-                <td>5,6</td>
-                <td>5,3</td>
-                <td>5</td>
-                <td>4,8</td>
-              </tr>
-              <tr>
-                <th scope="row">147–154</th>
-                <td>6,5</td>
-                <td>6</td>
-                <td>5,7</td>
-                <td>5,4</td>
-                <td>5,1</td>
-                <td>4,8</td>
-              </tr>
-              <tr>
-                <th scope="row">155–163</th>
-                <td>6,7</td>
-                <td>6,2</td>
-                <td>5,8</td>
-                <td>5,4</td>
-                <td>5,2</td>
-                <td>4,9</td>
-              </tr>
-              <tr>
-                <th scope="row">164–173</th>
-                <td>6,8</td>
-                <td>6,3</td>
-                <td>5,9</td>
-                <td>5,5</td>
-                <td>5,3</td>
-                <td>5</td>
-              </tr>
-              <tr>
-                <th scope="row">174–185</th>
-                <td>7</td>
-                <td>6,5</td>
-                <td>6</td>
-                <td>5,7</td>
-                <td>5,4</td>
-                <td>5,1</td>
-              </tr>
-              <tr>
-                <th scope="row">186–201</th>
-                <td>7,3</td>
-                <td>6,7</td>
-                <td>6,2</td>
-                <td>5,8</td>
-                <td>5,5</td>
-                <td>5,2</td>
-              </tr>
-              <tr>
-                <th scope="row">202–220</th>
-                <td>7,6</td>
-                <td>6,9</td>
-                <td>6,4</td>
-                <td>6</td>
-                <td>5,6</td>
-                <td>5,3</td>
-              </tr>
-              <tr>
-                <th scope="row">221–247</th>
-                <td>8</td>
-                <td>7,2</td>
-                <td>6,6</td>
-                <td>6,2</td>
-                <td>5,9</td>
-                <td>5,4</td>
-              </tr>
-              <tr>
-                <th scope="row">248–292</th>
-                <td>8,5</td>
-                <td>7,6</td>
-                <td>7</td>
-                <td>6,5</td>
-                <td>6,1</td>
-                <td>5,6</td>
-              </tr>
-              <tr>
-                <th scope="row">293–399</th>
-                <td>9,5</td>
-                <td>8,3</td>
-                <td>7,5</td>
-                <td>7</td>
-                <td>6,5</td>
-                <td>5,9</td>
-              </tr>
-              <tr>
-                <th scope="row">400–13975</th>
-                <td>11,9</td>
-                <td>10</td>
-                <td>8,8</td>
-                <td>8,1</td>
-                <td>7,5</td>
-                <td>6,7</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p><strong>Ссылки:</strong> Martin SS, Blaha MJ, Elshazly MB, et al. Comparison of a novel method vs the Friedewald equation for estimating low-density lipoprotein cholesterol levels from the standard lipid profile. <em>JAMA</em>. 2013 Nov 20;310(19):2061-8. <a href="https://pubmed.ncbi.nlm.nih.gov/24240933/" target="_blank" rel="noopener noreferrer">PubMed ID: 24240933</a></p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%9C%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%BB%D0%B8%D0%BF%D0%BE%D0%BF%D1%80%D0%BE%D1%82%D0%B5%D0%B8%D0%BD%D0%BE%D0%B2%20%D0%BD%D0%B8%D0%B7%D0%BA%D0%BE%D0%B9%20%D0%BF%D0%BB%D0%BE%D1%82%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20(%D0%A5C-%D0%9B%D0%9F%D0%9D%D0%9F)" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
+        <p>Все значения вводятся и рассчитываются в ммоль/л.</p>
+        <p><strong>Формула Мартина-Хопкинса (NOA):</strong> ХС ЛПНП = неЛПВП − ТГ / (K × 0,43658), неЛПВП = ОХ − ЛПВП. K — из таблицы по триглицеридам (мг/дл).</p>
+        <p>Формула Мартина-Хопкинса повышает точность определения уровня ХС ЛПНП при его низкой концентрации, но не может быть применима при концентрации триглицеридов ≥4,5 ммоль/л.</p>
+        <p><strong>Формула Сэмпсона (NOA):</strong> ХС ЛПНП = ОХ / 0,948 − ЛПВП / 0,971 − (ТГ / 3,74 + ТГ × неЛПВП / 24,16 − ТГ² / 79,36) − 0,244 (ммоль/л).</p>
+        <p>Формула Сэмпсона может быть использована для расчёта ХС ЛПНП как при нормальном, так и при повышенном уровне триглицеридов.</p>
+        <p><strong>Формула Фридвальда:</strong> ХС ЛПНП = ОХС − ЛПВП − ТГ / 2,2.</p>
+        <p>Формула Фридвальда позволяет получить значения ХС ЛПНП, сопоставимые с прямым измерением, при уровне триглицеридов до 4,5 ммоль/л.</p>
+        <p>Результаты выводятся с точностью до 2 знаков после запятой (без округления в большую сторону).</p>
+        <p class="fc-calc__hint">Источник: <a href="https://noatero.ru/ru/doctors/calculators/#c3" target="_blank" rel="noopener noreferrer">НОА — Формулы расчёта ХС ЛПНП</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
@@ -1209,40 +953,49 @@
       var root = document.querySelector('.fc-calc[data-calculator="martin-ldl"]');
       if (!root) return;
 
-      var TG_MIN = 7;
-      var TG_MAX = 13975;
+      var TG_MMOL_MAX_MARTIN = 4.5;
+      var TG_MMOL_MAX_FRIEDEWALD = 4.5;
+      var TG_MMOL_MAX_SAMPSON = 9;
+      var TG_MMOL_TO_MG_DL = 1 / 0.0113;
+      var K_MMOL_SCALE = 0.43658;
 
-      var COEF_TABLE = [
-        { tgMin: 7, tgMax: 49, coefs: [3.5, 3.4, 3.3, 3.3, 3.2, 3.1] },
-        { tgMin: 50, tgMax: 56, coefs: [4.0, 3.9, 3.7, 3.6, 3.6, 3.4] },
-        { tgMin: 57, tgMax: 61, coefs: [4.3, 4.1, 4.0, 3.9, 3.8, 3.6] },
-        { tgMin: 62, tgMax: 66, coefs: [4.5, 4.3, 4.1, 4.0, 3.9, 3.9] },
-        { tgMin: 67, tgMax: 71, coefs: [4.7, 4.4, 4.3, 4.2, 4.1, 3.9] },
-        { tgMin: 72, tgMax: 75, coefs: [4.8, 4.6, 4.4, 4.2, 4.2, 4.1] },
-        { tgMin: 76, tgMax: 79, coefs: [4.9, 4.6, 4.5, 4.3, 4.3, 4.2] },
-        { tgMin: 80, tgMax: 83, coefs: [5.0, 4.8, 4.6, 4.4, 4.3, 4.2] },
-        { tgMin: 84, tgMax: 87, coefs: [5.1, 4.8, 4.6, 4.5, 4.4, 4.3] },
-        { tgMin: 88, tgMax: 92, coefs: [5.2, 4.9, 4.7, 4.6, 4.4, 4.3] },
-        { tgMin: 93, tgMax: 96, coefs: [5.3, 5.0, 4.8, 4.7, 4.5, 4.4] },
-        { tgMin: 97, tgMax: 100, coefs: [5.4, 5.1, 4.8, 4.7, 4.5, 4.3] },
-        { tgMin: 101, tgMax: 105, coefs: [5.5, 5.2, 5.0, 4.7, 4.6, 4.5] },
-        { tgMin: 106, tgMax: 110, coefs: [5.6, 5.3, 5.0, 4.8, 4.6, 4.5] },
-        { tgMin: 111, tgMax: 115, coefs: [5.7, 5.4, 5.1, 4.9, 4.7, 4.5] },
-        { tgMin: 116, tgMax: 120, coefs: [5.8, 5.5, 5.2, 5.0, 4.8, 4.6] },
-        { tgMin: 121, tgMax: 126, coefs: [6.0, 5.5, 5.3, 5.0, 4.8, 4.6] },
-        { tgMin: 127, tgMax: 132, coefs: [6.1, 5.7, 5.3, 5.1, 4.9, 4.7] },
-        { tgMin: 133, tgMax: 138, coefs: [6.2, 5.8, 5.4, 5.2, 5.0, 4.7] },
-        { tgMin: 139, tgMax: 146, coefs: [6.3, 5.9, 5.6, 5.3, 5.0, 4.8] },
-        { tgMin: 147, tgMax: 154, coefs: [6.5, 6.0, 5.7, 5.4, 5.1, 4.8] },
-        { tgMin: 155, tgMax: 163, coefs: [6.7, 6.2, 5.8, 5.4, 5.2, 4.9] },
-        { tgMin: 164, tgMax: 173, coefs: [6.8, 6.3, 5.9, 5.5, 5.3, 5.0] },
-        { tgMin: 174, tgMax: 185, coefs: [7.0, 6.5, 6.0, 5.7, 5.4, 5.1] },
-        { tgMin: 186, tgMax: 201, coefs: [7.3, 6.7, 6.2, 5.8, 5.5, 5.2] },
-        { tgMin: 202, tgMax: 220, coefs: [7.6, 6.9, 6.4, 6.0, 5.6, 5.3] },
-        { tgMin: 221, tgMax: 247, coefs: [8.0, 7.2, 6.6, 6.2, 5.9, 5.4] },
-        { tgMin: 248, tgMax: 292, coefs: [8.5, 7.6, 7.0, 6.5, 6.1, 5.6] },
-        { tgMin: 293, tgMax: 399, coefs: [9.5, 8.3, 7.5, 7.0, 6.5, 5.9] },
-        { tgMin: 400, tgMax: 13975, coefs: [11.9, 10.0, 8.8, 8.1, 7.5, 6.7] },
+      var M_ROW = [0, 100, 130, 160, 190, 220];
+      var M_COL = [
+        7, 50, 57, 62, 67, 72, 76, 80, 84, 88, 93, 97, 101, 106, 111, 116, 121, 127, 133, 139, 147,
+        155, 164, 174, 186, 202, 221, 248, 293, 400,
+      ];
+
+      var MARTIN_MATRIX = [
+        [3.5, 3.4, 3.3, 3.3, 3.2, 3.1],
+        [4.0, 3.9, 3.7, 3.6, 3.6, 3.4],
+        [4.3, 4.1, 4.0, 3.9, 3.8, 3.6],
+        [4.5, 4.3, 4.1, 4.0, 3.9, 3.9],
+        [4.7, 4.4, 4.3, 4.2, 4.1, 3.9],
+        [4.8, 4.6, 4.4, 4.2, 4.2, 4.1],
+        [4.9, 4.6, 4.5, 4.3, 4.3, 4.3],
+        [5.0, 4.8, 4.6, 4.4, 4.3, 4.2],
+        [5.1, 4.8, 4.6, 4.5, 4.4, 4.3],
+        [5.2, 4.9, 4.7, 4.6, 4.4, 4.3],
+        [5.3, 5.0, 4.8, 4.7, 4.5, 4.4],
+        [5.4, 5.1, 4.8, 4.7, 4.5, 4.3],
+        [5.5, 5.2, 5.0, 4.7, 4.6, 4.3],
+        [5.6, 5.3, 5.0, 4.8, 4.6, 4.5],
+        [5.7, 5.4, 5.1, 4.9, 4.7, 4.5],
+        [5.8, 5.5, 5.2, 5.0, 4.8, 4.6],
+        [6.0, 5.5, 5.3, 5.0, 4.8, 4.6],
+        [6.1, 5.7, 5.3, 5.1, 4.9, 4.7],
+        [6.2, 5.8, 5.4, 5.2, 5.0, 4.7],
+        [6.3, 5.9, 5.6, 5.3, 5.0, 4.8],
+        [6.5, 6.0, 5.7, 5.4, 5.1, 4.8],
+        [6.7, 6.2, 5.8, 5.4, 5.2, 4.9],
+        [6.8, 6.3, 5.9, 5.5, 5.3, 5.0],
+        [7.0, 6.5, 6.0, 5.7, 5.4, 5.1],
+        [7.3, 6.7, 6.2, 5.8, 5.5, 5.2],
+        [7.6, 6.9, 6.4, 6.0, 5.6, 5.3],
+        [8.0, 7.2, 6.6, 6.2, 5.9, 5.4],
+        [8.5, 7.6, 7.0, 6.5, 6.1, 5.6],
+        [9.5, 8.3, 7.5, 7.0, 6.5, 5.9],
+        [11.9, 10.0, 8.8, 8.1, 7.5, 6.2],
       ];
 
       var form = root.querySelector('#fc-calc-martin-ldl-form');
@@ -1250,20 +1003,15 @@
       var totalInput = root.querySelector('#fc-calc-martin-ldl-total');
       var hdlInput = root.querySelector('#fc-calc-martin-ldl-hdl');
       var tgInput = root.querySelector('#fc-calc-martin-ldl-tg');
-      var decimalsSelect = root.querySelector('#fc-calc-martin-ldl-decimals');
       var totalError = root.querySelector('#fc-calc-martin-ldl-total-error');
       var hdlError = root.querySelector('#fc-calc-martin-ldl-hdl-error');
       var tgError = root.querySelector('#fc-calc-martin-ldl-tg-error');
       var formError = root.querySelector('#fc-calc-martin-ldl-form-error');
       var resultWrap = root.querySelector('#fc-calc-martin-ldl-result');
-      var nonHdlOut = root.querySelector('#fc-calc-martin-ldl-nonhdl');
-      var coefOut = root.querySelector('#fc-calc-martin-ldl-coef');
-      var ldlOut = root.querySelector('#fc-calc-martin-ldl-ldl');
-
-      function roundHalfUp(value, decimals) {
-        var factor = Math.pow(10, decimals);
-        return Math.round(value * factor + Number.EPSILON) / factor;
-      }
+      var martinOut = root.querySelector('#fc-calc-martin-ldl-martin');
+      var sampsonOut = root.querySelector('#fc-calc-martin-ldl-sampson');
+      var friedewaldOut = root.querySelector('#fc-calc-martin-ldl-friedewald');
+      var warningOut = root.querySelector('#fc-calc-martin-ldl-warning');
 
       function parsePositive(value) {
         var s = String(value || '').trim().replace(',', '.');
@@ -1272,29 +1020,49 @@
         return Number.isFinite(n) && n > 0 ? n : null;
       }
 
-      function formatNum(n, decimals) {
-        return String(n).replace('.', ',');
+      function truncTo2(value) {
+        return Math.trunc(value * 100 + Number.EPSILON) / 100;
       }
 
-      function getNonHdlColumn(nonHdl) {
-        if (nonHdl < 100) return 0;
-        if (nonHdl < 130) return 1;
-        if (nonHdl < 160) return 2;
-        if (nonHdl < 190) return 3;
-        if (nonHdl < 220) return 4;
-        return 5;
+      function formatNum(n) {
+        if (!Number.isFinite(n)) return '—';
+        return truncTo2(n).toFixed(2).replace('.', ',');
       }
 
-      function lookupCoefficient(tg, nonHdl) {
-        if (tg < TG_MIN || tg > TG_MAX) return null;
-        var col = getNonHdlColumn(nonHdl);
-        for (var i = 0; i < COEF_TABLE.length; i++) {
-          var row = COEF_TABLE[i];
-          if (tg >= row.tgMin && tg <= row.tgMax) {
-            return row.coefs[col];
-          }
+      function lookupMartinIndices(tgMgDl) {
+        var iRow = 0;
+        var iCol = 0;
+        var key;
+        for (key = 0; key < M_ROW.length; key++) {
+          if (tgMgDl >= M_ROW[key]) iRow = key;
         }
-        return null;
+        for (key = 0; key < M_COL.length; key++) {
+          if (tgMgDl >= M_COL[key]) iCol = key;
+        }
+        return { iRow: iRow, iCol: iCol };
+      }
+
+      function martinLdlMmol(tcMmol, hdlMmol, tgMmol) {
+        var nonHdlMmol = tcMmol - hdlMmol;
+        var tgMgDl = tgMmol * TG_MMOL_TO_MG_DL;
+        var idx = lookupMartinIndices(tgMgDl);
+        var k = MARTIN_MATRIX[idx.iCol][idx.iRow];
+        var divisor = k * K_MMOL_SCALE;
+        return nonHdlMmol - tgMmol / divisor;
+      }
+
+      function sampsonLdlMmol(tcMmol, hdlMmol, tgMmol) {
+        var nonHdlMmol = tcMmol - hdlMmol;
+        return (
+          tcMmol / 0.948 -
+          hdlMmol / 0.971 -
+          (tgMmol / 3.74 + (tgMmol * nonHdlMmol) / 24.16 - (tgMmol * tgMmol) / 79.36) -
+          0.244
+        );
+      }
+
+      function friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol) {
+        return tcMmol - hdlMmol - tgMmol / 2.2;
       }
 
       function hideResult() {
@@ -1316,34 +1084,30 @@
       }
 
       function calculate() {
-        var totalChol = parsePositive(totalInput.value);
-        var hdl = parsePositive(hdlInput.value);
-        var tg = parsePositive(tgInput.value);
+        var tcMmol = parsePositive(totalInput.value);
+        var hdlMmol = parsePositive(hdlInput.value);
+        var tgMmol = parsePositive(tgInput.value);
 
-        if (totalChol == null || hdl == null || tg == null) {
+        if (tcMmol == null || hdlMmol == null || tgMmol == null) {
           throw new Error('Заполните все поля');
         }
 
-        var decimals = decimalsSelect ? Number(decimalsSelect.value) : 1;
-        if (!Number.isFinite(decimals) || decimals < 0 || decimals > 3) decimals = 1;
-
-        var nonHdl = totalChol - hdl;
-        var coefficient = lookupCoefficient(tg, nonHdl);
-
-        if (coefficient == null) {
-          if (tg < TG_MIN) {
-            throw new Error('Триглицериды вне диапазона таблицы (< ' + TG_MIN + ' мг/дл)');
-          }
-          throw new Error('Триглицериды вне диапазона таблицы (> ' + TG_MAX + ' мг/дл)');
+        var warnings = [];
+        if (tgMmol >= TG_MMOL_MAX_MARTIN) {
+          warnings.push('При триглицеридах ≥ 4,5 ммоль/л формула Мартина-Хопкинса не применима');
+        }
+        if (tgMmol >= TG_MMOL_MAX_FRIEDEWALD) {
+          warnings.push('При триглицеридах ≥ 4,5 ммоль/л формула Фридвальда не применима');
+        }
+        if (tgMmol > TG_MMOL_MAX_SAMPSON) {
+          warnings.push('При триглицеридах > 9 ммоль/л формула Сэмпсона не применима');
         }
 
-        var ldl = nonHdl - tg / coefficient;
-
         return {
-          nonHdl: roundHalfUp(nonHdl, decimals),
-          coefficient: roundHalfUp(coefficient, 1),
-          ldl: roundHalfUp(ldl, decimals),
-          decimals: decimals,
+          martinLdl: truncTo2(martinLdlMmol(tcMmol, hdlMmol, tgMmol)),
+          sampsonLdl: truncTo2(sampsonLdlMmol(tcMmol, hdlMmol, tgMmol)),
+          friedewaldLdl: truncTo2(friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol)),
+          warnings: warnings,
         };
       }
 
@@ -1367,10 +1131,10 @@
 
         if (!isReady()) {
           if (!parsePositive(totalInput.value)) {
-            totalError.textContent = 'Укажите общий холестерин';
+            totalError.textContent = 'Укажите холестерин';
           }
           if (!parsePositive(hdlInput.value)) {
-            hdlError.textContent = 'Укажите холестерин ЛПВП';
+            hdlError.textContent = 'Укажите ХС ЛПВП';
           }
           if (!parsePositive(tgInput.value)) {
             tgError.textContent = 'Укажите триглицериды';
@@ -1380,9 +1144,12 @@
 
         try {
           var out = calculate();
-          nonHdlOut.textContent = formatNum(out.nonHdl, out.decimals);
-          coefOut.textContent = formatNum(out.coefficient, 1);
-          ldlOut.textContent = formatNum(out.ldl, out.decimals);
+          martinOut.textContent = formatNum(out.martinLdl);
+          sampsonOut.textContent = formatNum(out.sampsonLdl);
+          friedewaldOut.textContent = formatNum(out.friedewaldLdl);
+          if (warningOut) {
+            warningOut.textContent = out.warnings.join(' ');
+          }
           resultWrap.classList.remove('fc-calc__result-wrap--hidden');
         } catch (err) {
           formError.textContent = err.message || 'Ошибка расчёта';

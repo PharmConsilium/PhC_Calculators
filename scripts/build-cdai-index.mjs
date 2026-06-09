@@ -21,17 +21,25 @@ function checkboxId(prefix, sideId, jointId) {
   return `fc-calc-cdai-${prefix}-${sideId}-${jointId}`;
 }
 
+function jointLabel(joint, sideId) {
+  if (joint.id === 'knee') {
+    return sideId === 'right' ? 'Правое колено' : 'Левое колено';
+  }
+  return joint.label;
+}
+
 function renderLargeJoint(prefix, sideId, joint) {
   const id = checkboxId(prefix, sideId, joint.id);
+  const label = jointLabel(joint, sideId);
   if (sideId === 'left') {
     return `                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>${joint.label}</span>
+                  <span>${label}</span>
                   <input type="checkbox" id="${id}" name="${id}" data-joint-prefix="${prefix}" data-side="${sideId}" data-joint="${joint.id}" />
                 </label>`;
   }
   return `                <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="${id}" name="${id}" data-joint-prefix="${prefix}" data-side="${sideId}" data-joint="${joint.id}" />
-                  <span>${joint.label}</span>
+                  <span>${label}</span>
                 </label>`;
 }
 
@@ -56,7 +64,6 @@ function renderHandFinger(prefix, sideId, mcpJoint, distalJoint, finger) {
   return `                  <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--${finger.num}" title="${finger.fullName}">
 ${mcp}
 ${distal}
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">${finger.num}</span>
                       <span class="fc-calc__cdai-hand-finger-name">${finger.name}</span>
@@ -83,21 +90,25 @@ ${items}
               </div>`;
 }
 
-function renderPanel(prefix, title, shortLabel) {
+function renderPanel(prefix, rightTitle, shortLabel, leftTitle = null) {
   const rightUpper = renderSideJoints(prefix, SIDES[0], LARGE_JOINTS);
   const rightHand = renderHandGrid(prefix, 'right', SIDES[0].label);
   const leftUpper = renderSideJoints(prefix, SIDES[1], LARGE_JOINTS);
   const leftHand = renderHandGrid(prefix, 'left', SIDES[1].label);
   const rightKnee = renderSideJoints(prefix, SIDES[0], [KNEE_JOINT]);
   const leftKnee = renderSideJoints(prefix, SIDES[1], [KNEE_JOINT]);
+  const leftHeading = leftTitle
+    ? `              <h3 class="fc-calc__panel-heading fc-calc__cdai-side-heading">${leftTitle}</h3>\n`
+    : '';
 
   return `          <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="${prefix}" data-cdai-layout="v2">
-            <h3 class="fc-calc__panel-heading">${title}</h3>
+            <h3 class="fc-calc__panel-heading">${rightTitle}</h3>
             <div class="fc-calc__cdai-panel-body" style="display:flex;flex-direction:column;gap:14px;max-width:36rem;margin:0 auto;">
 ${rightUpper}
 ${rightHand}
-${leftUpper}
+${leftHeading}${leftUpper}
 ${leftHand}
+              <h3 class="fc-calc__panel-heading fc-calc__cdai-side-heading">Нижние конечности</h3>
               <div class="fc-calc__cdai-joints-row">
 ${rightKnee}
 ${leftKnee}
@@ -153,11 +164,11 @@ ${extra.trim()}
           </div>
 
           <div class="fc-calc__panel-section">
-${renderPanel('tjc', 'Количество болезненных суставов', 'TJC')}
+${renderPanel('tjc', 'Количество болезненных суставов на правой руке', 'TJC', 'Количество болезненных суставов на левой руке')}
           </div>
 
           <div class="fc-calc__panel-section">
-${renderPanel('sjc', 'Количество припухших суставов', 'SJC')}
+${renderPanel('sjc', 'Количество припухших суставов на правой руке', 'SJC', 'Количество припухших суставов на левой руке')}
           </div>
         </form>
       </div>
@@ -197,6 +208,9 @@ ${renderPanel('sjc', 'Количество припухших суставов',
           </table>
         </div>
         <p>Суставы кистей: с 1-го по 5-й пястно-фаланговые, межфаланговый большого пальца и со 2-го по 5-й проксимальные межфаланговые.</p>
+        <p><strong>MCP</strong> — пястно-фаланговый сустав. Это сустав у основания пальца, соединяющий ладонь (пястные кости) с первой фалангой.</p>
+        <p><strong>PIP</strong> — проксимальный межфаланговый сустав. Первый сустав на самом пальце, расположенный ближе к основанию (между первой и второй фалангами).</p>
+        <p><strong>IP</strong> — межфаланговый сустав. Собирательное название для любого сустава между фалангами пальцев. На большом пальце всего один IP-сустав, а на остальных пальцах выделяют ещё дистальный (DIP) сустав, расположенный у самого ногтя.</p>
         <p>PGA и EGA — шкала 0–10 (10 = максимальная активность). Снижение CDAI на 6,5 — умеренное улучшение.</p>
         <p><strong>Ссылки:</strong></p>
         <p class="fc-calc__source-item">Aletaha D, Nell VP, Stamm T, et al. Acute phase reactants add little to composite disease activity indices for rheumatoid arthritis: validation of a clinical activity score. <em>Arthritis Res Ther.</em> 2005;7(4):R796-806. <a href="https://pubmed.ncbi.nlm.nih.gov/15987481/" target="_blank" rel="noopener noreferrer">PubMed 15987481</a></p>

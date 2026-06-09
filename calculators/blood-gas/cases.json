@@ -1,0 +1,54 @@
+{
+  "slug": "blood-gas",
+  "source": "anest-rean.ru/index-oxygenation",
+  "cases": [
+    {
+      "name": "pf ratio severe ARDS",
+      "input": { "mode": "pfRatio", "pao2": 60, "fio2": 100 },
+      "expected": {
+        "index": 60,
+        "interpretation": "тяжелая"
+      }
+    },
+    {
+      "name": "pf ratio room air normal",
+      "input": { "mode": "pfRatio", "pao2": 100, "fio2": 21 },
+      "expected": {
+        "index": 476,
+        "interpretation": "Вариант нормы"
+      }
+    },
+    {
+      "name": "pf ratio mild ARDS",
+      "input": { "mode": "pfRatio", "pao2": 60, "fio2": 21 },
+      "expected": {
+        "index": 286,
+        "interpretation": "легкая"
+      }
+    },
+    {
+      "name": "oi calculator 2 example",
+      "input": { "mode": "oi", "fio2": 40, "pmean": 10, "pao2": 40 },
+      "expected": {
+        "index": 10,
+        "interpretation": "вариант нормы"
+      }
+    },
+    {
+      "name": "oi mortality risk",
+      "input": { "mode": "oi", "fio2": 60, "pmean": 20, "pao2": 40 },
+      "expected": {
+        "index": 30,
+        "interpretation": "летальный исход более 40%"
+      }
+    },
+    {
+      "name": "oi ECMO",
+      "input": { "mode": "oi", "fio2": 100, "pmean": 20, "pao2": 40 },
+      "expected": {
+        "index": 50,
+        "interpretation": "экстракорпоральная мембранная оксигенация"
+      }
+    }
+  ]
+}

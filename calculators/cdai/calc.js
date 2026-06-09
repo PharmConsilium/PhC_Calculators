@@ -37,8 +37,8 @@ export const KNEE_JOINT = { id: 'knee', label: 'Колено' };
 
 export const ALL_JOINTS = [...LARGE_JOINTS, ...HAND_ROW1, ...HAND_ROW2, KNEE_JOINT];
 export const SIDES = [
-  { id: 'right', label: 'Правая рука' },
-  { id: 'left', label: 'Левая рука' },
+  { id: 'right', label: 'Кисть' },
+  { id: 'left', label: 'Кисть' },
 ];
 
 export function roundHalfUp(value, decimals) {

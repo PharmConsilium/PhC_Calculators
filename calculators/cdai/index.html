@@ -745,6 +745,10 @@
   text-align: left;
 }
 
+.fc-calc[data-calculator="cdai"] .fc-calc__cdai-side-heading {
+  margin-top: 6px;
+}
+
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-panel-body {
   display: flex;
   flex-direction: column;
@@ -855,35 +859,6 @@
   border-radius: 0 0 var(--fc-radius) var(--fc-radius);
   padding: 10px 4px 10px;
   min-width: 0;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger-stem {
-  width: 62%;
-  min-width: 22px;
-  background: #b0b5bf;
-  border-radius: 0 0 5px 5px;
-  flex-shrink: 0;
-}
-
-/* от плашки руки вниз: мизинец короче всех, средний — самый длинный */
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--1 .fc-calc__cdai-hand-finger-stem {
-  height: 28px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--2 .fc-calc__cdai-hand-finger-stem {
-  height: 50px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--3 .fc-calc__cdai-hand-finger-stem {
-  height: 76px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--4 .fc-calc__cdai-hand-finger-stem {
-  height: 58px;
-}
-
-.fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-finger--5 .fc-calc__cdai-hand-finger-stem {
-  height: 14px;
 }
 
 .fc-calc[data-calculator="cdai"] .fc-calc__cdai-hand-cell {
@@ -1038,7 +1013,7 @@
 
           <div class="fc-calc__panel-section">
           <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="tjc" data-cdai-layout="v2">
-            <h3 class="fc-calc__panel-heading">Количество болезненных суставов</h3>
+            <h3 class="fc-calc__panel-heading">Количество болезненных суставов на правой руке</h3>
             <div class="fc-calc__cdai-panel-body" style="display:flex;flex-direction:column;gap:14px;max-width:36rem;margin:0 auto;">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
@@ -1055,7 +1030,7 @@
                 </label>
               </div>
               <div class="fc-calc__cdai-hand">
-                <div class="fc-calc__cdai-hand-title-bar">Правая рука</div>
+                <div class="fc-calc__cdai-hand-title-bar">Кисть</div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1066,7 +1041,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">IP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-right-ip1" name="fc-calc-cdai-tjc-right-ip1" data-joint-prefix="tjc" data-side="right" data-joint="ip1" aria-label="IP 1" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">1</span>
                       <span class="fc-calc__cdai-hand-finger-name">Большой</span>
@@ -1081,7 +1055,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-right-pip2" name="fc-calc-cdai-tjc-right-pip2" data-joint-prefix="tjc" data-side="right" data-joint="pip2" aria-label="PIP 2" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">2</span>
                       <span class="fc-calc__cdai-hand-finger-name">Указательный</span>
@@ -1096,7 +1069,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-right-pip3" name="fc-calc-cdai-tjc-right-pip3" data-joint-prefix="tjc" data-side="right" data-joint="pip3" aria-label="PIP 3" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">3</span>
                       <span class="fc-calc__cdai-hand-finger-name">Средний</span>
@@ -1111,7 +1083,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-right-pip4" name="fc-calc-cdai-tjc-right-pip4" data-joint-prefix="tjc" data-side="right" data-joint="pip4" aria-label="PIP 4" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">4</span>
                       <span class="fc-calc__cdai-hand-finger-name">Безымянный</span>
@@ -1126,7 +1097,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-right-pip5" name="fc-calc-cdai-tjc-right-pip5" data-joint-prefix="tjc" data-side="right" data-joint="pip5" aria-label="PIP 5" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">5</span>
                       <span class="fc-calc__cdai-hand-finger-name">Мизинец</span>
@@ -1134,6 +1104,7 @@
                   </div>
                 </div>
               </div>
+              <h3 class="fc-calc__panel-heading fc-calc__cdai-side-heading">Количество болезненных суставов на левой руке</h3>
               <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
                   <span>Плечо</span>
@@ -1149,7 +1120,7 @@
                 </label>
               </div>
               <div class="fc-calc__cdai-hand">
-                <div class="fc-calc__cdai-hand-title-bar">Левая рука</div>
+                <div class="fc-calc__cdai-hand-title-bar">Кисть</div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1160,7 +1131,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">IP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-left-ip1" name="fc-calc-cdai-tjc-left-ip1" data-joint-prefix="tjc" data-side="left" data-joint="ip1" aria-label="IP 1" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">1</span>
                       <span class="fc-calc__cdai-hand-finger-name">Большой</span>
@@ -1175,7 +1145,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-left-pip2" name="fc-calc-cdai-tjc-left-pip2" data-joint-prefix="tjc" data-side="left" data-joint="pip2" aria-label="PIP 2" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">2</span>
                       <span class="fc-calc__cdai-hand-finger-name">Указательный</span>
@@ -1190,7 +1159,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-left-pip3" name="fc-calc-cdai-tjc-left-pip3" data-joint-prefix="tjc" data-side="left" data-joint="pip3" aria-label="PIP 3" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">3</span>
                       <span class="fc-calc__cdai-hand-finger-name">Средний</span>
@@ -1205,7 +1173,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-left-pip4" name="fc-calc-cdai-tjc-left-pip4" data-joint-prefix="tjc" data-side="left" data-joint="pip4" aria-label="PIP 4" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">4</span>
                       <span class="fc-calc__cdai-hand-finger-name">Безымянный</span>
@@ -1220,7 +1187,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-tjc-left-pip5" name="fc-calc-cdai-tjc-left-pip5" data-joint-prefix="tjc" data-side="left" data-joint="pip5" aria-label="PIP 5" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">5</span>
                       <span class="fc-calc__cdai-hand-finger-name">Мизинец</span>
@@ -1228,16 +1194,17 @@
                   </div>
                 </div>
               </div>
+              <h3 class="fc-calc__panel-heading fc-calc__cdai-side-heading">Нижние конечности</h3>
               <div class="fc-calc__cdai-joints-row">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="fc-calc-cdai-tjc-right-knee" name="fc-calc-cdai-tjc-right-knee" data-joint-prefix="tjc" data-side="right" data-joint="knee" />
-                  <span>Колено</span>
+                  <span>Правое колено</span>
                 </label>
               </div>
               <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Колено</span>
+                  <span>Левое колено</span>
                   <input type="checkbox" id="fc-calc-cdai-tjc-left-knee" name="fc-calc-cdai-tjc-left-knee" data-joint-prefix="tjc" data-side="left" data-joint="knee" />
                 </label>
               </div>
@@ -1258,7 +1225,7 @@
 
           <div class="fc-calc__panel-section">
           <div class="fc-calc__panel fc-calc__cdai-panel" data-panel="sjc" data-cdai-layout="v2">
-            <h3 class="fc-calc__panel-heading">Количество припухших суставов</h3>
+            <h3 class="fc-calc__panel-heading">Количество припухших суставов на правой руке</h3>
             <div class="fc-calc__cdai-panel-body" style="display:flex;flex-direction:column;gap:14px;max-width:36rem;margin:0 auto;">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
@@ -1275,7 +1242,7 @@
                 </label>
               </div>
               <div class="fc-calc__cdai-hand">
-                <div class="fc-calc__cdai-hand-title-bar">Правая рука</div>
+                <div class="fc-calc__cdai-hand-title-bar">Кисть</div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1286,7 +1253,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">IP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-right-ip1" name="fc-calc-cdai-sjc-right-ip1" data-joint-prefix="sjc" data-side="right" data-joint="ip1" aria-label="IP 1" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">1</span>
                       <span class="fc-calc__cdai-hand-finger-name">Большой</span>
@@ -1301,7 +1267,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-right-pip2" name="fc-calc-cdai-sjc-right-pip2" data-joint-prefix="sjc" data-side="right" data-joint="pip2" aria-label="PIP 2" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">2</span>
                       <span class="fc-calc__cdai-hand-finger-name">Указательный</span>
@@ -1316,7 +1281,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-right-pip3" name="fc-calc-cdai-sjc-right-pip3" data-joint-prefix="sjc" data-side="right" data-joint="pip3" aria-label="PIP 3" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">3</span>
                       <span class="fc-calc__cdai-hand-finger-name">Средний</span>
@@ -1331,7 +1295,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-right-pip4" name="fc-calc-cdai-sjc-right-pip4" data-joint-prefix="sjc" data-side="right" data-joint="pip4" aria-label="PIP 4" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">4</span>
                       <span class="fc-calc__cdai-hand-finger-name">Безымянный</span>
@@ -1346,7 +1309,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-right-pip5" name="fc-calc-cdai-sjc-right-pip5" data-joint-prefix="sjc" data-side="right" data-joint="pip5" aria-label="PIP 5" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">5</span>
                       <span class="fc-calc__cdai-hand-finger-name">Мизинец</span>
@@ -1354,6 +1316,7 @@
                   </div>
                 </div>
               </div>
+              <h3 class="fc-calc__panel-heading fc-calc__cdai-side-heading">Количество припухших суставов на левой руке</h3>
               <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
                   <span>Плечо</span>
@@ -1369,7 +1332,7 @@
                 </label>
               </div>
               <div class="fc-calc__cdai-hand">
-                <div class="fc-calc__cdai-hand-title-bar">Левая рука</div>
+                <div class="fc-calc__cdai-hand-title-bar">Кисть</div>
                 <div class="fc-calc__cdai-hand-grid">
                   <div class="fc-calc__cdai-hand-finger fc-calc__cdai-hand-finger--1" title="Большой палец">
                   <label class="fc-calc__cdai-hand-cell" aria-label="MCP 1" title="MCP 1">
@@ -1380,7 +1343,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">IP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-left-ip1" name="fc-calc-cdai-sjc-left-ip1" data-joint-prefix="sjc" data-side="left" data-joint="ip1" aria-label="IP 1" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">1</span>
                       <span class="fc-calc__cdai-hand-finger-name">Большой</span>
@@ -1395,7 +1357,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-left-pip2" name="fc-calc-cdai-sjc-left-pip2" data-joint-prefix="sjc" data-side="left" data-joint="pip2" aria-label="PIP 2" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">2</span>
                       <span class="fc-calc__cdai-hand-finger-name">Указательный</span>
@@ -1410,7 +1371,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-left-pip3" name="fc-calc-cdai-sjc-left-pip3" data-joint-prefix="sjc" data-side="left" data-joint="pip3" aria-label="PIP 3" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">3</span>
                       <span class="fc-calc__cdai-hand-finger-name">Средний</span>
@@ -1425,7 +1385,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-left-pip4" name="fc-calc-cdai-sjc-left-pip4" data-joint-prefix="sjc" data-side="left" data-joint="pip4" aria-label="PIP 4" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">4</span>
                       <span class="fc-calc__cdai-hand-finger-name">Безымянный</span>
@@ -1440,7 +1399,6 @@
                     <span class="fc-calc__cdai-hand-cell-label">PIP</span>
                     <input type="checkbox" id="fc-calc-cdai-sjc-left-pip5" name="fc-calc-cdai-sjc-left-pip5" data-joint-prefix="sjc" data-side="left" data-joint="pip5" aria-label="PIP 5" />
                   </label>
-                    <div class="fc-calc__cdai-hand-finger-stem" aria-hidden="true"></div>
                     <span class="fc-calc__cdai-hand-finger-label">
                       <span class="fc-calc__cdai-hand-finger-num">5</span>
                       <span class="fc-calc__cdai-hand-finger-name">Мизинец</span>
@@ -1448,16 +1406,17 @@
                   </div>
                 </div>
               </div>
+              <h3 class="fc-calc__panel-heading fc-calc__cdai-side-heading">Нижние конечности</h3>
               <div class="fc-calc__cdai-joints-row">
               <div class="fc-calc__cdai-side fc-calc__cdai-side--right">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--right">
                   <input type="checkbox" id="fc-calc-cdai-sjc-right-knee" name="fc-calc-cdai-sjc-right-knee" data-joint-prefix="sjc" data-side="right" data-joint="knee" />
-                  <span>Колено</span>
+                  <span>Правое колено</span>
                 </label>
               </div>
               <div class="fc-calc__cdai-side fc-calc__cdai-side--left">
                 <label class="fc-calc__cdai-joint fc-calc__cdai-joint--bar fc-calc__cdai-joint--left">
-                  <span>Колено</span>
+                  <span>Левое колено</span>
                   <input type="checkbox" id="fc-calc-cdai-sjc-left-knee" name="fc-calc-cdai-sjc-left-knee" data-joint-prefix="sjc" data-side="left" data-joint="knee" />
                 </label>
               </div>
@@ -1513,6 +1472,9 @@
           </table>
         </div>
         <p>Суставы кистей: с 1-го по 5-й пястно-фаланговые, межфаланговый большого пальца и со 2-го по 5-й проксимальные межфаланговые.</p>
+        <p><strong>MCP</strong> — пястно-фаланговый сустав. Это сустав у основания пальца, соединяющий ладонь (пястные кости) с первой фалангой.</p>
+        <p><strong>PIP</strong> — проксимальный межфаланговый сустав. Первый сустав на самом пальце, расположенный ближе к основанию (между первой и второй фалангами).</p>
+        <p><strong>IP</strong> — межфаланговый сустав. Собирательное название для любого сустава между фалангами пальцев. На большом пальце всего один IP-сустав, а на остальных пальцах выделяют ещё дистальный (DIP) сустав, расположенный у самого ногтя.</p>
         <p>PGA и EGA — шкала 0–10 (10 = максимальная активность). Снижение CDAI на 6,5 — умеренное улучшение.</p>
         <p><strong>Ссылки:</strong></p>
         <p class="fc-calc__source-item">Aletaha D, Nell VP, Stamm T, et al. Acute phase reactants add little to composite disease activity indices for rheumatoid arthritis: validation of a clinical activity score. <em>Arthritis Res Ther.</em> 2005;7(4):R796-806. <a href="https://pubmed.ncbi.nlm.nih.gov/15987481/" target="_blank" rel="noopener noreferrer">PubMed 15987481</a></p>

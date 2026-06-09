@@ -1,50 +1,60 @@
 /**
- * Уравнение Мартина для ХС-ЛПНП (Martin SS et al., JAMA 2013).
- * ХС не-ЛПВП = Общий холестерин − ХС ЛПВП
- * ХС ЛПНП = ХС не-ЛПВП − (Триглицериды / Новый коэффициент)
+ * Расчёт ХС-ЛПНП (ммоль/л) по формулам NOA / Martin-Hopkins, Sampson, Friedewald.
+ * @see https://noatero.ru/ru/doctors/calculators/
  */
 
-export const NON_HDL_HEADERS = ['<100', '100–129', '130–159', '160–189', '190–219', '≥220'];
+/** Пороги не-ЛПВП (мг/дл) — индекс столбца матрицы K */
+const M_ROW = [0, 100, 130, 160, 190, 220];
 
-export const COEF_TABLE = [
-  { tgMin: 7, tgMax: 49, coefs: [3.5, 3.4, 3.3, 3.3, 3.2, 3.1] },
-  { tgMin: 50, tgMax: 56, coefs: [4.0, 3.9, 3.7, 3.6, 3.6, 3.4] },
-  { tgMin: 57, tgMax: 61, coefs: [4.3, 4.1, 4.0, 3.9, 3.8, 3.6] },
-  { tgMin: 62, tgMax: 66, coefs: [4.5, 4.3, 4.1, 4.0, 3.9, 3.9] },
-  { tgMin: 67, tgMax: 71, coefs: [4.7, 4.4, 4.3, 4.2, 4.1, 3.9] },
-  { tgMin: 72, tgMax: 75, coefs: [4.8, 4.6, 4.4, 4.2, 4.2, 4.1] },
-  { tgMin: 76, tgMax: 79, coefs: [4.9, 4.6, 4.5, 4.3, 4.3, 4.2] },
-  { tgMin: 80, tgMax: 83, coefs: [5.0, 4.8, 4.6, 4.4, 4.3, 4.2] },
-  { tgMin: 84, tgMax: 87, coefs: [5.1, 4.8, 4.6, 4.5, 4.4, 4.3] },
-  { tgMin: 88, tgMax: 92, coefs: [5.2, 4.9, 4.7, 4.6, 4.4, 4.3] },
-  { tgMin: 93, tgMax: 96, coefs: [5.3, 5.0, 4.8, 4.7, 4.5, 4.4] },
-  { tgMin: 97, tgMax: 100, coefs: [5.4, 5.1, 4.8, 4.7, 4.5, 4.3] },
-  { tgMin: 101, tgMax: 105, coefs: [5.5, 5.2, 5.0, 4.7, 4.6, 4.5] },
-  { tgMin: 106, tgMax: 110, coefs: [5.6, 5.3, 5.0, 4.8, 4.6, 4.5] },
-  { tgMin: 111, tgMax: 115, coefs: [5.7, 5.4, 5.1, 4.9, 4.7, 4.5] },
-  { tgMin: 116, tgMax: 120, coefs: [5.8, 5.5, 5.2, 5.0, 4.8, 4.6] },
-  { tgMin: 121, tgMax: 126, coefs: [6.0, 5.5, 5.3, 5.0, 4.8, 4.6] },
-  { tgMin: 127, tgMax: 132, coefs: [6.1, 5.7, 5.3, 5.1, 4.9, 4.7] },
-  { tgMin: 133, tgMax: 138, coefs: [6.2, 5.8, 5.4, 5.2, 5.0, 4.7] },
-  { tgMin: 139, tgMax: 146, coefs: [6.3, 5.9, 5.6, 5.3, 5.0, 4.8] },
-  { tgMin: 147, tgMax: 154, coefs: [6.5, 6.0, 5.7, 5.4, 5.1, 4.8] },
-  { tgMin: 155, tgMax: 163, coefs: [6.7, 6.2, 5.8, 5.4, 5.2, 4.9] },
-  { tgMin: 164, tgMax: 173, coefs: [6.8, 6.3, 5.9, 5.5, 5.3, 5.0] },
-  { tgMin: 174, tgMax: 185, coefs: [7.0, 6.5, 6.0, 5.7, 5.4, 5.1] },
-  { tgMin: 186, tgMax: 201, coefs: [7.3, 6.7, 6.2, 5.8, 5.5, 5.2] },
-  { tgMin: 202, tgMax: 220, coefs: [7.6, 6.9, 6.4, 6.0, 5.6, 5.3] },
-  { tgMin: 221, tgMax: 247, coefs: [8.0, 7.2, 6.6, 6.2, 5.9, 5.4] },
-  { tgMin: 248, tgMax: 292, coefs: [8.5, 7.6, 7.0, 6.5, 6.1, 5.6] },
-  { tgMin: 293, tgMax: 399, coefs: [9.5, 8.3, 7.5, 7.0, 6.5, 5.9] },
-  { tgMin: 400, tgMax: 13975, coefs: [11.9, 10.0, 8.8, 8.1, 7.5, 6.7] },
+/** Пороги триглицеридов (мг/дл) — индекс строки матрицы K */
+const M_COL = [
+  7, 50, 57, 62, 67, 72, 76, 80, 84, 88, 93, 97, 101, 106, 111, 116, 121, 127, 133, 139, 147,
+  155, 164, 174, 186, 202, 221, 248, 293, 400,
 ];
 
-export const TG_MIN = 7;
-export const TG_MAX = 13975;
+/** Матрица K (как на noatero.ru) */
+const MARTIN_MATRIX = [
+  [3.5, 3.4, 3.3, 3.3, 3.2, 3.1],
+  [4.0, 3.9, 3.7, 3.6, 3.6, 3.4],
+  [4.3, 4.1, 4.0, 3.9, 3.8, 3.6],
+  [4.5, 4.3, 4.1, 4.0, 3.9, 3.9],
+  [4.7, 4.4, 4.3, 4.2, 4.1, 3.9],
+  [4.8, 4.6, 4.4, 4.2, 4.2, 4.1],
+  [4.9, 4.6, 4.5, 4.3, 4.3, 4.3],
+  [5.0, 4.8, 4.6, 4.4, 4.3, 4.2],
+  [5.1, 4.8, 4.6, 4.5, 4.4, 4.3],
+  [5.2, 4.9, 4.7, 4.6, 4.4, 4.3],
+  [5.3, 5.0, 4.8, 4.7, 4.5, 4.4],
+  [5.4, 5.1, 4.8, 4.7, 4.5, 4.3],
+  [5.5, 5.2, 5.0, 4.7, 4.6, 4.3],
+  [5.6, 5.3, 5.0, 4.8, 4.6, 4.5],
+  [5.7, 5.4, 5.1, 4.9, 4.7, 4.5],
+  [5.8, 5.5, 5.2, 5.0, 4.8, 4.6],
+  [6.0, 5.5, 5.3, 5.0, 4.8, 4.6],
+  [6.1, 5.7, 5.3, 5.1, 4.9, 4.7],
+  [6.2, 5.8, 5.4, 5.2, 5.0, 4.7],
+  [6.3, 5.9, 5.6, 5.3, 5.0, 4.8],
+  [6.5, 6.0, 5.7, 5.4, 5.1, 4.8],
+  [6.7, 6.2, 5.8, 5.4, 5.2, 4.9],
+  [6.8, 6.3, 5.9, 5.5, 5.3, 5.0],
+  [7.0, 6.5, 6.0, 5.7, 5.4, 5.1],
+  [7.3, 6.7, 6.2, 5.8, 5.5, 5.2],
+  [7.6, 6.9, 6.4, 6.0, 5.6, 5.3],
+  [8.0, 7.2, 6.6, 6.2, 5.9, 5.4],
+  [8.5, 7.6, 7.0, 6.5, 6.1, 5.6],
+  [9.5, 8.3, 7.5, 7.0, 6.5, 5.9],
+  [11.9, 10.0, 8.8, 8.1, 7.5, 6.2],
+];
 
-export function roundHalfUp(value, decimals) {
-  const factor = 10 ** decimals;
-  return Math.round(value * factor + Number.EPSILON) / factor;
+const TG_MMOL_TO_MG_DL = 1 / 0.0113;
+const K_MMOL_SCALE = 0.43658;
+
+export const TG_MMOL_MAX_MARTIN = 4.5;
+export const TG_MMOL_MAX_FRIEDEWALD = 4.5;
+export const TG_MMOL_MAX_SAMPSON = 9;
+
+export function truncTo2(value) {
+  return Math.trunc(value * 100 + Number.EPSILON) / 100;
 }
 
 function parsePositive(value) {
@@ -55,72 +65,77 @@ function parsePositive(value) {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
-export function getNonHdlColumn(nonHdl) {
-  if (nonHdl < 100) return 0;
-  if (nonHdl < 130) return 1;
-  if (nonHdl < 160) return 2;
-  if (nonHdl < 190) return 3;
-  if (nonHdl < 220) return 4;
-  return 5;
-}
-
-export function lookupCoefficient(tg, nonHdl) {
-  if (tg < TG_MIN || tg > TG_MAX) return null;
-  const col = getNonHdlColumn(nonHdl);
-  for (const row of COEF_TABLE) {
-    if (tg >= row.tgMin && tg <= row.tgMax) {
-      return row.coefs[col];
-    }
+function lookupMartinIndices(tgMgDl) {
+  let iRow = 0;
+  let iCol = 0;
+  for (let key = 0; key < M_ROW.length; key += 1) {
+    if (tgMgDl >= M_ROW[key]) iRow = key;
   }
-  return null;
+  for (let key = 0; key < M_COL.length; key += 1) {
+    if (tgMgDl >= M_COL[key]) iCol = key;
+  }
+  return { iRow, iCol };
 }
 
-export function martinLdl(input) {
-  const totalChol = parsePositive(input.totalChol);
-  const hdl = parsePositive(input.hdl);
-  const tg = parsePositive(input.triglycerides);
+/**
+ * Мартин-Хопкинс (NOA): ХС ЛПНП = неЛПВП − ТГ / (K × 0,43658), ммоль/л
+ */
+export function martinLdlMmol(tcMmol, hdlMmol, tgMmol) {
+  const nonHdlMmol = tcMmol - hdlMmol;
+  const tgMgDl = tgMmol * TG_MMOL_TO_MG_DL;
+  const { iRow, iCol } = lookupMartinIndices(tgMgDl);
+  const k = MARTIN_MATRIX[iCol][iRow];
+  const divisor = k * K_MMOL_SCALE;
+  return nonHdlMmol - tgMmol / divisor;
+}
 
-  if (totalChol == null || hdl == null || tg == null) {
+/** Сэмпсон (NOA, ммоль/л) */
+export function sampsonLdlMmol(tcMmol, hdlMmol, tgMmol) {
+  const nonHdlMmol = tcMmol - hdlMmol;
+  return (
+    tcMmol / 0.948 -
+    hdlMmol / 0.971 -
+    (tgMmol / 3.74 + (tgMmol * nonHdlMmol) / 24.16 - (tgMmol * tgMmol) / 79.36) -
+    0.244
+  );
+}
+
+/** Фридвальд: ХС ЛПНП = ОХ − ЛПВП − ТГ / 2,2 (ммоль/л) */
+export function friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol) {
+  return tcMmol - hdlMmol - tgMmol / 2.2;
+}
+
+export function ldlFormulas(input) {
+  const tcMmol = parsePositive(input.totalChol);
+  const hdlMmol = parsePositive(input.hdl);
+  const tgMmol = parsePositive(input.triglycerides);
+
+  if (tcMmol == null || hdlMmol == null || tgMmol == null) {
     return { status: 'INVALID' };
   }
 
-  const decimals = input.decimals != null ? Number(input.decimals) : 1;
-  const safeDecimals = Number.isFinite(decimals) && decimals >= 0 && decimals <= 3 ? decimals : 1;
-
-  const nonHdl = totalChol - hdl;
-  const coefficient = lookupCoefficient(tg, nonHdl);
-
-  if (coefficient == null) {
-    return {
-      status: 'INVALID',
-      reason: tg < TG_MIN ? 'TG_BELOW_RANGE' : 'TG_ABOVE_RANGE',
-    };
+  const warnings = [];
+  if (tgMmol >= TG_MMOL_MAX_MARTIN) {
+    warnings.push('При триглицеридах ≥ 4,5 ммоль/л формула Мартина-Хопкинса не применима');
   }
-
-  const ldl = nonHdl - tg / coefficient;
+  if (tgMmol >= TG_MMOL_MAX_FRIEDEWALD) {
+    warnings.push('При триглицеридах ≥ 4,5 ммоль/л формула Фридвальда не применима');
+  }
+  if (tgMmol > TG_MMOL_MAX_SAMPSON) {
+    warnings.push('При триглицеридах > 9 ммоль/л формула Сэмпсона не применима');
+  }
 
   return {
     status: 'OK',
-    totalChol: roundHalfUp(totalChol, safeDecimals),
-    hdl: roundHalfUp(hdl, safeDecimals),
-    triglycerides: roundHalfUp(tg, safeDecimals),
-    nonHdl: roundHalfUp(nonHdl, safeDecimals),
-    coefficient: roundHalfUp(coefficient, 1),
-    ldl: roundHalfUp(ldl, safeDecimals),
-    decimals: safeDecimals,
+    martinLdl: truncTo2(martinLdlMmol(tcMmol, hdlMmol, tgMmol)),
+    sampsonLdl: truncTo2(sampsonLdlMmol(tcMmol, hdlMmol, tgMmol)),
+    friedewaldLdl: truncTo2(friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol)),
+    warnings,
   };
 }
 
 export function calculate(input) {
-  const out = martinLdl(input);
-  if (out.status !== 'OK') {
-    if (out.reason === 'TG_BELOW_RANGE') {
-      throw new Error(`Триглицериды вне диапазона таблицы (< ${TG_MIN} мг/дл)`);
-    }
-    if (out.reason === 'TG_ABOVE_RANGE') {
-      throw new Error(`Триглицериды вне диапазона таблицы (> ${TG_MAX} мг/дл)`);
-    }
-    throw new Error('Заполните все поля');
-  }
+  const out = ldlFormulas(input);
+  if (out.status !== 'OK') throw new Error('Заполните все поля');
   return out;
 }
