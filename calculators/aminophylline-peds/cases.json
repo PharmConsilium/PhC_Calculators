@@ -14,8 +14,8 @@
         "loadingMg": 30,
         "loadingMl": 1.25,
         "loadingRateMlH": 100,
-        "maintenanceMgH": 1.5,
-        "maintenanceMlH": 0.06,
+        "maintenanceMg": 3,
+        "maintenanceMl": 0.13,
         "maintenanceInfusionRateMlH": 50
       }
     },
@@ -32,7 +32,7 @@
       "expected": {
         "loadingMg": 60,
         "loadingMl": 2.5,
-        "maintenanceMgH": 1.5
+        "maintenanceMg": 3
       }
     },
     {
@@ -47,8 +47,26 @@
       },
       "expected": {
         "loadingMg": 60,
-        "maintenanceMgH": 10,
-        "maintenanceMlH": 0.42,
+        "maintenanceMg": 40,
+        "maintenanceMl": 1.67,
+        "maintenanceInfusionRateMlH": 50
+      }
+    },
+    {
+      "name": "both risk factors yes",
+      "input": {
+        "age": "3-6w",
+        "weight": 10,
+        "infusionHours": 2,
+        "dilutionVolume": 100,
+        "priorTheophylline": true,
+        "reduceMaintenance": true
+      },
+      "expected": {
+        "loadingMg": 60,
+        "loadingMl": 2.5,
+        "maintenanceMg": 1.5,
+        "maintenanceMl": 0.06,
         "maintenanceInfusionRateMlH": 50
       }
     },
@@ -64,7 +82,8 @@
       },
       "expected": {
         "loadingMg": 12,
-        "maintenanceMgH": 0.4,
+        "maintenanceMg": 0.4,
+        "maintenanceMl": 0.02,
         "maintenanceInfusionRateMlH": 50
       }
     }

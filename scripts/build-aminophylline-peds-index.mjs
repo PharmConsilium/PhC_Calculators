@@ -10,6 +10,7 @@ import {
   LOADING_DOSE_PRIOR_MG_KG,
   MG_PER_ML,
 } from '../calculators/aminophylline-peds/calc.js';
+import { NOTES_DISCLAIMER_HTML } from './snippets/notes-disclaimer.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const [css, extra] = await Promise.all([
@@ -29,15 +30,11 @@ function renderAgeOptions() {
 }
 
 function renderYesNoToggle(name, defaultNo = true) {
-  return `                <div class="fc-calc__amph-toggle" role="radiogroup">
-                  <label class="fc-calc__amph-toggle-option">
-                    <input type="radio" name="${name}" value="no"${defaultNo ? ' checked' : ''} required />
-                    <span class="fc-calc__amph-toggle-label">Нет</span>
-                  </label>
-                  <label class="fc-calc__amph-toggle-option">
-                    <input type="radio" name="${name}" value="yes"${defaultNo ? '' : ' checked'} required />
-                    <span class="fc-calc__amph-toggle-label">Да</span>
-                  </label>
+  const defaultVal = defaultNo ? 'no' : 'yes';
+  return `                <input type="hidden" id="fc-calc-aminophylline-peds-${name}" name="${name}" value="${defaultVal}" />
+                <div class="fc-calc__amph-toggle" role="radiogroup" data-amph-field="${name}">
+                  <button type="button" class="fc-calc__amph-toggle-btn${defaultNo ? ' fc-calc__amph-toggle-btn--active' : ''}" data-value="no" aria-pressed="${defaultNo ? 'true' : 'false'}">Нет</button>
+                  <button type="button" class="fc-calc__amph-toggle-btn${defaultNo ? '' : ' fc-calc__amph-toggle-btn--active'}" data-value="yes" aria-pressed="${defaultNo ? 'false' : 'true'}">Да</button>
                 </div>`;
 }
 
@@ -65,7 +62,7 @@ function renderMaintenanceTable() {
 const html = `<!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название: Расчёт дозировки эуфиллина у детей до 16 лет
-  Сборка: 2026-06-08-b
+  Сборка: 2026-06-08-d
 -->
 <div class="fc-calc" data-calculator="aminophylline-peds">
   <style>
@@ -86,48 +83,56 @@ ${extra.trim()}
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">Параметры</h3>
 
-              <div class="fc-calc__amph-age-field">
-                <span class="fc-calc__amph-field-label">Возраст</span>
-                <div class="fc-calc__amph-age-list" role="radiogroup" aria-label="Возраст">
+              <div class="fc-calc__amph-form-grid">
+                <div class="fc-calc__amph-age-field fc-calc__amph-grid-age">
+                  <span class="fc-calc__amph-field-label">Возраст</span>
+                  <div class="fc-calc__amph-age-list" role="radiogroup" aria-label="Возраст">
 ${renderAgeOptions()}
+                  </div>
                 </div>
-              </div>
 
-              <div class="fc-calc__amph-field-row">
-                <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-weight">Вес, кг</label>
-                <div class="fc-calc__amph-field-control">
-                  <input type="number" id="fc-calc-aminophylline-peds-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                <div class="fc-calc__amph-inputs-col fc-calc__amph-grid-inputs">
+                  <div class="fc-calc__amph-field-row">
+                    <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-weight">Вес, кг</label>
+                    <div class="fc-calc__amph-field-control">
+                      <input type="number" id="fc-calc-aminophylline-peds-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                    </div>
+                  </div>
+
+                  <div class="fc-calc__amph-field-row">
+                    <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-hours">Желаемое время введения, часов</label>
+                    <div class="fc-calc__amph-field-control">
+                      <input type="number" id="fc-calc-aminophylline-peds-hours" name="infusionHours" inputmode="decimal" min="0" step="any" placeholder="ч" required />
+                    </div>
+                  </div>
+
+                  <div class="fc-calc__amph-field-row">
+                    <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-volume">Объём раствора после разведения, мл</label>
+                    <div class="fc-calc__amph-field-control">
+                      <input type="number" id="fc-calc-aminophylline-peds-volume" name="dilutionVolume" inputmode="decimal" min="0" step="any" placeholder="мл" required />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="fc-calc__amph-field-row">
-                <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-hours">Желаемое время введения, часов</label>
-                <div class="fc-calc__amph-field-control">
-                  <input type="number" id="fc-calc-aminophylline-peds-hours" name="infusionHours" inputmode="decimal" min="0" step="any" placeholder="ч" required />
-                </div>
-              </div>
-
-              <div class="fc-calc__amph-field-row">
-                <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-volume">Объём раствора после разведения, мл</label>
-                <div class="fc-calc__amph-field-control">
-                  <input type="number" id="fc-calc-aminophylline-peds-volume" name="dilutionVolume" inputmode="decimal" min="0" step="any" placeholder="мл" required />
-                </div>
-              </div>
-
-              <div class="fc-calc__amph-field-row">
-                <p class="fc-calc__amph-field-label">Получал ли ребёнок теофиллин в предшествующие 12–24 часа?</p>
+                <div class="fc-calc__amph-field-row fc-calc__amph-grid-prior">
+                  <p class="fc-calc__amph-field-label">Получал ли ребёнок теофиллин в предшествующие 12–24 часа?</p>
 ${renderYesNoToggle('priorTheophylline', true)}
-              </div>
+                </div>
 
-              <div class="fc-calc__amph-field-row">
-                <p class="fc-calc__amph-field-label">Сердечная недостаточность или патология печени или приём эритромицина?</p>
+                <div class="fc-calc__amph-field-row fc-calc__amph-grid-reduce">
+                  <p class="fc-calc__amph-field-label">Сердечная недостаточность или патология печени или приём эритромицина?</p>
 ${renderYesNoToggle('reduceMaintenance', true)}
+                </div>
               </div>
             </div>
           </div>
 
           <span class="fc-calc__error" id="fc-calc-aminophylline-peds-form-error" role="alert"></span>
         </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-aminophylline-peds-btn" class="fc-calc__btn" form="fc-calc-aminophylline-peds-form">Рассчитать</button>
       </div>
 
       <div class="fc-calc__result-wrap fc-calc__amph-results fc-calc__result-wrap--hidden" id="fc-calc-aminophylline-peds-results" aria-live="polite">
@@ -168,8 +173,8 @@ ${renderYesNoToggle('reduceMaintenance', true)}
 ${renderMaintenanceTable()}
         <p>У детей с сердечной недостаточностью, патологией печени и получающих эритромицин поддерживающую дозу уменьшают в 2 раза.</p>
         <p><strong>Противопоказания:</strong> применение эуфиллина, особенно внутривенное введение, противопоказано при резко пониженном артериальном давлении, пароксизмальной тахикардии и экстрасистолии. Не следует также применять препарат при сердечной недостаточности, особенно связанной с инфарктом миокарда, когда имеется коронарная недостаточность и нарушение сердечного ритма.</p>
-        <p class="fc-calc__hint">Источник: <a href="https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html" target="_blank" rel="noopener noreferrer">Медвестник</a></p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+        <p><strong>Источники:</strong> на основании клинического протокола «Оказание экстренной и неотложной медицинской помощи пациентам детского возраста» (утверждён постановлением Министерства здравоохранения Республики Беларусь от 17.08.2023 № 118); <a href="https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html" target="_blank" rel="noopener noreferrer">Medvestnik</a>.</p>
+${NOTES_DISCLAIMER_HTML}
       </div>
     </details>
   </div>

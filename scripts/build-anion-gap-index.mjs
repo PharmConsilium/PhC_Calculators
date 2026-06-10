@@ -116,7 +116,6 @@ ${renderIonField('hco3', 'Бикарбонат', 'HCO₃')}
           </table>
         </div>
         <p>Нормальная анионная разница принимается ${NORMAL_AG} mEq/L, нормальный бикарбонат — ${NORMAL_HCO3} mEq/L.</p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%90%D0%BD%D0%B8%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B7%D0%BD%D0%B8%D1%86%D0%B0" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

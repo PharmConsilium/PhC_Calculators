@@ -71,12 +71,62 @@
 }
 
 .fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option-text {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px 14px;
   font-size: 16px;
   line-height: 1.4;
   color: var(--fc-text);
   text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-points {
+  flex: 0 0 auto;
+  font-weight: 600;
+  color: var(--fc-text-muted, #5c6370);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 94, 236, 0.22);
+  border-radius: var(--fc-radius);
+  background: rgba(0, 94, 236, 0.06);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-title {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table th,
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table td {
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  text-align: left;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table th {
+  background: var(--fc-bg-surface);
+  font-weight: 600;
 }
 
 .fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--clear {

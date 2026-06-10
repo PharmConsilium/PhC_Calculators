@@ -1,0 +1,66 @@
+{
+  "slug": "wells-scale",
+  "source": "https://medsoftpro.ru/kalkulyatory/wells-scale",
+  "cases": [
+    {
+      "name": "zero score",
+      "input": {},
+      "expected": {
+        "total": 0,
+        "threeLevel": { "category": "low", "label": "низкая" },
+        "twoLevel": { "category": "unlikely", "label": "ТЭЛА маловероятна" },
+        "status": "OK"
+      }
+    },
+    {
+      "name": "medsoftpro example 2.5",
+      "input": { "immobility": true, "hemoptysis": true },
+      "expected": {
+        "total": 2.5,
+        "threeLevel": { "category": "moderate", "label": "средняя" },
+        "twoLevel": { "category": "unlikely", "label": "ТЭЛА маловероятна" },
+        "status": "OK"
+      }
+    },
+    {
+      "name": "low boundary 1",
+      "input": { "hemoptysis": true },
+      "expected": {
+        "total": 1,
+        "threeLevel": { "category": "low", "label": "низкая" },
+        "twoLevel": { "category": "unlikely", "label": "ТЭЛА маловероятна" },
+        "status": "OK"
+      }
+    },
+    {
+      "name": "moderate four points",
+      "input": { "dvtSigns": true, "hemoptysis": true },
+      "expected": {
+        "total": 4,
+        "threeLevel": { "category": "moderate", "label": "средняя" },
+        "twoLevel": { "category": "unlikely", "label": "ТЭЛА маловероятна" },
+        "status": "OK"
+      }
+    },
+    {
+      "name": "medsoftpro five points",
+      "input": { "dvtSigns": true, "hemoptysis": true, "malignancy": true },
+      "expected": {
+        "total": 5,
+        "threeLevel": { "category": "high", "label": "высокая" },
+        "twoLevel": { "category": "likely", "label": "ТЭЛА вероятна" },
+        "status": "OK"
+      }
+    },
+    {
+      "name": "high three level",
+      "input": { "dvtSigns": true, "altDx": true, "history": true },
+      "expected": {
+        "total": 7.5,
+        "threeLevel": { "category": "high", "label": "высокая" },
+        "twoLevel": { "category": "likely", "label": "ТЭЛА вероятна" },
+        "status": "OK"
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название: Расчёт дозировки эуфиллина у детей до 16 лет
-  Сборка: 2026-06-08-b
+  Сборка: 2026-06-08-d
 -->
 <div class="fc-calc" data-calculator="aminophylline-peds">
   <style>
@@ -762,13 +762,64 @@
   color: var(--fc-muted-text, #5c6370);
 }
 
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+  row-gap: 14px;
+  align-items: start;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-age {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-inputs {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-inputs-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-prior {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: stretch;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-reduce {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: stretch;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row.fc-calc__amph-grid-prior,
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row.fc-calc__amph-grid-reduce {
+  height: 100%;
+  align-self: stretch;
+  align-items: flex-start;
+}
+
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row.fc-calc__amph-grid-prior .fc-calc__amph-toggle,
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row.fc-calc__amph-grid-reduce .fc-calc__amph-toggle {
+  margin-top: auto;
+  width: fit-content;
+  max-width: 100%;
+}
+
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-age-field {
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-age-field > .fc-calc__amph-field-label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-age-list {
@@ -816,6 +867,10 @@
   min-width: 0;
 }
 
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-inputs-col .fc-calc__amph-toggle {
+  align-self: flex-start;
+}
+
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle {
   display: inline-flex;
   border: 1px solid var(--fc-border);
@@ -824,31 +879,22 @@
   background: var(--fc-bg-surface);
 }
 
-.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle-option {
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle-btn {
   margin: 0;
-  cursor: pointer;
-}
-
-.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle-option input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle-label {
-  display: block;
-  min-width: 4.5rem;
-  padding: 10px 18px;
+  min-width: 3.5rem;
+  padding: 10px 16px;
+  font-family: inherit;
   font-size: 16px;
   line-height: 1.2;
   text-align: center;
   color: var(--fc-text);
   background: var(--fc-bg-surface);
+  border: none;
+  cursor: pointer;
   user-select: none;
 }
 
-.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle-option:has(input:checked) .fc-calc__amph-toggle-label {
+.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-toggle-btn--active {
   background: var(--fc-blue);
   color: #fff;
   font-weight: 600;
@@ -856,25 +902,16 @@
 
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 16px;
-  padding: 14px 0;
-  border-bottom: 1px dashed var(--fc-border);
-}
-
-.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row:last-child {
+  flex-direction: column;
+  align-items: stretch;
+  align-self: start;
+  gap: 6px;
+  padding: 0;
   border-bottom: none;
-  padding-bottom: 0;
-}
-
-.fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-row:first-child {
-  padding-top: 0;
 }
 
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-label {
-  flex: 1 1 220px;
+  flex: 0 0 auto;
   min-width: 0;
   margin: 0;
   font-size: 15px;
@@ -883,8 +920,9 @@
 }
 
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-control {
-  flex: 0 1 12rem;
+  flex: 1 1 auto;
   min-width: 0;
+  width: 100%;
 }
 
 .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-field-control input[type='number'] {
@@ -899,6 +937,18 @@
 }
 
 @media (max-width: 720px) {
+  .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-age,
+  .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-inputs,
+  .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-prior,
+  .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-grid-reduce {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
   .fc-calc[data-calculator="aminophylline-peds"] .fc-calc__amph-results {
     grid-template-columns: 1fr;
   }
@@ -922,9 +972,10 @@
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">Параметры</h3>
 
-              <div class="fc-calc__amph-age-field">
-                <span class="fc-calc__amph-field-label">Возраст</span>
-                <div class="fc-calc__amph-age-list" role="radiogroup" aria-label="Возраст">
+              <div class="fc-calc__amph-form-grid">
+                <div class="fc-calc__amph-age-field fc-calc__amph-grid-age">
+                  <span class="fc-calc__amph-field-label">Возраст</span>
+                  <div class="fc-calc__amph-age-list" role="radiogroup" aria-label="Возраст">
                 <label class="fc-calc__amph-age-option">
                   <input type="radio" name="age" value="0-3w" required />
                   <span>0 – 3 недели</span>
@@ -945,55 +996,48 @@
                   <input type="radio" name="age" value="9-16y" required />
                   <span>9 – 16 лет</span>
                 </label>
+                  </div>
                 </div>
-              </div>
 
-              <div class="fc-calc__amph-field-row">
-                <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-weight">Вес, кг</label>
-                <div class="fc-calc__amph-field-control">
-                  <input type="number" id="fc-calc-aminophylline-peds-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                <div class="fc-calc__amph-inputs-col fc-calc__amph-grid-inputs">
+                  <div class="fc-calc__amph-field-row">
+                    <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-weight">Вес, кг</label>
+                    <div class="fc-calc__amph-field-control">
+                      <input type="number" id="fc-calc-aminophylline-peds-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                    </div>
+                  </div>
+
+                  <div class="fc-calc__amph-field-row">
+                    <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-hours">Желаемое время введения, часов</label>
+                    <div class="fc-calc__amph-field-control">
+                      <input type="number" id="fc-calc-aminophylline-peds-hours" name="infusionHours" inputmode="decimal" min="0" step="any" placeholder="ч" required />
+                    </div>
+                  </div>
+
+                  <div class="fc-calc__amph-field-row">
+                    <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-volume">Объём раствора после разведения, мл</label>
+                    <div class="fc-calc__amph-field-control">
+                      <input type="number" id="fc-calc-aminophylline-peds-volume" name="dilutionVolume" inputmode="decimal" min="0" step="any" placeholder="мл" required />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="fc-calc__amph-field-row">
-                <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-hours">Желаемое время введения, часов</label>
-                <div class="fc-calc__amph-field-control">
-                  <input type="number" id="fc-calc-aminophylline-peds-hours" name="infusionHours" inputmode="decimal" min="0" step="any" placeholder="ч" required />
+                <div class="fc-calc__amph-field-row fc-calc__amph-grid-prior">
+                  <p class="fc-calc__amph-field-label">Получал ли ребёнок теофиллин в предшествующие 12–24 часа?</p>
+                <input type="hidden" id="fc-calc-aminophylline-peds-priorTheophylline" name="priorTheophylline" value="no" />
+                <div class="fc-calc__amph-toggle" role="radiogroup" data-amph-field="priorTheophylline">
+                  <button type="button" class="fc-calc__amph-toggle-btn fc-calc__amph-toggle-btn--active" data-value="no" aria-pressed="true">Нет</button>
+                  <button type="button" class="fc-calc__amph-toggle-btn" data-value="yes" aria-pressed="false">Да</button>
                 </div>
-              </div>
-
-              <div class="fc-calc__amph-field-row">
-                <label class="fc-calc__amph-field-label" for="fc-calc-aminophylline-peds-volume">Объём раствора после разведения, мл</label>
-                <div class="fc-calc__amph-field-control">
-                  <input type="number" id="fc-calc-aminophylline-peds-volume" name="dilutionVolume" inputmode="decimal" min="0" step="any" placeholder="мл" required />
                 </div>
-              </div>
 
-              <div class="fc-calc__amph-field-row">
-                <p class="fc-calc__amph-field-label">Получал ли ребёнок теофиллин в предшествующие 12–24 часа?</p>
-                <div class="fc-calc__amph-toggle" role="radiogroup">
-                  <label class="fc-calc__amph-toggle-option">
-                    <input type="radio" name="priorTheophylline" value="no" checked required />
-                    <span class="fc-calc__amph-toggle-label">Нет</span>
-                  </label>
-                  <label class="fc-calc__amph-toggle-option">
-                    <input type="radio" name="priorTheophylline" value="yes" required />
-                    <span class="fc-calc__amph-toggle-label">Да</span>
-                  </label>
+                <div class="fc-calc__amph-field-row fc-calc__amph-grid-reduce">
+                  <p class="fc-calc__amph-field-label">Сердечная недостаточность или патология печени или приём эритромицина?</p>
+                <input type="hidden" id="fc-calc-aminophylline-peds-reduceMaintenance" name="reduceMaintenance" value="no" />
+                <div class="fc-calc__amph-toggle" role="radiogroup" data-amph-field="reduceMaintenance">
+                  <button type="button" class="fc-calc__amph-toggle-btn fc-calc__amph-toggle-btn--active" data-value="no" aria-pressed="true">Нет</button>
+                  <button type="button" class="fc-calc__amph-toggle-btn" data-value="yes" aria-pressed="false">Да</button>
                 </div>
-              </div>
-
-              <div class="fc-calc__amph-field-row">
-                <p class="fc-calc__amph-field-label">Сердечная недостаточность или патология печени или приём эритромицина?</p>
-                <div class="fc-calc__amph-toggle" role="radiogroup">
-                  <label class="fc-calc__amph-toggle-option">
-                    <input type="radio" name="reduceMaintenance" value="no" checked required />
-                    <span class="fc-calc__amph-toggle-label">Нет</span>
-                  </label>
-                  <label class="fc-calc__amph-toggle-option">
-                    <input type="radio" name="reduceMaintenance" value="yes" required />
-                    <span class="fc-calc__amph-toggle-label">Да</span>
-                  </label>
                 </div>
               </div>
             </div>
@@ -1001,6 +1045,10 @@
 
           <span class="fc-calc__error" id="fc-calc-aminophylline-peds-form-error" role="alert"></span>
         </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-aminophylline-peds-btn" class="fc-calc__btn" form="fc-calc-aminophylline-peds-form">Рассчитать</button>
       </div>
 
       <div class="fc-calc__result-wrap fc-calc__amph-results fc-calc__result-wrap--hidden" id="fc-calc-aminophylline-peds-results" aria-live="polite">
@@ -1064,7 +1112,7 @@
         </div>
         <p>У детей с сердечной недостаточностью, патологией печени и получающих эритромицин поддерживающую дозу уменьшают в 2 раза.</p>
         <p><strong>Противопоказания:</strong> применение эуфиллина, особенно внутривенное введение, противопоказано при резко пониженном артериальном давлении, пароксизмальной тахикардии и экстрасистолии. Не следует также применять препарат при сердечной недостаточности, особенно связанной с инфарктом миокарда, когда имеется коронарная недостаточность и нарушение сердечного ритма.</p>
-        <p class="fc-calc__hint">Источник: <a href="https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html" target="_blank" rel="noopener noreferrer">Медвестник</a></p>
+        <p><strong>Источники:</strong> на основании клинического протокола «Оказание экстренной и неотложной медицинской помощи пациентам детского возраста» (утверждён постановлением Министерства здравоохранения Республики Беларусь от 17.08.2023 № 118); <a href="https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html" target="_blank" rel="noopener noreferrer">Medvestnik</a>.</p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
@@ -1082,8 +1130,6 @@
       if (!root) return;
 
       var MG_PER_ML = 24;
-      var LOADING_DILUTION_ML = 50;
-      var LOADING_INFUSION_MIN = 30;
       var LOADING_DOSE_NO_PRIOR = 3;
       var LOADING_DOSE_PRIOR = 6;
 
@@ -1096,6 +1142,7 @@
       };
 
       var form = root.querySelector('#fc-calc-aminophylline-peds-form');
+      var calcBtn = root.querySelector('#fc-calc-aminophylline-peds-btn');
       var weightInput = root.querySelector('#fc-calc-aminophylline-peds-weight');
       var hoursInput = root.querySelector('#fc-calc-aminophylline-peds-hours');
       var volumeInput = root.querySelector('#fc-calc-aminophylline-peds-volume');
@@ -1120,27 +1167,66 @@
         return Number.isFinite(n) && n > 0 ? n : null;
       }
 
-      function formatNum(n, decimals) {
+      function formatNum(n) {
         return String(n).replace('.', ',');
       }
 
       function getAge() {
-        var checked = form.querySelector('input[name="age"]:checked');
+        var checked = root.querySelector('input[name="age"]:checked');
         return checked ? checked.value : null;
       }
 
-      function getBool(name) {
-        var checked = form.querySelector('input[name="' + name + '"]:checked');
-        if (!checked) return null;
-        return checked.value === 'yes';
+      function getBool(field) {
+        var hidden = root.querySelector('#fc-calc-aminophylline-peds-' + field);
+        if (!hidden) return null;
+        if (hidden.value === 'yes') return true;
+        if (hidden.value === 'no') return false;
+        return null;
+      }
+
+      function setToggleValue(field, value) {
+        var hidden = root.querySelector('#fc-calc-aminophylline-peds-' + field);
+        var group = root.querySelector('.fc-calc__amph-toggle[data-amph-field="' + field + '"]');
+        if (!hidden || !group) return;
+        hidden.value = value;
+        group.querySelectorAll('.fc-calc__amph-toggle-btn').forEach(function (btn) {
+          var active = btn.getAttribute('data-value') === value;
+          btn.classList.toggle('fc-calc__amph-toggle-btn--active', active);
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+      }
+
+      function initToggles() {
+        root.querySelectorAll('.fc-calc__amph-toggle[data-amph-field]').forEach(function (group) {
+          var field = group.getAttribute('data-amph-field');
+          group.querySelectorAll('.fc-calc__amph-toggle-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              setToggleValue(field, btn.getAttribute('data-value'));
+              onInputChange();
+            });
+          });
+        });
       }
 
       function hideResults() {
         resultsWrap.classList.add('fc-calc__result-wrap--hidden');
       }
 
-      function showResults() {
-        resultsWrap.classList.remove('fc-calc__result-wrap--hidden');
+      function isReady() {
+        return (
+          !!getAge() &&
+          parsePositive(weightInput.value) != null &&
+          parsePositive(hoursInput.value) != null &&
+          parsePositive(volumeInput.value) != null &&
+          getBool('priorTheophylline') != null &&
+          getBool('reduceMaintenance') != null
+        );
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
       }
 
       function calculate() {
@@ -1166,50 +1252,53 @@
         var loadingMgKg = priorTheophylline ? LOADING_DOSE_PRIOR : LOADING_DOSE_NO_PRIOR;
         var loadingMg = roundHalfUp(weight * loadingMgKg, 1);
         var loadingMl = roundHalfUp((weight * loadingMgKg) / MG_PER_ML, 2);
-        var loadingRate = roundHalfUp(LOADING_DILUTION_ML / (LOADING_INFUSION_MIN / 60), 0);
 
         var maintenanceRate = rate;
         if (reduceMaintenance) maintenanceRate /= 2;
 
-        var maintenanceMg = roundHalfUp(weight * maintenanceRate, 2);
-        var maintenanceMl = roundHalfUp((weight * maintenanceRate) / MG_PER_ML, 2);
+        var maintenanceMg = roundHalfUp(weight * maintenanceRate * hours, 2);
+        var maintenanceMl = roundHalfUp((weight * maintenanceRate * hours) / MG_PER_ML, 2);
         var infusionRate = roundHalfUp(volume / hours, 1);
 
         return {
           loadingMg: loadingMg,
           loadingMl: loadingMl,
-          loadingRate: loadingRate,
           maintenanceMg: maintenanceMg,
           maintenanceMl: maintenanceMl,
           infusionRate: infusionRate,
         };
       }
 
-      function updateResults() {
+      function onInputChange() {
+        formError.textContent = '';
+        hideResults();
+        updateButton();
+      }
+
+      initToggles();
+      form.addEventListener('change', onInputChange);
+      form.addEventListener('input', onInputChange);
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
         formError.textContent = '';
         var out = calculate();
         if (!out) {
+          formError.textContent = 'Заполните все поля';
           hideResults();
           return;
         }
 
-        showResults();
-        loadingMgEl.textContent = formatNum(out.loadingMg, 1) + ' мг';
-        loadingMlEl.textContent = formatNum(out.loadingMl, 2) + ' мл';
-        maintenanceMgEl.textContent = formatNum(out.maintenanceMg, 2) + ' мг';
-        maintenanceMlEl.textContent = formatNum(out.maintenanceMl, 2) + ' мл';
-        infusionRateEl.textContent = formatNum(out.infusionRate, 1) + ' мл/час';
-      }
-
-      form.addEventListener('change', updateResults);
-      form.addEventListener('input', updateResults);
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        updateResults();
+        loadingMgEl.textContent = formatNum(out.loadingMg) + ' мг';
+        loadingMlEl.textContent = formatNum(out.loadingMl) + ' мл';
+        maintenanceMgEl.textContent = formatNum(out.maintenanceMg) + ' мг';
+        maintenanceMlEl.textContent = formatNum(out.maintenanceMl) + ' мл';
+        infusionRateEl.textContent = formatNum(out.infusionRate) + ' мл/час';
+        resultsWrap.classList.remove('fc-calc__result-wrap--hidden');
       });
 
       hideResults();
+      updateButton();
     })();
   </script>
 </div>

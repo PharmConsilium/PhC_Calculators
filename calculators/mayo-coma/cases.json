@@ -1,36 +1,46 @@
 {
   "slug": "mayo-coma",
-  "source": "medvestnik.ru/calculators/mayo.html, FOUR score Wijdicks 2005",
+  "source": "https://medsoftpro.ru/kalkulyatory/four-scale",
   "cases": [
     {
       "name": "maximum score",
       "input": { "eye": 4, "motor": 4, "brainstem": 4, "respiration": 4 },
-      "expected": { "total": 16, "category": "clear", "status": "OK" }
+      "expected": { "total": 16, "category": "clear", "interpretation": "Ясное сознание", "status": "OK" }
     },
     {
       "name": "somnolence 15",
       "input": { "eye": 4, "motor": 4, "brainstem": 4, "respiration": 3 },
-      "expected": { "total": 15, "category": "somnolence", "status": "OK" }
+      "expected": { "total": 15, "category": "somnolence", "interpretation": "Сомноленция", "status": "OK" }
     },
     {
       "name": "stupor 14",
       "input": { "eye": 4, "motor": 4, "brainstem": 3, "respiration": 3 },
-      "expected": { "total": 14, "category": "stupor", "status": "OK" }
+      "expected": { "total": 14, "category": "stupor", "interpretation": "Оглушение", "status": "OK" }
+    },
+    {
+      "name": "stupor 13",
+      "input": { "eye": 4, "motor": 3, "brainstem": 3, "respiration": 3 },
+      "expected": { "total": 13, "category": "stupor", "interpretation": "Оглушение", "status": "OK" }
     },
     {
       "name": "sopor 10",
       "input": { "eye": 3, "motor": 3, "brainstem": 2, "respiration": 2 },
-      "expected": { "total": 10, "category": "sopor", "status": "OK" }
+      "expected": { "total": 10, "category": "sopor", "interpretation": "Сопор", "status": "OK" }
     },
     {
       "name": "coma 6",
       "input": { "eye": 2, "motor": 2, "brainstem": 1, "respiration": 1 },
-      "expected": { "total": 6, "category": "coma", "status": "OK" }
+      "expected": { "total": 6, "category": "coma", "interpretation": "Кома", "status": "OK" }
     },
     {
-      "name": "brain death 3",
+      "name": "deep coma 3",
       "input": { "eye": 1, "motor": 1, "brainstem": 1, "respiration": 0 },
-      "expected": { "total": 3, "category": "brain-death", "status": "OK" }
+      "expected": { "total": 3, "category": "coma", "interpretation": "Кома", "status": "OK" }
+    },
+    {
+      "name": "brain death 0",
+      "input": { "eye": 0, "motor": 0, "brainstem": 0, "respiration": 0 },
+      "expected": { "total": 0, "category": "brain-death", "interpretation": "Смерть мозга", "status": "OK" }
     }
   ]
 }

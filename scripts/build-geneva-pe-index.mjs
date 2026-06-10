@@ -115,7 +115,6 @@ ${renderRows()}
           </table>
         </div>
         <p>Для оценки риска ТЭЛА также используют <a href="https://farmconsilium.com/calculator/wells-pe" target="_blank" rel="noopener noreferrer">шкалу Уэллса</a> и шкалу PESI.</p>
-        <p class="fc-calc__hint">Источник: <a href="https://bymed.top/calc/geneva-2180" target="_blank" rel="noopener noreferrer">ByMed — Женевская шкала (индекс Geneva)</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

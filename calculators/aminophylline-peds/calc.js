@@ -67,8 +67,10 @@ export function aminophyllinePeds(input) {
     maintenanceRateMgKgH /= 2;
   }
 
-  const maintenanceMgH = weight * maintenanceRateMgKgH;
-  const maintenanceMlH = maintenanceMgH / MG_PER_ML;
+  const maintenanceMgPerH = weight * maintenanceRateMgKgH;
+  const maintenanceMlPerH = maintenanceMgPerH / MG_PER_ML;
+  const maintenanceMg = maintenanceMgPerH * infusionHours;
+  const maintenanceMl = maintenanceMg / MG_PER_ML;
   const maintenanceInfusionRateMlH = dilutionVolume / infusionHours;
 
   return {
@@ -78,8 +80,10 @@ export function aminophyllinePeds(input) {
     loadingMg: roundHalfUp(loadingMg, 1),
     loadingMl: roundHalfUp(loadingMl, 2),
     loadingRateMlH: roundHalfUp(loadingRateMlH, 0),
-    maintenanceMgH: roundHalfUp(maintenanceMgH, 2),
-    maintenanceMlH: roundHalfUp(maintenanceMlH, 2),
+    maintenanceMg: roundHalfUp(maintenanceMg, 2),
+    maintenanceMl: roundHalfUp(maintenanceMl, 2),
+    maintenanceMgPerH: roundHalfUp(maintenanceMgPerH, 2),
+    maintenanceMlPerH: roundHalfUp(maintenanceMlPerH, 2),
     maintenanceInfusionRateMlH: roundHalfUp(maintenanceInfusionRateMlH, 1),
     priorTheophylline,
     reduceMaintenance,

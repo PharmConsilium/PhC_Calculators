@@ -182,7 +182,6 @@ ${renderCardiotonicTable()}
             </tbody>
           </table>
         </div>
-        <p class="fc-calc__hint">Источник: <a href="https://bymed.top/calc/%D0%B8%D0%BD%D1%84%D1%83%D0%B7%D0%BE%D0%BC%D0%B0%D1%82-658" target="_blank" rel="noopener noreferrer">ByMed — инфузомат</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

@@ -140,7 +140,7 @@ ${extra.trim()}
           <li>Bilan N., Dastranji A., Ghalehgolab Behbahani A. Comparison of the spo2/fio2 ratio and the pao2/fio2 ratio in patients with acute lung injury or acute respiratory distress syndrome. <em>J Cardiovasc Thorac Res.</em> 2015;7(1):28-31.</li>
           <li>Hsu-Ching Kao, Ting-Yu Lai, Heui-Ling Hung. Sequential Oxygenation Index and Organ Dysfunction Assessment within the First 3 Days of Mechanical Ventilation Predict the Outcome of Adult Patients with Severe Acute Respiratory Failure. <em>ScientificWorldJournal</em>, 2013.</li>
         </ol>
-        <p class="fc-calc__hint">Справочно. Не заменяет осмотр врача.</p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
   </div>

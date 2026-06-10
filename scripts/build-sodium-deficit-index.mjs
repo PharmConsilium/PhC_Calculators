@@ -119,7 +119,6 @@ ${renderGenderRadios()}
         <p><strong>Используемое уравнение:</strong></p>
         <p>Дефицит натрия = Пол × Норм. вес × (Желаемый натрий − Натрий сыворотки)</p>
         <p>Цифры в скобках у вариантов пола — дискретные коэффициенты, используемые в расчёте.</p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%94%D0%B5%D1%84%D0%B8%D1%86%D0%B8%D1%82%20%D0%BD%D0%B0%D1%82%D1%80%D0%B8%D1%8F%20%D0%BF%D1%80%D0%B8%20%D0%B3%D0%B8%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%80%D0%B8%D0%B5%D0%BC%D0%B8%D0%B8" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

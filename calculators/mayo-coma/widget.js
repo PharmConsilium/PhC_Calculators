@@ -26,11 +26,11 @@
       }
 
       function interpret(total) {
-        if (total === 16) return { category: 'clear', text: 'Сознание ясное' };
+        if (total === 16) return { category: 'clear', text: 'Ясное сознание' };
         if (total === 15) return { category: 'somnolence', text: 'Сомноленция' };
-        if (total === 14) return { category: 'stupor', text: 'Оглушение' };
-        if (total >= 9 && total <= 13) return { category: 'sopor', text: 'Сопор' };
-        if (total >= 4 && total <= 8) return { category: 'coma', text: 'Кома' };
+        if (total >= 13) return { category: 'stupor', text: 'Оглушение' };
+        if (total >= 9) return { category: 'sopor', text: 'Сопор' };
+        if (total >= 1) return { category: 'coma', text: 'Кома' };
         return { category: 'brain-death', text: 'Смерть мозга' };
       }
 

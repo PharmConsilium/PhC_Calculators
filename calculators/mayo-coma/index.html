@@ -1,6 +1,6 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Шкала комы Мэйо
+  Название: Шкала комы FOUR
 -->
 <div class="fc-calc" data-calculator="mayo-coma">
   <style>
@@ -149,7 +149,8 @@
   line-height: 1.45;
   color: #263048;
   opacity: 1;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 34rem;
   text-align: center;
 }
 
@@ -641,6 +642,79 @@
   border-color: var(--fc-blue);
   box-shadow: inset 0 0 0 2px var(--fc-blue);
 }
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
 /* mayo-coma (FOUR): списки вариантов */
 .fc-calc[data-calculator="mayo-coma"] .fc-calc__four-groups {
   display: flex;
@@ -714,12 +788,62 @@
 }
 
 .fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option-text {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px 14px;
   font-size: 16px;
   line-height: 1.4;
   color: var(--fc-text);
   text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-option-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-points {
+  flex: 0 0 auto;
+  font-weight: 600;
+  color: var(--fc-text-muted, #5c6370);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 94, 236, 0.22);
+  border-radius: var(--fc-radius);
+  background: rgba(0, 94, 236, 0.06);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-title {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table th,
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table td {
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  text-align: left;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__four-guide-table th {
+  background: var(--fc-bg-surface);
+  font-weight: 600;
 }
 
 .fc-calc[data-calculator="mayo-coma"] .fc-calc__result-number--clear {
@@ -770,6 +894,23 @@
   text-align: left;
 }
 
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__sources {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+
+.fc-calc[data-calculator="mayo-coma"] .fc-calc__source-item {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: 8px;
+}
+
 .fc-calc[data-calculator="mayo-coma"] .fc-calc__coma-block {
   margin: 14px 0;
 }
@@ -783,110 +924,170 @@
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Шкала комы Мэйо</h2>
-        <p class="fc-calc__hint">FOUR (Full Outline of UnResponsiveness) — оценка уровня сознания у в том числе интубированных пациентов</p>
+        <h2 class="fc-calc__title">Шкала комы FOUR</h2>
+        <p class="fc-calc__hint">Шкала комы FOUR служит для градации глубины комы у интубированных больных, так как оценить рефлексы ствола головного мозга или речевую реакцию в данных случаях при помощи шкалы комы Глазго не представляется возможным</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-mayo-coma-form" novalidate>
           <div class="fc-calc__four-groups">
             <fieldset class="fc-calc__four-group">
-              <legend class="fc-calc__four-legend">Глазные реакции (E)</legend>
+              <legend class="fc-calc__four-legend">1. Глазные реакции (E)</legend>
               <div class="fc-calc__four-options">
                 <label class="fc-calc__four-option">
                   <input type="radio" name="eye" value="4" />
-                  <span class="fc-calc__four-option-text">Глаза открыты, слежение и мигание по команде</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">глаза открыты, слежение и мигание по команде</span>
+                    <span class="fc-calc__four-points">+4</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="eye" value="3" />
-                  <span class="fc-calc__four-option-text">Глаза открыты, но нет слежения</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">глаза открыты, но нет слежения</span>
+                    <span class="fc-calc__four-points">+3</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="eye" value="2" />
-                  <span class="fc-calc__four-option-text">Глаза закрыты, открываются на громкий звук, но слежения нет</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">глаза закрыты, открываются на громкий звук, но слежения нет</span>
+                    <span class="fc-calc__four-points">+2</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="eye" value="1" />
-                  <span class="fc-calc__four-option-text">Глаза закрыты, открываются на боль, но слежения нет</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">глаза закрыты, открываются на боль, но слежения нет</span>
+                    <span class="fc-calc__four-points">+1</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="eye" value="0" />
-                  <span class="fc-calc__four-option-text">Глаза остаются закрытыми в ответ на боль</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">глаза остаются закрытыми в ответ на боль</span>
+                    <span class="fc-calc__four-points">0</span>
+                  </span>
                 </label>
               </div>
             </fieldset>
             <fieldset class="fc-calc__four-group">
-              <legend class="fc-calc__four-legend">Двигательные реакции (M)</legend>
+              <legend class="fc-calc__four-legend">2. Двигательные реакции (M)</legend>
               <div class="fc-calc__four-options">
                 <label class="fc-calc__four-option">
                   <input type="radio" name="motor" value="4" />
-                  <span class="fc-calc__four-option-text">Выполняет команды (знак отлично, кулак, знак мира)</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">выполняет команды (знак отлично, кулак, знак мира)</span>
+                    <span class="fc-calc__four-points">+4</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="motor" value="3" />
-                  <span class="fc-calc__four-option-text">Локализует боль</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">локализует боль</span>
+                    <span class="fc-calc__four-points">+3</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="motor" value="2" />
-                  <span class="fc-calc__four-option-text">Сгибательный ответ на боль</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">сгибательный ответ на боль</span>
+                    <span class="fc-calc__four-points">+2</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="motor" value="1" />
-                  <span class="fc-calc__four-option-text">Разгибательная поза на боль</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">разгибательная поза на боль</span>
+                    <span class="fc-calc__four-points">+1</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="motor" value="0" />
-                  <span class="fc-calc__four-option-text">Нет ответа на боль или генерализованный миоклонический эпистатус</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">нет ответа на боль или генерализованный миоклонический эпистатус</span>
+                    <span class="fc-calc__four-points">0</span>
+                  </span>
                 </label>
               </div>
             </fieldset>
             <fieldset class="fc-calc__four-group">
-              <legend class="fc-calc__four-legend">Стволовые рефлексы (B)</legend>
+              <legend class="fc-calc__four-legend">3. Стволовые рефлексы (B)</legend>
               <div class="fc-calc__four-options">
                 <label class="fc-calc__four-option">
                   <input type="radio" name="brainstem" value="4" />
-                  <span class="fc-calc__four-option-text">Зрачковый и роговичный рефлексы сохранены</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">зрачковый и корнеальный рефлексы сохранены</span>
+                    <span class="fc-calc__four-points">+4</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="brainstem" value="3" />
-                  <span class="fc-calc__four-option-text">Один зрачок расширен и не реагирует на свет</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">один зрачок расширен и не реагирует на свет</span>
+                    <span class="fc-calc__four-points">+3</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="brainstem" value="2" />
-                  <span class="fc-calc__four-option-text">Зрачковый или роговичный рефлекс отсутствует</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">зрачковый или роговичный рефлексы отсутствуют</span>
+                    <span class="fc-calc__four-points">+2</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="brainstem" value="1" />
-                  <span class="fc-calc__four-option-text">Зрачковый и роговичный рефлексы отсутствуют</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">зрачковый и роговичный рефлексы отсутствуют</span>
+                    <span class="fc-calc__four-points">+1</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="brainstem" value="0" />
-                  <span class="fc-calc__four-option-text">Отсутствуют зрачковый, роговичный и кашлевой рефлексы</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">отсутствуют зрачковый, роговичный и кашлевой рефлексы</span>
+                    <span class="fc-calc__four-points">0</span>
+                  </span>
                 </label>
               </div>
             </fieldset>
             <fieldset class="fc-calc__four-group">
-              <legend class="fc-calc__four-legend">Дыхательный паттерн (R)</legend>
+              <legend class="fc-calc__four-legend">4. Дыхательный паттерн (R)</legend>
               <div class="fc-calc__four-options">
                 <label class="fc-calc__four-option">
                   <input type="radio" name="respiration" value="4" />
-                  <span class="fc-calc__four-option-text">Не интубирован, регулярное дыхание</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">не интубирован, регулярное дыхание</span>
+                    <span class="fc-calc__four-points">+4</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="respiration" value="3" />
-                  <span class="fc-calc__four-option-text">Не интубирован, дыхание Чейн–Стокса</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">не интубирован, дыхание Чейн–Стокса</span>
+                    <span class="fc-calc__four-points">+3</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="respiration" value="2" />
-                  <span class="fc-calc__four-option-text">Не интубирован, нерегулярное дыхание</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">не интубирован, нерегулярное дыхание</span>
+                    <span class="fc-calc__four-points">+2</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="respiration" value="1" />
-                  <span class="fc-calc__four-option-text">Сопротивляется аппарату ИВЛ</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">сопротивляется аппарату ИВЛ</span>
+                    <span class="fc-calc__four-points">+1</span>
+                  </span>
                 </label>
                 <label class="fc-calc__four-option">
                   <input type="radio" name="respiration" value="0" />
-                  <span class="fc-calc__four-option-text">Полностью синхронен с аппаратом ИВЛ или апноэ</span>
+                  <span class="fc-calc__four-option-text">
+                    <span class="fc-calc__four-option-label">полностью синхронен с аппаратом ИВЛ или апноэ</span>
+                    <span class="fc-calc__four-points">0</span>
+                  </span>
                 </label>
               </div>
             </fieldset>
@@ -899,7 +1100,7 @@
       </div>
 
       <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-mayo-coma-result" aria-live="polite">
-        <p class="fc-calc__result-label">Общий результат</p>
+        <p class="fc-calc__result-label">Результат:</p>
         <p class="fc-calc__result-number" id="fc-calc-mayo-coma-result-number">—</p>
         <p class="fc-calc__result-desc" id="fc-calc-mayo-coma-result-desc"></p>
       </div>
@@ -911,177 +1112,139 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p>Шкала разработана в 2005 году в клинике Mayo. В англоязычной литературе упоминается как шкала Full Outline of UnResponsiveness (FOUR).</p>
-        <p><strong>Оценка по баллам:</strong></p>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table">
-            <thead>
-              <tr>
-                <th>Баллы</th>
-                <th>Интерпретация</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>16</td><td>сознание ясное</td></tr>
-              <tr><td>15</td><td>сомноленция</td></tr>
-              <tr><td>14</td><td>оглушение</td></tr>
-              <tr><td>9–12</td><td>сопор</td></tr>
-              <tr><td>4–8</td><td>кома</td></tr>
-              <tr><td>0–3</td><td>смерть мозга</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p>Преимущество по сравнению со шкалой комы Глазго: не надо добиваться речевого контакта у интубированного или трахеостомированного пациента.</p>
+        <p><strong>Шкала комы FOUR</strong> (Full Outline of UnResponsiveness) имеет преимущества перед шкалой комы Глазго: точнее детализирует неврологический статус, распознаёт синдром запертого человека, даёт оценку рефлексам ствола мозга и дыхательному паттерну, выявляет различные стадии дислокации (вклинения) мозга.</p>
+        <p>Шкала включает 4 параметра с максимальной оценкой «4» по каждому: глазные реакции (открывание глаз и слежение), двигательные реакции (ответ на боль и выполнение простых команд), стволовые рефлексы (зрачковый, роговичный и кашлевой) и дыхательные паттерны (ритм дыхания и дыхательные попытки у пациентов на аппарате ИВЛ). Разработана в Mayo Clinic (Э. Ф. Виджикс и соавт., 2005).</p>
         <div class="fc-calc__table-wrap">
           <table class="fc-calc__table">
             <thead>
               <tr>
                 <th>Критерий</th>
                 <th>Ответная реакция</th>
-                <th>Оценка</th>
+                <th>Баллы</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="fc-calc__table-criterion" rowspan="5">Глазные реакции</td>
-                <td>Глаза открыты, слежение и мигание по команде</td>
+                <td class="fc-calc__table-criterion" rowspan="5">Глазные реакции (E)</td>
+                <td>глаза открыты, слежение и мигание по команде</td>
                 <td>4</td>
               </tr>
               <tr>
                 
-                <td>Глаза открыты, но нет слежения</td>
+                <td>глаза открыты, но нет слежения</td>
                 <td>3</td>
               </tr>
               <tr>
                 
-                <td>Глаза закрыты, открываются на громкий звук, но слежения нет</td>
+                <td>глаза закрыты, открываются на громкий звук, но слежения нет</td>
                 <td>2</td>
               </tr>
               <tr>
                 
-                <td>Глаза закрыты, открываются на боль, но слежения нет</td>
+                <td>глаза закрыты, открываются на боль, но слежения нет</td>
                 <td>1</td>
               </tr>
               <tr>
                 
-                <td>Глаза остаются закрытыми в ответ на боль</td>
+                <td>глаза остаются закрытыми в ответ на боль</td>
                 <td>0</td>
               </tr>
               <tr>
-                <td class="fc-calc__table-criterion" rowspan="5">Двигательные реакции</td>
-                <td>Выполняет команды (знак отлично, кулак, знак мира)</td>
+                <td class="fc-calc__table-criterion" rowspan="5">Двигательные реакции (M)</td>
+                <td>выполняет команды (знак отлично, кулак, знак мира)</td>
                 <td>4</td>
               </tr>
               <tr>
                 
-                <td>Локализует боль</td>
+                <td>локализует боль</td>
                 <td>3</td>
               </tr>
               <tr>
                 
-                <td>Сгибательный ответ на боль</td>
+                <td>сгибательный ответ на боль</td>
                 <td>2</td>
               </tr>
               <tr>
                 
-                <td>Разгибательная поза на боль</td>
+                <td>разгибательная поза на боль</td>
                 <td>1</td>
               </tr>
               <tr>
                 
-                <td>Нет ответа на боль или генерализованный миоклонический эпистатус</td>
+                <td>нет ответа на боль или генерализованный миоклонический эпистатус</td>
                 <td>0</td>
               </tr>
               <tr>
-                <td class="fc-calc__table-criterion" rowspan="5">Стволовые рефлексы</td>
-                <td>Зрачковый и роговичный рефлексы сохранены</td>
+                <td class="fc-calc__table-criterion" rowspan="5">Стволовые рефлексы (B)</td>
+                <td>зрачковый и корнеальный рефлексы сохранены</td>
                 <td>4</td>
               </tr>
               <tr>
                 
-                <td>Один зрачок расширен и не реагирует на свет</td>
+                <td>один зрачок расширен и не реагирует на свет</td>
                 <td>3</td>
               </tr>
               <tr>
                 
-                <td>Зрачковый или роговичный рефлекс отсутствует</td>
+                <td>зрачковый или роговичный рефлексы отсутствуют</td>
                 <td>2</td>
               </tr>
               <tr>
                 
-                <td>Зрачковый и роговичный рефлексы отсутствуют</td>
+                <td>зрачковый и роговичный рефлексы отсутствуют</td>
                 <td>1</td>
               </tr>
               <tr>
                 
-                <td>Отсутствуют зрачковый, роговичный и кашлевой рефлексы</td>
+                <td>отсутствуют зрачковый, роговичный и кашлевой рефлексы</td>
                 <td>0</td>
               </tr>
               <tr>
-                <td class="fc-calc__table-criterion" rowspan="5">Дыхательный паттерн</td>
-                <td>Не интубирован, регулярное дыхание</td>
+                <td class="fc-calc__table-criterion" rowspan="5">Дыхательный паттерн (R)</td>
+                <td>не интубирован, регулярное дыхание</td>
                 <td>4</td>
               </tr>
               <tr>
                 
-                <td>Не интубирован, дыхание Чейн–Стокса</td>
+                <td>не интубирован, дыхание Чейн–Стокса</td>
                 <td>3</td>
               </tr>
               <tr>
                 
-                <td>Не интубирован, нерегулярное дыхание</td>
+                <td>не интубирован, нерегулярное дыхание</td>
                 <td>2</td>
               </tr>
               <tr>
                 
-                <td>Сопротивляется аппарату ИВЛ</td>
+                <td>сопротивляется аппарату ИВЛ</td>
                 <td>1</td>
               </tr>
               <tr>
                 
-                <td>Полностью синхронен с аппаратом ИВЛ или апноэ</td>
+                <td>полностью синхронен с аппаратом ИВЛ или апноэ</td>
                 <td>0</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="fc-calc__coma-block">
-          <p class="fc-calc__coma-block-title">Кома I (умеренная)</p>
-          <ul>
-            <li>Пациент неразбудим</li>
-            <li>На болевые раздражения отмечаются некоординированные защитные движения (по типу отдергивания конечностей)</li>
-            <li>Иногда спонтанное двигательное беспокойство</li>
-            <li>Зрачковые и роговичные рефлексы обычно сохранены</li>
-            <li>Гемодинамика и дыхание относительно стабильны</li>
-            <li>ЭЭГ: диффузные изменения в виде нерегулярного альфа-ритма, медленной биоэлектрической активности</li>
-          </ul>
-        </div>
-        <div class="fc-calc__coma-block">
-          <p class="fc-calc__coma-block-title">Кома II (глубокая)</p>
-          <ul>
-            <li>Отсутствуют защитные реакции на боль</li>
-            <li>Патологические сгибательные или разгибательные движения</li>
-            <li>Мышечный тонус от гипер- до гипотонии, возможна диссоциация по оси тела</li>
-            <li>Отмечается снижение стволовых рефлексов</li>
-            <li>ЭЭГ: альфа-ритм отсутствует, преобладает медленноволновая активность</li>
-          </ul>
-        </div>
-        <div class="fc-calc__coma-block">
-          <p class="fc-calc__coma-block-title">Кома III (терминальная)</p>
-          <ul>
-            <li>Мышечная атония</li>
-            <li>Арефлексия (сухожильные рефлексы могут вызываться со спинального уровня)</li>
-            <li>Угнетение всех стволовых рефлексов (отсутствуют зрачковые, роговичные рефлексы, нет окулоцефалического рефлекса)</li>
-            <li>Выраженное нарушение гемодинамики (тенденция к гипотензии), диспноэ</li>
-            <li>ЭЭГ: редкие медленные волны</li>
-          </ul>
-        </div>
-        <p><strong>Источники:</strong></p>
-        <div class="fc-calc__sources">
-          <p class="fc-calc__source-item">1. Wijdicks EF, Bamlet WR, Maramattom BV, Manno EM, McClelland RL. (2005) Validation of a new coma scale: The FOUR score. <em>Ann Neurol</em>; 58(4):585-93.</p>
-          <p class="fc-calc__source-item">2. Iyer VN, Mandrekar JN, Danielson RD, Zubkov AY, Elmer JL, Wijdicks EF. (2009) Validity of the FOUR score coma scale in the medical intensive care unit. <em>Mayo Clin Proc</em>; 84(8):694-701.</p>
-          <p class="fc-calc__source-item">3. Bruno MA, Ledoux D et al. (2011) Comparison of the Full Outline of UnResponsiveness and Glasgow Liege Scale/Glasgow Coma Scale in an intensive care unit population. <em>Neurocrit Care</em>; 15(3):447-53.</p>
-          <p class="fc-calc__source-item">4. Fischer M, Rüegg S, Czaplinski A et al. (2010) Inter-rater reliability of the Full Outline of UnResponsiveness score and the Glasgow Coma Scale in critically ill patients: a prospective observational study. <em>Crit Care</em>; 14(2):R64.</p>
+        <div class="fc-calc__four-guide" aria-label="Интерпретация результатов">
+          <p class="fc-calc__four-guide-title">Интерпретация полученных результатов</p>
+          <table class="fc-calc__four-guide-table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr><td>Ясное сознание</td><td>16</td></tr>
+                <tr><td>Сомноленция</td><td>15</td></tr>
+                <tr><td>Оглушение</td><td>13–14</td></tr>
+                <tr><td>Сопор</td><td>9–12</td></tr>
+                <tr><td>Кома</td><td>4–8</td></tr>
+                <tr><td>Смерть мозга</td><td>0</td></tr>
+            </tbody>
+          </table>
         </div>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
@@ -1123,11 +1286,11 @@
       }
 
       function interpret(total) {
-        if (total === 16) return { category: 'clear', text: 'Сознание ясное' };
+        if (total === 16) return { category: 'clear', text: 'Ясное сознание' };
         if (total === 15) return { category: 'somnolence', text: 'Сомноленция' };
-        if (total === 14) return { category: 'stupor', text: 'Оглушение' };
-        if (total >= 9 && total <= 13) return { category: 'sopor', text: 'Сопор' };
-        if (total >= 4 && total <= 8) return { category: 'coma', text: 'Кома' };
+        if (total >= 13) return { category: 'stupor', text: 'Оглушение' };
+        if (total >= 9) return { category: 'sopor', text: 'Сопор' };
+        if (total >= 1) return { category: 'coma', text: 'Кома' };
         return { category: 'brain-death', text: 'Смерть мозга' };
       }
 

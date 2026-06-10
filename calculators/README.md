@@ -29,11 +29,12 @@ calculators/
 - **`hydro-balance/`** — расчёт гидробаланса (формулы [medsoftpro.ru](https://medsoftpro.ru/kalkulyatory/hydrobalance-calc))
 - **`apgar/`** — шкала Апгар (оценка состояния новорождённого)
 - **`glasgow-coma/`** — шкала комы Глазго (GCS)
-- **`mayo-coma/`** — шкала комы Мэйо (FOUR)
+- **`mayo-coma/`** — шкала комы FOUR (Full Outline of UnResponsiveness, [medsoftpro](https://medsoftpro.ru/kalkulyatory/four-scale))
 - **`gail-breast/`** — модель Гейла, 5-летний риск РМЖ (1999)
 - **`sodium-deficit/`** — дефицит натрия при гипонатриемии (MSD)
 - **`cardiac-output/`** — сердечный выброс по Фику ([medsoftpro](https://medsoftpro.ru/kalkulyatory/cardiac-output))
 - **`wells-pe/`** — шкала Уэллса, вероятность ТЭЛА (MSD)
+- **`wells-scale/`** — шкала Веллса (Wells' Criteria), вероятность ТЭЛА ([medsoftpro](https://medsoftpro.ru/kalkulyatory/wells-scale))
 - **`geneva-pe/`** — Женевская шкала (индекс Geneva), вероятность ТЭЛА ([ByMed](https://bymed.top/calc/geneva-2180))
 - **`pesi-pe/`** — шкала PESI, 30-дневная летальность при ТЭЛА ([ByMed](https://bymed.top/calc/pesi-2188))
 - **`infusomat/`** — доза и скорость на инфузомате ([ByMed](https://bymed.top/calc/%D0%B8%D0%BD%D1%84%D1%83%D0%B7%D0%BE%D0%BC%D0%B0%D1%82-658))
@@ -41,6 +42,11 @@ calculators/
 - **`apache-ii/`** — шкала APACHE II и оценка смертности (Knaus / MSD)
 - **`martin-ldl/`** — расчёт ХС ЛПНП (формулы Мартина-Хопкинса, Сэмпсона, Фридвальда)
 - **`peds-percentiles/`** — процентили в педиатрии (ВОЗ: вес, рост, ИМТ, ОГ, масса при рождении, масса плода, целевой рост)
+- **`ldl-lpa-corr/`** — корригированный ХС ЛНП с учётом липопротеида(а) (NOA)
+- **`macocha/`** — шкала MACOCHA, риск сложной интубации в ОРИТ (anest-rean)
+- **`improve-scale/`** — шкала IMPROVE, риск ТГВ/ТЭЛА у нехирургических больных ([medsoftpro](https://medsoftpro.ru/kalkulyatory/improve-scale))
+- **`caprini-scale/`** — шкала Caprini, риск ВТЭО у хирургических пациентов ([medsoftpro](https://medsoftpro.ru/kalkulyatory/caprini-scale))
+- **`aminophylline-peds/`** — расчёт дозировки эуфиллина у детей до 16 лет ([medvestnik](https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html))
 
 ## Новый калькулятор
 
