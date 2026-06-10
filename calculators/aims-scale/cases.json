@@ -1,0 +1,60 @@
+{
+  "slug": "aims-scale",
+  "source": "https://medsoftpro.ru/kalkulyatory/aims",
+  "cases": [
+    {
+      "name": "aims zero",
+      "input": {
+        "facial": 0, "lips": 0, "jaw": 0, "tongue": 0,
+        "upperLimbs": 0, "lowerLimbs": 0, "trunk": 0,
+        "severity": 0, "disability": 0, "awareness": 0,
+        "dental": 0, "dentures": 0
+      },
+      "expected": {
+        "status": "OK",
+        "movementTotal": 0,
+        "movementCategory": "low",
+        "interpretation": "Низкий балл: 0–6. Двигательные нарушения отсутствуют или минимальны"
+      }
+    },
+    {
+      "name": "aims moderate 10",
+      "input": {
+        "facial": 2, "lips": 1, "jaw": 1, "tongue": 2,
+        "upperLimbs": 1, "lowerLimbs": 2, "trunk": 1,
+        "severity": 2, "disability": 1, "awareness": 1,
+        "dental": 0, "dentures": 0
+      },
+      "expected": {
+        "status": "OK",
+        "movementTotal": 10,
+        "movementCategory": "moderate",
+        "interpretation": "Умеренный балл: 7–14. Умеренные двигательные нарушения"
+      }
+    },
+    {
+      "name": "aims high 15",
+      "input": {
+        "facial": 3, "lips": 2, "jaw": 2, "tongue": 2,
+        "upperLimbs": 2, "lowerLimbs": 2, "trunk": 2,
+        "severity": 3, "disability": 2, "awareness": 2,
+        "dental": 1, "dentures": 1
+      },
+      "expected": {
+        "status": "OK",
+        "movementTotal": 15,
+        "movementCategory": "high",
+        "interpretation": "Высокий балл: ≥15. Выраженные двигательные нарушения"
+      }
+    },
+    {
+      "name": "aims incomplete",
+      "input": { "facial": 1, "lips": 0 },
+      "expected": {
+        "status": "INCOMPLETE",
+        "movementTotal": null,
+        "movementCategory": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,399 @@
+/* mental-status-scales */
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__tab {
+  flex: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="mental-status-scales"] .fc-calc__tab {
+    font-size: 15px;
+  }
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__tab-panel[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-scale-hint {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-section-title {
+  margin: 0 0 12px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: start;
+  padding: 12px 14px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-row:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-label {
+  font-size: 15px;
+  line-height: 1.35;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-hint {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-legend {
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-group-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-option:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-option-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-hint {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-field input[type="number"] {
+  width: 88px;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-unit {
+  font-size: 15px;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value--normal {
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-item {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-title {
+  margin: 0 0 4px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-details {
+  margin: 2px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-education-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-education-list li {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-result-heading {
+  margin: 0 0 12px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown li {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown-score,
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown-choice {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-divider {
+  margin: 0 0 12px;
+  border: none;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value--normal {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary {
+  margin: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary--normal {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary-details {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary-details[hidden] {
+  display: none;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__result-desc {
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__notes-subtitle {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fc-text);
+}

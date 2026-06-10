@@ -111,20 +111,6 @@ ${renderGroups()}
       </summary>
       <div class="fc-calc__notes-body">
         <p>Шкала Caprini является одним из способов оценки опасности развития послеоперационных венозных тромбоэмболических осложнений, используя учёт выраженной в баллах суммы всех индивидуальных предрасполагающих к тромбозу состояний.</p>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table">
-            <thead>
-              <tr>
-                <th>Раздел</th>
-                <th>Критерий</th>
-                <th>Баллы</th>
-              </tr>
-            </thead>
-            <tbody>
-${renderCriteriaRows()}
-            </tbody>
-          </table>
-        </div>
         <p>Интерпретация полученных результатов:</p>
         <div class="fc-calc__table-wrap">
           <table class="fc-calc__table">
@@ -136,6 +122,20 @@ ${renderCriteriaRows()}
             </thead>
             <tbody>
 ${renderInterpRows()}
+            </tbody>
+          </table>
+        </div>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Раздел</th>
+                <th>Критерий</th>
+                <th>Баллы</th>
+              </tr>
+            </thead>
+            <tbody>
+${renderCriteriaRows()}
             </tbody>
           </table>
         </div>

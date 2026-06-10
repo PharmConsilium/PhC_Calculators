@@ -1,0 +1,113 @@
+{
+  "slug": "mental-status-scales",
+  "source": "https://medsoftpro.ru/kalkulyatory/mini-mental-state-examination",
+  "cases": [
+    {
+      "name": "mmse zero",
+      "input": { "scale": "mmse" },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "severe",
+        "interpretation": "Патология"
+      }
+    },
+    {
+      "name": "mmse perfect",
+      "input": {
+        "scale": "mmse",
+        "m1": 1, "m2": 1, "m3": 1, "m4": 1, "m5": 1,
+        "m6": 1, "m7": 1, "m8": 1, "m9": 1, "m10": 1,
+        "m11": 1, "m12": 1, "m13": 1, "m14": 1, "m15": 1,
+        "m16": 1, "m17": 1, "m18": 1, "m19": 1, "m20": 1,
+        "m21": 1, "m22": 1, "m23": 1, "m24": 1, "m25": 1,
+        "m26": 1, "m27": 1, "m28": 1, "m29": 1, "m30": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 30,
+        "category": "normal",
+        "interpretation": "Норма"
+      }
+    },
+    {
+      "name": "mmse moderate 20",
+      "input": {
+        "scale": "mmse",
+        "m1": 1, "m2": 1, "m3": 1, "m4": 1, "m5": 1,
+        "m6": 1, "m7": 1, "m8": 1, "m9": 1, "m10": 1,
+        "m11": 1, "m12": 1, "m13": 1, "m14": 1, "m15": 1,
+        "m16": 1, "m17": 1, "m18": 1, "m19": 1, "m20": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 20,
+        "category": "moderate",
+        "interpretation": "Патология"
+      }
+    },
+    {
+      "name": "fab incomplete",
+      "input": { "scale": "fab", "fab1": 3 },
+      "expected": {
+        "status": "INCOMPLETE",
+        "total": null,
+        "category": null
+      }
+    },
+    {
+      "name": "fab normal 18",
+      "input": {
+        "scale": "fab",
+        "fab1": 3,
+        "fab2_words": 10,
+        "fab3": 3,
+        "fab4": 3,
+        "fab5": 3,
+        "fab6": 3
+      },
+      "expected": {
+        "status": "OK",
+        "total": 18,
+        "category": "normal",
+        "interpretation": "Норма когнитивных функций (лобных долей)"
+      }
+    },
+    {
+      "name": "fab moderate 13",
+      "input": {
+        "scale": "fab",
+        "fab1": 2,
+        "fab2_words": 8,
+        "fab3": 2,
+        "fab4": 2,
+        "fab5": 2,
+        "fab6": 3
+      },
+      "expected": {
+        "status": "OK",
+        "total": 13,
+        "category": "moderate",
+        "interpretation": "Сомнительные результаты / Пограничное состояние"
+      }
+    },
+    {
+      "name": "fab severe 8",
+      "input": {
+        "scale": "fab",
+        "fab1": 2,
+        "fab2_words": 5,
+        "fab3": 1,
+        "fab4": 2,
+        "fab5": 1,
+        "fab6": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 8,
+        "category": "severe",
+        "interpretation": "Подозрение на лобную дисфункцию"
+      }
+    }
+  ]
+}

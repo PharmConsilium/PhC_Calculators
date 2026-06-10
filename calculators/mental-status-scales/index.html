@@ -1,0 +1,2227 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Шкалы оценки психического статуса
+-->
+<div class="fc-calc" data-calculator="mental-status-scales">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* mental-status-scales */
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__tab {
+  flex: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="mental-status-scales"] .fc-calc__tab {
+    font-size: 15px;
+  }
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__tab-panel[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-scale-hint {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-section-title {
+  margin: 0 0 12px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: start;
+  padding: 12px 14px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-row:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-label {
+  font-size: 15px;
+  line-height: 1.35;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-hint {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-legend {
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-group-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-option:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-option-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__dep-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-hint {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-field input[type="number"] {
+  width: 88px;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-fluency-unit {
+  font-size: 15px;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-score-value--normal {
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-item {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-title {
+  margin: 0 0 4px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-interp-details {
+  margin: 2px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-education-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__mss-education-list li {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-result-heading {
+  margin: 0 0 12px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown li {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown-score,
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-breakdown-choice {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-divider {
+  margin: 0 0 12px;
+  border: none;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-total-value--normal {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary {
+  margin: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary--normal {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary-details {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__fab-summary-details[hidden] {
+  display: none;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__result-desc {
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="mental-status-scales"] .fc-calc__notes-subtitle {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fc-text);
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Шкалы оценки психического статуса</h2>
+        <p class="fc-calc__hint">MMSE — общая оценка когнитивных функций<br />FAB — скрининг лобной дисфункции</p>
+      </header>
+
+      <div class="fc-calc__tabs" role="tablist" aria-label="Шкалы оценки психического статуса">
+          <button
+            type="button"
+            class="fc-calc__tab fc-calc__tab--active"
+            role="tab"
+            id="fc-calc-mental-status-scales-tab-mmse"
+            data-scale="mmse"
+            aria-selected="true"
+            aria-controls="fc-calc-mental-status-scales-panel-mmse"
+            tabindex="0"
+          >MMSE</button>
+          <button
+            type="button"
+            class="fc-calc__tab"
+            role="tab"
+            id="fc-calc-mental-status-scales-tab-fab"
+            data-scale="fab"
+            aria-selected="false"
+            aria-controls="fc-calc-mental-status-scales-panel-fab"
+            tabindex="-1"
+          >FAB</button>
+      </div>
+
+      <div class="fc-calc__body">
+          <div
+            class="fc-calc__tab-panel fc-calc__tab-panel--active"
+            role="tabpanel"
+            id="fc-calc-mental-status-scales-panel-mmse"
+            data-scale="mmse"
+            aria-labelledby="fc-calc-mental-status-scales-tab-mmse"
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала MMSE</h3>
+                <p class="fc-calc__dep-scale-hint">Краткая шкала оценки психического статуса (Mini-Mental State Examination, MMSE) — скрининговый тест для объективной оценки когнитивных функций. Максимум 30 баллов.</p>
+                <form class="fc-calc__form" id="fc-calc-mental-status-scales-mmse-form" novalidate>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">1. Ориентация во времени</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="1. Ориентация во времени">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m1">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m1" name="m1" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Год</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал текущий год</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m2">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m2" name="m2" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Месяц</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал текущий месяц</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m3">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m3" name="m3" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Время года</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал текущее время года</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m4">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m4" name="m4" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Сегодняшнее число</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал текущее число</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m5">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m5" name="m5" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">День недели</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал текущий день недели</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">2. Ориентация в месте</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="2. Ориентация в месте">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m6">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m6" name="m6" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Страна</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал страну</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m7">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m7" name="m7" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Здание (название или функция)</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал здание или его функцию</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m8">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m8" name="m8" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Город/область</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал город или область</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m9">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m9" name="m9" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Этаж здания (номер кабинета, адрес)</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал этаж, кабинет или адрес</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m10">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m10" name="m10" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Улица (квартал)</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал улицу или квартал</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">3. Запоминание 3 слов</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="3. Запоминание 3 слов">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m11">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m11" name="m11" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Яблоко</span>
+                          <span class="fc-calc__mss-hint">Запомнил и повторил слово «Яблоко»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m12">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m12" name="m12" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Копейка</span>
+                          <span class="fc-calc__mss-hint">Запомнил и повторил слово «Копейка»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m13">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m13" name="m13" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Стол</span>
+                          <span class="fc-calc__mss-hint">Запомнил и повторил слово «Стол»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">4. Серийное вычитание 7 из 100</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="4. Серийное вычитание 7 из 100">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m14">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m14" name="m14" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">93 (100 − 7)</span>
+                          <span class="fc-calc__mss-hint">Правильно вычел 7 из 100 = 93</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m15">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m15" name="m15" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">79 (86 − 7)</span>
+                          <span class="fc-calc__mss-hint">Правильно вычел 7 из 86 = 79</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m16">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m16" name="m16" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">65 (72 − 7)</span>
+                          <span class="fc-calc__mss-hint">Правильно вычел 7 из 72 = 65</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m17">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m17" name="m17" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">86 (93 − 7)</span>
+                          <span class="fc-calc__mss-hint">Правильно вычел 7 из 93 = 86</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m18">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m18" name="m18" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">72 (79 − 7)</span>
+                          <span class="fc-calc__mss-hint">Правильно вычел 7 из 79 = 72</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">5. Воспроизведение 3 слов</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="5. Воспроизведение 3 слов">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m19">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m19" name="m19" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Яблоко (вспомнил)</span>
+                          <span class="fc-calc__mss-hint">Вспомнил и назвал слово «Яблоко»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m20">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m20" name="m20" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Копейка (вспомнил)</span>
+                          <span class="fc-calc__mss-hint">Вспомнил и назвал слово «Копейка»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m21">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m21" name="m21" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Стол (вспомнил)</span>
+                          <span class="fc-calc__mss-hint">Вспомнил и назвал слово «Стол»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">6. Называние предметов</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="6. Называние предметов">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m22">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m22" name="m22" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Часы</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал «Часы»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m23">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m23" name="m23" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Ручка или карандаш</span>
+                          <span class="fc-calc__mss-hint">Правильно назвал «Ручка» или «Карандаш»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">7. Повторение фразы</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="7. Повторение фразы">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m24">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m24" name="m24" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Никаких «ЕСЛИ», «И» или «НО»</span>
+                          <span class="fc-calc__mss-hint">Правильно повторил всю фразу</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">8. Выполнение 3-этапной команды</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="8. Выполнение 3-этапной команды">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m25">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m25" name="m25" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Взять листок бумаги в правую руку</span>
+                          <span class="fc-calc__mss-hint">Выполнил первый этап команды</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m26">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m26" name="m26" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Сложить листок пополам</span>
+                          <span class="fc-calc__mss-hint">Выполнил второй этап команды</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m27">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m27" name="m27" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Положить листок на стол</span>
+                          <span class="fc-calc__mss-hint">Выполнил третий этап команды</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">9. Выполнение письменной команды</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="9. Выполнение письменной команды">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m28">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m28" name="m28" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Закройте глаза</span>
+                          <span class="fc-calc__mss-hint">Выполнил письменную команду «Закройте глаза»</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">10. Написание предложения</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="10. Написание предложения">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m29">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m29" name="m29" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Предложение правильное</span>
+                          <span class="fc-calc__mss-hint">Написал грамматически правильное предложение</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="fc-calc__mss-section">
+                    <h4 class="fc-calc__mss-section-title">11. Копирование рисунка</h4>
+                    <div class="fc-calc__mss-items" role="group" aria-label="11. Копирование рисунка">
+                      <label class="fc-calc__mss-row" for="fc-calc-mental-status-scales-m30">
+                        <input type="checkbox" id="fc-calc-mental-status-scales-m30" name="m30" value="1" />
+                        <span class="fc-calc__mss-label-wrap">
+                          <span class="fc-calc__mss-label">Правильно скопировал рисунок</span>
+                          <span class="fc-calc__mss-hint">Рисунок содержит два пересекающихся пятиугольника</span>
+                        </span>
+                        <span class="fc-calc__mss-points">+1</span>
+                      </label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-mental-status-scales-mmse-btn" class="fc-calc__btn" form="fc-calc-mental-status-scales-mmse-form">Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-mental-status-scales-mmse-result" aria-live="polite">
+              <p class="fc-calc__result-label">Результат</p>
+              <p class="fc-calc__mss-score">Общий балл MMSE: <strong class="fc-calc__mss-score-value" id="fc-calc-mental-status-scales-mmse-result-total">—</strong> из 30</p>
+              <div class="fc-calc__mss-interp">
+                <div class="fc-calc__mss-interp-item">
+                  <p class="fc-calc__mss-interp-title">1. Простая оценка:</p>
+                  <p class="fc-calc__mss-interp-text" id="fc-calc-mental-status-scales-mmse-simple-text"></p>
+                  <p class="fc-calc__mss-interp-details" id="fc-calc-mental-status-scales-mmse-simple-details"></p>
+                </div>
+                <div class="fc-calc__mss-interp-item">
+                  <p class="fc-calc__mss-interp-title">2. Ранговый метод:</p>
+                  <p class="fc-calc__mss-interp-text" id="fc-calc-mental-status-scales-mmse-rank-text"></p>
+                  <p class="fc-calc__mss-interp-details" id="fc-calc-mental-status-scales-mmse-rank-details"></p>
+                </div>
+                <div class="fc-calc__mss-interp-item">
+                  <p class="fc-calc__mss-interp-title">3. С учётом образования:</p>
+                  <ul class="fc-calc__mss-education-list">
+                    <li><strong>9 классов и меньше:</strong> <span id="fc-calc-mental-status-scales-mmse-edu-school"></span></li>
+                    <li><strong>Среднее проф. образование:</strong> <span id="fc-calc-mental-status-scales-mmse-edu-college"></span></li>
+                    <li><strong>Высшее образование:</strong> <span id="fc-calc-mental-status-scales-mmse-edu-university"></span></li>
+                  </ul>
+                </div>
+                <div class="fc-calc__mss-interp-item">
+                  <p class="fc-calc__mss-interp-title">4. Выраженность нарушений:</p>
+                  <p class="fc-calc__mss-interp-text" id="fc-calc-mental-status-scales-mmse-severity-text"></p>
+                  <p class="fc-calc__mss-interp-details" id="fc-calc-mental-status-scales-mmse-severity-details"></p>
+                </div>
+                <div class="fc-calc__mss-interp-item">
+                  <p class="fc-calc__mss-interp-title">5. Стадии болезни Альцгеймера:</p>
+                  <p class="fc-calc__mss-interp-text" id="fc-calc-mental-status-scales-mmse-alzheimers-text"></p>
+                  <p class="fc-calc__mss-interp-details" id="fc-calc-mental-status-scales-mmse-alzheimers-details"></p>
+                </div>
+              </div>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала MMSE</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>MMSE — скрининговый тест из 11 заданий, максимум 30 баллов. Отметьте выполненные пункты; каждый правильный ответ — +1 балл.</p>
+                <p class="fc-calc__notes-subtitle">Простая скрининговая оценка</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Интерпретация</th>
+                <th>Балл</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Патология (скрининг)</td>
+                <td>< 24</td>
+              </tr>
+              <tr>
+                <td>Норма (скрининг)</td>
+                <td>24–30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+                <p class="fc-calc__notes-subtitle">С учётом образования</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Интерпретация</th>
+                <th>Балл</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Патология при образовании ≤ 9 классов</td>
+                <td>≤ 21</td>
+              </tr>
+              <tr>
+                <td>Патология при среднем профессиональном образовании</td>
+                <td>≤ 23</td>
+              </tr>
+              <tr>
+                <td>Патология при высшем образовании</td>
+                <td>≤ 24</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+                <p class="fc-calc__notes-subtitle">Оценка выраженности нарушений</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Интерпретация</th>
+                <th>Балл</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Выраженные когнитивные нарушения (тяжёлая деменция)</td>
+                <td>0–17</td>
+              </tr>
+              <tr>
+                <td>Умеренные когнитивные нарушения (лёгкая/умеренная деменция)</td>
+                <td>18–23</td>
+              </tr>
+              <tr>
+                <td>Лёгкие когнитивные нарушения или норма</td>
+                <td>24–30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+                <p class="fc-calc__notes-subtitle">Стадии болезни Альцгеймера</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Интерпретация</th>
+                <th>Балл</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Продромальная стадия (лёгкие когнитивные нарушения)</td>
+                <td>25–30</td>
+              </tr>
+              <tr>
+                <td>Лёгкая деменция</td>
+                <td>21–24</td>
+              </tr>
+              <tr>
+                <td>Умеренная деменция</td>
+                <td>10–20</td>
+              </tr>
+              <tr>
+                <td>Тяжёлая деменция</td>
+                <td>0–9</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+              </div>
+            </details>
+          </div>
+          <div
+            class="fc-calc__tab-panel"
+            role="tabpanel"
+            id="fc-calc-mental-status-scales-panel-fab"
+            data-scale="fab"
+            aria-labelledby="fc-calc-mental-status-scales-tab-fab"
+            hidden
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала FAB</h3>
+                <p class="fc-calc__dep-scale-hint">Батарея лобной дисфункции (Frontal Assessment Battery, FAB) — методика для скрининга деменций с преимущественным поражением лобных долей. Максимум 18 баллов.</p>
+                <form class="fc-calc__form" id="fc-calc-mental-status-scales-fab-form" novalidate>
+                  <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="fab1">
+              <legend class="fc-calc__dep-legend">1. Концептуализация</legend>
+              <p class="fc-calc__dep-group-hint">«Что общего между яблоком и грушей?», «…пальто и курткой?», «…столом и стулом?»</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab1" value="fab1-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Обобщил все 3 категории (Яблоко/Груша, Пальто/Куртка, Стол/Стул)</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab1" value="fab1-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Обобщил 2 категории из 3</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab1" value="fab1-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Обобщил только 1 категорию из 3</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab1" value="fab1-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Не может обобщить даже после подсказки</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <div class="fc-calc__fab-fluency">
+              <span class="fc-calc__fab-fluency-label">2. Беглость речи</span>
+              <p class="fc-calc__fab-fluency-hint">Количество названных слов на букву «С» за 1 минуту (имена собственные не засчитываются)</p>
+              <div class="fc-calc__fab-fluency-field">
+                <input type="number" id="fc-calc-mental-status-scales-fab2-words" name="fab2_words" min="0" step="1" inputmode="numeric" />
+                <span class="fc-calc__fab-fluency-unit">слов</span>
+              </div>
+            </div>
+            <fieldset class="fc-calc__dep-group" data-item-id="fab3">
+              <legend class="fc-calc__dep-legend">3. Динамический праксис</legend>
+              <p class="fc-calc__dep-group-hint">Серия движений: кулак — ребро — ладонь (наблюдение, повторение с врачом, 2 самостоятельные серии)</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab3" value="fab3-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Правильное выполнение трёх серий</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab3" value="fab3-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Правильное выполнение двух серий</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab3" value="fab3-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Правильное выполнение одной серии</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab3" value="fab3-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Не может выполнить три правильные серии даже с помощью врача</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="fab4">
+              <legend class="fc-calc__dep-legend">4. Простая реакция выбора</legend>
+              <p class="fc-calc__dep-group-hint">Ритм 1–1–2–1–2–2–2–1–1–2: 1 удар → 2 удара; 2 удара → 1 удар</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab4" value="fab4-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Правильное выполнение (без ошибок)</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab4" value="fab4-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Не более 2 ошибок</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab4" value="fab4-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Много ошибок (>3)</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab4" value="fab4-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Персеверативное повторение ритма за врачом не менее 4 раз</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="fab5">
+              <legend class="fc-calc__dep-legend">5. Усложнённая реакция выбора</legend>
+              <p class="fc-calc__dep-group-hint">Ритм 1–1–2–1–2–2–2–1–1–2: 1 удар → ничего; 2 удара → 1 удар</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab5" value="fab5-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Правильное выполнение (без ошибок)</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab5" value="fab5-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Не более 2 ошибок</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab5" value="fab5-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Много ошибок (>3)</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab5" value="fab5-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Персеверативное повторение ритма за врачом не менее 4 раз</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="fab6">
+              <legend class="fc-calc__dep-legend">6. Исследование хватательных рефлексов</legend>
+              <p class="fc-calc__dep-group-hint">Руки на коленях ладонями вверх, проверка хватательного рефлекса</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab6" value="fab6-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Отсутствие хвата</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab6" value="fab6-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Попросил охватить или отказался хватать</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab6" value="fab6-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">При повторном тесте после запрета хват отсутствует</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="fab6" value="fab6-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Снова схватил</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-mental-status-scales-fab-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-mental-status-scales-fab-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-mental-status-scales-fab-result" aria-live="polite">
+              <p class="fc-calc__result-label">Результат</p>
+              <p class="fc-calc__fab-result-heading">Шкала Frontal Assessment Battery (FAB):</p>
+              <ul class="fc-calc__fab-breakdown">
+                <li>
+                  <span class="fc-calc__fab-breakdown-label">Концептуализация:</span>
+                  <strong class="fc-calc__fab-breakdown-score" id="fc-calc-mental-status-scales-fab-concept-score">—</strong> баллов
+                  <span class="fc-calc__fab-breakdown-choice" id="fc-calc-mental-status-scales-fab-concept-choice"></span>
+                </li>
+                <li>
+                  <span class="fc-calc__fab-breakdown-label">Беглость речи:</span>
+                  <strong class="fc-calc__fab-breakdown-score" id="fc-calc-mental-status-scales-fab-fluency-score">—</strong> баллов
+                  (слов набрано <span id="fc-calc-mental-status-scales-fab-fluency-words">—</span>)
+                </li>
+                <li>
+                  <span class="fc-calc__fab-breakdown-label">Динамический праксис:</span>
+                  <strong class="fc-calc__fab-breakdown-score" id="fc-calc-mental-status-scales-fab-praxis-score">—</strong> баллов
+                  <span class="fc-calc__fab-breakdown-choice" id="fc-calc-mental-status-scales-fab-praxis-choice"></span>
+                </li>
+                <li>
+                  <span class="fc-calc__fab-breakdown-label">Простая реакция выбора:</span>
+                  <strong class="fc-calc__fab-breakdown-score" id="fc-calc-mental-status-scales-fab-simple-score">—</strong> баллов
+                  <span class="fc-calc__fab-breakdown-choice" id="fc-calc-mental-status-scales-fab-simple-choice"></span>
+                </li>
+                <li>
+                  <span class="fc-calc__fab-breakdown-label">Усложнённая реакция выбора:</span>
+                  <strong class="fc-calc__fab-breakdown-score" id="fc-calc-mental-status-scales-fab-complex-score">—</strong> баллов
+                  <span class="fc-calc__fab-breakdown-choice" id="fc-calc-mental-status-scales-fab-complex-choice"></span>
+                </li>
+                <li>
+                  <span class="fc-calc__fab-breakdown-label">Хватательные рефлексы:</span>
+                  <strong class="fc-calc__fab-breakdown-score" id="fc-calc-mental-status-scales-fab-reflex-score">—</strong> баллов
+                  <span class="fc-calc__fab-breakdown-choice" id="fc-calc-mental-status-scales-fab-reflex-choice"></span>
+                </li>
+              </ul>
+              <hr class="fc-calc__fab-total-divider" />
+              <p class="fc-calc__fab-total">Итого баллов: <strong class="fc-calc__fab-total-value" id="fc-calc-mental-status-scales-fab-total">—</strong> из 18</p>
+              <p class="fc-calc__fab-summary" id="fc-calc-mental-status-scales-fab-summary-title"></p>
+              <p class="fc-calc__fab-summary-details" id="fc-calc-mental-status-scales-fab-summary-details"></p>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала FAB</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Батарея лобной дисфункции (FAB) — 6 субтестов, каждый от 0 до 3 баллов. Максимум 18 баллов.</p>
+                <p class="fc-calc__notes-subtitle">Беглость речи (слова на «С»)</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Баллы</th>
+                <th>Количество слов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>3 балла</td>
+                <td>> 9 слов</td>
+              </tr>
+              <tr>
+                <td>2 балла</td>
+                <td>7–9 слов</td>
+              </tr>
+              <tr>
+                <td>1 балл</td>
+                <td>4–6 слов</td>
+              </tr>
+              <tr>
+                <td>0 баллов</td>
+                <td>< 4 слов</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+                <p class="fc-calc__notes-subtitle">Интерпретация суммарного балла</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Интерпретация</th>
+                <th>Балл</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Норма. Лобные функции сохранны</td>
+                <td>15–18</td>
+              </tr>
+              <tr>
+                <td>Умеренная лобная дисфункция</td>
+                <td>12–14</td>
+              </tr>
+              <tr>
+                <td>Выраженная лобная дисфункция</td>
+                <td>< 12</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+              </div>
+            </details>
+          </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Общее примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор объединяет две шкалы для оценки когнитивного статуса. MMSE — скрининг деменции и общих когнитивных нарушений; FAB дополняет MMSE при подозрении на лобную дисфункцию.</p>
+        <ul>
+          <li><strong>Шкала MMSE</strong> — Краткая шкала оценки психического статуса (Mini-Mental State Examination, MMSE) — скрининговый тест для объективной оценки когнитивных функций. Максимум 30 баллов.</li>
+          <li><strong>Шкала FAB</strong> — Батарея лобной дисфункции (Frontal Assessment Battery, FAB) — методика для скрининга деменций с преимущественным поражением лобных долей. Максимум 18 баллов.</li>
+        </ul>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="mental-status-scales"]');
+      if (!root) return;
+
+      var tabs = root.querySelectorAll('.fc-calc__tab[data-scale]');
+      var panels = root.querySelectorAll('.fc-calc__tab-panel[data-scale]');
+
+      function switchScale(scaleId) {
+        tabs.forEach(function (tab) {
+          var active = tab.getAttribute('data-scale') === scaleId;
+          tab.classList.toggle('fc-calc__tab--active', active);
+          tab.setAttribute('aria-selected', active ? 'true' : 'false');
+          tab.tabIndex = active ? 0 : -1;
+        });
+
+        panels.forEach(function (panel) {
+          var active = panel.getAttribute('data-scale') === scaleId;
+          panel.classList.toggle('fc-calc__tab-panel--active', active);
+          panel.hidden = !active;
+        });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          switchScale(tab.getAttribute('data-scale'));
+        });
+
+        tab.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          e.preventDefault();
+          var list = Array.prototype.slice.call(tabs);
+          var index = list.indexOf(tab);
+          if (index < 0) return;
+          var next = e.key === 'ArrowRight' ? index + 1 : index - 1;
+          if (next < 0) next = list.length - 1;
+          if (next >= list.length) next = 0;
+          list[next].focus();
+          switchScale(list[next].getAttribute('data-scale'));
+        });
+      });
+
+      function scoreFabFluency(wordCount) {
+        var n = Number(wordCount);
+        if (!isFinite(n) || n < 0) return null;
+        if (n > 9) return 3;
+        if (n >= 7) return 2;
+        if (n >= 4) return 1;
+        return 0;
+      }
+
+      function getMmseInterpretations(total) {
+        return {
+          simple: total < 24
+            ? { text: 'Патология', details: 'Наличие когнитивных нарушений' }
+            : { text: 'Норма', details: 'Когнитивные нарушения не выявлены' },
+          rank: total < 21
+            ? {
+              text: 'Повышенные шансы деменции',
+              details: 'Высокая вероятность деменции, требуется углубленное обследование'
+            }
+            : total > 25
+              ? { text: 'Пониженные шансы деменции', details: 'Низкая вероятность деменции' }
+              : {
+                text: 'Пограничное состояние',
+                details: 'Неопределённый результат, требуется наблюдение'
+              },
+          education: {
+            school: total < 21 ? 'Патология (балл < 21)' : 'Норма (балл ≥ 21)',
+            college: total < 23 ? 'Патология (балл < 23)' : 'Норма (балл ≥ 23)',
+            university: total < 24 ? 'Патология (балл < 24)' : 'Норма (балл ≥ 24)'
+          },
+          severity: total <= 17
+            ? {
+              text: 'Выраженные когнитивные нарушения',
+              details: 'Тяжёлые нарушения когнитивных функций'
+            }
+            : total >= 18 && total <= 23
+              ? {
+                text: 'Лёгкие когнитивные нарушения',
+                details: 'Умеренные нарушения когнитивных функций'
+              }
+              : { text: 'Нет когнитивных нарушений', details: 'Когнитивные функции в норме' },
+          alzheimers: total >= 25 && total <= 30
+            ? {
+              text: 'Продромальная стадия',
+              details: 'Преддементная стадия, могут быть субъективные жалобы'
+            }
+            : total >= 21 && total <= 24
+              ? { text: 'Лёгкая деменция', details: 'Ранняя стадия деменции' }
+              : total >= 10 && total <= 20
+                ? {
+                  text: 'Умеренно-выраженная деменция',
+                  details: 'Средняя стадия деменции'
+                }
+                : { text: 'Выраженная деменция', details: 'Поздняя стадия деменции' }
+        };
+      }
+
+      function getMmseCategory(total) {
+        if (total <= 17) return 'severe';
+        if (total <= 23) return 'moderate';
+        return 'normal';
+      }
+
+      function interpretFabResult(total) {
+        if (total <= 12) {
+          return {
+            category: 'severe',
+            title: '⚠️ Подозрение на лобную дисфункцию',
+            details: 'Требуется углубленное нейропсихологическое обследование'
+          };
+        }
+        if (total <= 15) {
+          return {
+            category: 'moderate',
+            title: '⚠️ Сомнительные результаты / Пограничное состояние',
+            details: ''
+          };
+        }
+        return {
+          category: 'normal',
+          title: '✅ Норма когнитивных функций (лобных долей)',
+          details: ''
+        };
+      }
+
+      function getRadioScore(form, name) {
+        var checked = form.querySelector('input[name="' + name + '"]:checked');
+        return checked ? Number(checked.getAttribute('data-score') || 0) : null;
+      }
+
+      function getRadioLabel(form, name) {
+        var checked = form.querySelector('input[name="' + name + '"]:checked');
+        if (!checked) return '';
+        var label = checked.closest('.fc-calc__dep-option');
+        var textEl = label ? label.querySelector('.fc-calc__dep-option-text') : null;
+        return textEl ? textEl.textContent.trim() : '';
+      }
+
+      function setFabChoice(el, text) {
+        if (!el) return;
+        el.textContent = text || '';
+        el.hidden = !text;
+      }
+
+      (function initMmseForm() {
+        var form = root.querySelector('#fc-calc-mental-status-scales-mmse-form');
+        var calcBtn = root.querySelector('#fc-calc-mental-status-scales-mmse-btn');
+        var resultWrap = root.querySelector('#fc-calc-mental-status-scales-mmse-result');
+        var resultTotal = root.querySelector('#fc-calc-mental-status-scales-mmse-result-total');
+        var simpleText = root.querySelector('#fc-calc-mental-status-scales-mmse-simple-text');
+        var simpleDetails = root.querySelector('#fc-calc-mental-status-scales-mmse-simple-details');
+        var rankText = root.querySelector('#fc-calc-mental-status-scales-mmse-rank-text');
+        var rankDetails = root.querySelector('#fc-calc-mental-status-scales-mmse-rank-details');
+        var eduSchool = root.querySelector('#fc-calc-mental-status-scales-mmse-edu-school');
+        var eduCollege = root.querySelector('#fc-calc-mental-status-scales-mmse-edu-college');
+        var eduUniversity = root.querySelector('#fc-calc-mental-status-scales-mmse-edu-university');
+        var severityText = root.querySelector('#fc-calc-mental-status-scales-mmse-severity-text');
+        var severityDetails = root.querySelector('#fc-calc-mental-status-scales-mmse-severity-details');
+        var alzheimersText = root.querySelector('#fc-calc-mental-status-scales-mmse-alzheimers-text');
+        var alzheimersDetails = root.querySelector('#fc-calc-mental-status-scales-mmse-alzheimers-details');
+
+        if (!form || !calcBtn || !resultWrap) return;
+
+        function hideResult() {
+          resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        }
+
+        function calculate() {
+          var total = 0;
+          form.querySelectorAll('input[type="checkbox"]').forEach(function (el) {
+            if (el.checked) total += 1;
+          });
+          return { total: total, interp: getMmseInterpretations(total) };
+        }
+
+        function showResult(out) {
+          var category = getMmseCategory(out.total);
+          if (resultTotal) {
+            resultTotal.textContent = String(out.total);
+            resultTotal.className = 'fc-calc__mss-score-value fc-calc__mss-score-value--' + category;
+          }
+          if (simpleText) simpleText.textContent = out.interp.simple.text;
+          if (simpleDetails) simpleDetails.textContent = out.interp.simple.details;
+          if (rankText) rankText.textContent = out.interp.rank.text;
+          if (rankDetails) rankDetails.textContent = out.interp.rank.details;
+          if (eduSchool) eduSchool.textContent = out.interp.education.school;
+          if (eduCollege) eduCollege.textContent = out.interp.education.college;
+          if (eduUniversity) eduUniversity.textContent = out.interp.education.university;
+          if (severityText) severityText.textContent = out.interp.severity.text;
+          if (severityDetails) severityDetails.textContent = out.interp.severity.details;
+          if (alzheimersText) alzheimersText.textContent = out.interp.alzheimers.text;
+          if (alzheimersDetails) alzheimersDetails.textContent = out.interp.alzheimers.details;
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        }
+
+        form.addEventListener('change', hideResult);
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          showResult(calculate());
+        });
+
+        calcBtn.disabled = false;
+        calcBtn.classList.remove('fc-calc__btn--inactive');
+      })();
+
+      (function initFabForm() {
+        var form = root.querySelector('#fc-calc-mental-status-scales-fab-form');
+        var calcBtn = root.querySelector('#fc-calc-mental-status-scales-fab-btn');
+        var resultWrap = root.querySelector('#fc-calc-mental-status-scales-fab-result');
+        var conceptScore = root.querySelector('#fc-calc-mental-status-scales-fab-concept-score');
+        var conceptChoice = root.querySelector('#fc-calc-mental-status-scales-fab-concept-choice');
+        var fluencyScore = root.querySelector('#fc-calc-mental-status-scales-fab-fluency-score');
+        var fluencyWords = root.querySelector('#fc-calc-mental-status-scales-fab-fluency-words');
+        var praxisScore = root.querySelector('#fc-calc-mental-status-scales-fab-praxis-score');
+        var praxisChoice = root.querySelector('#fc-calc-mental-status-scales-fab-praxis-choice');
+        var simpleScore = root.querySelector('#fc-calc-mental-status-scales-fab-simple-score');
+        var simpleChoice = root.querySelector('#fc-calc-mental-status-scales-fab-simple-choice');
+        var complexScore = root.querySelector('#fc-calc-mental-status-scales-fab-complex-score');
+        var complexChoice = root.querySelector('#fc-calc-mental-status-scales-fab-complex-choice');
+        var reflexScore = root.querySelector('#fc-calc-mental-status-scales-fab-reflex-score');
+        var reflexChoice = root.querySelector('#fc-calc-mental-status-scales-fab-reflex-choice');
+        var totalEl = root.querySelector('#fc-calc-mental-status-scales-fab-total');
+        var summaryTitle = root.querySelector('#fc-calc-mental-status-scales-fab-summary-title');
+        var summaryDetails = root.querySelector('#fc-calc-mental-status-scales-fab-summary-details');
+        var fluencyInput = root.querySelector('#fc-calc-mental-status-scales-fab2-words');
+
+        if (!form || !calcBtn || !resultWrap) return;
+
+        var radioIds = ['fab1', 'fab3', 'fab4', 'fab5', 'fab6'];
+
+        function hideResult() {
+          resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        }
+
+        function isComplete() {
+          var ok = radioIds.every(function (id) {
+            return form.querySelector('input[name="' + id + '"]:checked');
+          });
+          if (!fluencyInput || fluencyInput.value === '') return false;
+          var n = Number(fluencyInput.value);
+          return ok && isFinite(n) && n >= 0;
+        }
+
+        function updateButton() {
+          var ok = isComplete();
+          calcBtn.disabled = !ok;
+          calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+        }
+
+        function calculate() {
+          var concept = getRadioScore(form, 'fab1');
+          var praxis = getRadioScore(form, 'fab3');
+          var simple = getRadioScore(form, 'fab4');
+          var complex = getRadioScore(form, 'fab5');
+          var reflex = getRadioScore(form, 'fab6');
+          var words = Number(fluencyInput.value);
+          var fluency = scoreFabFluency(words);
+          var total = concept + fluency + praxis + simple + complex + reflex;
+
+          return {
+            total: total,
+            breakdown: {
+              concept: concept,
+              conceptLabel: getRadioLabel(form, 'fab1'),
+              fluency: fluency,
+              fluencyWords: words,
+              praxis: praxis,
+              praxisLabel: getRadioLabel(form, 'fab3'),
+              simple: simple,
+              simpleLabel: getRadioLabel(form, 'fab4'),
+              complex: complex,
+              complexLabel: getRadioLabel(form, 'fab5'),
+              reflex: reflex,
+              reflexLabel: getRadioLabel(form, 'fab6')
+            },
+            summary: interpretFabResult(total)
+          };
+        }
+
+        function showResult(out) {
+          if (conceptScore) conceptScore.textContent = String(out.breakdown.concept);
+          setFabChoice(conceptChoice, out.breakdown.conceptLabel);
+          if (fluencyScore) fluencyScore.textContent = String(out.breakdown.fluency);
+          if (fluencyWords) fluencyWords.textContent = String(out.breakdown.fluencyWords);
+          if (praxisScore) praxisScore.textContent = String(out.breakdown.praxis);
+          setFabChoice(praxisChoice, out.breakdown.praxisLabel);
+          if (simpleScore) simpleScore.textContent = String(out.breakdown.simple);
+          setFabChoice(simpleChoice, out.breakdown.simpleLabel);
+          if (complexScore) complexScore.textContent = String(out.breakdown.complex);
+          setFabChoice(complexChoice, out.breakdown.complexLabel);
+          if (reflexScore) reflexScore.textContent = String(out.breakdown.reflex);
+          setFabChoice(reflexChoice, out.breakdown.reflexLabel);
+          if (totalEl) {
+            totalEl.textContent = String(out.total);
+            totalEl.className = 'fc-calc__fab-total-value fc-calc__fab-total-value--' + out.summary.category;
+          }
+          if (summaryTitle) {
+            summaryTitle.textContent = out.summary.title;
+            summaryTitle.className = 'fc-calc__fab-summary fc-calc__fab-summary--' + out.summary.category;
+          }
+          if (summaryDetails) {
+            summaryDetails.textContent = out.summary.details;
+            summaryDetails.hidden = !out.summary.details;
+          }
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        }
+
+        form.addEventListener('change', function () {
+          hideResult();
+          updateButton();
+        });
+
+        if (fluencyInput) {
+          fluencyInput.addEventListener('input', function () {
+            hideResult();
+            updateButton();
+          });
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (!isComplete()) return;
+          showResult(calculate());
+        });
+
+        updateButton();
+      })();
+    })();
+  </script>
+</div>

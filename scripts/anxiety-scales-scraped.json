@@ -1,0 +1,2174 @@
+{
+  "gad7": [
+    {
+      "num": 1,
+      "label": "Нервозность, беспокойство или ощущение, что Вы – на грани срыва",
+      "formId": "GAD-7_question_1",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "label": "Постоянное волнение, «переживания», которые Вы не в состоянии прекратить или контролировать",
+      "formId": "GAD-7_question_2",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "label": "Чрезмерное беспокойство, переживания по поводу различных дел",
+      "formId": "GAD-7_question_3",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "label": "Трудно расслабиться",
+      "formId": "GAD-7_question_4",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "label": "Вы были настолько неспокойны, что было даже трудно усидеть на месте",
+      "formId": "GAD-7_question_5",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "label": "Повышенная раздражительность",
+      "formId": "GAD-7_question_6",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "label": "Ощущение (страх), что должно случиться что-то ужасное",
+      "formId": "GAD-7_question_7",
+      "options": [
+        {
+          "value": 0,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "иногда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "большую часть времени&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти каждый день&nbsp;"
+        }
+      ]
+    }
+  ],
+  "covy": [
+    {
+      "num": 1,
+      "label": "Жалобы",
+      "formId": "covy_question_1",
+      "options": [
+        {
+          "value": 0,
+          "text": "не испытывает&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "значительно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "label": "Поведение",
+      "formId": "covy_question_2",
+      "options": [
+        {
+          "value": 0,
+          "text": "нет&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "значительно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "очень сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "label": "Соматические симптомы тревоги",
+      "formId": "covy_question_3",
+      "options": [
+        {
+          "value": 0,
+          "text": "нет&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "значительно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "очень сильно&nbsp;"
+        }
+      ]
+    }
+  ],
+  "spielberg": [
+    {
+      "num": 1,
+      "label": "Я спокоен",
+      "formId": "spilberg-scale_question_1",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "label": "Мне ничто не угрожает",
+      "formId": "spilberg-scale_question_2",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "label": "Я нахожусь в напряжении",
+      "formId": "spilberg-scale_question_3",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "label": "Я внутренне скован",
+      "formId": "spilberg-scale_question_4",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "label": "Я чувствую себя свободно",
+      "formId": "spilberg-scale_question_5",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "label": "Я расстроен",
+      "formId": "spilberg-scale_question_6",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "label": "Меня волнуют возможные неудачи",
+      "formId": "spilberg-scale_question_7",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "label": "Я ощущаю душевный покой",
+      "formId": "spilberg-scale_question_8",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 9,
+      "label": "Я встревожен",
+      "formId": "spilberg-scale_question_9",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 10,
+      "label": "Я испытываю чувство внутреннего удовлетворения",
+      "formId": "spilberg-scale_question_10",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 11,
+      "label": "Я уверен в себе",
+      "formId": "spilberg-scale_question_11",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 12,
+      "label": "Я нервничаю",
+      "formId": "spilberg-scale_question_12",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 13,
+      "label": "Я не нахожу себе места",
+      "formId": "spilberg-scale_question_13",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 14,
+      "label": "Я взвинчен",
+      "formId": "spilberg-scale_question_14",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 15,
+      "label": "Я не чувствую скованности, напряжения",
+      "formId": "spilberg-scale_question_15",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 16,
+      "label": "Я доволен",
+      "formId": "spilberg-scale_question_16",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 17,
+      "label": "Я озабочен",
+      "formId": "spilberg-scale_question_17",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 18,
+      "label": "Я слишком возбужден и мне не по себе",
+      "formId": "spilberg-scale_question_18",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 19,
+      "label": "Мне радостно",
+      "formId": "spilberg-scale_question_19",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 20,
+      "label": "Мне приятно",
+      "formId": "spilberg-scale_question_20",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 21,
+      "label": "У меня бывает приподнятое настроение",
+      "formId": "spilberg-scale_question_21",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 22,
+      "label": "Я бываю раздражительным",
+      "formId": "spilberg-scale_question_22",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 23,
+      "label": "Я легко расстраиваюсь",
+      "formId": "spilberg-scale_question_23",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 24,
+      "label": "Я хотел бы быть таким же удачливым, как и другие",
+      "formId": "spilberg-scale_question_24",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 25,
+      "label": "Я сильно переживаю неприятности и долго не могу о них забыть",
+      "formId": "spilberg-scale_question_25",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 26,
+      "label": "Я чувствую прилив сил и желание работать",
+      "formId": "spilberg-scale_question_26",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 27,
+      "label": "Я спокоен, хладнокровен и собран",
+      "formId": "spilberg-scale_question_27",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 28,
+      "label": "Меня тревожат возможные трудности",
+      "formId": "spilberg-scale_question_28",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 29,
+      "label": "Я слишком переживаю из-за пустяков",
+      "formId": "spilberg-scale_question_29",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 30,
+      "label": "Я бываю вполне счастлив",
+      "formId": "spilberg-scale_question_30",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 31,
+      "label": "Я все принимаю близко к сердцу",
+      "formId": "spilberg-scale_question_31",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 32,
+      "label": "Мне не хватает уверенности в себе",
+      "formId": "spilberg-scale_question_32",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 33,
+      "label": "Я чувствую себя беззащитным",
+      "formId": "spilberg-scale_question_33",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 34,
+      "label": "Я стараюсь избегать критических ситуаций и трудностей",
+      "formId": "spilberg-scale_question_34",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 35,
+      "label": "У меня бывает хандра",
+      "formId": "spilberg-scale_question_35",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 36,
+      "label": "Я бываю доволен",
+      "formId": "spilberg-scale_question_36",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 37,
+      "label": "Всякие пустяки отвлекают и волнуют меня",
+      "formId": "spilberg-scale_question_37",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 38,
+      "label": "Бывает, что я чувствую себя неудачником",
+      "formId": "spilberg-scale_question_38",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 39,
+      "label": "Я уравновешенный человек",
+      "formId": "spilberg-scale_question_39",
+      "options": [
+        {
+          "value": 4,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 40,
+      "label": "Меня охватывает беспокойство, когда я думаю о своих делах и заботах",
+      "formId": "spilberg-scale_question_40",
+      "options": [
+        {
+          "value": 1,
+          "text": "никогда&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "почти никогда&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "часто&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "почти всегда&nbsp;"
+        }
+      ]
+    }
+  ],
+  "sheehan": [
+    {
+      "num": 1,
+      "label": "Затруднение на вдохе, нехватка воздуха или учащенное дыхание",
+      "formId": "shhan_question_1",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "label": "Ощущение удушья или комка в горле",
+      "formId": "shhan_question_2",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "label": "Сердце скачет, колотится, готово выскочить из груди",
+      "formId": "shhan_question_3",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "label": "Загрудинная боль, неприятное чувство сдавления в груди",
+      "formId": "shhan_question_4",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "label": "Профузная потливость (пот градом)",
+      "formId": "shhan_question_5",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "label": "Слабость, приступы дурноты, головокружения",
+      "formId": "shhan_question_6",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "label": "«Ватные», «не свои» ноги",
+      "formId": "shhan_question_7",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "label": "Ощущение неустойчивости или потери равновесия",
+      "formId": "shhan_question_8",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 9,
+      "label": "Тошнота или неприятные ощущения в животе",
+      "formId": "shhan_question_9",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 10,
+      "label": "Ощущение того, что всё окружающее становится странным, нереальным, туманным или отстраненным",
+      "formId": "shhan_question_10",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 11,
+      "label": "Ощущение, что всё плывёт, «нахожусь вне тела»",
+      "formId": "shhan_question_11",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 12,
+      "label": "Покалывание или онемение в разных частях тела",
+      "formId": "shhan_question_12",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 13,
+      "label": "Приливы жара или озноба",
+      "formId": "shhan_question_13",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 14,
+      "label": "Дрожь (тремор)",
+      "formId": "shhan_question_14",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 15,
+      "label": "Страх смерти или того, что сейчас может произойти что-то ужасное",
+      "formId": "shhan_question_15",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 16,
+      "label": "Страх сойти с ума или потери самообладания",
+      "formId": "shhan_question_16",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 17,
+      "label": "Внезапные приступы тревоги, сопровождающиеся тремя или более из вышеперечисленных признаков, возникающие непосредственно перед и при попадании в ситуацию, которая, по Вашему опыту, может вызвать приступ",
+      "formId": "shhan_question_17",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 18,
+      "label": "Внезапные неожиданные приступы тревоги, сопровождающиеся тремя или более из вышеперечисленных признаков, возникающие по незначительным поводам или без повода (т.е., когда Вы НЕ находитесь в ситуации, которая, по Вашему опыту, может вызвать приступ)",
+      "formId": "shhan_question_18",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 19,
+      "label": "Внезапные неожиданные приступы, сопровождающиеся только одним или двумя из вышеперечисленных признаков, возникающие по незначительным поводам или без повода (т.е., когда Вы НЕ находитесь в ситуации, которая, по Вашему опыту, может вызвать приступ)",
+      "formId": "shhan_question_19",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 20,
+      "label": "Периоды тревоги, нарастающей по мере того, как Вы готовитесь сделать что-то, что, по Вашему опыту, может вызвать тревогу, причем более сильную, чем ту, что в таких случаях испытывает большинство людей",
+      "formId": "shhan_question_20",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 21,
+      "label": "Избегание пугающих вас ситуаций",
+      "formId": "shhan_question_21",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 22,
+      "label": "Состояние зависимости от других людей",
+      "formId": "shhan_question_22",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 23,
+      "label": "Напряжённость и неспособность расслабиться",
+      "formId": "shhan_question_23",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 24,
+      "label": "Тревога, «нервозность», беспокойство",
+      "formId": "shhan_question_24",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 25,
+      "label": "Приступы повышенной чувствительности к звуку, свету и прикосновению",
+      "formId": "shhan_question_25",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 26,
+      "label": "Приступы поноса",
+      "formId": "shhan_question_26",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 27,
+      "label": "Чрезмерное беспокойство о собственном здоровье",
+      "formId": "shhan_question_27",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 28,
+      "label": "Ощущение усталости, слабости и повышенной истощаемости",
+      "formId": "shhan_question_28",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 29,
+      "label": "Головные боли или боли в шее",
+      "formId": "shhan_question_29",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 30,
+      "label": "Трудности засыпания",
+      "formId": "shhan_question_30",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 31,
+      "label": "Просыпания среди ночи или беспокойный сон",
+      "formId": "shhan_question_31",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 32,
+      "label": "Неожиданные периоды депрессии, возникающие по незначительным поводам или без повода",
+      "formId": "shhan_question_32",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 33,
+      "label": "Перепады настроения и эмоций, которые в основном зависят от того, что происходит вокруг Вас",
+      "formId": "shhan_question_33",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 34,
+      "label": "Повторяющиеся и неотступные представления, мысли, импульсы или образы, которые Вам кажутся тягостными, противными, бессмысленными или отталкивающими",
+      "formId": "shhan_question_34",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    },
+    {
+      "num": 35,
+      "label": "Повторение одного и того же действия как ритуала, например, повторные перепроверки, перемывание и пересчёт при отсутствии в этом действии необходимости",
+      "formId": "shhan_question_35",
+      "options": [
+        {
+          "value": 0,
+          "text": "нисколько&nbsp;"
+        },
+        {
+          "value": 1,
+          "text": "немного&nbsp;"
+        },
+        {
+          "value": 2,
+          "text": "умеренно&nbsp;"
+        },
+        {
+          "value": 3,
+          "text": "сильно&nbsp;"
+        },
+        {
+          "value": 4,
+          "text": "крайне сильно&nbsp;"
+        }
+      ]
+    }
+  ],
+  "interpretations": {
+    "gad7": [
+      {
+        "label": "Минимальный уровень тревожности",
+        "range": "4 и менее"
+      },
+      {
+        "label": "Умеренный уровень тревожности",
+        "range": "от 5 до 9"
+      },
+      {
+        "label": "Средний уровень тревожности",
+        "range": "от 10 до 14"
+      },
+      {
+        "label": "Высокий уровень тревожности",
+        "range": "15 и более"
+      }
+    ],
+    "covy": [],
+    "spielberg": [
+      {
+        "label": "Очень низкая тревожность. Можно трактовать состояние как депрессивное, неактивное, с низким уровнем мотиваций",
+        "range": "менее 11"
+      },
+      {
+        "label": "Низкая тревожность",
+        "range": "от 12 до 30"
+      },
+      {
+        "label": "Умеренная тревожность",
+        "range": "от 31 до 44"
+      },
+      {
+        "label": "Высокая тревожность",
+        "range": "от 45 до 46"
+      },
+      {
+        "label": "Очень высокая тревожность. Может быть связана с наличием невротического конфликта, эмоциональными срывами и с психосоматическими заболеваниями",
+        "range": "более 47"
+      }
+    ],
+    "sheehan": [
+      {
+        "label": "Отсутствие клинически выраженной тревоги",
+        "range": "29 и менее"
+      },
+      {
+        "label": "Клинически выраженная тревога",
+        "range": "от 30 до 79"
+      },
+      {
+        "label": "80 и выше – тяжелое тревожное расстройство, паническое расстройство",
+        "range": "80 и более"
+      }
+    ]
+  }
+}

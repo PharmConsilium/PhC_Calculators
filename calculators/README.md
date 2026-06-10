@@ -47,6 +47,11 @@ calculators/
 - **`improve-scale/`** — шкала IMPROVE, риск ТГВ/ТЭЛА у нехирургических больных ([medsoftpro](https://medsoftpro.ru/kalkulyatory/improve-scale))
 - **`caprini-scale/`** — шкала Caprini, риск ВТЭО у хирургических пациентов ([medsoftpro](https://medsoftpro.ru/kalkulyatory/caprini-scale))
 - **`aminophylline-peds/`** — расчёт дозировки эуфиллина у детей до 16 лет ([medvestnik](https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html))
+- **`depression-scales/`** — шкалы оценки депрессии (Бек, Гамильтон, PHQ, EPDS, GDS, HADS)
+- **`anxiety-scales/`** — шкалы тревоги (GAD-7, Кови, Спилберг, Шихан)
+- **`mental-status-scales/`** — шкалы оценки психического статуса (MMSE, FAB)
+- **`aims-scale/`** — шкала AIMS, оценка аномальных непроизвольных движений ([medsoftpro](https://medsoftpro.ru/kalkulyatory/aims))
+- **`ciwa-ar/`** — шкала CIWA-AR, тяжесть алкогольного абстинентного синдрома ([medsoftpro](https://medsoftpro.ru/kalkulyatory/ciwa-ar))
 
 ## Новый калькулятор
 

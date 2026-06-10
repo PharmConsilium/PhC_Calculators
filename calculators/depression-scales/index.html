@@ -1,0 +1,4067 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Шкалы оценки депрессии
+-->
+<div class="fc-calc" data-calculator="depression-scales">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* depression-scales */
+.fc-calc[data-calculator="depression-scales"] .fc-calc__tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="depression-scales"] .fc-calc__tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__tab {
+  flex: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="depression-scales"] .fc-calc__tab {
+    font-size: 15px;
+  }
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__tab-panel[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-scale-hint {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-placeholder {
+  margin: 0;
+  padding: 20px 16px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fc-muted-text, #5c6370);
+  background: var(--fc-bg-input);
+  border: 1px dashed var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-section-title {
+  margin: 0 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-section-note {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-legend {
+  display: block;
+  margin: 0 0 6px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-group-hint {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-legend--sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-group-hint--note {
+  margin-top: -4px;
+  font-size: 14px;
+  color: var(--fc-muted-text, #5c6370);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-option-text {
+  display: block;
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-points {
+  padding: 12px 14px 12px 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-blue);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-supplementary {
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--fc-border);
+  font-size: 15px;
+  line-height: 1.45;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-supplementary-score {
+  display: inline-block;
+  margin-left: 4px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__dep-hads-block:not([hidden]) + .fc-calc__dep-hads-block:not([hidden]) {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--none,
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--normal,
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--minimal {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--mild {
+  color: #0f766e;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--moderate {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--marked,
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--severe {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--extreme,
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--high,
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--depression,
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--clinical {
+  color: #b91c1c;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__result-number--subclinical {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__table {
+  min-width: 320px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="depression-scales"] .fc-calc__notes-body p {
+  text-align: left;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Шкалы оценки депрессии</h2>
+        <p class="fc-calc__hint">Выберите шкалу: Бек, Гамильтон, PHQ, EPDS, гериатрическая шкала, HADS</p>
+      </header>
+
+      <div class="fc-calc__tabs" role="tablist" aria-label="Шкалы оценки депрессии">
+          <button
+            type="button"
+            class="fc-calc__tab fc-calc__tab--active"
+            role="tab"
+            id="fc-calc-depression-scales-tab-beck"
+            data-scale="beck"
+            aria-selected="true"
+            aria-controls="fc-calc-depression-scales-panel-beck"
+            tabindex="0"
+          >Шкала Бека</button>
+          <button
+            type="button"
+            class="fc-calc__tab"
+            role="tab"
+            id="fc-calc-depression-scales-tab-hamilton"
+            data-scale="hamilton"
+            aria-selected="false"
+            aria-controls="fc-calc-depression-scales-panel-hamilton"
+            tabindex="-1"
+          >Шкала Гамильтона</button>
+          <button
+            type="button"
+            class="fc-calc__tab"
+            role="tab"
+            id="fc-calc-depression-scales-tab-phq"
+            data-scale="phq"
+            aria-selected="false"
+            aria-controls="fc-calc-depression-scales-panel-phq"
+            tabindex="-1"
+          >Шкала PHQ</button>
+          <button
+            type="button"
+            class="fc-calc__tab"
+            role="tab"
+            id="fc-calc-depression-scales-tab-epds"
+            data-scale="epds"
+            aria-selected="false"
+            aria-controls="fc-calc-depression-scales-panel-epds"
+            tabindex="-1"
+          >Послеродовая шкала<br>депрессии EPDS</button>
+          <button
+            type="button"
+            class="fc-calc__tab"
+            role="tab"
+            id="fc-calc-depression-scales-tab-gds"
+            data-scale="gds"
+            aria-selected="false"
+            aria-controls="fc-calc-depression-scales-panel-gds"
+            tabindex="-1"
+          >Гериатрическая шкала депрессии</button>
+          <button
+            type="button"
+            class="fc-calc__tab"
+            role="tab"
+            id="fc-calc-depression-scales-tab-hads"
+            data-scale="hads"
+            aria-selected="false"
+            aria-controls="fc-calc-depression-scales-panel-hads"
+            tabindex="-1"
+          >Шкала тревоги и депрессии HADS</button>
+      </div>
+
+      <div class="fc-calc__body">
+          <div
+            class="fc-calc__tab-panel fc-calc__tab-panel--active"
+            role="tabpanel"
+            id="fc-calc-depression-scales-panel-beck"
+            data-scale="beck"
+            aria-labelledby="fc-calc-depression-scales-tab-beck"
+            
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала Бека</h3>
+                <p class="fc-calc__dep-scale-hint">Опросник депрессии Бека (BDI) — самооценка тяжести депрессивных симптомов.</p>
+                <form class="fc-calc__form" id="fc-calc-depression-scales-beck-form" novalidate>
+                  <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="q1">
+              <legend class="fc-calc__dep-legend">1. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q1" value="q1-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не чувствую себя расстроенным, печальным</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q1" value="q1-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я расстроен</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q1" value="q1-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я все время расстроен и не могу от этого отключиться</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q1" value="q1-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я настолько расстроен и несчастлив, что не могу это выдержать</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q2">
+              <legend class="fc-calc__dep-legend">2. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q2" value="q2-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не тревожусь о своем будущем</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q2" value="q2-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я чувствую, что озадачен будущим</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q2" value="q2-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я чувствую, что меня ничего не ждет в будущем</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q2" value="q2-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">мое будущее безнадежно, и ничто не может измениться к лучшему</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q3">
+              <legend class="fc-calc__dep-legend">3. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q3" value="q3-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не чувствую себя неудачником</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q3" value="q3-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я чувствую, что терпел больше неудач, чем другие люди</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q3" value="q3-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">когда я оглядываюсь на свою жизнь, я вижу в ней много неудач</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q3" value="q3-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я чувствую, что как личность я — полный неудачник</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q4">
+              <legend class="fc-calc__dep-legend">4. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q4" value="q4-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я получаю столько же удовлетворения от жизни, как раньше</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q4" value="q4-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я не получаю столько же удовлетворения от жизни, как раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q4" value="q4-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я больше не получаю удовлетворения ни от чего</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q4" value="q4-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я полностью не удовлетворен жизнью, и мне все надоело</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q5">
+              <legend class="fc-calc__dep-legend">5. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q5" value="q5-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не чувствую себя в чем-нибудь виноватым</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q5" value="q5-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">достаточно часто я чувствую себя виноватым</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q5" value="q5-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">большую часть времени я чувствую себя виноватым</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q5" value="q5-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я постоянно испытываю чувство вины</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q6">
+              <legend class="fc-calc__dep-legend">6. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q6" value="q6-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не чувствую, что могу быть наказанным за что-либо</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q6" value="q6-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я чувствую, что могу быть наказан</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q6" value="q6-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я ожидаю, что могу быть наказан</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q6" value="q6-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я чувствую себя уже наказанным</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q7">
+              <legend class="fc-calc__dep-legend">7. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q7" value="q7-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не разочаровался в себе</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q7" value="q7-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я разочаровался в себе</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q7" value="q7-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я себе противен</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q7" value="q7-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я себя ненавижу</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q8">
+              <legend class="fc-calc__dep-legend">8. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q8" value="q8-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я знаю, что я не хуже других</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q8" value="q8-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я критикую себя за ошибки и слабости</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q8" value="q8-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я все время обвиняю себя за свои поступки</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q8" value="q8-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я виню себя во всем плохом, что происходит</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q9">
+              <legend class="fc-calc__dep-legend">9. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q9" value="q9-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я никогда не думал покончить с собой</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q9" value="q9-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">ко мне приходят мысли покончить с собой, но я не буду их осуществлять</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q9" value="q9-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я хотел бы покончить с собой</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q9" value="q9-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я бы убил себя, если бы представился случай</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q10">
+              <legend class="fc-calc__dep-legend">10. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q10" value="q10-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я плачу не больше, чем обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q10" value="q10-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">сейчас я плачу чаще, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q10" value="q10-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">теперь я все время плачу</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q10" value="q10-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">раньше я мог плакать, а сейчас не могу, даже если мне хочется</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q11">
+              <legend class="fc-calc__dep-legend">11. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q11" value="q11-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">сейчас я раздражителен не более, чем обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q11" value="q11-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я более легко раздражаюсь, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q11" value="q11-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">теперь я постоянно чувствую, что раздражен</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q11" value="q11-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я стал равнодушен к вещам, которые меня раньше раздражали</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q12">
+              <legend class="fc-calc__dep-legend">12. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q12" value="q12-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не утратил интереса к другим людям</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q12" value="q12-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я меньше интересуюсь другими людьми, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q12" value="q12-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я почти потерял интерес к другим людям</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q12" value="q12-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я полностью утратил интерес к другим людям</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q13">
+              <legend class="fc-calc__dep-legend">13. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q13" value="q13-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я откладываю принятие решения иногда, как и раньше</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q13" value="q13-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">я чаще, чем раньше, откладываю принятие решения</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q13" value="q13-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">мне труднее принимать решения, чем раньше</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q13" value="q13-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я больше не могу принимать решения</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q14">
+              <legend class="fc-calc__dep-legend">14. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q14" value="q14-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я не чувствую, что выгляжу хуже, чем обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q14" value="q14-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">меня тревожит, что я выгляжу старым и непривлекательным</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q14" value="q14-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я знаю, что в моей внешности произошли существенные изменения, делающие меня непривлекательным</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q14" value="q14-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я знаю, что выгляжу безобразно</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q15">
+              <legend class="fc-calc__dep-legend">15. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q15" value="q15-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я могу работать так же хорошо, как и раньше</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q15" value="q15-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">мне необходимо сделать дополнительное усилие, чтобы начать делать что-нибудь</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q15" value="q15-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я с трудом заставляю себя делать что-либо</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q15" value="q15-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я совсем не могу выполнять никакую работу</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q16">
+              <legend class="fc-calc__dep-legend">16. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q16" value="q16-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я сплю так же хорошо, как и раньше</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q16" value="q16-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">сейчас я сплю хуже, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q16" value="q16-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я просыпаюсь на 1–2 часа раньше, и мне трудно заснуть опять</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q16" value="q16-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я просыпаюсь на несколько часов раньше обычного и больше не могу заснуть</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q17">
+              <legend class="fc-calc__dep-legend">17. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q17" value="q17-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я устаю не больше, чем обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q17" value="q17-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">теперь я устаю быстрее, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q17" value="q17-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я устаю почти от всего, что я делаю</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q17" value="q17-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я не могу ничего делать из-за усталости</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q18">
+              <legend class="fc-calc__dep-legend">18. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q18" value="q18-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">мой аппетит не хуже, чем обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q18" value="q18-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">мой аппетит стал хуже, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q18" value="q18-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">мой аппетит теперь значительно хуже</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q18" value="q18-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">у меня вообще нет аппетита</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q19">
+              <legend class="fc-calc__dep-legend">19. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q19" value="q19-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">в последнее время я не похудел или потеря веса была незначительной</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q19" value="q19-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">за последнее время я потерял более 2 кг</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q19" value="q19-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я потерял более 5 кг</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q19" value="q19-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я потерял более 7 кг</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q20">
+              <legend class="fc-calc__dep-legend">20. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q20" value="q20-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я беспокоюсь о своем здоровье не больше, чем обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q20" value="q20-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">меня тревожат проблемы моего физического здоровья, такие, как боли, расстройство желудка, запоры и т.д.</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q20" value="q20-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я очень обеспокоен своим физическим состоянием, и мне трудно думать о чем-либо другом</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q20" value="q20-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я настолько обеспокоен своим физическим состоянием, что больше ни о чем не могу думать</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="q21">
+              <legend class="fc-calc__dep-legend">21. вопрос</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q21" value="q21-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">в последнее время я не замечал изменения своего интереса к сексу</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q21" value="q21-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">меня меньше занимают проблемы секса, чем раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q21" value="q21-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">сейчас я значительно меньше интересуюсь сексуальными проблемами, чем раньше</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="q21" value="q21-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">я полностью утратил сексуальный интерес</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-depression-scales-beck-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-depression-scales-beck-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-depression-scales-beck-result" aria-live="polite">
+              <p class="fc-calc__result-label">Суммарный балл</p>
+              <p class="fc-calc__result-number" id="fc-calc-depression-scales-beck-result-number">—</p>
+              <p class="fc-calc__result-desc" id="fc-calc-depression-scales-beck-result-desc"></p>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала Бека</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Шкала депрессии Бека (BDI) — опросник из 21 утверждения. За каждый ответ — от 0 до 3 баллов.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Отсутствие депрессивных симптомов</td>
+                <td>менее 9</td>
+              </tr>
+              <tr>
+                <td>Легкая депрессия (субдепрессия)</td>
+                <td>от 10 до 15</td>
+              </tr>
+              <tr>
+                <td>Умеренная депрессия</td>
+                <td>от 16 до 19</td>
+              </tr>
+              <tr>
+                <td>Выраженная депрессия (средней тяжести)</td>
+                <td>от 20 до 29</td>
+              </tr>
+              <tr>
+                <td>Тяжелая депрессия</td>
+                <td>более 30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+              </div>
+            </details>
+          </div>
+          <div
+            class="fc-calc__tab-panel"
+            role="tabpanel"
+            id="fc-calc-depression-scales-panel-hamilton"
+            data-scale="hamilton"
+            aria-labelledby="fc-calc-depression-scales-tab-hamilton"
+            hidden
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала Гамильтона</h3>
+                <p class="fc-calc__dep-scale-hint">Шкала Гамильтона (HDRS — Hamilton Rating Scale for Depression, HAM-D) — клиническая оценка тяжести депрессии.</p>
+                <form class="fc-calc__form" id="fc-calc-depression-scales-hamilton-form" novalidate>
+                  <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="h1">
+              <legend class="fc-calc__dep-legend">1. Депрессивное настроение</legend>
+              <p class="fc-calc__dep-group-hint">Подавленность, безнадежность, беспомощность, чувство собственной малоценности</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h1" value="h1-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h1" value="h1-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">выражение указанного чувства только при прямом вопросе</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h1" value="h1-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">жалоба высказывается спонтанно</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h1" value="h1-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">определяется невербально (поза, мимика, голос, плаксивость)</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h1" value="h1-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">пациент выражает только эти чувства, как в высказываниях, так и невербально</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h2">
+              <legend class="fc-calc__dep-legend">2. Чувство вины</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h2" value="h2-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h2" value="h2-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">самоуничижение, считает, что подвел других</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h2" value="h2-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">чувство собственной вины, мучительные размышления о собственных ошибках и грехах</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h2" value="h2-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">настоящее заболевание расценивается как наказание, бредовые идеи виновности</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h2" value="h2-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">вербальные галлюцинации обвиняющего и/или осуждающего содержания, и/или зрительные галлюцинации угрожающего содержания</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h3">
+              <legend class="fc-calc__dep-legend">3. Суицидальные намерения</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h3" value="h3-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h3" value="h3-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">чувство, что жить не стоит</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h3" value="h3-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">желание смерти или мысли о возможности собственной смерти</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h3" value="h3-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">суицидальные высказывания или жесты</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h3" value="h3-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">суицидальные попытки</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h4">
+              <legend class="fc-calc__dep-legend">4. Ранняя бессонница</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h4" value="h4-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие затруднений при засыпании</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h4" value="h4-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">жалобы на эпизодические затруднения при засыпании (более 30 минут)</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h4" value="h4-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">жалобы на невозможность заснуть каждую ночь</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h5">
+              <legend class="fc-calc__dep-legend">5. Средняя бессонница</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h5" value="h5-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h5" value="h5-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">жалобы на беспокойный сон в течение всей ночи</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h5" value="h5-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">многократные пробуждения в течение всей ночи, подъем с постели</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h6">
+              <legend class="fc-calc__dep-legend">6. Поздняя бессонница</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h6" value="h6-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h6" value="h6-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">раннее пробуждение с последующим засыпанием</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h6" value="h6-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">окончательное раннее утреннее пробуждение</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h7">
+              <legend class="fc-calc__dep-legend">7. Работоспособность и активность</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h7" value="h7-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие трудностей</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h7" value="h7-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">мысли и ощущение несостоятельности, чувство усталости и слабости, связанное с работой или хобби</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h7" value="h7-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">утрата интереса к работе или хобби, выраженная непосредственно в жалобах или опосредованно, через апатичность и нерешительность (чувство потребности в дополнительном усилии приступить к работе или проявить активность)</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h7" value="h7-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">уменьшение реального времени проявления активности или снижение продуктивности</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h7" value="h7-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">отказ от работы вследствие настоящего заболевания</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h8">
+              <legend class="fc-calc__dep-legend">8. Заторможенность</legend>
+              <p class="fc-calc__dep-group-hint">Замедленность мышления и речи, нарушение способности концентрировать внимание, снижение моторной активности</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h8" value="h8-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нормальная речь и мышление</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h8" value="h8-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">легкая заторможенность в беседе</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h8" value="h8-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">заметная заторможенность в беседе</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h8" value="h8-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">выраженные затруднения при проведении опроса</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h8" value="h8-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">ступор</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h9">
+              <legend class="fc-calc__dep-legend">9. Ажитация</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h9" value="h9-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h9" value="h9-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">беспокойство</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h9" value="h9-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">беспокойные движения руками, теребление волос</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h9" value="h9-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">подвижность, неусидчивость</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h9" value="h9-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">постоянное перебирание руками, обкусывание ногтей, выдергивание волос, кусание губ</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h10">
+              <legend class="fc-calc__dep-legend">10. Психическая тревога</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h10" value="h10-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h10" value="h10-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">субъективное напряжение и раздражительность</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h10" value="h10-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">беспокойство по незначительным поводам</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h10" value="h10-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">тревога, выражающаяся в выражении лица и речи</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h10" value="h10-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">страх, выражаемый и без расспроса</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h11">
+              <legend class="fc-calc__dep-legend">11. Соматическая тревога</legend>
+              <p class="fc-calc__dep-group-hint">Физиологические проявления тревоги: гастроинтестинальные, сердечно-сосудистые, дыхательные, учащенное мочеиспускание, повышенное потоотделение</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h11" value="h11-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h11" value="h11-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">слабая</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h11" value="h11-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">средняя</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h11" value="h11-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">сильная</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h11" value="h11-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">крайне сильная</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h12">
+              <legend class="fc-calc__dep-legend">12. Желудочно-кишечные соматические симптомы</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h12" value="h12-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h12" value="h12-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">утрата аппетита, но с приемом пищи без сильного принуждения, чувство тяжести в животе</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h12" value="h12-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">прием пищи только с упорным принуждением, потребность в слабительных средствах или препаратах для купирования гастроинтестинальных симптомов</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h13">
+              <legend class="fc-calc__dep-legend">13. Общие соматические симптомы</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h13" value="h13-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h13" value="h13-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">тяжесть в конечностях, спине, голове, мышечные боли, чувство утраты энергии или упадка сил</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h13" value="h13-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">любые резко выраженные симптомы</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h14">
+              <legend class="fc-calc__dep-legend">14. Генитальные симптомы</legend>
+              <p class="fc-calc__dep-group-hint">Утрата либидо, менструальные нарушения</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h14" value="h14-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие симптомов</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h14" value="h14-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">слабо выраженные</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h14" value="h14-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">сильно выраженные</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h15">
+              <legend class="fc-calc__dep-legend">15. Ипохондрия</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h15" value="h15-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h15" value="h15-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">поглощенность собой (телесно)</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h15" value="h15-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">чрезмерная озабоченность здоровьем</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h15" value="h15-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">частые жалобы, просьбы о помощи</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h15" value="h15-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">ипохондрический бред</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h16">
+              <legend class="fc-calc__dep-legend">16. Потеря в весе</legend>
+              <p class="fc-calc__dep-group-hint">Оценивается либо А (по данным анамнеза), либо Б (если изменения в весе имеют место еженедельно)</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">А. отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">А. вероятная потеря в весе в связи с настоящим заболеванием</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">А. явная (со слов) потеря в весе</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">А. не поддается оценке</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-4" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Б. менее 0,5 кг в неделю</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-5" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Б. более 0,5 кг в неделю</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-6" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Б. более 1 кг в неделю</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h16" value="h16-7" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Б. не поддается оценке</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="h17">
+              <legend class="fc-calc__dep-legend">17. Критичность отношения к болезни</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h17" value="h17-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">осознание болезни</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h17" value="h17-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">осознание болезненности состояния, но отнесение его на счет плохой пищи, климата, переутомления и т.д.</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="h17" value="h17-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">полное отсутствие сознания болезни</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+                  </div>
+                  <div class="fc-calc__dep-section">
+                    <h4 class="fc-calc__dep-section-title">Дополнительная шкала (пункты 18-21)</h4>
+                    <p class="fc-calc__dep-section-note">Баллы по этим пунктам не входят в суммарный балл тяжести депрессии. Можно заполнить любой или все пункты.</p>
+                    <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="hs1a">
+              <legend class="fc-calc__dep-legend">18. Суточные колебания</legend>
+              <p class="fc-calc__dep-group-hint">А. Когда симптомы более выражены</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs1a" value="hs1a-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие колебаний</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs1a" value="hs1a-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">утром</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs1a" value="hs1a-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">вечером</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hs1b">
+              <legend class="fc-calc__dep-legend fc-calc__dep-legend--sr-only">Б. Степень выраженности</legend>
+              <p class="fc-calc__dep-group-hint">Б. Степень выраженности</p>
+              <p class="fc-calc__dep-group-hint fc-calc__dep-group-hint--note">Заполняется при наличии суточных колебаний в пункте А</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs1b" value="hs1b-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs1b" value="hs1b-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">слабые</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs1b" value="hs1b-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">сильные</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hs2">
+              <legend class="fc-calc__dep-legend">19. Деперсонализация и дереализация</legend>
+              <p class="fc-calc__dep-group-hint">Измененность себя, окружающего</p>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs2" value="hs2-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs2" value="hs2-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">слабая</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs2" value="hs2-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">умеренная</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs2" value="hs2-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">сильная</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs2" value="hs2-4" data-score="4" />
+                  <span class="fc-calc__dep-option-text">непереносимая</span>
+                  <span class="fc-calc__dep-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hs3">
+              <legend class="fc-calc__dep-legend">20. Параноидальные симптомы</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs3" value="hs3-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs3" value="hs3-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">подозрительность</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs3" value="hs3-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">идеи отношения</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs3" value="hs3-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">бред отношения, преследования</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hs4">
+              <legend class="fc-calc__dep-legend">21. Обсессивные и компульсивные симптомы</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs4" value="hs4-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">отсутствие</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs4" value="hs4-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">легкие</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hs4" value="hs4-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">тяжелые</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+              </div>
+            </fieldset>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-depression-scales-hamilton-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-depression-scales-hamilton-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-depression-scales-hamilton-result" aria-live="polite">
+              <p class="fc-calc__result-label">Результат основной шкалы (пункты 1-17)</p>
+              <p class="fc-calc__result-number" id="fc-calc-depression-scales-hamilton-result-number">—</p>
+              <p class="fc-calc__result-desc" id="fc-calc-depression-scales-hamilton-result-desc"></p>
+              <p class="fc-calc__dep-supplementary" id="fc-calc-depression-scales-hamilton-supplementary" hidden>
+                Результат дополнительной шкалы (пункты 18-21):
+                <span class="fc-calc__dep-supplementary-score" id="fc-calc-depression-scales-hamilton-supplementary-score"></span>
+              </p>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала Гамильтона</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Шкала Гамильтона (HDRS): тяжесть депрессии определяется по сумме баллов за пункты 1–17.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Норма</td>
+                <td>7 и менее</td>
+              </tr>
+              <tr>
+                <td>Легкое депрессивное расстройство</td>
+                <td>от 8 до 13</td>
+              </tr>
+              <tr>
+                <td>Депрессивное расстройство средней степени тяжести</td>
+                <td>от 14 до 18</td>
+              </tr>
+              <tr>
+                <td>Депрессивное расстройство тяжелой степени</td>
+                <td>от 19 до 22</td>
+              </tr>
+              <tr>
+                <td>Депрессивное расстройство крайне тяжелой степени</td>
+                <td>23 и более</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+                <p>Четыре последних пункта шкалы Гамильтона (18-21) используются для оценки дополнительных симптомов депрессии и определения подтипов депрессивного расстройства. Баллы по данным 4 пунктам не используются при определении степени выраженности депрессии, и эти баллы не учитываются при подсчете суммарного балла, который определяет тяжесть депрессивного расстройства.</p>
+              </div>
+            </details>
+          </div>
+          <div
+            class="fc-calc__tab-panel"
+            role="tabpanel"
+            id="fc-calc-depression-scales-panel-phq"
+            data-scale="phq"
+            aria-labelledby="fc-calc-depression-scales-tab-phq"
+             hidden
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала PHQ</h3>
+                <p class="fc-calc__dep-scale-hint">Шкала PHQ (Patient Health Questionnaire) — скрининг депрессии. Шкала была разработана доктором медицинских наук Робертом Л. Спитцером, и его коллегами из Pfizer Inc.</p>
+                <form class="fc-calc__form" id="fc-calc-depression-scales-phq-form" novalidate>
+                  <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="pq1">
+              <legend class="fc-calc__dep-legend">1. Отсутствие интереса к происходящим событиям?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq1" value="pq1-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq1" value="pq1-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq1" value="pq1-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq1" value="pq1-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq2">
+              <legend class="fc-calc__dep-legend">2. Безразличие, подавленность?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq2" value="pq2-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq2" value="pq2-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq2" value="pq2-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq2" value="pq2-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq3">
+              <legend class="fc-calc__dep-legend">3. Проблемы с засыпанием, бессонница, наоборот спали слишком много?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq3" value="pq3-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq3" value="pq3-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq3" value="pq3-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq3" value="pq3-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq4">
+              <legend class="fc-calc__dep-legend">4. Чувство усталости или упадок сил?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq4" value="pq4-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq4" value="pq4-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq4" value="pq4-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq4" value="pq4-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq5">
+              <legend class="fc-calc__dep-legend">5. Отсутствие аппетита или переедание?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq5" value="pq5-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq5" value="pq5-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq5" value="pq5-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq5" value="pq5-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq6">
+              <legend class="fc-calc__dep-legend">6. Трудно сосредоточиться на чтении или просмотре телевизора?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq6" value="pq6-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq6" value="pq6-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq6" value="pq6-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq6" value="pq6-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq7">
+              <legend class="fc-calc__dep-legend">7. Двигаетесь или говорите необыкновенно медленно (заторможенность), или наоборот, возбуждены, двигаетесь больше, чем обычно?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq7" value="pq7-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq7" value="pq7-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq7" value="pq7-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq7" value="pq7-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="pq8">
+              <legend class="fc-calc__dep-legend">8. Мысли о самоубийстве, или причинении себе вреда?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq8" value="pq8-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">не каждый день</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq8" value="pq8-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">несколько дней</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq8" value="pq8-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">более чем в половине дней</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="pq8" value="pq8-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">почти каждый день</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-depression-scales-phq-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-depression-scales-phq-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-depression-scales-phq-result" aria-live="polite">
+              <p class="fc-calc__result-label">Суммарный балл</p>
+              <p class="fc-calc__result-number" id="fc-calc-depression-scales-phq-result-number">—</p>
+              <p class="fc-calc__result-desc" id="fc-calc-depression-scales-phq-result-desc"></p>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала PHQ</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Шкала PHQ (Patient Health Questionnaire) — опросник для диагностики наличия и тяжести депрессии. За каждый ответ — от 0 до 3 баллов.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Минимальная депрессия</td>
+                <td>менее 4</td>
+              </tr>
+              <tr>
+                <td>Легкая депрессия</td>
+                <td>от 5 до 9</td>
+              </tr>
+              <tr>
+                <td>Умеренная депрессия</td>
+                <td>от 10 до 14</td>
+              </tr>
+              <tr>
+                <td>Тяжелая депрессия</td>
+                <td>от 15 до 19</td>
+              </tr>
+              <tr>
+                <td>Крайне тяжелая депрессия</td>
+                <td>более 20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+              </div>
+            </details>
+          </div>
+          <div
+            class="fc-calc__tab-panel"
+            role="tabpanel"
+            id="fc-calc-depression-scales-panel-epds"
+            data-scale="epds"
+            aria-labelledby="fc-calc-depression-scales-tab-epds"
+             hidden
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала EPDS</h3>
+                <p class="fc-calc__dep-scale-hint">Шкала EPDS (Edinburgh Postnatal Depression Scale) — скрининг послеродовой депрессии.</p>
+                <form class="fc-calc__form" id="fc-calc-depression-scales-epds-form" novalidate>
+                  <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="e1">
+              <legend class="fc-calc__dep-legend">1. Я способна смеяться и видеть забавное в ситуациях.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e1" value="e1-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Да, как обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e1" value="e1-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Не так, как раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e1" value="e1-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Определенно, меньше</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e1" value="e1-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Совсем не могу</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e2">
+              <legend class="fc-calc__dep-legend">2. Я с нетерпением жду чего-то.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e2" value="e2-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Да, как обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e2" value="e2-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Не так, как раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e2" value="e2-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Определенно, меньше</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e2" value="e2-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Совсем не могу</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e3">
+              <legend class="fc-calc__dep-legend">3. Я виню себя без причины.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e3" value="e3-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, никогда</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e3" value="e3-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Не очень часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e3" value="e3-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e3" value="e3-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, большую часть времени</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e4">
+              <legend class="fc-calc__dep-legend">4. Я чувствую тревогу или беспокойство без причины.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e4" value="e4-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, совсем нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e4" value="e4-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Нет, не очень часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e4" value="e4-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e4" value="e4-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, очень часто</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e5">
+              <legend class="fc-calc__dep-legend">5. Я чувствую страх или панику без причины.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e5" value="e5-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, совсем нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e5" value="e5-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Нет, не очень часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e5" value="e5-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e5" value="e5-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, довольно часто</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e6">
+              <legend class="fc-calc__dep-legend">6. Я не справляюсь с делами.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e6" value="e6-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, я справляюсь хорошо</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e6" value="e6-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Нет, не очень часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e6" value="e6-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e6" value="e6-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, большую часть времени</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e7">
+              <legend class="fc-calc__dep-legend">7. Я чувствую себя несчастной, мне трудно спать.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e7" value="e7-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, совсем нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e7" value="e7-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Не очень часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e7" value="e7-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e7" value="e7-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, большую часть времени</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e8">
+              <legend class="fc-calc__dep-legend">8. Я чувствую себя грустной или подавленной.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e8" value="e8-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, совсем нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e8" value="e8-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Не очень часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e8" value="e8-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e8" value="e8-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, большую часть времени</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e9">
+              <legend class="fc-calc__dep-legend">9. Я плачу без причины.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e9" value="e9-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Нет, никогда</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e9" value="e9-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Только иногда</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e9" value="e9-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Да, иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e9" value="e9-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, большую часть времени</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="e10">
+              <legend class="fc-calc__dep-legend">10. У меня возникали мысли о причинении вреда себе.</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e10" value="e10-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">Никогда</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e10" value="e10-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">Едва ли</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e10" value="e10-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">Иногда</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="e10" value="e10-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">Да, довольно часто</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-depression-scales-epds-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-depression-scales-epds-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-depression-scales-epds-result" aria-live="polite">
+              <p class="fc-calc__result-label">Суммарный балл</p>
+              <p class="fc-calc__result-number" id="fc-calc-depression-scales-epds-result-number">—</p>
+              <p class="fc-calc__result-desc" id="fc-calc-depression-scales-epds-result-desc"></p>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала EPDS</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Шкала EPDS (Edinburgh Postnatal Depression Scale) — опросник из 10 вопросов для скрининга послеродовой депрессии за последние 7 дней. За каждый ответ — от 0 до 3 баллов.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Нормальное состояние; риск послеродовой депрессии низкий</td>
+                <td>0–9</td>
+              </tr>
+              <tr>
+                <td>Умеренный риск послеродовой депрессии; рекомендуется наблюдение</td>
+                <td>10–12</td>
+              </tr>
+              <tr>
+                <td>Высокий риск послеродовой депрессии; требуется консультация специалиста</td>
+                <td>13 и более</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+                <p><strong>Клиническое значение EPDS</strong></p>
+                <p><strong>Раннее выявление депрессии:</strong></p>
+                <p>EPDS позволяет выявить симптомы депрессии на ранней стадии, что особенно важно для предотвращения осложнений.</p>
+                <p><strong>Простота использования:</strong></p>
+                <p>Опросник состоит из простых вопросов, на которые легко ответить, что делает его удобным для использования в клинической практике.</p>
+                <p><strong>Мониторинг состояния:</strong></p>
+                <p>Регулярное использование EPDS помогает оценить динамику состояния женщины и эффективность лечения.</p>
+                <p><strong>Поддержка матери и ребенка:</strong></p>
+                <p>Раннее выявление и лечение депрессии улучшает качество жизни матери и способствует здоровому развитию ребенка.</p>
+              </div>
+            </details>
+          </div>
+          <div
+            class="fc-calc__tab-panel"
+            role="tabpanel"
+            id="fc-calc-depression-scales-panel-gds"
+            data-scale="gds"
+            aria-labelledby="fc-calc-depression-scales-tab-gds"
+             hidden
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Гериатрическая шкала депрессии</h3>
+                <p class="fc-calc__dep-scale-hint">Гериатрическая шкала депрессии (GDS) — диагностический инструмент для оценки психоэмоционального состояния пожилого человека. Разработана в начале 1980-х учёными из Стэнфорда (США).</p>
+                <form class="fc-calc__form" id="fc-calc-depression-scales-gds-form" novalidate>
+                  <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="g1">
+              <legend class="fc-calc__dep-legend">1. Довольны ли Вы в целом жизнью?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g1" value="g1-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g1" value="g1-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g2">
+              <legend class="fc-calc__dep-legend">2. От многих ли занятий и форм проведения досуга Вы отказались?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g2" value="g2-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g2" value="g2-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g3">
+              <legend class="fc-calc__dep-legend">3. Есть ли у Вас чувство, что Ваша жизнь пуста?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g3" value="g3-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g3" value="g3-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g4">
+              <legend class="fc-calc__dep-legend">4. Вы часто скучаете?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g4" value="g4-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g4" value="g4-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g5">
+              <legend class="fc-calc__dep-legend">5. У Вас обычно хорошее настроение?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g5" value="g5-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g5" value="g5-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g6">
+              <legend class="fc-calc__dep-legend">6. Боитесь ли Вы, что с Вами произойдет что-то плохое?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g6" value="g6-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g6" value="g6-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g7">
+              <legend class="fc-calc__dep-legend">7. Ощущаете ли Вы себя по большей части удовлетворенным человеком?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g7" value="g7-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g7" value="g7-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g8">
+              <legend class="fc-calc__dep-legend">8. Часто ли Вы чувствуете себя беспомощным?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g8" value="g8-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g8" value="g8-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g9">
+              <legend class="fc-calc__dep-legend">9. Предпочитаете ли Вы остаться дома или выйти на прогулку за новыми впечатлениями?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g9" value="g9-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g9" value="g9-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g10">
+              <legend class="fc-calc__dep-legend">10. Считаете ли Вы, что у Вас память хуже, чем у большинства людей?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g10" value="g10-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g10" value="g10-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g11">
+              <legend class="fc-calc__dep-legend">11. Считаете ли Вы, что сейчас жить хорошо?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g11" value="g11-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g11" value="g11-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g12">
+              <legend class="fc-calc__dep-legend">12. Чувствуете ли Вы себя в данный момент ненужным?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g12" value="g12-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g12" value="g12-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g13">
+              <legend class="fc-calc__dep-legend">13. Ощущаете ли Вы себя полным энергии?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g13" value="g13-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g13" value="g13-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g14">
+              <legend class="fc-calc__dep-legend">14. Есть ли у Вас ощущение, что Ваше положение безнадежно?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g14" value="g14-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g14" value="g14-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="g15">
+              <legend class="fc-calc__dep-legend">15. Считаете ли Вы, что большинству людей живется лучше, чем Вам?</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g15" value="g15-0" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="g15" value="g15-1" data-score="0" />
+                  <span class="fc-calc__dep-option-text">нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-depression-scales-gds-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-depression-scales-gds-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-depression-scales-gds-result" aria-live="polite">
+              <p class="fc-calc__result-label">Суммарный балл</p>
+              <p class="fc-calc__result-number" id="fc-calc-depression-scales-gds-result-number">—</p>
+              <p class="fc-calc__result-desc" id="fc-calc-depression-scales-gds-result-desc"></p>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Гериатрическая шкала депрессии</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Гериатрическая шкала депрессии (GDS) — 15 вопросов с ответами «да» или «нет». Чувствительность 92%, специфичность 89%.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Нет признаков депрессии</td>
+                <td>менее 6</td>
+              </tr>
+              <tr>
+                <td>Обнаруживаются признаки депрессии</td>
+                <td>6 и более</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+              </div>
+            </details>
+          </div>
+          <div
+            class="fc-calc__tab-panel"
+            role="tabpanel"
+            id="fc-calc-depression-scales-panel-hads"
+            data-scale="hads"
+            aria-labelledby="fc-calc-depression-scales-tab-hads"
+            hidden
+          >
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Шкала тревоги и депрессии HADS</h3>
+                <p class="fc-calc__dep-scale-hint">Шкала HADS (Hospital Anxiety and Depression Scale) — скрининговая шкала для выявления признаков тревоги и депрессии. Разработана в 1983 году Zigmond A.S. и Snaith R.P.</p>
+                <form class="fc-calc__form" id="fc-calc-depression-scales-hads-form" novalidate>
+                  <div class="fc-calc__dep-section">
+                    <h4 class="fc-calc__dep-section-title">Часть I — оценка уровня тревоги</h4>
+                    <p class="fc-calc__dep-section-note">Можно заполнить и рассчитать отдельно от части II.</p>
+                    <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="ha1">
+              <legend class="fc-calc__dep-legend">1. Я испытываю напряжение, мне не по себе</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha1" value="ha1-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">все время</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha1" value="ha1-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">часто</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha1" value="ha1-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">время от времени, иногда</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha1" value="ha1-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">совсем не испытываю</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="ha2">
+              <legend class="fc-calc__dep-legend">2. Я испытываю страх, кажется, что что-то ужасное может вот-вот случиться</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha2" value="ha2-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">определенно это так, и страх очень велик</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha2" value="ha2-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">да, это так, но страх не очень велик</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha2" value="ha2-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">иногда, но это меня не беспокоит</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha2" value="ha2-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">совсем не испытываю</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="ha3">
+              <legend class="fc-calc__dep-legend">3. Беспокойные мысли крутятся у меня в голове</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha3" value="ha3-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">постоянно</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha3" value="ha3-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">большую часть времени</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha3" value="ha3-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">время от времени и не так часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha3" value="ha3-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">только иногда</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="ha4">
+              <legend class="fc-calc__dep-legend">4. Я легко могу присесть и расслабиться</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha4" value="ha4-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">определенно, это так</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha4" value="ha4-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">наверно, это так</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha4" value="ha4-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">лишь изредка, это так</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha4" value="ha4-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">совсем не могу</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="ha5">
+              <legend class="fc-calc__dep-legend">5. Я испытываю внутреннее напряжение или дрожь</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha5" value="ha5-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">совсем не испытываю</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha5" value="ha5-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">иногда</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha5" value="ha5-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">часто</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha5" value="ha5-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">очень часто</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="ha6">
+              <legend class="fc-calc__dep-legend">6. Я испытываю неусидчивость, мне постоянно нужно двигаться</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha6" value="ha6-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">определенно, это так</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha6" value="ha6-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">наверно, это так</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha6" value="ha6-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">лишь в некоторой степени, это так</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha6" value="ha6-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">совсем не испытываю</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="ha7">
+              <legend class="fc-calc__dep-legend">7. У меня бывает внезапное чувство паники</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha7" value="ha7-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">очень часто</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha7" value="ha7-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">довольно часто</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha7" value="ha7-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">не так уж часто</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="ha7" value="ha7-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">совсем не бывает</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+                    </div>
+                  </div>
+                  <div class="fc-calc__dep-section">
+                    <h4 class="fc-calc__dep-section-title">Часть II — оценка уровня депрессии</h4>
+                    <p class="fc-calc__dep-section-note">Можно заполнить и рассчитать отдельно от части I.</p>
+                    <div class="fc-calc__dep-questions">
+            <fieldset class="fc-calc__dep-group" data-item-id="hd1">
+              <legend class="fc-calc__dep-legend">1. То, что приносило мне большое удовольствие, и сейчас вызывает у меня такое же чувство</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd1" value="hd1-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">определенно, это так</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd1" value="hd1-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">наверное, это так</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd1" value="hd1-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">лишь в очень малой степени, это так</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd1" value="hd1-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">это совсем не так</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hd2">
+              <legend class="fc-calc__dep-legend">2. Я способен рассмеяться и увидеть в том или ином событии смешное</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd2" value="hd2-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">определенно, это так</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd2" value="hd2-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">наверное, это так</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd2" value="hd2-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">лишь в очень малой степени, это так</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd2" value="hd2-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">совсем не способен</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hd3">
+              <legend class="fc-calc__dep-legend">3. Я испытываю бодрость</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd3" value="hd3-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">совсем не испытываю</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd3" value="hd3-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">очень редко</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd3" value="hd3-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">иногда</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd3" value="hd3-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">практически все время</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hd4">
+              <legend class="fc-calc__dep-legend">4. Мне кажется, что я стал все делать очень медленно</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd4" value="hd4-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">практически все время</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd4" value="hd4-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">часто</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd4" value="hd4-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">иногда</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd4" value="hd4-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">совсем нет</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hd5">
+              <legend class="fc-calc__dep-legend">5. Я не слежу за своей внешностью</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd5" value="hd5-0" data-score="3" />
+                  <span class="fc-calc__dep-option-text">определенно, это так</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd5" value="hd5-1" data-score="2" />
+                  <span class="fc-calc__dep-option-text">я не уделяю этому столько времени, сколько нужно</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd5" value="hd5-2" data-score="1" />
+                  <span class="fc-calc__dep-option-text">может быть, я стал меньше уделять этому времени</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd5" value="hd5-3" data-score="0" />
+                  <span class="fc-calc__dep-option-text">я слежу за собой так же, как и раньше</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hd6">
+              <legend class="fc-calc__dep-legend">6. Я считаю, что мои дела (занятия, увлечения) могут принести мне чувство удовлетворения</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd6" value="hd6-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">точно так же, как и обычно</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd6" value="hd6-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">да, но не в той степени, как раньше</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd6" value="hd6-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">значительно меньше, чем обычно</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd6" value="hd6-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">совсем так не считаю</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__dep-group" data-item-id="hd7">
+              <legend class="fc-calc__dep-legend">7. Я могу получить удовольствие от хорошей книги, радио- или телепрограммы</legend>
+              <div class="fc-calc__dep-options">
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd7" value="hd7-0" data-score="0" />
+                  <span class="fc-calc__dep-option-text">часто</span>
+                  <span class="fc-calc__dep-points">0</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd7" value="hd7-1" data-score="1" />
+                  <span class="fc-calc__dep-option-text">иногда</span>
+                  <span class="fc-calc__dep-points">+1</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd7" value="hd7-2" data-score="2" />
+                  <span class="fc-calc__dep-option-text">редко</span>
+                  <span class="fc-calc__dep-points">+2</span>
+                </label>
+                <label class="fc-calc__dep-option">
+                  <input type="radio" name="hd7" value="hd7-3" data-score="3" />
+                  <span class="fc-calc__dep-option-text">очень редко</span>
+                  <span class="fc-calc__dep-points">+3</span>
+                </label>
+              </div>
+            </fieldset>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="fc-calc__actions">
+              <button type="submit" id="fc-calc-depression-scales-hads-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-depression-scales-hads-form" disabled>Рассчитать</button>
+            </div>
+            <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-depression-scales-hads-result" aria-live="polite">
+              <div class="fc-calc__dep-hads-block" id="fc-calc-depression-scales-hads-anxiety-block" hidden>
+                <p class="fc-calc__result-label">Часть I — уровень тревоги</p>
+                <p class="fc-calc__result-number" id="fc-calc-depression-scales-hads-anxiety-number">—</p>
+                <p class="fc-calc__result-desc" id="fc-calc-depression-scales-hads-anxiety-desc"></p>
+              </div>
+              <div class="fc-calc__dep-hads-block" id="fc-calc-depression-scales-hads-depression-block" hidden>
+                <p class="fc-calc__result-label">Часть II — уровень депрессии</p>
+                <p class="fc-calc__result-number" id="fc-calc-depression-scales-hads-depression-number">—</p>
+                <p class="fc-calc__result-desc" id="fc-calc-depression-scales-hads-depression-desc"></p>
+              </div>
+            </div>
+            <details class="fc-calc__notes fc-calc__notes--inline">
+              <summary class="fc-calc__notes-summary">
+                <span class="fc-calc__notes-title">Примечание. Шкала HADS</span>
+                <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="fc-calc__notes-body">
+                <p>Шкала HADS состоит из двух подшкал: часть I — тревога (7 вопросов), часть II — депрессия (7 вопросов). За каждый ответ — от 0 до 3 баллов.</p>
+                <p><strong>Интерпретация части I (тревога)</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Норма (отсутствие достоверно выраженных симптомов тревоги)</td>
+                <td>менее 7</td>
+              </tr>
+              <tr>
+                <td>Субклинически выраженная тревога</td>
+                <td>от 8 до 10</td>
+              </tr>
+              <tr>
+                <td>Клинически выраженная тревога</td>
+                <td>более 11</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+                <p><strong>Интерпретация части II (депрессия)</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Результат</th>
+                <th>Набрано баллов</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Норма (отсутствие достоверно выраженных симптомов депрессии)</td>
+                <td>менее 7</td>
+              </tr>
+              <tr>
+                <td>Субклинически выраженная депрессия</td>
+                <td>от 8 до 10</td>
+              </tr>
+              <tr>
+                <td>Клинически выраженная депрессия</td>
+                <td>более 11</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+              </div>
+            </details>
+          </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Общее примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор объединяет шесть распространённых шкал оценки депрессии и смежных состояний. Переключайте вкладки для выбора нужной шкалы.</p>
+        <ul>
+          <li><strong>Шкала Бека</strong> — Опросник депрессии Бека (BDI) — самооценка тяжести депрессивных симптомов.</li>
+          <li><strong>Шкала Гамильтона</strong> — Шкала Гамильтона (HDRS — Hamilton Rating Scale for Depression, HAM-D) — клиническая оценка тяжести депрессии.</li>
+          <li><strong>Шкала PHQ</strong> — Шкала PHQ (Patient Health Questionnaire) — скрининг депрессии. Шкала была разработана доктором медицинских наук Робертом Л. Спитцером, и его коллегами из Pfizer Inc.</li>
+          <li><strong>Шкала EPDS</strong> — Шкала EPDS (Edinburgh Postnatal Depression Scale) — скрининг послеродовой депрессии.</li>
+          <li><strong>Гериатрическая шкала депрессии</strong> — Гериатрическая шкала депрессии (GDS) — диагностический инструмент для оценки психоэмоционального состояния пожилого человека. Разработана в начале 1980-х учёными из Стэнфорда (США).</li>
+          <li><strong>Шкала тревоги и депрессии HADS</strong> — Шкала HADS (Hospital Anxiety and Depression Scale) — скрининговая шкала для выявления признаков тревоги и депрессии. Разработана в 1983 году Zigmond A.S. и Snaith R.P.</li>
+        </ul>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="depression-scales"]');
+      if (!root) return;
+
+      var tabs = root.querySelectorAll('.fc-calc__tab[data-scale]');
+      var panels = root.querySelectorAll('.fc-calc__tab-panel[data-scale]');
+
+      function switchScale(scaleId) {
+        tabs.forEach(function (tab) {
+          var active = tab.getAttribute('data-scale') === scaleId;
+          tab.classList.toggle('fc-calc__tab--active', active);
+          tab.setAttribute('aria-selected', active ? 'true' : 'false');
+          tab.tabIndex = active ? 0 : -1;
+        });
+
+        panels.forEach(function (panel) {
+          var active = panel.getAttribute('data-scale') === scaleId;
+          panel.classList.toggle('fc-calc__tab-panel--active', active);
+          panel.hidden = !active;
+        });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          switchScale(tab.getAttribute('data-scale'));
+        });
+
+        tab.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          e.preventDefault();
+          var list = Array.prototype.slice.call(tabs);
+          var index = list.indexOf(tab);
+          if (index < 0) return;
+          var next = e.key === 'ArrowRight' ? index + 1 : index - 1;
+          if (next < 0) next = list.length - 1;
+          if (next >= list.length) next = 0;
+          list[next].focus();
+          switchScale(list[next].getAttribute('data-scale'));
+        });
+      });
+
+      function initScaleForm(config) {
+        var form = root.querySelector(config.formId);
+        var calcBtn = root.querySelector(config.btnId);
+        var resultWrap = root.querySelector(config.resultId);
+        var resultNumber = root.querySelector(config.numberId);
+        var resultDesc = root.querySelector(config.descId);
+        var supplementaryEl = config.supplementaryId
+          ? root.querySelector(config.supplementaryId)
+          : null;
+        var supplementaryScoreEl = config.supplementaryScoreId
+          ? root.querySelector(config.supplementaryScoreId)
+          : null;
+
+        if (!form || !calcBtn || !resultWrap) return;
+
+        function hideResult() {
+          resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        }
+
+        function getScores(requiredIds, optionalIds) {
+          var scores = {};
+          var complete = true;
+
+          requiredIds.forEach(function (id) {
+            var checked = form.querySelector('input[name="' + id + '"]:checked');
+            if (!checked) {
+              complete = false;
+              return;
+            }
+            scores[id] = Number(checked.getAttribute('data-score') ?? checked.value);
+          });
+
+          if (optionalIds) {
+            optionalIds.forEach(function (id) {
+              var checked = form.querySelector('input[name="' + id + '"]:checked');
+              if (checked) {
+                scores[id] = Number(checked.getAttribute('data-score') ?? checked.value);
+              }
+            });
+          }
+
+          return { scores: scores, complete: complete };
+        }
+
+        function updateButton() {
+          var ok = getScores(config.requiredIds, config.optionalIds).complete;
+          calcBtn.disabled = !ok;
+          calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+        }
+
+        form.addEventListener('change', function () {
+          hideResult();
+          updateButton();
+        });
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var parsed = getScores(config.requiredIds, config.optionalIds);
+          if (!parsed.complete) return;
+
+          var out = config.compute(parsed.scores);
+          resultNumber.textContent = String(out.total);
+          resultNumber.className = 'fc-calc__result-number fc-calc__result-number--' + out.category;
+          resultDesc.textContent = out.text;
+
+          if (supplementaryEl) {
+            var hasSupplementary = config.optionalIds.some(function (id) {
+              return parsed.scores[id] != null;
+            });
+            if (hasSupplementary) {
+              if (supplementaryScoreEl) {
+                supplementaryScoreEl.textContent = formatScoreLabel(out.supplementaryTotal);
+              }
+              supplementaryEl.hidden = false;
+            } else {
+              supplementaryEl.hidden = true;
+              if (supplementaryScoreEl) supplementaryScoreEl.textContent = '';
+            }
+          }
+
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        });
+
+        updateButton();
+      }
+
+      function formatScoreLabel(n) {
+        var mod10 = n % 10;
+        var mod100 = n % 100;
+        var word = 'баллов';
+        if (mod100 >= 11 && mod100 <= 14) word = 'баллов';
+        else if (mod10 === 1) word = 'балл';
+        else if (mod10 >= 2 && mod10 <= 4) word = 'балла';
+        return String(n) + ' ' + word;
+      }
+
+      initScaleForm({
+        formId: '#fc-calc-depression-scales-beck-form',
+        btnId: '#fc-calc-depression-scales-beck-btn',
+        resultId: '#fc-calc-depression-scales-beck-result',
+        numberId: '#fc-calc-depression-scales-beck-result-number',
+        descId: '#fc-calc-depression-scales-beck-result-desc',
+        requiredIds: [
+          'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10',
+          'q11', 'q12', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18', 'q19', 'q20', 'q21'
+        ],
+        compute: function (scores) {
+          var total = 0;
+          for (var key in scores) {
+            if (Object.prototype.hasOwnProperty.call(scores, key)) total += scores[key];
+          }
+          if (total < 10) return { total: total, category: 'none', text: 'Отсутствие депрессивных симптомов' };
+          if (total <= 15) return { total: total, category: 'mild', text: 'Легкая депрессия (субдепрессия)' };
+          if (total <= 19) return { total: total, category: 'moderate', text: 'Умеренная депрессия' };
+          if (total <= 29) return { total: total, category: 'marked', text: 'Выраженная депрессия (средней тяжести)' };
+          return { total: total, category: 'severe', text: 'Тяжелая депрессия' };
+        }
+      });
+
+      initScaleForm({
+        formId: '#fc-calc-depression-scales-hamilton-form',
+        btnId: '#fc-calc-depression-scales-hamilton-btn',
+        resultId: '#fc-calc-depression-scales-hamilton-result',
+        numberId: '#fc-calc-depression-scales-hamilton-result-number',
+        descId: '#fc-calc-depression-scales-hamilton-result-desc',
+        supplementaryId: '#fc-calc-depression-scales-hamilton-supplementary',
+        supplementaryScoreId: '#fc-calc-depression-scales-hamilton-supplementary-score',
+        requiredIds: [
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10',
+          'h11', 'h12', 'h13', 'h14', 'h15', 'h16', 'h17'
+        ],
+        optionalIds: ['hs1a', 'hs1b', 'hs2', 'hs3', 'hs4'],
+        compute: function (scores) {
+          var coreIds = [
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10',
+            'h11', 'h12', 'h13', 'h14', 'h15', 'h16', 'h17'
+          ];
+          var suppIds = ['hs1a', 'hs1b', 'hs2', 'hs3', 'hs4'];
+          var total = 0;
+          var supplementaryTotal = 0;
+          coreIds.forEach(function (id) { total += scores[id] || 0; });
+          suppIds.forEach(function (id) {
+            if (scores[id] != null) supplementaryTotal += scores[id];
+          });
+          if (total <= 7) return { total: total, supplementaryTotal: supplementaryTotal, category: 'normal', text: 'Норма' };
+          if (total <= 13) return { total: total, supplementaryTotal: supplementaryTotal, category: 'mild', text: 'Легкое депрессивное расстройство' };
+          if (total <= 18) return { total: total, supplementaryTotal: supplementaryTotal, category: 'moderate', text: 'Депрессивное расстройство средней степени тяжести' };
+          if (total <= 22) return { total: total, supplementaryTotal: supplementaryTotal, category: 'severe', text: 'Депрессивное расстройство тяжелой степени' };
+          return { total: total, supplementaryTotal: supplementaryTotal, category: 'extreme', text: 'Депрессивное расстройство крайне тяжелой степени' };
+        }
+      });
+
+      initScaleForm({
+        formId: '#fc-calc-depression-scales-phq-form',
+        btnId: '#fc-calc-depression-scales-phq-btn',
+        resultId: '#fc-calc-depression-scales-phq-result',
+        numberId: '#fc-calc-depression-scales-phq-result-number',
+        descId: '#fc-calc-depression-scales-phq-result-desc',
+        requiredIds: ['pq1', 'pq2', 'pq3', 'pq4', 'pq5', 'pq6', 'pq7', 'pq8'],
+        compute: function (scores) {
+          var total = 0;
+          for (var key in scores) {
+            if (Object.prototype.hasOwnProperty.call(scores, key)) total += scores[key];
+          }
+          if (total < 5) return { total: total, category: 'minimal', text: 'Минимальная депрессия' };
+          if (total <= 9) return { total: total, category: 'mild', text: 'Легкая депрессия' };
+          if (total <= 14) return { total: total, category: 'moderate', text: 'Умеренная депрессия' };
+          if (total <= 19) return { total: total, category: 'severe', text: 'Тяжелая депрессия' };
+          return { total: total, category: 'extreme', text: 'Крайне тяжелая депрессия' };
+        }
+      });
+
+      initScaleForm({
+        formId: '#fc-calc-depression-scales-epds-form',
+        btnId: '#fc-calc-depression-scales-epds-btn',
+        resultId: '#fc-calc-depression-scales-epds-result',
+        numberId: '#fc-calc-depression-scales-epds-result-number',
+        descId: '#fc-calc-depression-scales-epds-result-desc',
+        requiredIds: ['e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10'],
+        compute: function (scores) {
+          var total = 0;
+          for (var key in scores) {
+            if (Object.prototype.hasOwnProperty.call(scores, key)) total += scores[key];
+          }
+          if (total <= 9) return { total: total, category: 'normal', text: 'Нормальное состояние; риск послеродовой депрессии низкий' };
+          if (total <= 12) return { total: total, category: 'moderate', text: 'Умеренный риск послеродовой депрессии; рекомендуется наблюдение' };
+          return { total: total, category: 'high', text: 'Высокий риск послеродовой депрессии; требуется консультация специалиста' };
+        }
+      });
+
+      initScaleForm({
+        formId: '#fc-calc-depression-scales-gds-form',
+        btnId: '#fc-calc-depression-scales-gds-btn',
+        resultId: '#fc-calc-depression-scales-gds-result',
+        numberId: '#fc-calc-depression-scales-gds-result-number',
+        descId: '#fc-calc-depression-scales-gds-result-desc',
+        requiredIds: [
+          'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8', 'g9', 'g10',
+          'g11', 'g12', 'g13', 'g14', 'g15'
+        ],
+        compute: function (scores) {
+          var total = 0;
+          for (var key in scores) {
+            if (Object.prototype.hasOwnProperty.call(scores, key)) total += scores[key];
+          }
+          if (total < 6) return { total: total, category: 'normal', text: 'Нет признаков депрессии' };
+          return { total: total, category: 'depression', text: 'Обнаруживаются признаки депрессии' };
+        }
+      });
+
+      (function initHadsForm() {
+        var form = root.querySelector('#fc-calc-depression-scales-hads-form');
+        var calcBtn = root.querySelector('#fc-calc-depression-scales-hads-btn');
+        var resultWrap = root.querySelector('#fc-calc-depression-scales-hads-result');
+        var anxietyBlock = root.querySelector('#fc-calc-depression-scales-hads-anxiety-block');
+        var depressionBlock = root.querySelector('#fc-calc-depression-scales-hads-depression-block');
+        var anxietyNumber = root.querySelector('#fc-calc-depression-scales-hads-anxiety-number');
+        var anxietyDesc = root.querySelector('#fc-calc-depression-scales-hads-anxiety-desc');
+        var depressionNumber = root.querySelector('#fc-calc-depression-scales-hads-depression-number');
+        var depressionDesc = root.querySelector('#fc-calc-depression-scales-hads-depression-desc');
+
+        if (!form || !calcBtn || !resultWrap) return;
+
+        var anxietyIds = ['ha1', 'ha2', 'ha3', 'ha4', 'ha5', 'ha6', 'ha7'];
+        var depressionIds = ['hd1', 'hd2', 'hd3', 'hd4', 'hd5', 'hd6', 'hd7'];
+
+        function hideResult() {
+          resultWrap.classList.add('fc-calc__result-wrap--hidden');
+          if (anxietyBlock) anxietyBlock.hidden = true;
+          if (depressionBlock) depressionBlock.hidden = true;
+        }
+
+        function isSectionComplete(ids) {
+          return ids.every(function (id) {
+            return form.querySelector('input[name="' + id + '"]:checked');
+          });
+        }
+
+        function getSectionScores(ids) {
+          var scores = {};
+          if (!isSectionComplete(ids)) return scores;
+          ids.forEach(function (id) {
+            var checked = form.querySelector('input[name="' + id + '"]:checked');
+            scores[id] = Number(checked.getAttribute('data-score') ?? checked.value);
+          });
+          return scores;
+        }
+
+        function sumIds(scores, ids) {
+          var total = 0;
+          ids.forEach(function (id) { total += scores[id] || 0; });
+          return total;
+        }
+
+        function interpretAnxiety(total) {
+          if (total < 8) return { category: 'normal', text: 'Норма (отсутствие достоверно выраженных симптомов тревоги)' };
+          if (total <= 10) return { category: 'subclinical', text: 'Субклинически выраженная тревога' };
+          return { category: 'clinical', text: 'Клинически выраженная тревога' };
+        }
+
+        function interpretDepression(total) {
+          if (total < 8) return { category: 'normal', text: 'Норма (отсутствие достоверно выраженных симптомов депрессии)' };
+          if (total <= 10) return { category: 'subclinical', text: 'Субклинически выраженная депрессия' };
+          return { category: 'clinical', text: 'Клинически выраженная депрессия' };
+        }
+
+        function updateButton() {
+          var ok = isSectionComplete(anxietyIds) || isSectionComplete(depressionIds);
+          calcBtn.disabled = !ok;
+          calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+        }
+
+        form.addEventListener('change', function () {
+          hideResult();
+          updateButton();
+        });
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          var anxietyComplete = isSectionComplete(anxietyIds);
+          var depressionComplete = isSectionComplete(depressionIds);
+          if (!anxietyComplete && !depressionComplete) return;
+
+          if (anxietyComplete && anxietyBlock && anxietyNumber && anxietyDesc) {
+            var anxietyTotal = sumIds(getSectionScores(anxietyIds), anxietyIds);
+            var anxietyInfo = interpretAnxiety(anxietyTotal);
+            anxietyNumber.textContent = String(anxietyTotal);
+            anxietyNumber.className = 'fc-calc__result-number fc-calc__result-number--' + anxietyInfo.category;
+            anxietyDesc.textContent = anxietyInfo.text;
+            anxietyBlock.hidden = false;
+          } else if (anxietyBlock) {
+            anxietyBlock.hidden = true;
+          }
+
+          if (depressionComplete && depressionBlock && depressionNumber && depressionDesc) {
+            var depressionTotal = sumIds(getSectionScores(depressionIds), depressionIds);
+            var depressionInfo = interpretDepression(depressionTotal);
+            depressionNumber.textContent = String(depressionTotal);
+            depressionNumber.className = 'fc-calc__result-number fc-calc__result-number--' + depressionInfo.category;
+            depressionDesc.textContent = depressionInfo.text;
+            depressionBlock.hidden = false;
+          } else if (depressionBlock) {
+            depressionBlock.hidden = true;
+          }
+
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        });
+
+        updateButton();
+      })();
+
+      var hamiltonForm = root.querySelector('#fc-calc-depression-scales-hamilton-form');
+      if (hamiltonForm) {
+        function syncHamiltonDailyVariation(form) {
+          var selectedA = form.querySelector('input[name="hs1a"]:checked');
+          var optionsB = form.querySelectorAll('input[name="hs1b"]');
+          var groupB = form.querySelector('[data-item-id="hs1b"]');
+
+          if (!selectedA) {
+            optionsB.forEach(function (input) {
+              input.disabled = false;
+              var option = input.closest('.fc-calc__dep-option');
+              if (option) option.classList.remove('fc-calc__dep-option--disabled');
+            });
+            if (groupB) groupB.classList.remove('fc-calc__dep-group--locked');
+            return;
+          }
+
+          var index = selectedA.value.split('-').pop();
+          var scoreA = Number(selectedA.getAttribute('data-score') ?? index);
+          var lockB = scoreA === 0;
+
+          if (lockB) {
+            var targetB = form.querySelector('input[name="hs1b"][value="hs1b-0"]');
+            if (targetB) targetB.checked = true;
+          } else {
+            optionsB.forEach(function (input) {
+              input.checked = false;
+            });
+          }
+
+          optionsB.forEach(function (input) {
+            var option = input.closest('.fc-calc__dep-option');
+            var isZero = Number(input.getAttribute('data-score') ?? 0) === 0;
+            var disabled = lockB && !isZero;
+            input.disabled = disabled;
+            if (option) option.classList.toggle('fc-calc__dep-option--disabled', disabled);
+          });
+          if (groupB) groupB.classList.toggle('fc-calc__dep-group--locked', lockB);
+        }
+
+        hamiltonForm.addEventListener('change', function (e) {
+          if (!e.target || e.target.name !== 'hs1a') return;
+          syncHamiltonDailyVariation(hamiltonForm);
+        });
+      }
+    })();
+  </script>
+</div>
