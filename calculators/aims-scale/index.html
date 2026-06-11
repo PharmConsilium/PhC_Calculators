@@ -1,0 +1,1441 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Шкала AIMS
+-->
+<div class="fc-calc" data-calculator="aims-scale">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* aims-scale */
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-section-note {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-legend {
+  margin: 0 0 6px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-option:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-option-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-movement-line {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-movement-value {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-movement-value--low {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-movement-value--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-movement-value--high {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-movement-interp {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-additional-title {
+  margin: 0 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-additional-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-additional-list li {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-additional-label {
+  color: #000;
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__aims-additional-list li strong {
+  font-weight: 600;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="aims-scale"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="aims-scale"] .fc-calc__notes-body li,
+.fc-calc[data-calculator="aims-scale"] .fc-calc__notes-body td {
+  color: #000;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Шкала AIMS</h2>
+        <p class="fc-calc__hint">Abnormal Involuntary Movement Scale — оценка аномальных непроизвольных движений при поздней дискинезии</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-aims-scale-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Оценка двигательных нарушений по шкале AIMS</h3>
+              <div class="fc-calc__aims-section">
+                <p class="fc-calc__aims-section-note">Пункты 1–7: оценка движений по группам мышц (0–4 балла за каждый пункт).</p>
+                <div class="fc-calc__aims-questions">
+            <fieldset class="fc-calc__aims-group" data-item-id="facial">
+              <legend class="fc-calc__aims-legend">1. Мимические мышцы</legend>
+              <p class="fc-calc__aims-hint">Оценка движений лба, бровей, щёк, окружности глаз</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="facial" value="facial-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="facial" value="facial-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="facial" value="facial-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="facial" value="facial-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="facial" value="facial-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="lips">
+              <legend class="fc-calc__aims-legend">2. Губы и окружность рта</legend>
+              <p class="fc-calc__aims-hint">Движения губ: сморщивание, надувание, чмокание</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lips" value="lips-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lips" value="lips-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lips" value="lips-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lips" value="lips-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lips" value="lips-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="jaw">
+              <legend class="fc-calc__aims-legend">3. Челюсти</legend>
+              <p class="fc-calc__aims-hint">Кусание, сжимание, жевание, открывание рта</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="jaw" value="jaw-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="jaw" value="jaw-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="jaw" value="jaw-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="jaw" value="jaw-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="jaw" value="jaw-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="tongue">
+              <legend class="fc-calc__aims-legend">4. Язык</legend>
+              <p class="fc-calc__aims-hint">Движения языка внутри и вне рта</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="tongue" value="tongue-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="tongue" value="tongue-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="tongue" value="tongue-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="tongue" value="tongue-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="tongue" value="tongue-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="upperLimbs">
+              <legend class="fc-calc__aims-legend">5. Верхние конечности</legend>
+              <p class="fc-calc__aims-hint">Хореоподобные и атетоидные движения предплечий, запястий, кистей и пальцев</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="upperLimbs" value="upperLimbs-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="upperLimbs" value="upperLimbs-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="upperLimbs" value="upperLimbs-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="upperLimbs" value="upperLimbs-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="upperLimbs" value="upperLimbs-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="lowerLimbs">
+              <legend class="fc-calc__aims-legend">6. Нижние конечности</legend>
+              <p class="fc-calc__aims-hint">Движения ног, коленей, стоп и пальцев ног</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lowerLimbs" value="lowerLimbs-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lowerLimbs" value="lowerLimbs-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lowerLimbs" value="lowerLimbs-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lowerLimbs" value="lowerLimbs-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="lowerLimbs" value="lowerLimbs-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="trunk">
+              <legend class="fc-calc__aims-legend">7. Шея, плечи, бёдра</legend>
+              <p class="fc-calc__aims-hint">Движения туловища: качание, вращение, изгибание</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="trunk" value="trunk-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="trunk" value="trunk-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="trunk" value="trunk-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="trunk" value="trunk-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="trunk" value="trunk-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+                </div>
+              </div>
+              <div class="fc-calc__aims-section">
+                <p class="fc-calc__aims-section-note">Пункты 8–12: общие оценки и дополнительная информация.</p>
+                <div class="fc-calc__aims-questions">
+            <fieldset class="fc-calc__aims-group" data-item-id="severity">
+              <legend class="fc-calc__aims-legend">8. Степень тяжести аномальных движений</legend>
+              <p class="fc-calc__aims-hint">Общая оценка тяжести двигательных нарушений</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="severity" value="severity-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют/в пределах нормы)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="severity" value="severity-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="severity" value="severity-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="severity" value="severity-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="severity" value="severity-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="disability">
+              <legend class="fc-calc__aims-legend">9. Ограничения дееспособности</legend>
+              <p class="fc-calc__aims-hint">Влияние двигательных нарушений на повседневную жизнь пациента</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="disability" value="disability-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствуют/в пределах нормы)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="disability" value="disability-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="disability" value="disability-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="disability" value="disability-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="disability" value="disability-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (тяжёлая степень)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="awareness">
+              <legend class="fc-calc__aims-legend">10. Осознание пациентом аномальных движений</legend>
+              <p class="fc-calc__aims-hint">Насколько пациент осведомлён о своих движениях и как они его беспокоят</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="awareness" value="awareness-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (отсутствует)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="awareness" value="awareness-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (лёгкая степень)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="awareness" value="awareness-2" data-score="2" />
+                  <span class="fc-calc__aims-option-text">2 (умеренная степень)</span>
+                  <span class="fc-calc__aims-points">+2</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="awareness" value="awareness-3" data-score="3" />
+                  <span class="fc-calc__aims-option-text">3 (выраженная степень)</span>
+                  <span class="fc-calc__aims-points">+3</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="awareness" value="awareness-4" data-score="4" />
+                  <span class="fc-calc__aims-option-text">4 (осведомлён, страдает)</span>
+                  <span class="fc-calc__aims-points">+4</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="dental">
+              <legend class="fc-calc__aims-legend">11. Стоматологический статус</legend>
+              <p class="fc-calc__aims-hint">Наличие текущих проблем с зубами или зубными протезами</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="dental" value="dental-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (нет)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="dental" value="dental-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (да)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__aims-group" data-item-id="dentures">
+              <legend class="fc-calc__aims-legend">12. Ношение зубных протезов</legend>
+              <p class="fc-calc__aims-hint">Носит ли пациент зубные протезы</p>
+              <div class="fc-calc__aims-options">
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="dentures" value="dentures-0" data-score="0" />
+                  <span class="fc-calc__aims-option-text">0 (нет)</span>
+                  <span class="fc-calc__aims-points">0</span>
+                </label>
+                <label class="fc-calc__aims-option">
+                  <input type="radio" name="dentures" value="dentures-1" data-score="1" />
+                  <span class="fc-calc__aims-option-text">1 (да)</span>
+                  <span class="fc-calc__aims-points">+1</span>
+                </label>
+              </div>
+            </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-aims-scale-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-aims-scale-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-aims-scale-result" aria-live="polite">
+        <p class="fc-calc__result-label">Результат</p>
+        <p class="fc-calc__aims-movement-line">Общий балл (пункты 1–7): <strong class="fc-calc__aims-movement-value" id="fc-calc-aims-scale-movement-total">—</strong></p>
+        <p class="fc-calc__aims-movement-interp" id="fc-calc-aims-scale-movement-interp"></p>
+        <p class="fc-calc__aims-additional-title">Дополнительные оценки:</p>
+        <ul class="fc-calc__aims-additional-list" id="fc-calc-aims-scale-additional"></ul>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Шкала AIMS (Abnormal Involuntary Movement Scale) — стандартизированный инструмент для выявления и мониторинга поздней дискинезии у пациентов, длительно принимающих антипсихотические препараты. Состоит из 12 пунктов: 7 — оценка движений по группам мышц, 3 — общие оценки, 2 — стоматологический статус.</p>
+        <p><strong>Интерпретация общего балла (пункты 1–7):</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Общий балл (пункты 1–7)</th>
+                <th>Интерпретация</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0–6</td>
+                <td>Двигательные нарушения отсутствуют или минимальны</td>
+              </tr>
+              <tr>
+                <td>7–14</td>
+                <td>Умеренные двигательные нарушения</td>
+              </tr>
+              <tr>
+                <td>≥ 15</td>
+                <td>Выраженные двигательные нарушения</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Пункты 8–10 оцениваются отдельно. Пункты 11–12 учитываются при оценке движений губ, челюстей и языка.</p>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="aims-scale"]');
+      if (!root) return;
+
+      var form = root.querySelector('#fc-calc-aims-scale-form');
+      var calcBtn = root.querySelector('#fc-calc-aims-scale-btn');
+      var resultWrap = root.querySelector('#fc-calc-aims-scale-result');
+      var movementTotalEl = root.querySelector('#fc-calc-aims-scale-movement-total');
+      var movementInterpEl = root.querySelector('#fc-calc-aims-scale-movement-interp');
+      var additionalWrap = root.querySelector('#fc-calc-aims-scale-additional');
+
+      var itemIds = [
+        'facial', 'lips', 'jaw', 'tongue', 'upperLimbs', 'lowerLimbs', 'trunk',
+        'severity', 'disability', 'awareness', 'dental', 'dentures'
+      ];
+
+      var additionalMeta = {
+        severity: { number: 8, label: 'Степень тяжести аномальных движений' },
+        disability: { number: 9, label: 'Ограничения дееспособности' },
+        awareness: { number: 10, label: 'Осознание пациентом аномальных движений' },
+        dental: { number: 11, label: 'Стоматологический статус' },
+        dentures: { number: 12, label: 'Ношение зубных протезов' }
+      };
+
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+      }
+
+      function getSelectedValue(id) {
+        var checked = form.querySelector('input[name="' + id + '"]:checked');
+        return checked ? Number(checked.getAttribute('data-score')) : null;
+      }
+
+      function isComplete() {
+        return itemIds.every(function (id) {
+          return form.querySelector('input[name="' + id + '"]:checked');
+        });
+      }
+
+      function updateButton() {
+        var ok = isComplete();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      function interpretMovement(total) {
+        if (total <= 6) {
+          return {
+            category: 'low',
+            text: 'Низкий балл: 0–6. Двигательные нарушения отсутствуют или минимальны'
+          };
+        }
+        if (total <= 14) {
+          return {
+            category: 'moderate',
+            text: 'Умеренный балл: 7–14. Умеренные двигательные нарушения'
+          };
+        }
+        return {
+          category: 'high',
+          text: 'Высокий балл: ≥15. Выраженные двигательные нарушения'
+        };
+      }
+
+      function getSelectedOptionText(id) {
+        var checked = form.querySelector('input[name="' + id + '"]:checked');
+        if (!checked) return '';
+        var row = checked.closest('.fc-calc__aims-option');
+        var textEl = row ? row.querySelector('.fc-calc__aims-option-text') : null;
+        return textEl ? textEl.textContent.trim() : '';
+      }
+
+      function formatAdditional(id, score) {
+        var optionText = getSelectedOptionText(id);
+        if (id === 'dental') {
+          var dentalBase = score === 1 ? 'Есть проблемы' : 'Нет проблем';
+          return dentalBase + ' (' + (score === 1 ? 'да' : 'нет') + ')';
+        }
+        if (id === 'dentures') {
+          return (score === 1 ? 'Да' : 'Нет') + ' (' + (score === 1 ? 'да' : 'нет') + ')';
+        }
+        if (optionText) return optionText;
+        return String(score);
+      }
+
+      function calculate() {
+        var movementIds = ['facial', 'lips', 'jaw', 'tongue', 'upperLimbs', 'lowerLimbs', 'trunk'];
+        var movementTotal = 0;
+        movementIds.forEach(function (id) {
+          movementTotal += getSelectedValue(id) || 0;
+        });
+
+        var additional = {};
+        Object.keys(additionalMeta).forEach(function (id) {
+          additional[id] = getSelectedValue(id);
+        });
+
+        return {
+          movementTotal: movementTotal,
+          movementInfo: interpretMovement(movementTotal),
+          additional: additional
+        };
+      }
+
+      function showResult(out) {
+        if (movementTotalEl) {
+          movementTotalEl.textContent = String(out.movementTotal);
+          movementTotalEl.className = 'fc-calc__aims-movement-value fc-calc__aims-movement-value--' + out.movementInfo.category;
+        }
+        if (movementInterpEl) {
+          movementInterpEl.textContent = out.movementInfo.text;
+          movementInterpEl.className = 'fc-calc__aims-movement-interp fc-calc__aims-movement-interp--' + out.movementInfo.category;
+        }
+        if (additionalWrap) {
+          additionalWrap.innerHTML = Object.keys(additionalMeta).map(function (id) {
+            var meta = additionalMeta[id];
+            var value = formatAdditional(id, out.additional[id]);
+            return '<li><span class="fc-calc__aims-additional-label">' + meta.number + '. ' + meta.label + ':</span> <strong>' + value + '</strong></li>';
+          }).join('');
+        }
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+      }
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!isComplete()) return;
+        showResult(calculate());
+      });
+
+      updateButton();
+    })();
+  </script>
+</div>

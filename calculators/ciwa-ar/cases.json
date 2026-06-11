@@ -1,0 +1,67 @@
+{
+  "slug": "ciwa-ar",
+  "source": "https://medsoftpro.ru/kalkulyatory/ciwa-ar",
+  "cases": [
+    {
+      "name": "ciwa zero",
+      "input": {
+        "q1": 0, "q2": 0, "q3": 0, "q4": 0, "q5": 0,
+        "q6": 0, "q7": 0, "q8": 0, "q9": 0, "q10": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "very-mild",
+        "interpretation": "Очень умеренный абстинентный синдром"
+      }
+    },
+    {
+      "name": "ciwa mild 12",
+      "input": {
+        "q1": 1, "q2": 1, "q3": 1, "q4": 1, "q5": 1,
+        "q6": 1, "q7": 1, "q8": 1, "q9": 1, "q10": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 10,
+        "category": "mild",
+        "interpretation": "Легкий абстинентный синдром"
+      }
+    },
+    {
+      "name": "ciwa moderate 18",
+      "input": {
+        "q1": 4, "q2": 1, "q3": 1, "q4": 1, "q5": 1,
+        "q6": 2, "q7": 2, "q8": 2, "q9": 2, "q10": 2
+      },
+      "expected": {
+        "status": "OK",
+        "total": 18,
+        "category": "moderate",
+        "interpretation": "Умеренный абстинентный синдром"
+      }
+    },
+    {
+      "name": "ciwa severe 28",
+      "input": {
+        "q1": 7, "q2": 4, "q3": 4, "q4": 4, "q5": 4,
+        "q6": 1, "q7": 1, "q8": 1, "q9": 1, "q10": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 28,
+        "category": "severe",
+        "interpretation": "Тяжёлый абстинентный синдром"
+      }
+    },
+    {
+      "name": "ciwa incomplete",
+      "input": { "q1": 0, "q2": 1 },
+      "expected": {
+        "status": "INCOMPLETE",
+        "total": null,
+        "category": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+/* ciwa-ar */
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-legend {
+  margin: 0 0 6px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-option:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-option-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__ciwa-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__result-desc {
+  color: #000;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__result-number--very-mild {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__result-number--mild {
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__result-number--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__result-number--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="ciwa-ar"] .fc-calc__notes-body td {
+  color: #000;
+}

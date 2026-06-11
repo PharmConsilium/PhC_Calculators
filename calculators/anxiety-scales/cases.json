@@ -1,0 +1,134 @@
+{
+  "slug": "anxiety-scales",
+  "source": "https://medsoftpro.ru/psychiatry-calcs",
+  "cases": [
+    {
+      "name": "gad7 minimal",
+      "input": {
+        "scale": "gad7",
+        "g1": 0, "g2": 0, "g3": 0, "g4": 0, "g5": 0, "g6": 0, "g7": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "minimal",
+        "interpretation": "Минимальный уровень тревожности"
+      }
+    },
+    {
+      "name": "gad7 severe 15",
+      "input": {
+        "scale": "gad7",
+        "g1": 3, "g2": 2, "g3": 2, "g4": 2, "g5": 2, "g6": 2, "g7": 2
+      },
+      "expected": {
+        "status": "OK",
+        "total": 15,
+        "category": "severe",
+        "interpretation": "Высокий уровень тревожности"
+      }
+    },
+    {
+      "name": "covy none",
+      "input": { "scale": "covy", "c1": 0, "c2": 0, "c3": 1 },
+      "expected": {
+        "status": "OK",
+        "total": 1,
+        "category": "none",
+        "interpretation": "Отсутствие тревожного состояния"
+      }
+    },
+    {
+      "name": "covy state 6",
+      "input": { "scale": "covy", "c1": 2, "c2": 2, "c3": 2 },
+      "expected": {
+        "status": "OK",
+        "total": 6,
+        "category": "state",
+        "interpretation": "Тревожное состояние"
+      }
+    },
+    {
+      "name": "spielberg reactive only low",
+      "input": {
+        "scale": "spielberg",
+        "sr1": 1, "sr2": 1, "sr3": 1, "sr4": 1, "sr5": 1,
+        "sr6": 1, "sr7": 1, "sr8": 1, "sr9": 1, "sr10": 1,
+        "sr11": 1, "sr12": 1, "sr13": 1, "sr14": 1, "sr15": 1,
+        "sr16": 1, "sr17": 1, "sr18": 1, "sr19": 1, "sr20": 1
+      },
+      "expected": {
+        "status": "OK",
+        "reactiveTotal": 20,
+        "traitTotal": null,
+        "totalSum": null,
+        "reactiveCategory": "low",
+        "traitCategory": null,
+        "reactiveInterpretation": "Низкая тревожность",
+        "traitInterpretation": null
+      }
+    },
+    {
+      "name": "spielberg both parts total 40",
+      "input": {
+        "scale": "spielberg",
+        "sr1": 1, "sr2": 1, "sr3": 1, "sr4": 1, "sr5": 1,
+        "sr6": 1, "sr7": 1, "sr8": 1, "sr9": 1, "sr10": 1,
+        "sr11": 1, "sr12": 1, "sr13": 1, "sr14": 1, "sr15": 1,
+        "sr16": 1, "sr17": 1, "sr18": 1, "sr19": 1, "sr20": 1,
+        "st1": 1, "st2": 1, "st3": 1, "st4": 1, "st5": 1,
+        "st6": 1, "st7": 1, "st8": 1, "st9": 1, "st10": 1,
+        "st11": 1, "st12": 1, "st13": 1, "st14": 1, "st15": 1,
+        "st16": 1, "st17": 1, "st18": 1, "st19": 1, "st20": 1
+      },
+      "expected": {
+        "status": "OK",
+        "reactiveTotal": 20,
+        "traitTotal": 20,
+        "totalSum": 40,
+        "reactiveCategory": "low",
+        "traitCategory": "low",
+        "reactiveInterpretation": "Низкая тревожность",
+        "traitInterpretation": "Низкая тревожность"
+      }
+    },
+    {
+      "name": "sheehan normal 10",
+      "input": {
+        "scale": "sheehan",
+        "sh1": 0, "sh2": 0, "sh3": 0, "sh4": 0, "sh5": 0,
+        "sh6": 0, "sh7": 0, "sh8": 0, "sh9": 0, "sh10": 1,
+        "sh11": 0, "sh12": 0, "sh13": 0, "sh14": 0, "sh15": 0,
+        "sh16": 0, "sh17": 0, "sh18": 0, "sh19": 0, "sh20": 0,
+        "sh21": 0, "sh22": 0, "sh23": 0, "sh24": 0, "sh25": 0,
+        "sh26": 0, "sh27": 0, "sh28": 0, "sh29": 0, "sh30": 0,
+        "sh31": 0, "sh32": 0, "sh33": 0, "sh34": 0, "sh35": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 1,
+        "category": "normal",
+        "interpretation": "Отсутствие клинически выраженной тревоги"
+      }
+    },
+    {
+      "name": "sheehan clinical 35",
+      "input": {
+        "scale": "sheehan",
+        "sh1": 1, "sh2": 1, "sh3": 1, "sh4": 1, "sh5": 1,
+        "sh6": 1, "sh7": 1, "sh8": 1, "sh9": 1, "sh10": 1,
+        "sh11": 1, "sh12": 1, "sh13": 1, "sh14": 1, "sh15": 1,
+        "sh16": 1, "sh17": 1, "sh18": 1, "sh19": 1, "sh20": 1,
+        "sh21": 1, "sh22": 1, "sh23": 1, "sh24": 1, "sh25": 1,
+        "sh26": 1, "sh27": 1, "sh28": 1, "sh29": 1, "sh30": 1,
+        "sh31": 1, "sh32": 1, "sh33": 1, "sh34": 1, "sh35": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 35,
+        "category": "clinical",
+        "interpretation": "Клинически выраженная тревога"
+      }
+    }
+  ]
+}

@@ -154,7 +154,6 @@ ${extra.trim()}
 
         <p>СВ, СИ и УО — базовые показатели гемодинамики для оценки работы сердечно-сосудистой системы.</p>
 
-        <p class="fc-calc__hint">Источник: <a href="https://medsoftpro.ru/kalkulyatory/cardiac-output" target="_blank" rel="noopener noreferrer">medsoftpro.ru</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

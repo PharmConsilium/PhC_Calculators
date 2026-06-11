@@ -39,7 +39,7 @@ alwaysApply: false
 3. `fc-calc__actions` — кнопка «Рассчитать»  
 4. `fc-calc__result-wrap` — результат (не `hidden`, класс `fc-calc__result--empty`)  
 5. `fc-calc__result-wrap` — серая плашка, `fc-calc__result-number` крупным синим (как на сайте)  
-6. `fc-calc__notes` — внутри карточки; заголовок **«Примечание»**; правки только в `fc-calc__notes-body`  
+6. `fc-calc__notes` — внутри карточки; заголовок **«Примечание»**; правки только в `fc-calc__notes-body`. В конце примечания **всегда** одна строка: `Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.` (без блока «Источник:»). Фрагмент: `scripts/snippets/notes-disclaimer.mjs`  
 7. `fc-calc__foot` — дисклеймер под карточкой  
 
 Вкладки/сегменты/единицы: `templates/UI-PATTERNS.md`.  

@@ -1,0 +1,262 @@
+{
+  "slug": "depression-scales",
+  "source": "https://medsoftpro.ru/kalkulyatory/beck-scale",
+  "cases": [
+    {
+      "name": "beck all zero",
+      "input": {
+        "scale": "beck",
+        "q1": 0, "q2": 0, "q3": 0, "q4": 0, "q5": 0, "q6": 0, "q7": 0, "q8": 0, "q9": 0, "q10": 0,
+        "q11": 0, "q12": 0, "q13": 0, "q14": 0, "q15": 0, "q16": 0, "q17": 0, "q18": 0, "q19": 0, "q20": 0, "q21": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "none",
+        "interpretation": "Отсутствие депрессивных симптомов"
+      }
+    },
+    {
+      "name": "beck mild boundary 10",
+      "input": {
+        "scale": "beck",
+        "q1": 1, "q2": 1, "q3": 0, "q4": 0, "q5": 0, "q6": 0, "q7": 0, "q8": 0, "q9": 0, "q10": 0,
+        "q11": 0, "q12": 0, "q13": 0, "q14": 0, "q15": 0, "q16": 0, "q17": 0, "q18": 0, "q19": 0, "q20": 0,
+        "q21": 8
+      },
+      "expected": {
+        "status": "OK",
+        "total": 10,
+        "category": "mild",
+        "interpretation": "Легкая депрессия (субдепрессия)"
+      }
+    },
+    {
+      "name": "beck severe 30",
+      "input": {
+        "scale": "beck",
+        "q1": 2, "q2": 2, "q3": 2, "q4": 2, "q5": 2, "q6": 2, "q7": 2, "q8": 2, "q9": 2, "q10": 2,
+        "q11": 2, "q12": 2, "q13": 2, "q14": 2, "q15": 0, "q16": 0, "q17": 0, "q18": 0, "q19": 0, "q20": 0, "q21": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 28,
+        "category": "marked",
+        "interpretation": "Выраженная депрессия (средней тяжести)"
+      }
+    },
+    {
+      "name": "hamilton norm",
+      "input": {
+        "scale": "hamilton",
+        "core": {
+          "h1": 0, "h2": 0, "h3": 0, "h4": 0, "h5": 0, "h6": 0, "h7": 0, "h8": 0, "h9": 0, "h10": 0,
+          "h11": 0, "h12": 0, "h13": 0, "h14": 0, "h15": 0, "h16": 0, "h17": 0
+        }
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "normal",
+        "interpretation": "Норма"
+      }
+    },
+    {
+      "name": "hamilton moderate 16",
+      "input": {
+        "scale": "hamilton",
+        "core": {
+          "h1": 3, "h2": 2, "h3": 0, "h4": 1, "h5": 1, "h6": 0, "h7": 2, "h8": 1, "h9": 0, "h10": 1,
+          "h11": 1, "h12": 1, "h13": 1, "h14": 0, "h15": 1, "h16": 1, "h17": 0
+        },
+        "supplementary": { "hs1a": 1, "hs1b": 1 }
+      },
+      "expected": {
+        "status": "OK",
+        "total": 16,
+        "supplementaryTotal": 2,
+        "category": "moderate",
+        "interpretation": "Депрессивное расстройство средней степени тяжести"
+      }
+    },
+    {
+      "name": "hamilton extreme 23",
+      "input": {
+        "scale": "hamilton",
+        "core": {
+          "h1": 4, "h2": 3, "h3": 2, "h4": 2, "h5": 2, "h6": 2, "h7": 3, "h8": 2, "h9": 1, "h10": 1,
+          "h11": 1, "h12": 0, "h13": 0, "h14": 0, "h15": 0, "h16": 0, "h17": 0
+        }
+      },
+      "expected": {
+        "status": "OK",
+        "total": 23,
+        "category": "extreme",
+        "interpretation": "Депрессивное расстройство крайне тяжелой степени"
+      }
+    },
+    {
+      "name": "phq minimal",
+      "input": {
+        "scale": "phq",
+        "pq1": 0, "pq2": 0, "pq3": 0, "pq4": 0, "pq5": 0, "pq6": 0, "pq7": 0, "pq8": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "minimal",
+        "interpretation": "Минимальная депрессия"
+      }
+    },
+    {
+      "name": "phq moderate 12",
+      "input": {
+        "scale": "phq",
+        "pq1": 2, "pq2": 2, "pq3": 1, "pq4": 1, "pq5": 1, "pq6": 1, "pq7": 2, "pq8": 2
+      },
+      "expected": {
+        "status": "OK",
+        "total": 12,
+        "category": "moderate",
+        "interpretation": "Умеренная депрессия"
+      }
+    },
+    {
+      "name": "epds normal",
+      "input": {
+        "scale": "epds",
+        "e1": 0, "e2": 0, "e3": 0, "e4": 0, "e5": 0, "e6": 0, "e7": 0, "e8": 0, "e9": 0, "e10": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "normal",
+        "interpretation": "Нормальное состояние; риск послеродовой депрессии низкий"
+      }
+    },
+    {
+      "name": "epds high 15",
+      "input": {
+        "scale": "epds",
+        "e1": 2, "e2": 2, "e3": 1, "e4": 2, "e5": 1, "e6": 1, "e7": 2, "e8": 2, "e9": 1, "e10": 1
+      },
+      "expected": {
+        "status": "OK",
+        "total": 15,
+        "category": "high",
+        "interpretation": "Высокий риск послеродовой депрессии; требуется консультация специалиста"
+      }
+    },
+    {
+      "name": "gds normal 5",
+      "input": {
+        "scale": "gds",
+        "g1": 0, "g2": 1, "g3": 1, "g4": 1, "g5": 0, "g6": 1, "g7": 0, "g8": 1, "g9": 0, "g10": 0,
+        "g11": 0, "g12": 0, "g13": 0, "g14": 0, "g15": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 5,
+        "category": "normal",
+        "interpretation": "Нет признаков депрессии"
+      }
+    },
+    {
+      "name": "gds depression 6",
+      "input": {
+        "scale": "gds",
+        "g1": 1, "g2": 1, "g3": 1, "g4": 1, "g5": 1, "g6": 1, "g7": 0, "g8": 0, "g9": 0, "g10": 0,
+        "g11": 0, "g12": 0, "g13": 0, "g14": 0, "g15": 0
+      },
+      "expected": {
+        "status": "OK",
+        "total": 6,
+        "category": "depression",
+        "interpretation": "Обнаруживаются признаки депрессии"
+      }
+    },
+    {
+      "name": "hads all normal",
+      "input": {
+        "scale": "hads",
+        "ha1": 0, "ha2": 0, "ha3": 0, "ha4": 0, "ha5": 0, "ha6": 0, "ha7": 0,
+        "hd1": 0, "hd2": 0, "hd3": 0, "hd4": 0, "hd5": 0, "hd6": 0, "hd7": 0
+      },
+      "expected": {
+        "status": "OK",
+        "anxietyTotal": 0,
+        "depressionTotal": 0,
+        "anxietyCategory": "normal",
+        "depressionCategory": "normal",
+        "anxietyInterpretation": "Норма (отсутствие достоверно выраженных симптомов тревоги)",
+        "depressionInterpretation": "Норма (отсутствие достоверно выраженных симптомов депрессии)"
+      }
+    },
+    {
+      "name": "hads anxiety clinical 12",
+      "input": {
+        "scale": "hads",
+        "ha1": 2, "ha2": 2, "ha3": 2, "ha4": 2, "ha5": 2, "ha6": 1, "ha7": 1,
+        "hd1": 0, "hd2": 0, "hd3": 0, "hd4": 0, "hd5": 0, "hd6": 0, "hd7": 0
+      },
+      "expected": {
+        "status": "OK",
+        "anxietyTotal": 12,
+        "depressionTotal": 0,
+        "anxietyCategory": "clinical",
+        "depressionCategory": "normal",
+        "anxietyInterpretation": "Клинически выраженная тревога",
+        "depressionInterpretation": "Норма (отсутствие достоверно выраженных симптомов депрессии)"
+      }
+    },
+    {
+      "name": "hads depression subclinical 9",
+      "input": {
+        "scale": "hads",
+        "ha1": 0, "ha2": 0, "ha3": 0, "ha4": 0, "ha5": 0, "ha6": 0, "ha7": 0,
+        "hd1": 1, "hd2": 1, "hd3": 1, "hd4": 1, "hd5": 1, "hd6": 2, "hd7": 2
+      },
+      "expected": {
+        "status": "OK",
+        "anxietyTotal": 0,
+        "depressionTotal": 9,
+        "anxietyCategory": "normal",
+        "depressionCategory": "subclinical",
+        "anxietyInterpretation": "Норма (отсутствие достоверно выраженных симптомов тревоги)",
+        "depressionInterpretation": "Субклинически выраженная депрессия"
+      }
+    },
+    {
+      "name": "hads anxiety only",
+      "input": {
+        "scale": "hads",
+        "ha1": 2, "ha2": 2, "ha3": 2, "ha4": 2, "ha5": 2, "ha6": 1, "ha7": 1
+      },
+      "expected": {
+        "status": "OK",
+        "anxietyTotal": 12,
+        "depressionTotal": null,
+        "anxietyCategory": "clinical",
+        "depressionCategory": null,
+        "anxietyInterpretation": "Клинически выраженная тревога",
+        "depressionInterpretation": null
+      }
+    },
+    {
+      "name": "hads depression only",
+      "input": {
+        "scale": "hads",
+        "hd1": 1, "hd2": 1, "hd3": 1, "hd4": 1, "hd5": 1, "hd6": 2, "hd7": 2
+      },
+      "expected": {
+        "status": "OK",
+        "anxietyTotal": null,
+        "depressionTotal": 9,
+        "anxietyCategory": null,
+        "depressionCategory": "subclinical",
+        "anxietyInterpretation": null,
+        "depressionInterpretation": "Субклинически выраженная депрессия"
+      }
+    }
+  ]
+}

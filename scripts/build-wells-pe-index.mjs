@@ -105,7 +105,6 @@ ${renderCheckboxes()}
         <p>По данным исходной публикации, низкая вероятность ТЭЛА также соответствует ≤ 4 баллам при отрицательном анализе на D-димер. Подробности — в источнике ниже.</p>
         <p><strong>Ссылки:</strong></p>
         <p class="fc-calc__source-item">Wells PS, Anderson DR, Rodger M, et al. Derivation of a simple clinical model to categorize patients probability of pulmonary embolism: increasing the models utility with the SimpliRED D-dimer. <em>Thromb Haemost.</em> 2000 Mar;83(3):416-20. PubMed ID: 10744147</p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=%D0%A8%D0%BA%D0%B0%D0%BB%D0%B0%20%D0%A3%D1%8D%D0%BB%D0%BB%D1%81%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D0%BE%D1%86%D0%B5%D0%BD%D0%BA%D0%B8%20%D0%B2%D0%B5%D1%80%D0%BE%D1%8F%D1%82%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20%D0%A2%D0%AD%D0%9B%D0%90" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

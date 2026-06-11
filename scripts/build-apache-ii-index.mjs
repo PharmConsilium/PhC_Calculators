@@ -182,7 +182,6 @@ ${renderMortalityTable()}
         </div>
         <p><strong>Ссылки:</strong></p>
         <p>Knaus WA, et al. APACHE II: a severity of disease classification system. <em>Crit Care Med.</em> 1985.</p>
-        <p class="fc-calc__hint">Источник: <a href="https://www.msdmanuals.com/ru/professional/searchresults?query=apache%20ii" target="_blank" rel="noopener noreferrer">MSD Manuals</a></p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>

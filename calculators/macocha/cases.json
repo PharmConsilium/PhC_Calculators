@@ -1,0 +1,50 @@
+{
+  "slug": "macocha",
+  "source": "anest-rean.ru/international-scale/macocha",
+  "cases": [
+    {
+      "name": "no criteria easy intubation",
+      "input": {},
+      "expected": {
+        "total": 0,
+        "interpretation": "легкая интубация"
+      }
+    },
+    {
+      "name": "all criteria max score",
+      "input": {
+        "mallampati": true,
+        "apnea": true,
+        "cervical": true,
+        "mouth": true,
+        "coma": true,
+        "hypoxia": true,
+        "untrained": true
+      },
+      "expected": {
+        "total": 12,
+        "interpretation": "очень сложная интубация"
+      }
+    },
+    {
+      "name": "screenshot example",
+      "input": {
+        "apnea": true,
+        "mouth": true,
+        "hypoxia": true
+      },
+      "expected": {
+        "total": 4,
+        "interpretation": "умеренный риск сложной интубации"
+      }
+    },
+    {
+      "name": "mallampati only",
+      "input": { "mallampati": true },
+      "expected": {
+        "total": 5,
+        "interpretation": "умеренный риск сложной интубации"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "slug": "caprini-scale",
+  "source": "https://medsoftpro.ru/kalkulyatory/caprini-scale",
+  "cases": [
+    {
+      "name": "moderate minimum",
+      "input": { "age": "age41", "surgery": "surgeryMinor" },
+      "expected": { "total": 2, "category": "moderate", "interpretation": "Умеренный риск", "status": "OK" }
+    },
+    {
+      "name": "high risk 3",
+      "input": { "age": "age41", "surgery": "surgeryMajor" },
+      "expected": { "total": 3, "category": "high", "interpretation": "Высокий риск", "status": "OK" }
+    },
+    {
+      "name": "high risk 4",
+      "input": { "age": "age75", "surgery": "surgeryMinor" },
+      "expected": { "total": 4, "category": "high", "interpretation": "Высокий риск", "status": "OK" }
+    },
+    {
+      "name": "very high 5",
+      "input": { "age": "age41", "surgery": "surgeryMinor", "vtePersonal": true },
+      "expected": { "total": 5, "category": "very-high", "interpretation": "Очень высокий риск", "status": "OK" }
+    },
+    {
+      "name": "very high 9",
+      "input": { "age": "age61", "surgery": "surgeryMajor", "polytrauma": true },
+      "expected": { "total": 9, "category": "very-high", "interpretation": "Очень высокий риск", "status": "OK" }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "name": "3-6 weeks, no prior theophylline",
+      "input": {
+        "age": "3-6w",
+        "weight": 10,
+        "infusionHours": 2,
+        "dilutionVolume": 100,
+        "priorTheophylline": false,
+        "reduceMaintenance": false
+      },
+      "expected": {
+        "loadingMg": 30,
+        "loadingMl": 1.25,
+        "loadingRateMlH": 100,
+        "maintenanceMg": 3,
+        "maintenanceMl": 0.13,
+        "maintenanceInfusionRateMlH": 50
+      }
+    },
+    {
+      "name": "prior theophylline doubles loading dose",
+      "input": {
+        "age": "3-6w",
+        "weight": 10,
+        "infusionHours": 2,
+        "dilutionVolume": 100,
+        "priorTheophylline": true,
+        "reduceMaintenance": false
+      },
+      "expected": {
+        "loadingMg": 60,
+        "loadingMl": 2.5,
+        "maintenanceMg": 3
+      }
+    },
+    {
+      "name": "comorbidity halves maintenance rate",
+      "input": {
+        "age": "6m-9y",
+        "weight": 20,
+        "infusionHours": 4,
+        "dilutionVolume": 200,
+        "priorTheophylline": false,
+        "reduceMaintenance": true
+      },
+      "expected": {
+        "loadingMg": 60,
+        "maintenanceMg": 40,
+        "maintenanceMl": 1.67,
+        "maintenanceInfusionRateMlH": 50
+      }
+    },
+    {
+      "name": "both risk factors yes",
+      "input": {
+        "age": "3-6w",
+        "weight": 10,
+        "infusionHours": 2,
+        "dilutionVolume": 100,
+        "priorTheophylline": true,
+        "reduceMaintenance": true
+      },
+      "expected": {
+        "loadingMg": 60,
+        "loadingMl": 2.5,
+        "maintenanceMg": 1.5,
+        "maintenanceMl": 0.06,
+        "maintenanceInfusionRateMlH": 50
+      }
+    },
+    {
+      "name": "neonate 0-3 weeks",
+      "input": {
+        "age": "0-3w",
+        "weight": 4,
+        "infusionHours": 1,
+        "dilutionVolume": 50,
+        "priorTheophylline": false,
+        "reduceMaintenance": false
+      },
+      "expected": {
+        "loadingMg": 12,
+        "maintenanceMg": 0.4,
+        "maintenanceMl": 0.02,
+        "maintenanceInfusionRateMlH": 50
+      }
+    }
+  ]
+}

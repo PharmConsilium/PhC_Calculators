@@ -1,0 +1,30 @@
+{
+  "slug": "ldl-lpa-corr",
+  "source": "noatero.ru/ru/doctors/calculators/#c3",
+  "cases": [
+    {
+      "name": "lpa equals divisor",
+      "input": { "ldl": 3, "lpa": 38.7 },
+      "expected": {
+        "correctedLdl": 2.7,
+        "correction": 0.3
+      }
+    },
+    {
+      "name": "typical values",
+      "input": { "ldl": 2.5, "lpa": 50 },
+      "expected": {
+        "correctedLdl": 2.11,
+        "correction": 0.38
+      }
+    },
+    {
+      "name": "zero lpa",
+      "input": { "ldl": 3.2, "lpa": 0 },
+      "expected": {
+        "correctedLdl": 3.2,
+        "correction": 0
+      }
+    }
+  ]
+}

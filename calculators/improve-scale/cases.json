@@ -1,0 +1,64 @@
+{
+  "slug": "improve-scale",
+  "source": "https://medsoftpro.ru/kalkulyatory/improve-scale",
+  "cases": [
+    {
+      "name": "no criteria",
+      "input": {},
+      "expected": {
+        "total": 0,
+        "category": "low",
+        "interpretation": "Низкий риск развития ТГВ/ТЭЛА",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "moderate 2",
+      "input": { "thrombophilia": true, "icu": true },
+      "expected": {
+        "total": 3,
+        "category": "moderate",
+        "interpretation": "Умеренный риск развития ТГВ/ТЭЛА",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "moderate boundary 2",
+      "input": { "limbParesis": true },
+      "expected": {
+        "total": 2,
+        "category": "moderate",
+        "interpretation": "Умеренный риск развития ТГВ/ТЭЛА",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "high 4",
+      "input": { "vteHistory": true, "age60": true },
+      "expected": {
+        "total": 4,
+        "category": "high",
+        "interpretation": "Высокий риск развития ТГВ/ТЭЛА",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "maximum score",
+      "input": {
+        "vteHistory": true,
+        "thrombophilia": true,
+        "limbParesis": true,
+        "malignancy": true,
+        "icu": true,
+        "immobilization": true,
+        "age60": true
+      },
+      "expected": {
+        "total": 12,
+        "category": "high",
+        "interpretation": "Высокий риск развития ТГВ/ТЭЛА",
+        "status": "OK"
+      }
+    }
+  ]
+}
