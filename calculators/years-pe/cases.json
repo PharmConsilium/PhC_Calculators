@@ -1,0 +1,73 @@
+{
+  "slug": "years-pe",
+  "source": "YEARS Algorithm for Pulmonary Embolism",
+  "cases": [
+    {
+      "name": "PE excluded with zero YEARS items and D-dimer below 1000",
+      "input": {
+        "pregnant": false,
+        "clinicalSignsDvt": false,
+        "hemoptysis": false,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": false
+      },
+      "expected": {
+        "value": "ТЭЛА исключена",
+        "peExcluded": true,
+        "yearsItems": 0,
+        "threshold": 1000,
+        "interpretation": "Алгоритм YEARS исключает ТЭЛА (0,43% симптомных ВТЭО за 3 месяца наблюдения)"
+      }
+    },
+    {
+      "name": "PE not excluded with zero YEARS items and D-dimer at threshold",
+      "input": {
+        "pregnant": false,
+        "clinicalSignsDvt": false,
+        "hemoptysis": false,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": true
+      },
+      "expected": {
+        "value": "ТЭЛА не исключена",
+        "peExcluded": false,
+        "yearsItems": 0,
+        "threshold": 1000
+      }
+    },
+    {
+      "name": "PE excluded with one YEARS item and D-dimer below 500",
+      "input": {
+        "pregnant": false,
+        "clinicalSignsDvt": false,
+        "hemoptysis": true,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": false
+      },
+      "expected": {
+        "value": "ТЭЛА исключена",
+        "peExcluded": true,
+        "yearsItems": 1,
+        "threshold": 500,
+        "interpretation": "Алгоритм YEARS исключает ТЭЛА (0,43% симптомных ВТЭО за 3 месяца наблюдения)"
+      }
+    },
+    {
+      "name": "pregnant patient with DVT signs gets ultrasound note",
+      "input": {
+        "pregnant": true,
+        "clinicalSignsDvt": true,
+        "hemoptysis": false,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": true
+      },
+      "expected": {
+        "value": "ТЭЛА не исключена",
+        "peExcluded": false,
+        "yearsItems": 1,
+        "threshold": 500,
+        "pregnancyNote": "У беременной пациентки с клиническими признаками DVT сначала выполните компрессионное УЗИ симптомной конечности."
+      }
+    }
+  ]
+}
