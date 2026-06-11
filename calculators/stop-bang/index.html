@@ -713,6 +713,78 @@
     padding: 14px;
   }
 }
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-group {
+  margin: 0 0 14px;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-group:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid var(--fc-border);
+  cursor: pointer;
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-row:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-row:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-row input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+  flex-shrink: 0;
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="stop-bang"] .fc-calc__stopbang-points {
+  flex-shrink: 0;
+  color: var(--fc-muted-text);
+  font-size: 13px;
+  white-space: nowrap;
+}
   </style>
 
   <div class="fc-calc__card">
@@ -727,50 +799,66 @@
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">STOP: симптомы и анамнез</h3>
-              <div class="fc-calc__field">
-                <label>Громкий храп</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="snoring" value="no" checked />
-                  <span>Нет</span>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Громкий храп</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Громкий храп">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-snoring-no">
+                  <input type="radio" id="fc-calc-stop-bang-snoring-no" name="snoring" value="no" checked />
+                  <span class="fc-calc__stopbang-label">Нет</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="snoring" value="yes" />
-                  <span>Да</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-snoring-yes">
+                  <input type="radio" id="fc-calc-stop-bang-snoring-yes" name="snoring" value="yes" />
+                  <span class="fc-calc__stopbang-label">Да</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
-              <div class="fc-calc__field">
-                <label>Частая усталость, сонливость днём</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="tired" value="no" checked />
-                  <span>Нет</span>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Частая усталость, сонливость днём</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Частая усталость, сонливость днём">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-tired-no">
+                  <input type="radio" id="fc-calc-stop-bang-tired-no" name="tired" value="no" checked />
+                  <span class="fc-calc__stopbang-label">Нет</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="tired" value="yes" />
-                  <span>Да</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-tired-yes">
+                  <input type="radio" id="fc-calc-stop-bang-tired-yes" name="tired" value="yes" />
+                  <span class="fc-calc__stopbang-label">Да</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
-              <div class="fc-calc__field">
-                <label>Наблюдались остановки дыхания во сне</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="observedApnea" value="no" checked />
-                  <span>Нет</span>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Наблюдались остановки дыхания во сне</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Наблюдались остановки дыхания во сне">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-observed-apnea-no">
+                  <input type="radio" id="fc-calc-stop-bang-observed-apnea-no" name="observedApnea" value="no" checked />
+                  <span class="fc-calc__stopbang-label">Нет</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="observedApnea" value="yes" />
-                  <span>Да</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-observed-apnea-yes">
+                  <input type="radio" id="fc-calc-stop-bang-observed-apnea-yes" name="observedApnea" value="yes" />
+                  <span class="fc-calc__stopbang-label">Да</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
-              <div class="fc-calc__field">
-                <label>Артериальная гипертензия или лечение от неё</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="hypertension" value="no" checked />
-                  <span>Нет</span>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Артериальная гипертензия или лечение от неё</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Артериальная гипертензия или лечение от неё">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-hypertension-no">
+                  <input type="radio" id="fc-calc-stop-bang-hypertension-no" name="hypertension" value="no" checked />
+                  <span class="fc-calc__stopbang-label">Нет</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="hypertension" value="yes" />
-                  <span>Да</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-hypertension-yes">
+                  <input type="radio" id="fc-calc-stop-bang-hypertension-yes" name="hypertension" value="yes" />
+                  <span class="fc-calc__stopbang-label">Да</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
+                </div>
+              </fieldset>
             </div>
           </div>
 
@@ -787,39 +875,51 @@
                 <input type="number" id="fc-calc-stop-bang-height" name="heightCm" inputmode="decimal" min="0" step="0.1" required />
                 <span class="fc-calc__error" id="fc-calc-stop-bang-height-error" role="alert"></span>
               </div>
-              <div class="fc-calc__field">
-                <label>Возраст, лет</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="ageOver50" value="no" checked />
-                  <span>≤50</span>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Возраст, лет</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Возраст">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-age-no">
+                  <input type="radio" id="fc-calc-stop-bang-age-no" name="ageOver50" value="no" checked />
+                  <span class="fc-calc__stopbang-label">≤50</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="ageOver50" value="yes" />
-                  <span>&gt;50</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-age-yes">
+                  <input type="radio" id="fc-calc-stop-bang-age-yes" name="ageOver50" value="yes" />
+                  <span class="fc-calc__stopbang-label">&gt;50</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
-              <div class="fc-calc__field">
-                <label>Окружность шеи, см</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="neckOver40" value="no" checked />
-                  <span>≤40</span>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Окружность шеи, см</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Окружность шеи">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-neck-no">
+                  <input type="radio" id="fc-calc-stop-bang-neck-no" name="neckOver40" value="no" checked />
+                  <span class="fc-calc__stopbang-label">≤40</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="neckOver40" value="yes" />
-                  <span>&gt;40</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-neck-yes">
+                  <input type="radio" id="fc-calc-stop-bang-neck-yes" name="neckOver40" value="yes" />
+                  <span class="fc-calc__stopbang-label">&gt;40</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
-              <div class="fc-calc__field">
-                <label>Пол</label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="male" value="no" checked />
-                  <span>Женский</span>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__stopbang-group">
+                <legend class="fc-calc__stopbang-legend">Пол</legend>
+                <div class="fc-calc__stopbang-options" role="radiogroup" aria-label="Пол">
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-male-no">
+                  <input type="radio" id="fc-calc-stop-bang-male-no" name="male" value="no" checked />
+                  <span class="fc-calc__stopbang-label">Женский</span>
+                  <span class="fc-calc__stopbang-points">0</span>
                 </label>
-                <label class="fc-calc__choice">
-                  <input type="radio" name="male" value="yes" />
-                  <span>Мужской</span>
+                <label class="fc-calc__stopbang-row" for="fc-calc-stop-bang-male-yes">
+                  <input type="radio" id="fc-calc-stop-bang-male-yes" name="male" value="yes" />
+                  <span class="fc-calc__stopbang-label">Мужской</span>
+                  <span class="fc-calc__stopbang-points">+1</span>
                 </label>
-              </div>
+                </div>
+              </fieldset>
             </div>
           </div>
         </form>
