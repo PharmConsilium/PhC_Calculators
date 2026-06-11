@@ -713,25 +713,6 @@
     padding: 14px;
   }
 }
-
-.fc-calc[data-calculator="stop-bang"] .fc-calc__segment {
-  border: none;
-}
-
-.fc-calc[data-calculator="stop-bang"] .fc-calc__segment:focus {
-  outline: none;
-}
-
-.fc-calc[data-calculator="stop-bang"] .fc-calc__segment:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.16);
-}
-
-.fc-calc[data-calculator="stop-bang"] .fc-calc__segment--active {
-  color: var(--fc-text);
-  background: var(--fc-bg-surface);
-  border: 1px solid #000;
-  box-shadow: none;
-}
   </style>
 
   <div class="fc-calc__card">
@@ -747,36 +728,48 @@
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">STOP: симптомы и анамнез</h3>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-snoring">Громкий храп</label>
-                <input type="hidden" id="fc-calc-stop-bang-snoring" name="snoring" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Громкий храп">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="snoring" data-segment-value="no" aria-pressed="true">Нет</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="snoring" data-segment-value="yes" aria-pressed="false">Да</button>
-                </div>
+                <label>Громкий храп</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="snoring" value="no" checked />
+                  <span>Нет</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="snoring" value="yes" />
+                  <span>Да</span>
+                </label>
               </div>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-tired">Частая усталость, сонливость днём</label>
-                <input type="hidden" id="fc-calc-stop-bang-tired" name="tired" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Частая усталость, сонливость днём">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="tired" data-segment-value="no" aria-pressed="true">Нет</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="tired" data-segment-value="yes" aria-pressed="false">Да</button>
-                </div>
+                <label>Частая усталость, сонливость днём</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="tired" value="no" checked />
+                  <span>Нет</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="tired" value="yes" />
+                  <span>Да</span>
+                </label>
               </div>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-observed-apnea">Наблюдались остановки дыхания во сне</label>
-                <input type="hidden" id="fc-calc-stop-bang-observed-apnea" name="observedApnea" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Наблюдались остановки дыхания во сне">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="observedApnea" data-segment-value="no" aria-pressed="true">Нет</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="observedApnea" data-segment-value="yes" aria-pressed="false">Да</button>
-                </div>
+                <label>Наблюдались остановки дыхания во сне</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="observedApnea" value="no" checked />
+                  <span>Нет</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="observedApnea" value="yes" />
+                  <span>Да</span>
+                </label>
               </div>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-hypertension">Артериальная гипертензия или лечение от неё</label>
-                <input type="hidden" id="fc-calc-stop-bang-hypertension" name="hypertension" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Артериальная гипертензия или лечение от неё">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="hypertension" data-segment-value="no" aria-pressed="true">Нет</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="hypertension" data-segment-value="yes" aria-pressed="false">Да</button>
-                </div>
+                <label>Артериальная гипертензия или лечение от неё</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="hypertension" value="no" checked />
+                  <span>Нет</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="hypertension" value="yes" />
+                  <span>Да</span>
+                </label>
               </div>
             </div>
           </div>
@@ -795,28 +788,37 @@
                 <span class="fc-calc__error" id="fc-calc-stop-bang-height-error" role="alert"></span>
               </div>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-age">Возраст, лет</label>
-                <input type="hidden" id="fc-calc-stop-bang-age" name="ageOver50" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Возраст">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="ageOver50" data-segment-value="no" aria-pressed="true">≤50</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="ageOver50" data-segment-value="yes" aria-pressed="false">&gt;50</button>
-                </div>
+                <label>Возраст, лет</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="ageOver50" value="no" checked />
+                  <span>≤50</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="ageOver50" value="yes" />
+                  <span>&gt;50</span>
+                </label>
               </div>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-neck">Окружность шеи, см</label>
-                <input type="hidden" id="fc-calc-stop-bang-neck" name="neckOver40" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Окружность шеи">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="neckOver40" data-segment-value="no" aria-pressed="true">≤40</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="neckOver40" data-segment-value="yes" aria-pressed="false">&gt;40</button>
-                </div>
+                <label>Окружность шеи, см</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="neckOver40" value="no" checked />
+                  <span>≤40</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="neckOver40" value="yes" />
+                  <span>&gt;40</span>
+                </label>
               </div>
               <div class="fc-calc__field">
-                <label for="fc-calc-stop-bang-male">Пол</label>
-                <input type="hidden" id="fc-calc-stop-bang-male" name="male" value="no" />
-                <div class="fc-calc__segmented" role="group" aria-label="Пол">
-                  <button type="button" class="fc-calc__segment fc-calc__segment--active" data-segment-field="male" data-segment-value="no" aria-pressed="true">Женский</button>
-                  <button type="button" class="fc-calc__segment" data-segment-field="male" data-segment-value="yes" aria-pressed="false">Мужской</button>
-                </div>
+                <label>Пол</label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="male" value="no" checked />
+                  <span>Женский</span>
+                </label>
+                <label class="fc-calc__choice">
+                  <input type="radio" name="male" value="yes" />
+                  <span>Мужской</span>
+                </label>
               </div>
             </div>
           </div>
@@ -873,24 +875,6 @@
 
       function asYes(value) {
         return value === 'yes';
-      }
-
-      function initSegmentedControls() {
-        root.querySelectorAll('[data-segment-field]').forEach(function (button) {
-          button.addEventListener('click', function () {
-            var fieldName = button.getAttribute('data-segment-field');
-            var value = button.getAttribute('data-segment-value');
-            var input = form.elements[fieldName];
-            if (!input) return;
-
-            input.value = value;
-            root.querySelectorAll('[data-segment-field="' + fieldName + '"]').forEach(function (item) {
-              var isActive = item === button;
-              item.classList.toggle('fc-calc__segment--active', isActive);
-              item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-            });
-          });
-        });
       }
 
       function parsePositive(value) {
@@ -996,8 +980,6 @@
         });
         showResult(out);
       });
-
-      initSegmentedControls();
     })();
   </script>
 </div>
