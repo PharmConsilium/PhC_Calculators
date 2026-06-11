@@ -1,0 +1,63 @@
+{
+  "slug": "stop-bang",
+  "source": "STOP-BANG Score for Obstructive Sleep Apnea",
+  "cases": [
+    {
+      "name": "low risk, no positive criteria",
+      "input": {
+        "snoring": false,
+        "tired": false,
+        "observedApnea": false,
+        "hypertension": false,
+        "weightKg": 70,
+        "heightCm": 170,
+        "ageOver50": false,
+        "neckOver40": false,
+        "male": false
+      },
+      "expected": {
+        "value": 0,
+        "riskLevel": "low",
+        "interpretation": "Низкий риск обструктивного апноэ сна"
+      }
+    },
+    {
+      "name": "intermediate risk, three positive criteria",
+      "input": {
+        "snoring": true,
+        "tired": true,
+        "observedApnea": false,
+        "hypertension": true,
+        "weightKg": 90,
+        "heightCm": 170,
+        "ageOver50": false,
+        "neckOver40": false,
+        "male": false
+      },
+      "expected": {
+        "value": 3,
+        "riskLevel": "intermediate",
+        "interpretation": "Промежуточный риск обструктивного апноэ сна"
+      }
+    },
+    {
+      "name": "high risk, all criteria positive",
+      "input": {
+        "snoring": true,
+        "tired": true,
+        "observedApnea": true,
+        "hypertension": true,
+        "weightKg": 110,
+        "heightCm": 170,
+        "ageOver50": true,
+        "neckOver40": true,
+        "male": true
+      },
+      "expected": {
+        "value": 8,
+        "riskLevel": "high",
+        "interpretation": "Высокий риск обструктивного апноэ сна"
+      }
+    }
+  ]
+}
