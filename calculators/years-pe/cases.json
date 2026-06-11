@@ -13,6 +13,7 @@
       },
       "expected": {
         "value": "ТЭЛА исключена",
+        "route": "years-excluded",
         "peExcluded": true,
         "yearsItems": 0,
         "threshold": 1000,
@@ -30,6 +31,7 @@
       },
       "expected": {
         "value": "ТЭЛА не исключена",
+        "route": "years-not-excluded",
         "peExcluded": false,
         "yearsItems": 0,
         "threshold": 1000
@@ -46,6 +48,7 @@
       },
       "expected": {
         "value": "ТЭЛА исключена",
+        "route": "years-excluded",
         "peExcluded": true,
         "yearsItems": 1,
         "threshold": 500,
@@ -53,20 +56,100 @@
       }
     },
     {
-      "name": "pregnant patient with DVT signs gets ultrasound note",
+      "name": "PE not excluded with one YEARS item and D-dimer at threshold",
+      "input": {
+        "pregnant": false,
+        "clinicalSignsDvt": false,
+        "hemoptysis": true,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": true
+      },
+      "expected": {
+        "value": "ТЭЛА не исключена",
+        "route": "years-not-excluded",
+        "peExcluded": false,
+        "yearsItems": 1,
+        "threshold": 500,
+        "interpretation": "Алгоритм YEARS не исключает ТЭЛА; показана КТ-ангиопульмонография или вентиляционно-перфузионное сканирование при наличии показаний"
+      }
+    },
+    {
+      "name": "PE excluded with three YEARS items and D-dimer below 500",
+      "input": {
+        "pregnant": false,
+        "clinicalSignsDvt": true,
+        "hemoptysis": true,
+        "peMostLikely": true,
+        "dDimerAtOrAboveThreshold": false
+      },
+      "expected": {
+        "value": "ТЭЛА исключена",
+        "route": "years-excluded",
+        "peExcluded": true,
+        "yearsItems": 3,
+        "threshold": 500,
+        "interpretation": "Алгоритм YEARS исключает ТЭЛА (0,43% симптомных ВТЭО за 3 месяца наблюдения)"
+      }
+    },
+    {
+      "name": "pregnant patient with DVT signs and no DVT found can rule out PE",
       "input": {
         "pregnant": true,
         "clinicalSignsDvt": true,
+        "dvtFound": false,
+        "hemoptysis": false,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": false
+      },
+      "expected": {
+        "value": "ТЭЛА исключена",
+        "route": "years-excluded",
+        "peExcluded": true,
+        "yearsItems": 1,
+        "threshold": 500,
+        "dvtFound": false,
+        "pregnancyNote": "У беременной пациентки с клиническими признаками ТГВ сначала выполните компрессионное УЗИ симптомной конечности."
+      }
+    },
+    {
+      "name": "pregnant patient with DVT signs and no DVT found cannot rule out PE",
+      "input": {
+        "pregnant": true,
+        "clinicalSignsDvt": true,
+        "dvtFound": false,
         "hemoptysis": false,
         "peMostLikely": false,
         "dDimerAtOrAboveThreshold": true
       },
       "expected": {
         "value": "ТЭЛА не исключена",
+        "route": "years-not-excluded",
         "peExcluded": false,
         "yearsItems": 1,
         "threshold": 500,
-        "pregnancyNote": "У беременной пациентки с клиническими признаками DVT сначала выполните компрессионное УЗИ симптомной конечности."
+        "dvtFound": false,
+        "pregnancyNote": "У беременной пациентки с клиническими признаками ТГВ сначала выполните компрессионное УЗИ симптомной конечности."
+      }
+    },
+    {
+      "name": "pregnant patient with DVT signs and DVT found on ultrasound",
+      "input": {
+        "pregnant": true,
+        "clinicalSignsDvt": true,
+        "dvtFound": true,
+        "hemoptysis": false,
+        "peMostLikely": false,
+        "dDimerAtOrAboveThreshold": false
+      },
+      "expected": {
+        "value": "ТГВ выявлен",
+        "route": "dvt-found",
+        "peExcluded": false,
+        "yearsItems": 1,
+        "threshold": null,
+        "dDimerAtOrAboveThreshold": null,
+        "dvtFound": true,
+        "interpretation": "Компрессионное УЗИ симптомной конечности выявило тромбоз глубоких вен. Диагноз ВТЭО считается установленным; дальнейшая визуализация для исключения ТЭЛА не требуется."
       }
     }
   ]

@@ -807,7 +807,7 @@
                 <legend class="fc-calc__years-legend">Беременная пациентка</legend>
                 <div class="fc-calc__years-options" role="radiogroup" aria-label="Беременная пациентка">
                 <label class="fc-calc__years-row" for="fc-calc-years-pe-pregnant-no">
-                  <input type="radio" id="fc-calc-years-pe-pregnant-no" name="pregnant" value="no" checked />
+                  <input type="radio" id="fc-calc-years-pe-pregnant-no" name="pregnant" value="no" />
                   <span class="fc-calc__years-label">Нет</span>
                 </label>
                 <label class="fc-calc__years-row" for="fc-calc-years-pe-pregnant-yes">
@@ -815,6 +815,7 @@
                   <span class="fc-calc__years-label">Да</span>
                 </label>
                 </div>
+                <span class="fc-calc__error" id="fc-calc-years-pe-pregnant-error" role="alert"></span>
               </fieldset>
             </div>
           </div>
@@ -823,10 +824,10 @@
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">YEARS-критерии</h3>
               <fieldset class="fc-calc__years-group">
-                <legend class="fc-calc__years-legend">Клинические признаки DVT</legend>
-                <div class="fc-calc__years-options" role="radiogroup" aria-label="Клинические признаки DVT">
+                <legend class="fc-calc__years-legend">Клинические признаки ТГВ</legend>
+                <div class="fc-calc__years-options" role="radiogroup" aria-label="Клинические признаки ТГВ">
                 <label class="fc-calc__years-row" for="fc-calc-years-pe-dvt-no">
-                  <input type="radio" id="fc-calc-years-pe-dvt-no" name="clinicalSignsDvt" value="no" checked />
+                  <input type="radio" id="fc-calc-years-pe-dvt-no" name="clinicalSignsDvt" value="no" />
                   <span class="fc-calc__years-label">Нет</span>
                   <span class="fc-calc__years-points">0</span>
                 </label>
@@ -836,8 +837,23 @@
                   <span class="fc-calc__years-points">+1</span>
                 </label>
                 </div>
+                <span class="fc-calc__error" id="fc-calc-years-pe-dvt-error" role="alert"></span>
               </fieldset>
-              <fieldset class="fc-calc__years-group">
+              <fieldset class="fc-calc__years-group fc-calc__years-hidden" id="fc-calc-years-pe-ultrasound-wrap">
+                <legend class="fc-calc__years-legend">Компрессионное УЗИ симптомной конечности</legend>
+                <div class="fc-calc__years-options" role="radiogroup" aria-label="Компрессионное УЗИ симптомной конечности">
+                <label class="fc-calc__years-row" for="fc-calc-years-pe-dvt-found-no">
+                  <input type="radio" id="fc-calc-years-pe-dvt-found-no" name="dvtFound" value="no" />
+                  <span class="fc-calc__years-label">ТГВ не выявлен</span>
+                </label>
+                <label class="fc-calc__years-row" for="fc-calc-years-pe-dvt-found-yes">
+                  <input type="radio" id="fc-calc-years-pe-dvt-found-yes" name="dvtFound" value="yes" />
+                  <span class="fc-calc__years-label">ТГВ выявлен</span>
+                </label>
+                </div>
+                <span class="fc-calc__error" id="fc-calc-years-pe-ultrasound-error" role="alert"></span>
+              </fieldset>
+              <fieldset class="fc-calc__years-group fc-calc__years-hidden" id="fc-calc-years-pe-hemoptysis-wrap">
                 <legend class="fc-calc__years-legend">Кровохарканье</legend>
                 <div class="fc-calc__years-options" role="radiogroup" aria-label="Кровохарканье">
                 <label class="fc-calc__years-row" for="fc-calc-years-pe-hemoptysis-no">
@@ -852,7 +868,7 @@
                 </label>
                 </div>
               </fieldset>
-              <fieldset class="fc-calc__years-group">
+              <fieldset class="fc-calc__years-group fc-calc__years-hidden" id="fc-calc-years-pe-most-likely-wrap">
                 <legend class="fc-calc__years-legend">ТЭЛА — наиболее вероятный диагноз</legend>
                 <div class="fc-calc__years-options" role="radiogroup" aria-label="ТЭЛА — наиболее вероятный диагноз">
                 <label class="fc-calc__years-row" for="fc-calc-years-pe-most-likely-no">
@@ -870,11 +886,11 @@
             </div>
           </div>
 
-          <div class="fc-calc__panel-section" id="fc-calc-years-pe-d-dimer-wrap">
+          <div class="fc-calc__panel-section fc-calc__years-hidden" id="fc-calc-years-pe-d-dimer-wrap">
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">D-димер</h3>
               <fieldset class="fc-calc__years-group">
-                <legend class="fc-calc__years-legend" id="fc-calc-years-pe-d-dimer-legend">D-dimer ≥1000 ng/mL FEU</legend>
+                <legend class="fc-calc__years-legend" id="fc-calc-years-pe-d-dimer-legend">D-димер ≥1000 нг/мл FEU</legend>
                 <div class="fc-calc__years-options" role="radiogroup" aria-label="D-димер">
                 <label class="fc-calc__years-row" for="fc-calc-years-pe-d-dimer-no">
                   <input type="radio" id="fc-calc-years-pe-d-dimer-no" name="dDimerAtOrAboveThreshold" value="no" checked />
@@ -911,9 +927,9 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body" id="fc-calc-years-pe-notes">
-        <p>YEARS использует 3 клинических критерия: клинические признаки DVT, кровохарканье, ТЭЛА как наиболее вероятный диагноз.</p>
-        <p>Если YEARS-критериев 0, вопрос D-dimer использует порог ≥1000 ng/mL FEU. Если критериев ≥1, вопрос D-dimer использует порог ≥500 ng/mL FEU. Ответ «Да» означает, что ТЭЛА не исключена по алгоритму YEARS.</p>
-        <p>У беременных пациенток с клиническими признаками DVT сначала рекомендуется компрессионное УЗИ симптомной конечности.</p>
+        <p>YEARS использует 3 клинических критерия: клинические признаки ТГВ, кровохарканье, ТЭЛА как наиболее вероятный диагноз.</p>
+        <p>Если YEARS-критериев 0, вопрос D-димера использует порог ≥1000 нг/мл FEU. Если критериев ≥1, вопрос D-димера использует порог ≥500 нг/мл FEU. Ответ «Да» означает, что ТЭЛА не исключена по алгоритму YEARS.</p>
+        <p>У беременных пациенток с клиническими признаками ТГВ сначала рекомендуется компрессионное УЗИ симптомной конечности.</p>
         <p>Не используйте алгоритм у гемодинамически нестабильных пациентов; он является дополнением к клинической оценке.</p>
         <p>Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
@@ -936,22 +952,73 @@
       var resultNumber = root.querySelector('#fc-calc-years-pe-result-number');
       var resultDesc = root.querySelector('#fc-calc-years-pe-result-desc');
       var dDimerLegend = root.querySelector('#fc-calc-years-pe-d-dimer-legend');
+      var pregnantError = root.querySelector('#fc-calc-years-pe-pregnant-error');
+      var dvtError = root.querySelector('#fc-calc-years-pe-dvt-error');
+      var ultrasoundWrap = root.querySelector('#fc-calc-years-pe-ultrasound-wrap');
+      var ultrasoundError = root.querySelector('#fc-calc-years-pe-ultrasound-error');
+      var hemoptysisWrap = root.querySelector('#fc-calc-years-pe-hemoptysis-wrap');
+      var mostLikelyWrap = root.querySelector('#fc-calc-years-pe-most-likely-wrap');
+      var dDimerWrap = root.querySelector('#fc-calc-years-pe-d-dimer-wrap');
 
       function asYes(value) {
         return value === 'yes';
       }
 
       function getYearsItems() {
-        var yearsItems = 0;
-        yearsItems += asYes(form.elements.clinicalSignsDvt.value) ? 1 : 0;
-        yearsItems += asYes(form.elements.hemoptysis.value) ? 1 : 0;
-        yearsItems += asYes(form.elements.peMostLikely.value) ? 1 : 0;
-        return yearsItems;
+        return [
+          asYes(form.elements.clinicalSignsDvt.value),
+          asYes(form.elements.hemoptysis.value),
+          asYes(form.elements.peMostLikely.value),
+        ].filter(Boolean).length;
+      }
+
+      function getThreshold(yearsItems) {
+        return yearsItems === 0 ? 1000 : 500;
+      }
+
+      function hasAnswer(fieldName) {
+        var value = form.elements[fieldName].value;
+        return value === 'no' || value === 'yes';
+      }
+
+      function hasInitialAnswers() {
+        return hasAnswer('pregnant') && hasAnswer('clinicalSignsDvt');
+      }
+
+      function shouldAskUltrasound() {
+        return hasInitialAnswers() && asYes(form.elements.pregnant.value) && asYes(form.elements.clinicalSignsDvt.value);
+      }
+
+      function isDvtFoundBranch() {
+        return shouldAskUltrasound() && asYes(form.elements.dvtFound.value);
+      }
+
+      function hasUltrasoundResult() {
+        var value = form.elements.dvtFound.value;
+        return value === 'no' || value === 'yes';
+      }
+
+      function setError(el, message) {
+        el.textContent = message || '';
       }
 
       function updateConditionalFields() {
-        var threshold = getYearsItems() === 0 ? 1000 : 500;
-        dDimerLegend.textContent = 'D-dimer ≥' + threshold + ' ng/mL FEU';
+        var readyForNextStep = hasInitialAnswers();
+        var askUltrasound = shouldAskUltrasound();
+        ultrasoundWrap.classList.toggle('fc-calc__years-hidden', !askUltrasound);
+        if (!askUltrasound) {
+          root.querySelector('#fc-calc-years-pe-dvt-found-no').checked = false;
+          root.querySelector('#fc-calc-years-pe-dvt-found-yes').checked = false;
+          setError(ultrasoundError, '');
+        }
+
+        var waitForUltrasound = askUltrasound && !hasUltrasoundResult();
+        var hideAfterUltrasound = !readyForNextStep || waitForUltrasound || isDvtFoundBranch();
+        dDimerWrap.classList.toggle('fc-calc__years-hidden', hideAfterUltrasound);
+        hemoptysisWrap.classList.toggle('fc-calc__years-hidden', hideAfterUltrasound);
+        mostLikelyWrap.classList.toggle('fc-calc__years-hidden', hideAfterUltrasound);
+        var threshold = getThreshold(getYearsItems());
+        dDimerLegend.textContent = 'D-димер ≥' + threshold + ' нг/мл FEU';
       }
 
       function showResult(out) {
@@ -967,27 +1034,45 @@
       }
 
       function calculate(input) {
-        var yearsItems = 0;
-        yearsItems += asYes(input.clinicalSignsDvt) ? 1 : 0;
-        yearsItems += asYes(input.hemoptysis) ? 1 : 0;
-        yearsItems += asYes(input.peMostLikely) ? 1 : 0;
+        var yearsItems = [
+          asYes(input.clinicalSignsDvt),
+          asYes(input.hemoptysis),
+          asYes(input.peMostLikely),
+        ].filter(Boolean).length;
 
-        var threshold = yearsItems === 0 ? 1000 : 500;
+        if (asYes(input.pregnant) && asYes(input.clinicalSignsDvt) && asYes(input.dvtFound)) {
+          return {
+            value: 'ТГВ выявлен',
+            route: 'dvt-found',
+            peExcluded: false,
+            yearsItems: yearsItems,
+            threshold: null,
+            dDimerAtOrAboveThreshold: null,
+            dvtFound: true,
+            interpretation: 'Компрессионное УЗИ симптомной конечности выявило тромбоз глубоких вен. Диагноз ВТЭО считается установленным; дальнейшая визуализация для исключения ТЭЛА не требуется.',
+            pregnancyNote: 'Начните антикоагулянтную терапию после оценки риска кровотечения.',
+          };
+        }
+
+        var threshold = getThreshold(yearsItems);
         var dDimerAtOrAboveThreshold = asYes(input.dDimerAtOrAboveThreshold);
         var peExcluded = !dDimerAtOrAboveThreshold;
         var value = peExcluded ? 'ТЭЛА исключена' : 'ТЭЛА не исключена';
+        var route = peExcluded ? 'years-excluded' : 'years-not-excluded';
         var interpretation = peExcluded
           ? 'Алгоритм YEARS исключает ТЭЛА (0,43% симптомных ВТЭО за 3 месяца наблюдения)'
-          : 'Алгоритм YEARS не исключает ТЭЛА; показана КТ-ангиопульмонография или V/Q-сканирование при наличии показаний';
+          : 'Алгоритм YEARS не исключает ТЭЛА; показана КТ-ангиопульмонография или вентиляционно-перфузионное сканирование при наличии показаний';
         var pregnancyNote = asYes(input.pregnant) && asYes(input.clinicalSignsDvt)
-          ? 'У беременной пациентки с клиническими признаками DVT сначала выполните компрессионное УЗИ симптомной конечности.'
+          ? 'У беременной пациентки с клиническими признаками ТГВ сначала выполните компрессионное УЗИ симптомной конечности.'
           : '';
 
         return {
           value: value,
+          route: route,
           peExcluded: peExcluded,
           yearsItems: yearsItems,
           threshold: threshold,
+          dvtFound: false,
           interpretation: interpretation,
           pregnancyNote: pregnancyNote,
         };
@@ -997,10 +1082,30 @@
         e.preventDefault();
         clearResult();
         updateConditionalFields();
+        setError(pregnantError, '');
+        setError(dvtError, '');
+        setError(ultrasoundError, '');
+
+        var hasError = false;
+        if (!hasAnswer('pregnant')) {
+          setError(pregnantError, 'Выберите ответ');
+          hasError = true;
+        }
+        if (!hasAnswer('clinicalSignsDvt')) {
+          setError(dvtError, 'Выберите ответ');
+          hasError = true;
+        }
+        if (hasError) return;
+
+        if (shouldAskUltrasound() && !hasUltrasoundResult()) {
+          setError(ultrasoundError, 'Укажите результат компрессионного УЗИ');
+          return;
+        }
 
         var out = calculate({
           pregnant: form.elements.pregnant.value,
           clinicalSignsDvt: form.elements.clinicalSignsDvt.value,
+          dvtFound: form.elements.dvtFound.value,
           hemoptysis: form.elements.hemoptysis.value,
           peMostLikely: form.elements.peMostLikely.value,
           dDimerAtOrAboveThreshold: form.elements.dDimerAtOrAboveThreshold.value,
