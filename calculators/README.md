@@ -58,6 +58,7 @@ node scripts/sync-calculator-readme.mjs
 - **`martin-ldl/`** — Расчёт ХС ЛПНП
 - **`mayo-coma/`** — Шкала комы FOUR
 - **`mental-status-scales/`** — Шкалы оценки психического статуса
+- **`pars/`** — Оценка риска детской астмы (PARS)
 - **`pasi/`** — Индекс площади поражения и тяжести псориаза (PASI)
 - **`peds-percentiles/`** — Процентили в педиатрии
 - **`pesi-pe/`** — Шкала PESI оценки летальности пациентов с ТЭЛА

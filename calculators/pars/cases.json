@@ -1,0 +1,96 @@
+{
+  "slug": "pars",
+  "source": "Pediatric Asthma Risk Score (PARS)",
+  "cases": [
+    {
+      "name": "low risk — no criteria",
+      "input": {
+        "parentalAsthma": false,
+        "eczemaBefore3": false,
+        "wheezingApartFromColds": false,
+        "earlyWheezing": false,
+        "skinPrickTestPositive": false,
+        "africanAmericanRace": false
+      },
+      "expected": {
+        "value": 0,
+        "score": 0,
+        "asthmaRiskPercent": 3,
+        "riskLevel": "low",
+        "interpretation": "Низкий риск астмы"
+      }
+    },
+    {
+      "name": "low risk — eczema and parental asthma",
+      "input": {
+        "parentalAsthma": true,
+        "eczemaBefore3": true,
+        "wheezingApartFromColds": false,
+        "earlyWheezing": false,
+        "skinPrickTestPositive": false,
+        "africanAmericanRace": false
+      },
+      "expected": {
+        "value": 4,
+        "score": 4,
+        "asthmaRiskPercent": 11,
+        "riskLevel": "low",
+        "interpretation": "Низкий риск астмы"
+      }
+    },
+    {
+      "name": "moderate risk — wheezing apart from colds and eczema",
+      "input": {
+        "parentalAsthma": false,
+        "eczemaBefore3": true,
+        "wheezingApartFromColds": true,
+        "earlyWheezing": false,
+        "skinPrickTestPositive": false,
+        "africanAmericanRace": false
+      },
+      "expected": {
+        "value": 5,
+        "score": 5,
+        "asthmaRiskPercent": 15,
+        "riskLevel": "moderate",
+        "interpretation": "Умеренный риск астмы"
+      }
+    },
+    {
+      "name": "moderate risk — maximum moderate score",
+      "input": {
+        "parentalAsthma": true,
+        "eczemaBefore3": false,
+        "wheezingApartFromColds": true,
+        "earlyWheezing": true,
+        "skinPrickTestPositive": false,
+        "africanAmericanRace": false
+      },
+      "expected": {
+        "value": 8,
+        "score": 8,
+        "asthmaRiskPercent": 32,
+        "riskLevel": "moderate",
+        "interpretation": "Умеренный риск астмы"
+      }
+    },
+    {
+      "name": "high risk — all criteria positive",
+      "input": {
+        "parentalAsthma": true,
+        "eczemaBefore3": true,
+        "wheezingApartFromColds": true,
+        "earlyWheezing": true,
+        "skinPrickTestPositive": true,
+        "africanAmericanRace": true
+      },
+      "expected": {
+        "value": 14,
+        "score": 14,
+        "asthmaRiskPercent": 79,
+        "riskLevel": "high",
+        "interpretation": "Высокий риск астмы"
+      }
+    }
+  ]
+}
