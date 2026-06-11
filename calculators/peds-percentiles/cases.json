@@ -13,7 +13,6 @@
       "expected": {
         "targetCm": 179,
         "potentialCm": 179,
-        "zScore": 0.3,
         "percentile": 61.9,
         "rangeLowCm": 170.5,
         "rangeHighCm": 187.5
@@ -30,7 +29,6 @@
       "expected": {
         "targetCm": 166,
         "potentialCm": 166,
-        "zScore": 0.41,
         "percentile": 66,
         "rangeLowCm": 157.5,
         "rangeHighCm": 174.5
@@ -45,7 +43,34 @@
         "weightKg": 10.6
       },
       "expected": {
-        "summary": "Вес: между 50-м и 85-м процентилем (50–85-й процентиль)"
+        "summary": "Масса к возрасту: 50–75-й процентиль (z = +0,45)"
+      }
+    },
+    {
+      "name": "anthro mobile 1y boy 8kg 70cm",
+      "input": {
+        "mode": "baby",
+        "sex": "male",
+        "birthDate": "2025-06-11",
+        "examDate": "2026-06-11",
+        "weightKg": 8,
+        "heightCm": 70
+      },
+      "expected": {
+        "bmi": 16.3
+      }
+    },
+    {
+      "name": "baby boy 12mo weight height BMI",
+      "input": {
+        "mode": "baby",
+        "sex": "male",
+        "ageMonths": 12,
+        "weightKg": 9.5,
+        "heightCm": 76
+      },
+      "expected": {
+        "mode": "baby"
       }
     },
     {
@@ -58,7 +83,7 @@
       },
       "expected": {
         "percentile": 26.8,
-        "band": "между 25-м и 50-м процентилем"
+        "band": "25–50-й процентиль"
       }
     },
     {
@@ -70,8 +95,8 @@
         "weightKg": 8
       },
       "expected": {
-        "percentile": 71.6,
-        "band": "между 50-м и 85-м процентилем"
+        "percentile": 71.8,
+        "band": "50–75-й процентиль"
       }
     },
     {
@@ -85,7 +110,7 @@
       },
       "expected": {
         "percentile": 48.8,
-        "band": "между 15-м и 50-м процентилем"
+        "band": "25–50-й процентиль"
       }
     },
     {
@@ -98,8 +123,8 @@
         "weightKg": 20
       },
       "expected": {
-        "percentile": 73.8,
-        "band": "между 50-м и 85-м процентилем"
+        "percentile": 73.9,
+        "band": "50–75-й процентиль"
       }
     },
     {
@@ -113,7 +138,7 @@
       },
       "expected": {
         "percentile": 88.9,
-        "band": "между 85-м и 97-м процентилем"
+        "band": "75–97-й процентиль"
       }
     },
     {
@@ -127,7 +152,7 @@
       },
       "expected": {
         "percentile": 95.4,
-        "band": "между 85-м и 97-м процентилем"
+        "band": "75–97-й процентиль"
       }
     },
     {
@@ -141,7 +166,7 @@
       },
       "expected": {
         "percentile": 68.1,
-        "band": "между 50-м и 85-м процентилем"
+        "band": "50–75-й процентиль"
       }
     },
     {
@@ -155,7 +180,7 @@
       },
       "expected": {
         "percentile": 92.8,
-        "band": "между 85-м и 97-м процентилем"
+        "band": "75–97-й процентиль"
       }
     },
     {
@@ -168,8 +193,8 @@
         "heightCm": 86.4
       },
       "expected": {
-        "percentile": 32.1,
-        "band": "между 15-м и 50-м процентилем"
+        "percentile": 32,
+        "band": "25–50-й процентиль"
       }
     },
     {

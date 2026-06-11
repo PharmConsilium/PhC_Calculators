@@ -1,3 +1,17 @@
+.fc-calc[data-calculator="peds-percentiles"] {
+  container-type: inline-size;
+  container-name: peds-calc;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__card,
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__form,
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__mode-fields {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__mode-select {
   width: 100%;
   min-height: 44px;
@@ -27,16 +41,44 @@
   display: none !important;
 }
 
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__field {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__field input,
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__field select {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__input-unit-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   align-items: stretch;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] input[type="date"] {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface, #fff);
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
 }
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__input-unit-row input[type="number"] {
-  flex: 1 1 10rem;
+  flex: 1 1 0;
   min-width: 0;
+  width: 0;
   min-height: 44px;
   padding: 10px 14px;
   font-size: 16px;
@@ -49,11 +91,13 @@
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__unit-segmented {
   flex: 0 0 auto;
+  margin-bottom: 0;
 }
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__unit-segmented .fc-calc__segment {
-  min-width: 3.25rem;
-  padding: 10px 12px;
+  flex: 0 0 auto;
+  min-width: 2.75rem;
+  padding: 10px 10px;
 }
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__unit-fixed {
@@ -70,8 +114,8 @@
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 14px;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-part {
@@ -87,8 +131,13 @@
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__age-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 14px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__age-row .fc-calc__field,
+.fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-row .fc-calc__field {
+  min-width: 0;
 }
 
 .fc-calc[data-calculator="peds-percentiles"] .fc-calc__result-list {
@@ -107,9 +156,29 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 480px) {
+@container peds-calc (min-width: 520px) {
   .fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-row,
   .fc-calc[data-calculator="peds-percentiles"] .fc-calc__age-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+}
+
+@media (min-width: 520px) {
+  .fc-calc[data-calculator="peds-percentiles"] .fc-calc__baby-age-row,
+  .fc-calc[data-calculator="peds-percentiles"] .fc-calc__age-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fc-calc[data-calculator="peds-percentiles"] {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .fc-calc[data-calculator="peds-percentiles"] .fc-calc__card {
+    padding: 1rem;
   }
 }

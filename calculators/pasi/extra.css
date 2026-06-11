@@ -1,0 +1,142 @@
+/* pasi — области тела и шкалы 0–4 / 0–6 */
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-region {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--fc-border);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 4px 0 0 var(--fc-blue);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+  flex-shrink: 0;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-points {
+  flex-shrink: 0;
+  color: var(--fc-muted-text);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__result-wrap {
+  padding: 18px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__result-number {
+  font-size: 2rem;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__result-desc {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-tables {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 28rem;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-ref-table {
+  table-layout: fixed;
+  width: 100%;
+  margin-top: 0;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-col-label {
+  width: 72%;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-col-value {
+  width: 28%;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-ref-table th:last-child,
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-ref-table td:last-child {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-table-note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__notes-body .fc-calc__table-wrap {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .fc-calc[data-calculator="pasi"] .fc-calc__pasi-row {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

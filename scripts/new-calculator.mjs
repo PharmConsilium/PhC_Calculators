@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, writeFile, access } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -60,6 +61,12 @@ const meta = {
   sitePath: `/calculator/${slug}`,
 };
 await writeFile(join(dir, 'meta.json'), JSON.stringify(meta, null, 2) + '\n', 'utf8');
+
+const sync = spawnSync(process.execPath, [join(__dirname, 'sync-calculator-readme.mjs')], {
+  cwd: root,
+  stdio: 'inherit',
+});
+if (sync.status !== 0) process.exit(sync.status ?? 1);
 
 console.log(`Created calculators/${slug}/`);
 console.log('  index.html  — embed in FarmConsilium html_code');

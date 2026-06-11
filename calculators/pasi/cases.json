@@ -1,0 +1,81 @@
+{
+  "slug": "pasi",
+  "source": "Fredriksson T, Pettersson U; MDCalc PASI",
+  "cases": [
+    {
+      "name": "all zero",
+      "input": {
+        "head_erythema": 0,
+        "head_induration": 0,
+        "head_desquamation": 0,
+        "head_area": 0,
+        "upper_erythema": 0,
+        "upper_induration": 0,
+        "upper_desquamation": 0,
+        "upper_area": 0,
+        "trunk_erythema": 0,
+        "trunk_induration": 0,
+        "trunk_desquamation": 0,
+        "trunk_area": 0,
+        "lower_erythema": 0,
+        "lower_induration": 0,
+        "lower_desquamation": 0,
+        "lower_area": 0
+      },
+      "expected": {
+        "pasi": 0,
+        "category": "none",
+        "interpretation": "Нет признаков заболевания (PASI 0)"
+      }
+    },
+    {
+      "name": "mixed regions example",
+      "input": {
+        "head_erythema": 1,
+        "head_induration": 1,
+        "head_desquamation": 1,
+        "head_area": 1,
+        "upper_erythema": 2,
+        "upper_induration": 2,
+        "upper_desquamation": 2,
+        "upper_area": 2,
+        "trunk_erythema": 3,
+        "trunk_induration": 3,
+        "trunk_desquamation": 3,
+        "trunk_area": 3,
+        "lower_erythema": 1,
+        "lower_induration": 2,
+        "lower_desquamation": 1,
+        "lower_area": 4
+      },
+      "expected": {
+        "pasi": 17.2
+      }
+    },
+    {
+      "name": "maximum PASI",
+      "input": {
+        "head_erythema": 4,
+        "head_induration": 4,
+        "head_desquamation": 4,
+        "head_area": 6,
+        "upper_erythema": 4,
+        "upper_induration": 4,
+        "upper_desquamation": 4,
+        "upper_area": 6,
+        "trunk_erythema": 4,
+        "trunk_induration": 4,
+        "trunk_desquamation": 4,
+        "trunk_area": 6,
+        "lower_erythema": 4,
+        "lower_induration": 4,
+        "lower_desquamation": 4,
+        "lower_area": 6
+      },
+      "expected": {
+        "pasi": 72,
+        "category": "severe"
+      }
+    }
+  ]
+}
