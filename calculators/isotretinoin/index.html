@@ -1,0 +1,1266 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Калькулятор расчёта дозы изотретиноина для лечения акне
+-->
+<div class="fc-calc" data-calculator="isotretinoin">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-panel {
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-sheet {
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 56, 79, 0.06);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 7.5rem) 3.5rem;
+  gap: 10px 12px;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--fc-border);
+  background: #fff;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row--out {
+  background: rgba(0, 94, 236, 0.03);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-label {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-value {
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-cell {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: 6px;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: var(--fc-font);
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-cell:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 2px rgba(0, 94, 236, 0.15);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-cell--out {
+  background: #fff;
+  border-color: rgba(0, 94, 236, 0.22);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-blue);
+  cursor: default;
+}
+
+.fc-calc[data-calculator="isotretinoin"] select.fc-calc__retin-cell {
+  appearance: auto;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="isotretinoin"] input.fc-calc__retin-cell::-webkit-outer-spin-button,
+.fc-calc[data-calculator="isotretinoin"] input.fc-calc__retin-cell::-webkit-inner-spin-button {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-unit {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-result-wrap {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-footer {
+  padding: 14px;
+  background: #fff;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drugs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn {
+  margin: 0;
+  padding: 11px 8px;
+  border: 1px solid var(--fc-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font);
+  font-size: 13px;
+  line-height: 1.25;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn:hover:not(.fc-calc__retin-drug-btn--active) {
+  background: rgba(0, 94, 236, 0.04);
+  border-color: rgba(0, 94, 236, 0.35);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn--active {
+  background: rgba(0, 94, 236, 0.08);
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 1px var(--fc-blue);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn--reset {
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-note {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--fc-text);
+}
+
+@media (max-width: 720px) {
+  .fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 12px 14px;
+  }
+
+  .fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-unit {
+    text-align: right;
+  }
+
+  .fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drugs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Калькулятор расчёта дозы изотретиноина для лечения акне</h2>
+        <p class="fc-calc__hint">Расчёт суточной и кумулятивной дозы изотретиноина (Роаккутан, Акнекутан, Сотрет) и количества капсул на сутки, месяц и курс</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-isotretinoin-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel fc-calc__retin-panel">
+              <div class="fc-calc__retin-sheet">
+                <div class="fc-calc__retin-row">
+                  <label class="fc-calc__retin-row-label" for="fc-calc-isotretinoin-weight">Вес</label>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="number" class="fc-calc__retin-cell" id="fc-calc-isotretinoin-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="0" required />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">кг</span>
+                </div>
+
+                <div class="fc-calc__retin-row">
+                  <label class="fc-calc__retin-row-label" for="fc-calc-isotretinoin-dose">Дозировка в зависимости от тяжести заболевания</label>
+                  <div class="fc-calc__retin-row-value">
+                    <select class="fc-calc__retin-cell" id="fc-calc-isotretinoin-dose" name="doseMgKg" required>
+                      <option value="" disabled>Выбрать…</option>
+                    <option value="0.4">0,4</option>
+                    <option value="0.5">0,5</option>
+                    <option value="0.6" selected>0,6</option>
+                    <option value="0.7">0,7</option>
+                    <option value="0.8">0,8</option>
+                    <option value="0.9">0,9</option>
+                    <option value="1">1</option>
+                    <option value="1.1">1,1</option>
+                    <option value="1.2">1,2</option>
+                    <option value="1.3">1,3</option>
+                    <option value="1.4">1,4</option>
+                    </select>
+                  </div>
+                  <span class="fc-calc__retin-row-unit">мг/кг</span>
+                </div>
+
+                <div class="fc-calc__result-wrap fc-calc__retin-result-wrap" id="fc-calc-isotretinoin-result" aria-live="polite">
+                <div class="fc-calc__retin-row fc-calc__retin-row--out">
+                  <span class="fc-calc__retin-row-label">Суточная доза</span>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="text" class="fc-calc__retin-cell fc-calc__retin-cell--out" id="fc-calc-isotretinoin-daily-dose" value="—" readonly tabindex="-1" aria-readonly="true" />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">мг</span>
+                </div>
+                <div class="fc-calc__retin-row fc-calc__retin-row--out">
+                  <span class="fc-calc__retin-row-label">Стандартная кумулятивная курсовая доза</span>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="text" class="fc-calc__retin-cell fc-calc__retin-cell--out" id="fc-calc-isotretinoin-cumulative-g" value="—" readonly tabindex="-1" aria-readonly="true" />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">гр</span>
+                </div>
+                <div class="fc-calc__retin-row fc-calc__retin-row--out">
+                  <span class="fc-calc__retin-row-label">Количество капсул препарата в сутки</span>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="text" class="fc-calc__retin-cell fc-calc__retin-cell--out" id="fc-calc-isotretinoin-capsules-day" value="—" readonly tabindex="-1" aria-readonly="true" />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">шт</span>
+                </div>
+                <div class="fc-calc__retin-row fc-calc__retin-row--out">
+                  <span class="fc-calc__retin-row-label">Количество капсул препарата в месяц</span>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="text" class="fc-calc__retin-cell fc-calc__retin-cell--out" id="fc-calc-isotretinoin-capsules-month" value="—" readonly tabindex="-1" aria-readonly="true" />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">шт</span>
+                </div>
+                <div class="fc-calc__retin-row fc-calc__retin-row--out">
+                  <span class="fc-calc__retin-row-label">Количество капсул препарата на курс</span>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="text" class="fc-calc__retin-cell fc-calc__retin-cell--out" id="fc-calc-isotretinoin-capsules-course" value="—" readonly tabindex="-1" aria-readonly="true" />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">шт</span>
+                </div>
+                <div class="fc-calc__retin-row fc-calc__retin-row--out">
+                  <span class="fc-calc__retin-row-label">Длительность курса лечения</span>
+                  <div class="fc-calc__retin-row-value">
+                    <input type="text" class="fc-calc__retin-cell fc-calc__retin-cell--out" id="fc-calc-isotretinoin-course-days" value="—" readonly tabindex="-1" aria-readonly="true" />
+                  </div>
+                  <span class="fc-calc__retin-row-unit">дней</span>
+                </div>
+                </div>
+              </div>
+
+              <div class="fc-calc__retin-footer">
+                <input type="hidden" id="fc-calc-isotretinoin-capsule" name="capsuleMg" value="16" />
+                <div class="fc-calc__retin-drugs" role="group" aria-label="Препарат">
+                <button type="button" class="fc-calc__retin-drug-btn" data-capsule="10" aria-pressed="false">Роаккутан 10 мг</button>
+                <button type="button" class="fc-calc__retin-drug-btn" data-capsule="20" aria-pressed="false">Роаккутан 20 мг</button>
+                <button type="button" class="fc-calc__retin-drug-btn" data-capsule="8" aria-pressed="false">Акнекутан 8 мг</button>
+                <button type="button" class="fc-calc__retin-drug-btn fc-calc__retin-drug-btn--active" data-capsule="16" aria-pressed="true">Акнекутан 16 мг</button>
+                <button type="button" class="fc-calc__retin-drug-btn fc-calc__retin-drug-btn--reset" id="fc-calc-isotretinoin-reset">Сброс</button>
+                </div>
+                <p class="fc-calc__hint fc-calc__retin-note">* Дозировка капсул Роаккутана и Сотрета одинакова</p>
+              </div>
+            </div>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-isotretinoin-form-error" role="alert"></span>
+        </form>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор для расчёта суточной и кумулятивной дозы лечения угревой сыпи изотретиноином. Стандартная кумулятивная курсовая доза рассчитывается как 120 мг/кг массы тела. Количество капсул в месяц — исходя из 30 дней.</p>
+        <p><strong>Дозировка изотретиноина по весу тела</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+                <tr>
+                  <th scope="col">Вес тела, кг</th>
+                  <th scope="col">0,5 мг/кг</th>
+                  <th scope="col">1 мг/кг</th>
+                  <th scope="col">2 мг/кг</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row">40</th>
+                  <td>20</td>
+                  <td>40</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <th scope="row">50</th>
+                  <td>25</td>
+                  <td>50</td>
+                  <td>100</td>
+                </tr>
+                <tr>
+                  <th scope="row">60</th>
+                  <td>30</td>
+                  <td>60</td>
+                  <td>120</td>
+                </tr>
+                <tr>
+                  <th scope="row">70</th>
+                  <td>35</td>
+                  <td>70</td>
+                  <td>140</td>
+                </tr>
+                <tr>
+                  <th scope="row">80</th>
+                  <td>40</td>
+                  <td>80</td>
+                  <td>160</td>
+                </tr>
+                <tr>
+                  <th scope="row">90</th>
+                  <td>45</td>
+                  <td>90</td>
+                  <td>180</td>
+                </tr>
+                <tr>
+                  <th scope="row">100</th>
+                  <td>50</td>
+                  <td>100</td>
+                  <td>200</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Суточная и кумулятивная доза изотретиноина, мг/кг</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+                <tr>
+                  <th scope="col">Суточная доза, мг/кг</th>
+                  <th scope="col">4 мес. (120 дней)</th>
+                  <th scope="col">5 мес. (150 дней)</th>
+                  <th scope="col">6 мес. (180 дней)</th>
+                  <th scope="col">7 мес. (210 дней)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row">0,5</th>
+                  <td>60</td>
+                  <td>75</td>
+                  <td>90</td>
+                  <td>105</td>
+                </tr>
+                <tr>
+                  <th scope="row">0,6</th>
+                  <td>72</td>
+                  <td>90</td>
+                  <td>108</td>
+                  <td>126</td>
+                </tr>
+                <tr>
+                  <th scope="row">0,7</th>
+                  <td>84</td>
+                  <td>105</td>
+                  <td>126</td>
+                  <td>147</td>
+                </tr>
+                <tr>
+                  <th scope="row">0,8</th>
+                  <td>96</td>
+                  <td>120</td>
+                  <td>144</td>
+                  <td>168</td>
+                </tr>
+                <tr>
+                  <th scope="row">0,9</th>
+                  <td>108</td>
+                  <td>135</td>
+                  <td>162</td>
+                  <td>189</td>
+                </tr>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>120</td>
+                  <td>150</td>
+                  <td>180</td>
+                  <td>210</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  var root = document.querySelector('.fc-calc[data-calculator="isotretinoin"]');
+  if (!root) return;
+
+  var CUMULATIVE_MG_KG = 120;
+  var DAYS_PER_MONTH = 30;
+  var DOSE_OPTIONS = [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4];
+  var DEFAULT_CAPSULE = 16;
+
+  var form = root.querySelector('#fc-calc-isotretinoin-form');
+  var capsuleInput = root.querySelector('#fc-calc-isotretinoin-capsule');
+  var formError = root.querySelector('#fc-calc-isotretinoin-form-error');
+
+  var resultEls = {
+    dailyDoseMg: root.querySelector('#fc-calc-isotretinoin-daily-dose'),
+    cumulativeG: root.querySelector('#fc-calc-isotretinoin-cumulative-g'),
+    capsulesPerDay: root.querySelector('#fc-calc-isotretinoin-capsules-day'),
+    capsulesPerMonth: root.querySelector('#fc-calc-isotretinoin-capsules-month'),
+    capsulesPerCourse: root.querySelector('#fc-calc-isotretinoin-capsules-course'),
+    courseDays: root.querySelector('#fc-calc-isotretinoin-course-days'),
+  };
+
+  function roundHalfUp(value, decimals) {
+    var factor = Math.pow(10, decimals);
+    return Math.round(value * factor + Number.EPSILON) / factor;
+  }
+
+  function formatNum(n) {
+    return String(n).replace('.', ',');
+  }
+
+  function parsePositive(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+
+  function parseDose(value) {
+    var n = Number(String(value || '').replace(',', '.'));
+    if (!Number.isFinite(n)) return null;
+    return DOSE_OPTIONS.indexOf(n) >= 0 ? n : null;
+  }
+
+  function clearOutputs() {
+    Object.keys(resultEls).forEach(function (key) {
+      if (resultEls[key]) resultEls[key].value = '—';
+    });
+  }
+
+  function setCapsule(mg) {
+    if (capsuleInput) capsuleInput.value = String(mg);
+    root.querySelectorAll('.fc-calc__retin-drug-btn[data-capsule]').forEach(function (btn) {
+      var active = Number(btn.getAttribute('data-capsule')) === mg;
+      btn.classList.toggle('fc-calc__retin-drug-btn--active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    recalculate();
+  }
+
+  function resetForm() {
+    var weight = root.querySelector('#fc-calc-isotretinoin-weight');
+    var dose = root.querySelector('#fc-calc-isotretinoin-dose');
+    if (weight) weight.value = '';
+    if (dose) dose.value = '0.6';
+    if (formError) formError.textContent = '';
+    setCapsule(DEFAULT_CAPSULE);
+    clearOutputs();
+  }
+
+  function calcFromForm() {
+    var weightKg = parsePositive(root.querySelector('#fc-calc-isotretinoin-weight')?.value);
+    var doseMgKg = parseDose(root.querySelector('#fc-calc-isotretinoin-dose')?.value);
+    var capsuleMg = Number(capsuleInput?.value);
+
+    if (weightKg === null || doseMgKg === null || !Number.isFinite(capsuleMg) || capsuleMg <= 0) {
+      return null;
+    }
+
+    var dailyDoseMg = roundHalfUp(weightKg * doseMgKg, 0);
+    var cumulativeMg = roundHalfUp(weightKg * CUMULATIVE_MG_KG, 0);
+    var cumulativeG = roundHalfUp(cumulativeMg / 1000, 1);
+    var capsulesPerDay = Math.round(dailyDoseMg / capsuleMg);
+    var capsulesPerMonth = capsulesPerDay * DAYS_PER_MONTH;
+    var capsulesPerCourse = Math.round(cumulativeMg / capsuleMg);
+    var courseDays = capsulesPerDay > 0 ? Math.round(capsulesPerCourse / capsulesPerDay) : 0;
+
+    return {
+      dailyDoseMg: dailyDoseMg,
+      cumulativeG: cumulativeG,
+      capsulesPerDay: capsulesPerDay,
+      capsulesPerMonth: capsulesPerMonth,
+      capsulesPerCourse: capsulesPerCourse,
+      courseDays: courseDays,
+    };
+  }
+
+  function showResult(out) {
+    if (!out) {
+      clearOutputs();
+      return;
+    }
+    resultEls.dailyDoseMg.value = formatNum(out.dailyDoseMg);
+    resultEls.cumulativeG.value = formatNum(out.cumulativeG);
+    resultEls.capsulesPerDay.value = formatNum(out.capsulesPerDay);
+    resultEls.capsulesPerMonth.value = formatNum(out.capsulesPerMonth);
+    resultEls.capsulesPerCourse.value = formatNum(out.capsulesPerCourse);
+    resultEls.courseDays.value = formatNum(out.courseDays);
+  }
+
+  function recalculate() {
+    if (formError) formError.textContent = '';
+    showResult(calcFromForm());
+  }
+
+  root.querySelectorAll('.fc-calc__retin-drug-btn[data-capsule]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setCapsule(Number(btn.getAttribute('data-capsule')));
+    });
+  });
+
+  var resetBtn = root.querySelector('#fc-calc-isotretinoin-reset');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetForm);
+  }
+
+  if (form) {
+    form.addEventListener('input', recalculate);
+    form.addEventListener('change', recalculate);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+    });
+  }
+
+  setCapsule(DEFAULT_CAPSULE);
+  clearOutputs();
+})();
+  </script>
+</div>

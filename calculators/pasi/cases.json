@@ -1,10 +1,11 @@
 {
   "slug": "pasi",
-  "source": "Fredriksson T, Pettersson U; MDCalc PASI",
+  "source": "Fredriksson T; Ibrahim GH (PEST); Hanifin JM (EASI); European Task Force (SCORAD)",
   "cases": [
     {
-      "name": "all zero",
+      "name": "pasi all zero",
       "input": {
+        "mode": "pasi",
         "head_erythema": 0,
         "head_induration": 0,
         "head_desquamation": 0,
@@ -24,13 +25,13 @@
       },
       "expected": {
         "pasi": 0,
-        "category": "none",
-        "interpretation": "Нет признаков заболевания (PASI 0)"
+        "category": "none"
       }
     },
     {
-      "name": "mixed regions example",
+      "name": "pasi mixed regions",
       "input": {
+        "mode": "pasi",
         "head_erythema": 1,
         "head_induration": 1,
         "head_desquamation": 1,
@@ -53,28 +54,95 @@
       }
     },
     {
-      "name": "maximum PASI",
+      "name": "pest negative",
       "input": {
-        "head_erythema": 4,
-        "head_induration": 4,
-        "head_desquamation": 4,
-        "head_area": 6,
-        "upper_erythema": 4,
-        "upper_induration": 4,
-        "upper_desquamation": 4,
-        "upper_area": 6,
-        "trunk_erythema": 4,
-        "trunk_induration": 4,
-        "trunk_desquamation": 4,
-        "trunk_area": 6,
-        "lower_erythema": 4,
-        "lower_induration": 4,
-        "lower_desquamation": 4,
-        "lower_area": 6
+        "mode": "pest",
+        "q1": false,
+        "q2": false,
+        "q3": true,
+        "q4": false,
+        "q5": false
       },
       "expected": {
-        "pasi": 72,
-        "category": "severe"
+        "pest": 1,
+        "category": "negative",
+        "interpretation": "Отрицательный скрининг"
+      }
+    },
+    {
+      "name": "pest positive with joints",
+      "input": {
+        "mode": "pest",
+        "q1": true,
+        "q2": true,
+        "q3": true,
+        "q4": false,
+        "q5": false,
+        "joint_kneeL": true,
+        "joint_shoulderR": true
+      },
+      "expected": {
+        "pest": 3,
+        "category": "positive",
+        "jointLabels": ["Левая нога — колено", "Правая рука — плечо"]
+      }
+    },
+    {
+      "name": "easi moderate trunk",
+      "input": {
+        "mode": "easi",
+        "head_area": 0,
+        "head_erythema": 0,
+        "head_infiltration": 0,
+        "head_excoriation": 0,
+        "head_lichenification": 0,
+        "upper_area": 0,
+        "upper_erythema": 0,
+        "upper_infiltration": 0,
+        "upper_excoriation": 0,
+        "upper_lichenification": 0,
+        "trunk_area": 3,
+        "trunk_erythema": 2,
+        "trunk_infiltration": 2,
+        "trunk_excoriation": 1,
+        "trunk_lichenification": 1,
+        "lower_area": 0,
+        "lower_erythema": 0,
+        "lower_infiltration": 0,
+        "lower_excoriation": 0,
+        "lower_lichenification": 0
+      },
+      "expected": {
+        "easi": 5.4,
+        "category": "moderate",
+        "label": "умеренная",
+        "rangeLabel": "1,1–7,0"
+      }
+    },
+    {
+      "name": "scorad mild example",
+      "input": {
+        "mode": "scorad",
+        "area_head": 25,
+        "area_genital": 0,
+        "area_armL": 25,
+        "area_armR": 25,
+        "area_legL": 0,
+        "area_legR": 0,
+        "area_trunkFront": 25,
+        "area_back": 0,
+        "int_erythema": 1,
+        "int_edema": 1,
+        "int_oozing": 0,
+        "int_excoriation": 1,
+        "int_lichenification": 0,
+        "int_dryness": 1,
+        "pruritus": 3,
+        "sleep": 2
+      },
+      "expected": {
+        "scorad": 21.3,
+        "category": "moderate"
       }
     }
   ]

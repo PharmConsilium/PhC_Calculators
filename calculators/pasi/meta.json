@@ -1,7 +1,7 @@
 {
   "slug": "pasi",
-  "title": "Индекс площади поражения и тяжести псориаза (PASI)",
+  "title": "Расчет индексов площади поражения и тяжести дерматологических заболеваний",
   "sitePath": "/calculator/pasi",
-  "source": "Fredriksson T, Pettersson U; MDCalc",
+  "source": "Fredriksson T; Ibrahim GH; Hanifin JM; European Task Force on Atopic Dermatitis",
   "complexity": "B"
 }
