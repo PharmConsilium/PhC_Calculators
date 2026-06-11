@@ -1,0 +1,58 @@
+{
+  "slug": "dsi",
+  "source": "Diastolic Shock Index (DSI)",
+  "cases": [
+    {
+      "name": "below threshold",
+      "input": {
+        "heartRate": 80,
+        "diastolicBp": 80
+      },
+      "expected": {
+        "value": 1,
+        "dsi": 1,
+        "elevated": false,
+        "interpretation": "DSI <2,0 — клинически значимый порог не достигнут"
+      }
+    },
+    {
+      "name": "at threshold",
+      "input": {
+        "heartRate": 100,
+        "diastolicBp": 50
+      },
+      "expected": {
+        "value": 2,
+        "dsi": 2,
+        "elevated": true,
+        "interpretation": "DSI ≥2,0 — часто указываемый клинически значимый порог; настораживает в отношении прогрессии в септический шок"
+      }
+    },
+    {
+      "name": "above threshold",
+      "input": {
+        "heartRate": 120,
+        "diastolicBp": 40
+      },
+      "expected": {
+        "value": 3,
+        "dsi": 3,
+        "elevated": true,
+        "interpretation": "DSI ≥2,0 — часто указываемый клинически значимый порог; настораживает в отношении прогрессии в септический шок"
+      }
+    },
+    {
+      "name": "borderline below threshold",
+      "input": {
+        "heartRate": 99,
+        "diastolicBp": 50
+      },
+      "expected": {
+        "value": 1.98,
+        "dsi": 1.98,
+        "elevated": false,
+        "interpretation": "DSI <2,0 — клинически значимый порог не достигнут"
+      }
+    }
+  ]
+}
