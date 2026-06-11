@@ -20,43 +20,62 @@ calculators/
 - Поля в секциях: `fc-calc__panel-section` → `fc-calc__panel` → `h3.fc-calc__panel-heading`
 - Стили панелей: `shared/fc-calc.css`; фрагмент: `templates/panel-section.html`
 
-## Даник
+## Все Калькуляторы
 
-- **`bmi/`** — индекс массы тела (ИМТ/BMI, классификация ВОЗ)
-- **`date-diff/`** — расчёт дней между двумя датами
-- **`gcs-equiv/`** — эквивалентные дозы системных глюкокортикостероидов (пересчёт по ClinCalc)
-- **`fluid-req/`** — расчёт физиологической потребности в жидкости (правило 4-2-1)
-- **`hydro-balance/`** — расчёт гидробаланса (формулы [medsoftpro.ru](https://medsoftpro.ru/kalkulyatory/hydrobalance-calc))
-- **`apgar/`** — шкала Апгар (оценка состояния новорождённого)
-- **`glasgow-coma/`** — шкала комы Глазго (GCS)
-- **`mayo-coma/`** — шкала комы FOUR (Full Outline of UnResponsiveness, [medsoftpro](https://medsoftpro.ru/kalkulyatory/four-scale))
-- **`gail-breast/`** — модель Гейла, 5-летний риск РМЖ (1999)
-- **`sodium-deficit/`** — дефицит натрия при гипонатриемии (MSD)
-- **`cardiac-output/`** — сердечный выброс по Фику ([medsoftpro](https://medsoftpro.ru/kalkulyatory/cardiac-output))
-- **`wells-pe/`** — шкала Уэллса, вероятность ТЭЛА (MSD)
-- **`wells-scale/`** — шкала Веллса (Wells' Criteria), вероятность ТЭЛА ([medsoftpro](https://medsoftpro.ru/kalkulyatory/wells-scale))
-- **`geneva-pe/`** — Женевская шкала (индекс Geneva), вероятность ТЭЛА ([ByMed](https://bymed.top/calc/geneva-2180))
-- **`pesi-pe/`** — шкала PESI, 30-дневная летальность при ТЭЛА ([ByMed](https://bymed.top/calc/pesi-2188))
-- **`infusomat/`** — доза и скорость на инфузомате ([ByMed](https://bymed.top/calc/%D0%B8%D0%BD%D1%84%D1%83%D0%B7%D0%BE%D0%BC%D0%B0%D1%82-658))
-- **`anion-gap/`** — анионная разница, дельта-дельта градиент (MSD)
-- **`apache-ii/`** — шкала APACHE II и оценка смертности (Knaus / MSD)
-- **`martin-ldl/`** — расчёт ХС ЛПНП (формулы Мартина-Хопкинса, Сэмпсона, Фридвальда)
-- **`peds-percentiles/`** — процентили в педиатрии (ВОЗ: вес, рост, ИМТ, ОГ, масса при рождении, масса плода, целевой рост)
-- **`ldl-lpa-corr/`** — корригированный ХС ЛНП с учётом липопротеида(а) (NOA)
-- **`macocha/`** — шкала MACOCHA, риск сложной интубации в ОРИТ (anest-rean)
-- **`improve-scale/`** — шкала IMPROVE, риск ТГВ/ТЭЛА у нехирургических больных ([medsoftpro](https://medsoftpro.ru/kalkulyatory/improve-scale))
-- **`caprini-scale/`** — шкала Caprini, риск ВТЭО у хирургических пациентов ([medsoftpro](https://medsoftpro.ru/kalkulyatory/caprini-scale))
-- **`aminophylline-peds/`** — расчёт дозировки эуфиллина у детей до 16 лет ([medvestnik](https://medvestnik.ru/calculators/Raschet-dozirovki-eufillina-u-detei-do-16-let.html))
-- **`depression-scales/`** — шкалы оценки депрессии (Бек, Гамильтон, PHQ, EPDS, GDS, HADS)
-- **`anxiety-scales/`** — шкалы тревоги (GAD-7, Кови, Спилберг, Шихан)
-- **`mental-status-scales/`** — шкалы оценки психического статуса (MMSE, FAB)
-- **`aims-scale/`** — шкала AIMS, оценка аномальных непроизвольных движений ([medsoftpro](https://medsoftpro.ru/kalkulyatory/aims))
-- **`ciwa-ar/`** — шкала CIWA-AR, тяжесть алкогольного абстинентного синдрома ([medsoftpro](https://medsoftpro.ru/kalkulyatory/ciwa-ar))
+Список генерируется из `meta.json` каждой папки. После создания или переименования калькулятора обновите `meta.json` → `title` и выполните:
+
+```bash
+node scripts/sync-calculator-readme.mjs
+```
+
+При `node scripts/new-calculator.mjs <slug>` список обновляется автоматически.
+
+- **`aims-scale/`** — Шкала AIMS
+- **`aminophylline-peds/`** — Расчёт дозировки эуфиллина у детей до 16 лет
+- **`anion-gap/`** — Анионная разница (дельта-дельта градиент)
+- **`anxiety-scales/`** — Шкалы тревоги
+- **`apache-ii/`** — Шкала оценки APACHE II и оценка смертности
+- **`apgar/`** — Шкала Апгар
+- **`blood-gas/`** — Интерпретация КЩС и газового состава крови
+- **`bmi/`** — Калькулятор расчёта индекса массы тела (BMI/ИМТ)
+- **`caprini-scale/`** — Шкала Caprini
+- **`cardiac-output/`** — Калькулятор сердечного выброса
+- **`cdai/`** — Индекс клинической активности заболевания ревматоидным артритом (CDAI)
+- **`ciwa-ar/`** — Шкала CIWA-AR
+- **`date-diff/`** — Расчёт дней между двумя датами
+- **`depression-scales/`** — Шкалы оценки депрессии
+- **`fluid-req/`** — Расчет физиологической потребности в жидкости
+- **`gail-breast/`** — Модель Гейла — риск рака молочной железы (5 лет)
+- **`gcs-equiv/`** — Клинический конвертер «Эквивалентные дозы глюкокортикостероидов (ГКС) — системные»
+- **`geneva-pe/`** — Женевская шкала (индекс Geneva) оценки вероятности развития ТЭЛА
+- **`gestation-due-date/`** — Определение срока беременности и даты родов
+- **`glasgow-coma/`** — Шкала комы Глазго
+- **`hydro-balance/`** — Расчет гидробаланса
+- **`improve-scale/`** — Шкала IMPROVE
+- **`infusomat/`** — Расчёт дозы и скорости введения препаратов на инфузомате (линеомате)
+- **`ldl-lpa-corr/`** — Расчёт корригированного ХС ЛНП с учётом липопротеида(а)
+- **`macocha/`** — Шкала MACOCHA
+- **`martin-ldl/`** — Расчёт ХС ЛПНП
+- **`mayo-coma/`** — Шкала комы FOUR
+- **`mental-status-scales/`** — Шкалы оценки психического статуса
+- **`pasi/`** — Индекс площади поражения и тяжести псориаза (PASI)
+- **`peds-percentiles/`** — Процентили в педиатрии
+- **`pesi-pe/`** — Шкала PESI оценки летальности пациентов с ТЭЛА
+- **`pregnancy-dating/`** — Определение срока беременности по последней менструации и ультразвуковой биометрии
+- **`sodium-deficit/`** — Дефицит натрия при гипонатриемии
+- **`wells-pe/`** — Шкала Уэллса для оценки вероятности ТЭЛА
+- **`wells-scale/`** — Шкала Веллса
 
 ## Новый калькулятор
 
 ```bash
 node scripts/new-calculator.mjs has-bled
+```
+
+После заполнения `meta.json` (название) пересоберите список, если меняли title вручную:
+
+```bash
+node scripts/sync-calculator-readme.mjs
 ```
 
 ## Обновить стили во всех / одном

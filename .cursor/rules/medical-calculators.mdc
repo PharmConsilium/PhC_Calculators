@@ -12,3 +12,5 @@ alwaysApply: false
 2. **calculator-style** — единый вид из `shared/fc-calc.css` + `FRONTEND-STYLES.md`.
 
 Перед сдачей: `node --test tests/example.test.mjs`, чеклист `FRONTEND-STYLES.md` §16.
+
+**Новый калькулятор:** после создания папки и `meta.json` добавьте запись в `calculators/README.md` → «Все Калькуляторы»: `node scripts/sync-calculator-readme.mjs` (скрипт `new-calculator.mjs` делает это сам).

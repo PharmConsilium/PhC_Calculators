@@ -11,13 +11,21 @@
   var formError = root.querySelector('#fc-calc-peds-percentiles-form-error');
   var modeHint = root.querySelector('#fc-calc-peds-percentiles-mode-hint');
 
+  var EXAM_DATE_IDS = [
+    '#fc-calc-peds-percentiles-baby-exam',
+    '#fc-calc-peds-percentiles-bmi-exam',
+    '#fc-calc-peds-percentiles-height-exam',
+    '#fc-calc-peds-percentiles-head-exam',
+    '#fc-calc-peds-percentiles-weight-exam',
+  ];
+
   var MODE_HINTS = {
-    baby: 'Возраст до 2 лет (24 мес.): укажите годы и/или месяцы. Заполните хотя бы одно измерение.',
+    baby: 'Возраст до 2 лет: дата рождения и дата осмотра. Заполните хотя бы одно измерение.',
     birthweight: 'Гестационный возраст 20–41 нед., масса при рождении в граммах.',
-    bmi: 'Возраст до 19 лет. Укажите массу и рост.',
-    height: 'Возраст до 5 лет (60 мес.): укажите годы и/или месяцы. Рост в сантиметрах.',
-    head: 'Возраст до 5 лет (60 мес.): укажите годы и/или месяцы. Окружность головы в сантиметрах.',
-    weight: 'Возраст до 5 лет (60 мес.): укажите годы и/или месяцы. Масса: кг и/или г.',
+    bmi: 'Возраст до 19 лет: дата рождения и дата осмотра. До 2 лет — длина тела, после — рост.',
+    height: 'Возраст до 5 лет: дата рождения и дата осмотра. До 2 лет — длина тела, после — рост (см).',
+    head: 'Возраст до 5 лет: дата рождения и дата осмотра. Окружность головы в сантиметрах.',
+    weight: 'Возраст до 5 лет: дата рождения и дата осмотра. Масса в кг или г.',
     fetal: 'Срок 14–40 нед. Параметры УЗИ: AC, FL, HC, BPD (см).',
     targetHeight: 'Рост матери и отца в сантиметрах, пол ребёнка.',
   };
@@ -44,12 +52,67 @@
     return active ? active.getAttribute('data-sex') : 'male';
   }
 
-  function readWeightKg(kgId, gId) {
-    var kg = rawValue(kgId);
-    var g = rawValue(gId);
-    if (!kg && !g) return null;
-    var w = weightKgAndGramsToKg(kg, g);
+  function getWeightUnit(group) {
+    var seg = root.querySelector('[data-weight-unit="' + group + '"]');
+    if (!seg) return 'kg';
+    var active = seg.querySelector('.fc-calc__segment--active');
+    return active ? active.getAttribute('data-unit') : 'kg';
+  }
+
+  function readWeightValue(inputId, unitGroup) {
+    var v = rawValue(inputId);
+    if (!v) return null;
+    var w = weightWithUnitToKg(v, getWeightUnit(unitGroup));
     return Number.isFinite(w) ? w : { error: true };
+  }
+
+  function readAgeFromDates(birthId, examId, maxMonths, errCode) {
+    var birth = rawValue(birthId);
+    var exam = rawValue(examId);
+    if (!birth || !exam) throw new Error('dates');
+    var ageMonths = ageMonthsFromDates(birth, exam);
+    if (!Number.isFinite(ageMonths) || ageMonths < 0) throw new Error('dates');
+    if (ageMonths > maxMonths) throw new Error(errCode || 'ageMax');
+    return {
+      birthDate: birth,
+      examDate: exam,
+      ageMonths: ageMonths,
+      ageLabel: formatAgeFromDates(birth, exam),
+    };
+  }
+
+  function setDefaultExamDates() {
+    var today = new Date().toISOString().slice(0, 10);
+    EXAM_DATE_IDS.forEach(function (id) {
+      var el = root.querySelector(id);
+      if (el && !el.value) el.value = today;
+    });
+  }
+
+  function updateHeightFieldLabels() {
+    [
+      {
+        birth: '#fc-calc-peds-percentiles-bmi-birth',
+        exam: '#fc-calc-peds-percentiles-bmi-exam',
+        label: '#fc-calc-peds-percentiles-bmi-height-label',
+      },
+      {
+        birth: '#fc-calc-peds-percentiles-height-birth',
+        exam: '#fc-calc-peds-percentiles-height-exam',
+        label: '#fc-calc-peds-percentiles-height-cm-label',
+      },
+    ].forEach(function (pair) {
+      var labelEl = root.querySelector(pair.label);
+      if (!labelEl) return;
+      var birth = rawValue(pair.birth);
+      var exam = rawValue(pair.exam);
+      var term = 'Длина тела';
+      if (birth && exam) {
+        var ageMonths = ageMonthsFromDates(birth, exam);
+        if (Number.isFinite(ageMonths)) term = heightMeasureLabel(ageMonths);
+      }
+      labelEl.textContent = term + ', см';
+    });
   }
 
   root.querySelectorAll('.fc-calc__segmented').forEach(function (seg) {
@@ -73,6 +136,7 @@
     if (modeHint && MODE_HINTS[mode]) modeHint.textContent = MODE_HINTS[mode];
     resultWrap.classList.add('fc-calc__result-wrap--hidden');
     formError.textContent = '';
+    setDefaultExamDates();
     updateBtn();
   }
 
@@ -94,15 +158,17 @@
     var input = { mode: mode };
     if (mode === 'baby') {
       input.sex = getSex('baby');
-      var ageYears = rawValue('#fc-calc-peds-percentiles-baby-age-years');
-      var ageMonthsPart = rawValue('#fc-calc-peds-percentiles-baby-age-months');
-      var ageMonths = ageYearsAndMonthsToMonths(ageYears, ageMonthsPart);
-      if (!Number.isFinite(ageMonths)) throw new Error('age');
-      input.ageMonths = ageMonths;
-      var w = readWeightKg(
-        '#fc-calc-peds-percentiles-baby-weight-kg',
-        '#fc-calc-peds-percentiles-baby-weight-g'
+      var babyAge = readAgeFromDates(
+        '#fc-calc-peds-percentiles-baby-birth',
+        '#fc-calc-peds-percentiles-baby-exam',
+        24,
+        'age'
       );
+      input.birthDate = babyAge.birthDate;
+      input.examDate = babyAge.examDate;
+      input.ageMonths = babyAge.ageMonths;
+      input.ageLabel = babyAge.ageLabel;
+      var w = readWeightValue('#fc-calc-peds-percentiles-baby-weight', 'baby');
       var h = num('#fc-calc-peds-percentiles-baby-height');
       var hc = num('#fc-calc-peds-percentiles-baby-head');
       if (w && !w.error) input.weightKg = w;
@@ -120,13 +186,16 @@
       input.weightG = bwg;
     } else if (mode === 'bmi') {
       input.sex = getSex('bmi');
-      var by = num('#fc-calc-peds-percentiles-bmi-years') || 0;
-      var bm = num('#fc-calc-peds-percentiles-bmi-months') || 0;
-      if (by && by.error) throw new Error('age');
-      if (bm && bm.error) throw new Error('age');
-      input.ageYears = by || 0;
-      input.ageMonthsPart = bm || 0;
-      var bmw = num('#fc-calc-peds-percentiles-bmi-weight');
+      var bmiAge = readAgeFromDates(
+        '#fc-calc-peds-percentiles-bmi-birth',
+        '#fc-calc-peds-percentiles-bmi-exam',
+        228,
+        'ageBmi'
+      );
+      input.birthDate = bmiAge.birthDate;
+      input.examDate = bmiAge.examDate;
+      input.ageLabel = bmiAge.ageLabel;
+      var bmw = readWeightValue('#fc-calc-peds-percentiles-bmi-weight', 'bmi');
       var bmh = num('#fc-calc-peds-percentiles-bmi-height');
       if (bmw && bmh && !bmw.error && !bmh.error) {
         input.weightKg = bmw;
@@ -134,35 +203,47 @@
       } else throw new Error('bmi');
     } else if (mode === 'height') {
       input.sex = getSex('height');
-      var hy = rawValue('#fc-calc-peds-percentiles-height-years');
-      var hm = rawValue('#fc-calc-peds-percentiles-height-months');
-      var hAge = ageYearsAndMonthsToMonths(hy, hm, 60);
-      if (!Number.isFinite(hAge)) throw new Error('ageHeight');
-      input.ageMonths = hAge;
+      var heightAge = readAgeFromDates(
+        '#fc-calc-peds-percentiles-height-birth',
+        '#fc-calc-peds-percentiles-height-exam',
+        60,
+        'ageHeight'
+      );
+      input.birthDate = heightAge.birthDate;
+      input.examDate = heightAge.examDate;
+      input.ageMonths = heightAge.ageMonths;
+      input.ageLabel = heightAge.ageLabel;
       var hc2 = num('#fc-calc-peds-percentiles-height-cm');
       if (hc2 == null || hc2.error) throw new Error('h');
       input.heightCm = hc2;
     } else if (mode === 'head') {
       input.sex = getSex('head');
-      var headY = rawValue('#fc-calc-peds-percentiles-head-years');
-      var headM = rawValue('#fc-calc-peds-percentiles-head-months');
-      var headAge = ageYearsAndMonthsToMonths(headY, headM, 60);
-      if (!Number.isFinite(headAge)) throw new Error('ageHead');
-      input.ageMonths = headAge;
+      var headAge = readAgeFromDates(
+        '#fc-calc-peds-percentiles-head-birth',
+        '#fc-calc-peds-percentiles-head-exam',
+        60,
+        'ageHead'
+      );
+      input.birthDate = headAge.birthDate;
+      input.examDate = headAge.examDate;
+      input.ageMonths = headAge.ageMonths;
+      input.ageLabel = headAge.ageLabel;
       var hd = num('#fc-calc-peds-percentiles-head-cm');
       if (hd == null || hd.error) throw new Error('hd');
       input.headCm = hd;
     } else if (mode === 'weight') {
       input.sex = getSex('weight');
-      var wy = rawValue('#fc-calc-peds-percentiles-weight-years');
-      var wm = rawValue('#fc-calc-peds-percentiles-weight-months');
-      var wAge = ageYearsAndMonthsToMonths(wy, wm, 60);
-      if (!Number.isFinite(wAge)) throw new Error('ageWeight');
-      input.ageMonths = wAge;
-      var wk = readWeightKg(
-        '#fc-calc-peds-percentiles-weight-kg',
-        '#fc-calc-peds-percentiles-weight-g'
+      var weightAge = readAgeFromDates(
+        '#fc-calc-peds-percentiles-weight-birth',
+        '#fc-calc-peds-percentiles-weight-exam',
+        60,
+        'ageWeight'
       );
+      input.birthDate = weightAge.birthDate;
+      input.examDate = weightAge.examDate;
+      input.ageMonths = weightAge.ageMonths;
+      input.ageLabel = weightAge.ageLabel;
+      var wk = readWeightValue('#fc-calc-peds-percentiles-weight-value', 'weight');
       if (wk == null || wk.error) throw new Error('wk');
       input.weightKg = wk;
     } else if (mode === 'fetal') {
@@ -196,6 +277,7 @@
   }
 
   function updateBtn() {
+    updateHeightFieldLabels();
     var ok = canCalculate();
     calcBtn.disabled = !ok;
     calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
@@ -206,30 +288,60 @@
     el.addEventListener('change', updateBtn);
   });
 
-  function pctLabel(p, pHi) {
-    if (pHi != null && pHi !== p) {
-      return Math.round(p) + '–' + Math.round(pHi) + '-й процентиль';
+  function prependAgeLine(ageLabel) {
+    if (!ageLabel) return;
+    var li = document.createElement('li');
+    li.textContent = 'Возраст: ' + ageLabel;
+    resultList.insertBefore(li, resultList.firstChild);
+  }
+
+  function prependAgeAndBmiLines(ageLabel, bmi) {
+    var lines = [];
+    if (ageLabel) lines.push('Возраст: ' + ageLabel);
+    if (bmi != null) lines.push('ИМТ: ' + bmi + ' кг/м²');
+    for (var i = lines.length - 1; i >= 0; i--) {
+      var li = document.createElement('li');
+      li.textContent = lines[i];
+      resultList.insertBefore(li, resultList.firstChild);
     }
-    return Math.round(p) + '-й процентиль';
+  }
+
+  function measureLine(label, band, zScore) {
+    var li = document.createElement('li');
+    var zPart =
+      zScore != null && typeof formatZScore === 'function'
+        ? ' (z = ' + formatZScore(zScore) + ')'
+        : '';
+    li.textContent = label + ': ' + band + zPart;
+    resultList.appendChild(li);
   }
 
   function renderResult(out) {
     resultList.innerHTML = '';
     if (out.mode === 'baby') {
-      resultMain.textContent = 'Процентили младенца';
+      resultMain.textContent = 'Физическое развитие ребенка';
       resultDesc.textContent = '';
+      prependAgeAndBmiLines(out.ageLabel, out.bmi);
       out.results.forEach(function (r) {
-        var li = document.createElement('li');
-        li.textContent =
-          r.label + ': ' + r.band + ' (' + pctLabel(r.percentile, r.percentileHi) + ')';
-        resultList.appendChild(li);
+        if (r.band == null && r.text) {
+          var li = document.createElement('li');
+          li.textContent = r.text;
+          resultList.appendChild(li);
+        } else {
+          measureLine(r.label, r.band, r.zScore);
+        }
       });
     } else if (out.mode === 'targetHeight') {
       resultMain.textContent = '—';
       resultDesc.textContent = '';
       var thRows = [
         ['Потенциал роста', out.potentialCm + ' см'],
-        ['Z-показатель', String(out.zScore)],
+        [
+          'Z-показатель',
+          out.zScore != null && typeof formatZScore === 'function'
+            ? formatZScore(out.zScore)
+            : String(out.zScore),
+        ],
         [
           'Процентиль роста',
           out.percentile % 1 === 0 ? String(out.percentile) : out.percentile.toFixed(1),
@@ -241,19 +353,36 @@
         resultList.appendChild(li);
       });
     } else if (out.mode === 'fetal') {
-      resultMain.textContent = out.efwG + ' г';
-      resultDesc.textContent = out.band + '. ' + (out.note || '');
+      resultMain.textContent = 'Масса плода: ' + out.band;
+      resultDesc.textContent = out.efwG + ' г. ' + (out.note || '');
     } else if (out.mode === 'bmi') {
-      resultMain.textContent = out.bmi + ' кг/м²';
-      resultDesc.textContent = out.band + ' (~' + Math.round(out.percentile) + '-й процентиль)';
-    } else if (out.mode === 'height' || out.mode === 'head' || out.mode === 'weight') {
-      var exactPct =
-        out.percentile % 1 === 0 ? String(out.percentile) : out.percentile.toFixed(1);
-      resultMain.textContent = exactPct + '-й процентиль';
-      resultDesc.textContent = out.band;
+      resultMain.textContent = 'ИМТ: ' + out.bmi + ' кг/м²';
+      resultDesc.textContent =
+        out.band +
+        (out.zScore != null && typeof formatZScore === 'function'
+          ? ' (z = ' + formatZScore(out.zScore) + ')'
+          : '');
+      prependAgeLine(out.ageLabel);
+    } else if (out.mode === 'height') {
+      resultMain.textContent = '—';
+      resultDesc.textContent = '';
+      prependAgeLine(out.ageLabel);
+      measureLine(out.heightLabel || 'Рост', out.band, out.zScore);
+    } else if (out.mode === 'head' || out.mode === 'weight') {
+      resultMain.textContent = '—';
+      resultDesc.textContent = '';
+      prependAgeLine(out.ageLabel);
+      measureLine(
+        out.measureLabel || (out.mode === 'head' ? 'Окружность головы' : 'Масса'),
+        out.band,
+        out.zScore
+      );
+    } else if (out.mode === 'birthweight') {
+      resultMain.textContent = 'Масса при рождении: ' + out.band;
+      resultDesc.textContent = out.weightG + ' г';
     } else {
-      resultMain.textContent = pctLabel(out.percentile, out.percentileHi);
-      resultDesc.textContent = out.band + (out.summary ? ' — ' + out.summary : '');
+      resultMain.textContent = out.band;
+      resultDesc.textContent = out.summary || '';
     }
     resultWrap.classList.remove('fc-calc__result-wrap--hidden');
   }
@@ -267,12 +396,14 @@
       renderResult(out);
     } catch (err) {
       var fieldErrors = {
-        age: 'Укажите возраст до 2 лет (годы и/или месяцы, не более 24 мес.)',
-        ageHeight: 'Укажите возраст до 5 лет (годы и/или месяцы, не более 60 мес.)',
-        ageHead: 'Укажите возраст до 5 лет (годы и/или месяцы, не более 60 мес.)',
-        ageWeight: 'Укажите возраст до 5 лет (годы и/или месяцы, не более 60 мес.)',
-        weight: 'Укажите массу: кг и/или г (граммы 0–999 при указании кг)',
-        measure: 'Укажите хотя бы одно: вес, рост или окружность головы',
+        dates: 'Укажите дату рождения и дату осмотра (осмотр не раньше рождения)',
+        age: 'Возраст на дату осмотра превышает 2 года (24 мес.)',
+        ageBmi: 'Возраст на дату осмотра превышает 19 лет',
+        ageHeight: 'Возраст на дату осмотра превышает 5 лет (60 мес.)',
+        ageHead: 'Возраст на дату осмотра превышает 5 лет (60 мес.)',
+        ageWeight: 'Возраст на дату осмотра превышает 5 лет (60 мес.)',
+        weight: 'Укажите массу в кг или г',
+        measure: 'Укажите хотя бы одно: вес, длина тела или окружность головы',
       };
       formError.textContent =
         fieldErrors[err.message] ||
@@ -282,4 +413,5 @@
     }
   });
 
+  setDefaultExamDates();
   showMode(modeSelect.value);
