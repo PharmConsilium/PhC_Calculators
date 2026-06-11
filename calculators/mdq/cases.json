@@ -1,0 +1,131 @@
+{
+  "slug": "mdq",
+  "source": "Mood Disorder Questionnaire (MDQ)",
+  "cases": [
+    {
+      "name": "negative screen — no symptoms",
+      "input": {
+        "hyperOrTrouble": false,
+        "irritable": false,
+        "selfConfident": false,
+        "lessSleep": false,
+        "talkative": false,
+        "racingThoughts": false,
+        "distracted": false,
+        "moreEnergy": false,
+        "moreActive": false,
+        "moreSocial": false,
+        "moreSex": false,
+        "unusualRisky": false,
+        "spendingTrouble": false,
+        "problemLevel": "none"
+      },
+      "expected": {
+        "value": 0,
+        "score": 0,
+        "positiveScreen": false,
+        "interpretation": "Отрицательный скрининг MDQ"
+      }
+    },
+    {
+      "name": "positive screen — 7 symptoms and moderate problem",
+      "input": {
+        "hyperOrTrouble": true,
+        "irritable": true,
+        "selfConfident": true,
+        "lessSleep": true,
+        "talkative": true,
+        "racingThoughts": true,
+        "distracted": true,
+        "moreEnergy": false,
+        "moreActive": false,
+        "moreSocial": false,
+        "moreSex": false,
+        "unusualRisky": false,
+        "spendingTrouble": false,
+        "problemLevel": "moderate"
+      },
+      "expected": {
+        "value": 7,
+        "score": 7,
+        "positiveScreen": true,
+        "interpretation": "Положительный скрининг MDQ"
+      }
+    },
+    {
+      "name": "negative screen — enough symptoms but minor problem",
+      "input": {
+        "hyperOrTrouble": true,
+        "irritable": true,
+        "selfConfident": true,
+        "lessSleep": true,
+        "talkative": true,
+        "racingThoughts": true,
+        "distracted": true,
+        "moreEnergy": false,
+        "moreActive": false,
+        "moreSocial": false,
+        "moreSex": false,
+        "unusualRisky": false,
+        "spendingTrouble": false,
+        "problemLevel": "minor"
+      },
+      "expected": {
+        "value": 7,
+        "score": 7,
+        "positiveScreen": false,
+        "interpretation": "Отрицательный скрининг MDQ"
+      }
+    },
+    {
+      "name": "negative screen — serious problem but only 6 symptoms",
+      "input": {
+        "hyperOrTrouble": true,
+        "irritable": true,
+        "selfConfident": true,
+        "lessSleep": true,
+        "talkative": true,
+        "racingThoughts": true,
+        "distracted": false,
+        "moreEnergy": false,
+        "moreActive": false,
+        "moreSocial": false,
+        "moreSex": false,
+        "unusualRisky": false,
+        "spendingTrouble": false,
+        "problemLevel": "serious"
+      },
+      "expected": {
+        "value": 6,
+        "score": 6,
+        "positiveScreen": false,
+        "interpretation": "Отрицательный скрининг MDQ"
+      }
+    },
+    {
+      "name": "positive screen — all symptoms and serious problem",
+      "input": {
+        "hyperOrTrouble": true,
+        "irritable": true,
+        "selfConfident": true,
+        "lessSleep": true,
+        "talkative": true,
+        "racingThoughts": true,
+        "distracted": true,
+        "moreEnergy": true,
+        "moreActive": true,
+        "moreSocial": true,
+        "moreSex": true,
+        "unusualRisky": true,
+        "spendingTrouble": true,
+        "problemLevel": "serious"
+      },
+      "expected": {
+        "value": 13,
+        "score": 13,
+        "positiveScreen": true,
+        "interpretation": "Положительный скрининг MDQ"
+      }
+    }
+  ]
+}
