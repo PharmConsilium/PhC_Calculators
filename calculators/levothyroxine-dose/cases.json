@@ -1,0 +1,62 @@
+{
+  "slug": "levothyroxine-dose",
+  "source": "Weight-based Levothyroxine Dose Calculator for Hypothyroidism in Adults",
+  "cases": [
+    {
+      "name": "66 kg adult",
+      "input": {
+        "weightKg": 66
+      },
+      "expected": {
+        "value": 106,
+        "doseMcg": 106,
+        "doseMcgExact": 105.6,
+        "nearestTabletMcg": 100,
+        "ivDoseMcg": 74,
+        "interpretation": "Рекомендуемая per os доза левотироксина: 106 мкг/сут"
+      }
+    },
+    {
+      "name": "70 kg adult",
+      "input": {
+        "weightKg": 70
+      },
+      "expected": {
+        "value": 112,
+        "doseMcg": 112,
+        "doseMcgExact": 112,
+        "nearestTabletMcg": 112,
+        "ivDoseMcg": 78,
+        "interpretation": "Рекомендуемая per os доза левотироксина: 112 мкг/сут"
+      }
+    },
+    {
+      "name": "80 kg adult",
+      "input": {
+        "weightKg": 80
+      },
+      "expected": {
+        "value": 128,
+        "doseMcg": 128,
+        "doseMcgExact": 128,
+        "nearestTabletMcg": 125,
+        "ivDoseMcg": 90,
+        "interpretation": "Рекомендуемая per os доза левотироксина: 128 мкг/сут"
+      }
+    },
+    {
+      "name": "50 kg adult",
+      "input": {
+        "weightKg": 50
+      },
+      "expected": {
+        "value": 80,
+        "doseMcg": 80,
+        "doseMcgExact": 80,
+        "nearestTabletMcg": 75,
+        "ivDoseMcg": 56,
+        "interpretation": "Рекомендуемая per os доза левотироксина: 80 мкг/сут"
+      }
+    }
+  ]
+}
