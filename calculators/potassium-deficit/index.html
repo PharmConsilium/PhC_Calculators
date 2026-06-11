@@ -1,8 +1,8 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Дефицит натрия при гипонатриемии
+  Название: Дефицит калия
 -->
-<div class="fc-calc" data-calculator="sodium-deficit">
+<div class="fc-calc" data-calculator="potassium-deficit">
   <style>
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
@@ -715,9 +715,9 @@
     padding: 14px;
   }
 }
-/* sodium-deficit */
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__formula,
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-formula-note {
+/* potassium-deficit */
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__formula,
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-formula-note {
   max-width: 36rem;
   margin-left: auto;
   margin-right: auto;
@@ -727,18 +727,18 @@
   text-align: left;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-formula-note {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-formula-note {
   margin-bottom: 14px;
   padding: 12px 14px;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__formula-eq {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__formula-eq {
   margin: 0 0 8px;
   font-size: 16px;
   line-height: 1.4;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__formula-legend {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__formula-legend {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -747,79 +747,22 @@
   color: var(--fc-text);
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__formula-legend li + li {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__formula-legend li + li {
   margin-top: 2px;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__field > label:first-child {
-  margin-bottom: 6px;
-  font-size: 15px;
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  width: 100%;
-  background: transparent;
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option {
-  position: relative;
-  flex: 1 1 0;
-  min-width: 4.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 9px 10px;
-  border: 1px solid var(--fc-border);
-  border-radius: var(--fc-radius);
-  background: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  line-height: 1.25;
-  text-align: center;
-  color: var(--fc-text);
-  user-select: none;
-  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-  pointer-events: none;
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option:has(input:checked) {
-  background: rgba(0, 94, 236, 0.06);
-  border-color: rgba(0, 94, 236, 0.45);
-  box-shadow: inset 0 0 0 1px rgba(0, 94, 236, 0.25);
-  color: var(--fc-text);
-  font-family: var(--fc-font-semibold);
-  font-weight: 600;
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio-option:hover:not(:has(input:checked)) {
-  background: rgba(0, 94, 236, 0.03);
-  border-color: rgba(0, 94, 236, 0.25);
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-field-row {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-field-row {
   display: flex;
   align-items: stretch;
   gap: 8px;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-field-row input {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-field-row input {
   flex: 1;
   min-width: 0;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-unit {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-unit {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
@@ -833,12 +776,12 @@
   white-space: nowrap;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-result {
   padding: 18px 20px;
   text-align: left;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-title {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-result-title {
   margin: 0 0 12px;
   font-family: var(--fc-font-semibold);
   font-weight: 600;
@@ -847,145 +790,79 @@
   color: var(--fc-text);
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-summary {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-result-summary {
   display: grid;
   gap: 8px;
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-line {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-result-line {
   margin: 0;
   font-size: 15px;
   line-height: 1.45;
   color: var(--fc-text);
 }
 
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-line strong {
+.fc-calc[data-calculator="potassium-deficit"] .fc-calc__k-result-line strong {
   font-family: var(--fc-font-semibold);
   font-weight: 600;
   color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-solutions {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid var(--fc-border);
-  display: grid;
-  gap: 10px;
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-solution {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-result-solution strong {
-  font-family: var(--fc-font-semibold);
-  font-weight: 600;
-}
-
-@media (max-width: 520px) {
-  .fc-calc[data-calculator="sodium-deficit"] .fc-calc__na-radio--age .fc-calc__na-radio-option {
-    flex: 1 1 100%;
-  }
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Дефицит натрия при гипонатриемии</h2>
-        <p class="fc-calc__hint">Расчёт дефицита натрия (DNa) и вариантов инфузионной коррекции гипонатриемии с учётом пола, возраста и общего количества воды в организме</p>
+        <h2 class="fc-calc__title">Дефицит калия</h2>
+        <p class="fc-calc__hint">Расчёт дефицита калия в плазме крови и объёма растворов различной концентрации для его возмещения</p>
       </header>
 
       <div class="fc-calc__body">
-        <form class="fc-calc__form" id="fc-calc-sodium-deficit-form" novalidate>
+        <form class="fc-calc__form" id="fc-calc-potassium-deficit-form" novalidate>
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">Ввод данных</h3>
 
               <div class="fc-calc__field">
-                <label>Пол</label>
-                <div class="fc-calc__na-radio" role="radiogroup" aria-label="Пол">
-                <label class="fc-calc__na-radio-option">
-                  <input type="radio" name="gender" value="male" required />
-                  <span>Муж.</span>
-                </label>
-                <label class="fc-calc__na-radio-option">
-                  <input type="radio" name="gender" value="female" required />
-                  <span>Жен.</span>
-                </label>
+                <label for="fc-calc-potassium-deficit-serum">Калий сыворотки (K2)</label>
+                <div class="fc-calc__k-field-row">
+                  <input type="number" id="fc-calc-potassium-deficit-serum" name="serumK" inputmode="decimal" min="0" step="any" required />
+                  <span class="fc-calc__k-unit">ммоль/л</span>
                 </div>
+                <span class="fc-calc__error" id="fc-calc-potassium-deficit-serum-error" role="alert"></span>
               </div>
 
               <div class="fc-calc__field">
-                <label>Возраст</label>
-                <div class="fc-calc__na-radio fc-calc__na-radio--age" role="radiogroup" aria-label="Возраст">
-                <label class="fc-calc__na-radio-option">
-                  <input type="radio" name="ageBand" value="0-17" required />
-                  <span>0–17 лет</span>
-                </label>
-                <label class="fc-calc__na-radio-option">
-                  <input type="radio" name="ageBand" value="18-59" checked required />
-                  <span>18–59 лет</span>
-                </label>
-                <label class="fc-calc__na-radio-option">
-                  <input type="radio" name="ageBand" value="60+" required />
-                  <span>≥ 60 лет</span>
-                </label>
+                <label for="fc-calc-potassium-deficit-weight">Вес пациента (M)</label>
+                <div class="fc-calc__k-field-row">
+                  <input type="number" id="fc-calc-potassium-deficit-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
+                  <span class="fc-calc__k-unit">кг</span>
                 </div>
+                <span class="fc-calc__error" id="fc-calc-potassium-deficit-weight-error" role="alert"></span>
               </div>
 
               <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-weight">W — вес тела, кг</label>
-                <input type="number" id="fc-calc-sodium-deficit-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
-                <span class="fc-calc__error" id="fc-calc-sodium-deficit-weight-error" role="alert"></span>
-              </div>
-
-              <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-serum">NaP — натрий сыворотки пациента</label>
-                <div class="fc-calc__na-field-row">
-                  <input type="number" id="fc-calc-sodium-deficit-serum" name="serumNa" inputmode="decimal" min="0" step="any" required />
-                  <span class="fc-calc__na-unit">ммоль/л</span>
-                </div>
-                <span class="fc-calc__error" id="fc-calc-sodium-deficit-serum-error" role="alert"></span>
-              </div>
-
-              <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-desired">NaT — целевой уровень натрия</label>
-                <div class="fc-calc__na-field-row">
-                  <input type="number" id="fc-calc-sodium-deficit-desired" name="desiredNa" inputmode="decimal" min="0" step="any" value="140" />
-                  <span class="fc-calc__na-unit">ммоль/л</span>
-                </div>
-                <span class="fc-calc__error" id="fc-calc-sodium-deficit-desired-error" role="alert"></span>
-              </div>
-
-              <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-decimals">Десятичная точность</label>
-                <select id="fc-calc-sodium-deficit-decimals" name="decimals">
+                <label for="fc-calc-potassium-deficit-decimals">Десятичная точность</label>
+                <select id="fc-calc-potassium-deficit-decimals" name="decimals">
                   <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2" selected>2</option>
-                  <option value="3">3</option>
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
                 </select>
               </div>
             </div>
           </div>
 
-          <span class="fc-calc__error" id="fc-calc-sodium-deficit-form-error" role="alert"></span>
+          <span class="fc-calc__error" id="fc-calc-potassium-deficit-form-error" role="alert"></span>
         </form>
       </div>
 
       <div class="fc-calc__actions">
-        <button type="submit" id="fc-calc-sodium-deficit-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-sodium-deficit-form" disabled>Рассчитать</button>
+        <button type="submit" id="fc-calc-potassium-deficit-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-potassium-deficit-form" disabled>Рассчитать</button>
       </div>
 
-      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-sodium-deficit-result" aria-live="polite">
-        <div class="fc-calc__na-result">
-          <p class="fc-calc__na-result-title">Результат</p>
-          <div class="fc-calc__na-result-summary" id="fc-calc-sodium-deficit-result-summary"></div>
-          <div class="fc-calc__na-result-solutions" id="fc-calc-sodium-deficit-result-solutions" hidden></div>
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-potassium-deficit-result" aria-live="polite">
+        <div class="fc-calc__k-result">
+          <p class="fc-calc__k-result-title">Результат</p>
+          <div class="fc-calc__k-result-summary" id="fc-calc-potassium-deficit-result-summary"></div>
         </div>
       </div>
     </div>
@@ -996,45 +873,18 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <div class="fc-calc__formula fc-calc__na-formula-note">
-          <p class="fc-calc__formula-eq"><strong>DNa</strong> = K × W × (NaT − NaP)</p>
+        <div class="fc-calc__formula fc-calc__k-formula-note">
+          <p class="fc-calc__formula-eq"><strong>Д</strong> = M × 0,2 × (K1 − K2)</p>
           <ul class="fc-calc__formula-legend">
-            <li><strong>K</strong> — коэффициент расчёта общего объёма жидкости организма</li>
-            <li><strong>W</strong> — вес тела, кг</li>
-            <li><strong>NaT</strong> — целевой уровень натрия, ммоль/л</li>
-            <li><strong>NaP</strong> — натрий сыворотки пациента, ммоль/л</li>
+            <li><strong>Д</strong> — дефицит электролита, ммоль</li>
+            <li><strong>M</strong> — масса тела пациента, кг</li>
+            <li><strong>K1</strong> — нормальное содержание ионов в плазме, ммоль/л (в калькуляторе 5)</li>
+            <li><strong>K2</strong> — содержание иона в плазме больного, ммоль/л</li>
           </ul>
         </div>
-        <p>Выражение <strong>K × W</strong> представляет нормальное общее количество воды в организме (ОКВО). Коэффициент K зависит от пола и возраста:</p>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table">
-            <thead>
-                <tr>
-                  <th scope="col">Возраст</th>
-                  <th scope="col">Мужчина</th>
-                  <th scope="col">Женщина</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                  <th scope="row">0–17 лет</th>
-                  <td>0,6</td>
-                  <td>0,6</td>
-                </tr>
-                <tr>
-                  <th scope="row">18–59 лет</th>
-                  <td>0,6</td>
-                  <td>0,5</td>
-                </tr>
-                <tr>
-                  <th scope="row">≥ 60 лет</th>
-                  <td>0,5</td>
-                  <td>0,45</td>
-                </tr>
-            </tbody>
-          </table>
-        </div>
-        <p>Скорость коррекции принята <strong>0,5 ммоль/л/ч</strong> (ммоль/ч = 0,5 × ОКВО). Объём раствора (мл) = DNa / [Na раствора] × 1000; скорость введения (мл/ч) = объём / время коррекции.</p>
+        <p>Объём 7,5%-го KCl (мл) = <strong>Д</strong> (эквимолярный раствор, 1 мл ≈ 1 ммоль K).</p>
+        <p>Масса калия (мг) = <strong>Д / 13,4 × 1000</strong>. Объём 4%-го KCl (мл) = <strong>мг / 40</strong> (как в калькуляторе Medsoftpro).</p>
+        <p>Общая суточная доза калия не должна превышать <strong>3 ммоль/кг/сут</strong>, скорость инфузии — не более <strong>20 ммоль/ч</strong>.</p>
         <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
@@ -1048,40 +898,32 @@
 
   <script>
 (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="sodium-deficit"]');
+      var root = document.querySelector('.fc-calc[data-calculator="potassium-deficit"]');
       if (!root) return;
 
-      var TBW_COEF = {
-        male: { '0-17': 0.6, '18-59': 0.6, '60+': 0.5 },
-        female: { '0-17': 0.6, '18-59': 0.5, '60+': 0.45 },
-      };
-      var DEFAULT_DESIRED = 140;
-      var SERUM_NA_NORMAL_MIN = 135;
-      var SERUM_NA_NORMAL_MAX = 145;
-      var CORRECTION_RATE = 0.5;
-      var SOLUTIONS = [
-        { label: 'Рингер лактат', naMmolL: 129.3 },
-        { label: 'NaCl 0.45%', naMmolL: 76.95 },
-        { label: 'NaCl 0.9%', naMmolL: 153.9 },
-        { label: 'NaCl 3%', naMmolL: 513 },
-      ];
+      var NORMAL_K = 5;
+      var EXTRACELLULAR = 0.2;
+      var MG_DIVISOR = 13.4;
+      var V4_DIVISOR = 40;
+      var MAX_DAILY_PER_KG = 3;
 
-      var form = root.querySelector('#fc-calc-sodium-deficit-form');
-      var calcBtn = root.querySelector('#fc-calc-sodium-deficit-btn');
-      var weightInput = root.querySelector('#fc-calc-sodium-deficit-weight');
-      var serumInput = root.querySelector('#fc-calc-sodium-deficit-serum');
-      var desiredInput = root.querySelector('#fc-calc-sodium-deficit-desired');
-      var decimalsSelect = root.querySelector('#fc-calc-sodium-deficit-decimals');
-      var weightError = root.querySelector('#fc-calc-sodium-deficit-weight-error');
-      var serumError = root.querySelector('#fc-calc-sodium-deficit-serum-error');
-      var desiredError = root.querySelector('#fc-calc-sodium-deficit-desired-error');
-      var formError = root.querySelector('#fc-calc-sodium-deficit-form-error');
-      var resultWrap = root.querySelector('#fc-calc-sodium-deficit-result');
-      var resultSummary = root.querySelector('#fc-calc-sodium-deficit-result-summary');
-      var resultSolutions = root.querySelector('#fc-calc-sodium-deficit-result-solutions');
+      var form = root.querySelector('#fc-calc-potassium-deficit-form');
+      var calcBtn = root.querySelector('#fc-calc-potassium-deficit-btn');
+      var serumInput = root.querySelector('#fc-calc-potassium-deficit-serum');
+      var weightInput = root.querySelector('#fc-calc-potassium-deficit-weight');
+      var decimalsSelect = root.querySelector('#fc-calc-potassium-deficit-decimals');
+      var serumError = root.querySelector('#fc-calc-potassium-deficit-serum-error');
+      var weightError = root.querySelector('#fc-calc-potassium-deficit-weight-error');
+      var formError = root.querySelector('#fc-calc-potassium-deficit-form-error');
+      var resultWrap = root.querySelector('#fc-calc-potassium-deficit-result');
+      var resultSummary = root.querySelector('#fc-calc-potassium-deficit-result-summary');
 
-      if (desiredInput && !desiredInput.value) {
-        desiredInput.value = String(DEFAULT_DESIRED);
+      function rnd(value) {
+        return Math.round(value * 100) / 100;
+      }
+
+      function rnd1(value) {
+        return Math.round(value * 10) / 10;
       }
 
       function roundHalfUp(value, decimals) {
@@ -1096,37 +938,24 @@
         return Number.isFinite(n) && n > 0 ? n : null;
       }
 
+      function parseNonNegative(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+        var n = Number(s);
+        return Number.isFinite(n) && n >= 0 ? n : null;
+      }
+
       function formatNum(n) {
         return String(n).replace('.', ',');
-      }
-
-      function getGender() {
-        var checked = form.querySelector('input[name="gender"]:checked');
-        return checked ? checked.value : null;
-      }
-
-      function getAgeBand() {
-        var checked = form.querySelector('input[name="ageBand"]:checked');
-        return checked ? checked.value : null;
-      }
-
-      function getTbwCoef(gender, ageBand) {
-        if (!gender || !ageBand || !TBW_COEF[gender]) return null;
-        var coef = TBW_COEF[gender][ageBand];
-        return coef == null ? null : coef;
       }
 
       function hideResult() {
         resultWrap.classList.add('fc-calc__result-wrap--hidden');
         if (resultSummary) resultSummary.innerHTML = '';
-        if (resultSolutions) {
-          resultSolutions.innerHTML = '';
-          resultSolutions.hidden = true;
-        }
       }
 
       function isReady() {
-        return getGender() && getAgeBand() && parsePositive(weightInput.value) && parsePositive(serumInput.value);
+        return parseNonNegative(serumInput.value) != null && parsePositive(weightInput.value) != null;
       }
 
       function updateButton() {
@@ -1135,100 +964,65 @@
         calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
       }
 
-      function buildSolutions(deficit, hours) {
-        return SOLUTIONS.map(function (solution) {
-          var volumeMl = Math.round((deficit / solution.naMmolL) * 1000);
-          var rateMlH = hours > 0 ? Math.round(volumeMl / hours) : 0;
-          return {
-            label: solution.label,
-            naMmolL: solution.naMmolL,
-            volumeMl: volumeMl,
-            rateMlH: rateMlH,
-          };
-        });
-      }
-
       function calculate() {
-        var gender = getGender();
-        var ageBand = getAgeBand();
-        var coef = getTbwCoef(gender, ageBand);
         var weight = parsePositive(weightInput.value);
-        var naP = parsePositive(serumInput.value);
-        var desiredRaw = desiredInput.value;
-        var naT =
-          String(desiredRaw || '').trim() === '' ? DEFAULT_DESIRED : parsePositive(desiredRaw);
-
-        if (coef == null || weight == null || naP == null || naT == null) {
+        var serumK = parseNonNegative(serumInput.value);
+        if (weight == null || serumK == null) {
           throw new Error('Заполните все поля');
         }
 
-        var decimals = decimalsSelect ? Number(decimalsSelect.value) : 2;
-        if (!Number.isFinite(decimals) || decimals < 0 || decimals > 3) decimals = 2;
+        var decimals = decimalsSelect ? Number(decimalsSelect.value) : 1;
+        if (!Number.isFinite(decimals) || decimals < 0 || decimals > 2) decimals = 1;
 
-        var tbw = coef * weight;
-        var delta = naT - naP;
-        var deficit = roundHalfUp(tbw * delta, decimals);
-        var rateMmolH = Math.round(CORRECTION_RATE * tbw);
-        var hours = delta > 0 && rateMmolH > 0 ? Math.round(deficit / rateMmolH) : 0;
-        var isHyponatremia = naP < SERUM_NA_NORMAL_MIN;
+        var delta = NORMAL_K - serumK;
+        var deficit = roundHalfUp(weight * EXTRACELLULAR * delta, decimals);
+        var deficitMg = Math.round((deficit / MG_DIVISOR) * 1000);
+        var volume75 = rnd1(deficit);
+        var volume4 = rnd1(rnd(deficitMg / V4_DIVISOR));
+        var maxDaily = Math.round(weight * MAX_DAILY_PER_KG);
+
         var statusMessage;
-
         if (delta <= 0) {
-          statusMessage = 'NaT не выше NaP — коррекция дефицита натрия не требуется.';
-        } else if (isHyponatremia) {
           statusMessage =
-            'Гипонатриемия (норма ' + SERUM_NA_NORMAL_MIN + '–' + SERUM_NA_NORMAL_MAX +
-            ' ммоль/л). Требуется коррекция дефицита натрия.';
+            serumK >= NORMAL_K
+              ? 'Калий сыворотки не ниже нормы (5 ммоль/л) — дефицит не рассчитывается.'
+              : 'Дефицит калия не выявлен.';
+        } else if (serumK < 3.5) {
+          statusMessage = 'Гипокалиемия. Рассчитан ориентировочный дефицит калия.';
         } else {
-          statusMessage =
-            'Натрий сыворотки в пределах нормы (' + SERUM_NA_NORMAL_MIN + '–' + SERUM_NA_NORMAL_MAX +
-            ' ммоль/л). Требуется коррекция до целевого уровня.';
+          statusMessage = 'Снижение калия сыворотки. Рассчитан ориентировочный дефицит калия.';
         }
 
         return {
-          naP: naP,
-          naT: naT,
-          delta: roundHalfUp(delta, decimals),
           deficit: deficit,
-          tbw: roundHalfUp(tbw, decimals),
-          coef: coef,
-          rateMmolH: rateMmolH,
-          hours: hours,
+          deficitMg: deficitMg,
+          volume75: volume75,
+          volume4: volume4,
+          maxDaily: maxDaily,
           statusMessage: statusMessage,
-          solutions: delta > 0 && hours > 0 ? buildSolutions(deficit, hours) : [],
+          hasDeficit: deficit > 0,
         };
       }
 
       function renderResult(out) {
         if (!resultSummary) return;
 
-        if (out.delta <= 0) {
-          resultSummary.innerHTML = '<p class="fc-calc__na-result-line">' + out.statusMessage + '</p>';
-          if (resultSolutions) resultSolutions.hidden = true;
+        if (!out.hasDeficit) {
+          resultSummary.innerHTML =
+            '<p class="fc-calc__k-result-line">' + out.statusMessage + '</p>' +
+            '<p class="fc-calc__k-result-line">Максимальная суточная доза калия: <strong>' +
+            formatNum(out.maxDaily) + ' ммоль</strong> (3 ммоль/кг/сут).</p>';
           return;
         }
 
         resultSummary.innerHTML =
-          '<p class="fc-calc__na-result-line">' + out.statusMessage + '</p>' +
-          '<p class="fc-calc__na-result-line">Для повышения натрия с ' + formatNum(out.naP) + ' до ' +
-          formatNum(out.naT) + ' ммоль/л (Δ <strong>' + formatNum(out.delta) +
-          '</strong>) требуется <strong>' + formatNum(out.deficit) + ' ммоль</strong> натрия</p>' +
-          '<p class="fc-calc__na-result-line">Время коррекции со скоростью ' + formatNum(CORRECTION_RATE) +
-          ' ммоль/л/ч (' + formatNum(out.rateMmolH) + ' ммоль/ч) <strong>' + formatNum(out.hours) + ' ч</strong></p>';
-
-        if (!resultSolutions) return;
-        if (!out.solutions.length) {
-          resultSolutions.hidden = true;
-          return;
-        }
-
-        resultSolutions.hidden = false;
-        resultSolutions.innerHTML = out.solutions.map(function (solution) {
-          return '<p class="fc-calc__na-result-solution">' +
-            solution.label + ' (Na ' + formatNum(solution.naMmolL) + ' ммоль/л), объём <strong>' +
-            formatNum(solution.volumeMl) + ' мл</strong>; скорость введения: <strong>' +
-            formatNum(solution.rateMlH) + ' мл/ч</strong></p>';
-        }).join('');
+          '<p class="fc-calc__k-result-line"><strong>' + formatNum(out.deficit) + ' ммоль</strong> (' +
+          formatNum(out.deficitMg) + ' мг) — дефицит калия</p>' +
+          '<p class="fc-calc__k-result-line">Для возмещения необходимо: 7,5%-го раствора KCl: <strong>' +
+          formatNum(out.volume75) + ' мл</strong> или 4%-го раствора KCl: <strong>' +
+          formatNum(out.volume4) + ' мл</strong></p>' +
+          '<p class="fc-calc__k-result-line">Максимальная дозировка в сутки составляет: <strong>' +
+          formatNum(out.maxDaily) + ' ммоль</strong></p>';
       }
 
       form.addEventListener('change', function () {
@@ -1243,22 +1037,18 @@
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        weightError.textContent = '';
         serumError.textContent = '';
-        desiredError.textContent = '';
+        weightError.textContent = '';
         formError.textContent = '';
         hideResult();
 
         if (!isReady()) {
-          if (!getGender()) formError.textContent = 'Выберите пол';
-          if (!getAgeBand()) formError.textContent = 'Выберите возраст';
-          if (!parsePositive(weightInput.value)) weightError.textContent = 'Укажите нормальный вес';
-          if (!parsePositive(serumInput.value)) serumError.textContent = 'Укажите NaP, ммоль/л';
-          return;
-        }
-
-        if (desiredInput.value && !parsePositive(desiredInput.value)) {
-          desiredError.textContent = 'Укажите корректный NaT, ммоль/л';
+          if (parseNonNegative(serumInput.value) == null) {
+            serumError.textContent = 'Укажите калий сыворотки, ммоль/л';
+          }
+          if (parsePositive(weightInput.value) == null) {
+            weightError.textContent = 'Укажите вес пациента, кг';
+          }
           return;
         }
 

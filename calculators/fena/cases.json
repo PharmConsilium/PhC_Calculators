@@ -1,0 +1,81 @@
+{
+  "slug": "fena",
+  "source": "Medsoftpro / Medicalc.pro — fractional excretion of sodium",
+  "cases": [
+    {
+      "name": "prerenal oliguria",
+      "input": {
+        "serumNa": 140,
+        "urineNa": 10,
+        "serumCr": 100,
+        "urineCr": 10000,
+        "decimals": 2
+      },
+      "expected": {
+        "fenaPercent": 0.07,
+        "category": "prerenal",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "renal oliguria",
+      "input": {
+        "serumNa": 140,
+        "urineNa": 60,
+        "serumCr": 200,
+        "urineCr": 8000,
+        "decimals": 2
+      },
+      "expected": {
+        "fenaPercent": 1.07,
+        "category": "renal",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "postrenal oliguria",
+      "input": {
+        "serumNa": 140,
+        "urineNa": 150,
+        "serumCr": 400,
+        "urineCr": 4000,
+        "decimals": 2
+      },
+      "expected": {
+        "fenaPercent": 10.71,
+        "category": "postrenal",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "boundary exactly 1 percent renal",
+      "input": {
+        "serumNa": 140,
+        "urineNa": 140,
+        "serumCr": 100,
+        "urineCr": 10000,
+        "decimals": 2
+      },
+      "expected": {
+        "fenaPercent": 1,
+        "category": "renal",
+        "status": "OK"
+      }
+    },
+    {
+      "name": "boundary exactly 4 percent renal",
+      "input": {
+        "serumNa": 140,
+        "urineNa": 560,
+        "serumCr": 100,
+        "urineCr": 10000,
+        "decimals": 2
+      },
+      "expected": {
+        "fenaPercent": 4,
+        "category": "renal",
+        "status": "OK"
+      }
+    }
+  ]
+}

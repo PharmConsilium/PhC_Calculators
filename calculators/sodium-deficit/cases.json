@@ -3,49 +3,71 @@
   "source": "MSD Manuals — sodium deficit in hyponatremia",
   "cases": [
     {
-      "name": "male 70 kg serum 120 desired 140",
+      "name": "male 18-59 70 kg NaP 120 NaT 140",
       "input": {
         "gender": "male",
+        "ageBand": "18-59",
         "weight": 70,
         "serumNa": 120,
-        "serumUnit": "mEq/L",
         "desiredNa": 140,
-        "desiredUnit": "mEq/L",
         "decimals": 2
       },
       "expected": {
         "sodiumDeficit": 840,
         "totalBodyWater": 42,
+        "tbwCoef": 0.6,
+        "correctionHours": 40,
         "status": "OK"
       }
     },
     {
-      "name": "female 60 kg serum 125",
+      "name": "female 18-59 60 kg NaP 125",
       "input": {
         "gender": "female",
+        "ageBand": "18-59",
         "weight": 60,
         "serumNa": 125,
-        "serumUnit": "mEq/L",
         "desiredNa": 140,
         "decimals": 0
       },
       "expected": {
         "sodiumDeficit": 450,
+        "tbwCoef": 0.5,
+        "correctionHours": 30,
         "status": "OK"
       }
     },
     {
-      "name": "serum mmol/L unit",
+      "name": "male 18-59 80 kg NaP 130 NaT 140 infusion plan",
       "input": {
         "gender": "male",
+        "ageBand": "18-59",
         "weight": 80,
         "serumNa": 130,
-        "serumUnit": "mmol/L",
-        "desiredNa": 140,
-        "desiredUnit": "mmol/L"
+        "desiredNa": 140
       },
       "expected": {
         "sodiumDeficit": 480,
+        "deltaNa": 10,
+        "tbwCoef": 0.6,
+        "correctionRateMmolH": 24,
+        "correctionHours": 20,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "female 60+ 60 kg",
+      "input": {
+        "gender": "female",
+        "ageBand": "60+",
+        "weight": 60,
+        "serumNa": 125,
+        "desiredNa": 140
+      },
+      "expected": {
+        "sodiumDeficit": 405,
+        "tbwCoef": 0.45,
+        "correctionHours": 29,
         "status": "OK"
       }
     }

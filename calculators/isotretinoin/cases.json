@@ -1,0 +1,54 @@
+{
+  "slug": "isotretinoin",
+  "source": "https://agapovmd.ru/calc/retin.htm",
+  "cases": [
+    {
+      "name": "agapov example 80 kg 0.6 mg/kg aknecutan 16",
+      "input": {
+        "weightKg": 80,
+        "doseMgKg": 0.6,
+        "capsuleMg": 16
+      },
+      "expected": {
+        "dailyDoseMg": 48,
+        "cumulativeG": 9.6,
+        "capsulesPerDay": 3,
+        "capsulesPerMonth": 90,
+        "capsulesPerCourse": 600,
+        "courseDays": 200
+      }
+    },
+    {
+      "name": "roaccutane 10 mg",
+      "input": {
+        "weightKg": 60,
+        "doseMgKg": 0.5,
+        "capsuleMg": 10
+      },
+      "expected": {
+        "dailyDoseMg": 30,
+        "cumulativeG": 7.2,
+        "capsulesPerDay": 3,
+        "capsulesPerMonth": 90,
+        "capsulesPerCourse": 720,
+        "courseDays": 240
+      }
+    },
+    {
+      "name": "high dose 1 mg/kg",
+      "input": {
+        "weightKg": 70,
+        "doseMgKg": 1,
+        "capsuleMg": 20
+      },
+      "expected": {
+        "dailyDoseMg": 70,
+        "cumulativeG": 8.4,
+        "capsulesPerDay": 4,
+        "capsulesPerMonth": 120,
+        "capsulesPerCourse": 420,
+        "courseDays": 105
+      }
+    }
+  ]
+}
