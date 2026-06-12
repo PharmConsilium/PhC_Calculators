@@ -2,7 +2,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { GENDER_OPTIONS } from '../calculators/sodium-deficit/calc.js';
+import { GENDER_OPTIONS, AGE_BANDS, TBW_COEF_TABLE } from '../calculators/sodium-deficit/calc.js';
+import { NOTES_DISCLAIMER_HTML } from './snippets/notes-disclaimer.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const [css, extra] = await Promise.all([
@@ -13,10 +14,46 @@ const [css, extra] = await Promise.all([
 function renderGenderRadios() {
   return GENDER_OPTIONS.map(
     (opt) => `                <label class="fc-calc__na-radio-option">
-                  <input type="radio" name="gender" value="${opt.id}" data-coef="${opt.coef}" required />
-                  <span>${opt.label} (${String(opt.coef).replace('.', ',')})</span>
+                  <input type="radio" name="gender" value="${opt.id}" required />
+                  <span>${opt.label}</span>
                 </label>`
   ).join('\n');
+}
+
+function renderAgeRadios() {
+  return AGE_BANDS.map(
+    (band, i) => `                <label class="fc-calc__na-radio-option">
+                  <input type="radio" name="ageBand" value="${band.id}"${i === 1 ? ' checked' : ''} required />
+                  <span>${band.label}</span>
+                </label>`
+  ).join('\n');
+}
+
+function renderCoefTable() {
+  const header = `                <tr>
+                  <th scope="col">Возраст</th>
+                  <th scope="col">Мужчина</th>
+                  <th scope="col">Женщина</th>
+                </tr>`;
+  const rows = AGE_BANDS.map((band) => {
+    const male = String(TBW_COEF_TABLE.male[band.id]).replace('.', ',');
+    const female = String(TBW_COEF_TABLE.female[band.id]).replace('.', ',');
+    return `                <tr>
+                  <th scope="row">${band.label}</th>
+                  <td>${male}</td>
+                  <td>${female}</td>
+                </tr>`;
+  }).join('\n');
+  return `        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+${header}
+            </thead>
+            <tbody>
+${rows}
+            </tbody>
+          </table>
+        </div>`;
 }
 
 const html = `<!--
@@ -33,8 +70,7 @@ ${extra.trim()}
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
         <h2 class="fc-calc__title">Дефицит натрия при гипонатриемии</h2>
-        <p class="fc-calc__hint">Расчёт дефицита натрия для коррекции гипонатриемии с учётом пола и общего количества воды в организме</p>
-        <p class="fc-calc__formula"><strong>Дефицит натрия</strong> = Пол × Норм. вес × (Желаемый натрий − Натрий сыворотки)</p>
+        <p class="fc-calc__hint">Расчёт дефицита натрия (DNa) и вариантов инфузионной коррекции гипонатриемии с учётом пола, возраста и общего количества воды в организме</p>
       </header>
 
       <div class="fc-calc__body">
@@ -51,31 +87,32 @@ ${renderGenderRadios()}
               </div>
 
               <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-weight">Норм. вес, кг</label>
+                <label>Возраст</label>
+                <div class="fc-calc__na-radio fc-calc__na-radio--age" role="radiogroup" aria-label="Возраст">
+${renderAgeRadios()}
+                </div>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-sodium-deficit-weight">W — вес тела, кг</label>
                 <input type="number" id="fc-calc-sodium-deficit-weight" name="weight" inputmode="decimal" min="0" step="any" placeholder="кг" required />
                 <span class="fc-calc__error" id="fc-calc-sodium-deficit-weight-error" role="alert"></span>
               </div>
 
               <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-serum">Натрий сыворотки</label>
-                <div class="fc-calc__field-row">
+                <label for="fc-calc-sodium-deficit-serum">NaP — натрий сыворотки пациента</label>
+                <div class="fc-calc__na-field-row">
                   <input type="number" id="fc-calc-sodium-deficit-serum" name="serumNa" inputmode="decimal" min="0" step="any" required />
-                  <select id="fc-calc-sodium-deficit-serum-unit" name="serumUnit" aria-label="Единица натрия сыворотки">
-                    <option value="mEq/L" selected>mEq/L</option>
-                    <option value="mmol/L">mmol/L</option>
-                  </select>
+                  <span class="fc-calc__na-unit">ммоль/л</span>
                 </div>
                 <span class="fc-calc__error" id="fc-calc-sodium-deficit-serum-error" role="alert"></span>
               </div>
 
               <div class="fc-calc__field">
-                <label for="fc-calc-sodium-deficit-desired">Желаемый натрий</label>
-                <div class="fc-calc__field-row">
+                <label for="fc-calc-sodium-deficit-desired">NaT — целевой уровень натрия</label>
+                <div class="fc-calc__na-field-row">
                   <input type="number" id="fc-calc-sodium-deficit-desired" name="desiredNa" inputmode="decimal" min="0" step="any" value="140" />
-                  <select id="fc-calc-sodium-deficit-desired-unit" name="desiredUnit" aria-label="Единица желаемого натрия">
-                    <option value="mEq/L" selected>mEq/L</option>
-                    <option value="mmol/L">mmol/L</option>
-                  </select>
+                  <span class="fc-calc__na-unit">ммоль/л</span>
                 </div>
                 <span class="fc-calc__error" id="fc-calc-sodium-deficit-desired-error" role="alert"></span>
               </div>
@@ -102,9 +139,9 @@ ${renderGenderRadios()}
 
       <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-sodium-deficit-result" aria-live="polite">
         <div class="fc-calc__na-result">
-          <p class="fc-calc__result-label">Дефицит натрия</p>
-          <p class="fc-calc__result-number" id="fc-calc-sodium-deficit-result-value">—</p>
-          <p class="fc-calc__result-desc" id="fc-calc-sodium-deficit-result-desc"></p>
+          <p class="fc-calc__na-result-title">Результат</p>
+          <div class="fc-calc__na-result-summary" id="fc-calc-sodium-deficit-result-summary"></div>
+          <div class="fc-calc__na-result-solutions" id="fc-calc-sodium-deficit-result-solutions" hidden></div>
         </div>
       </div>
     </div>
@@ -115,11 +152,19 @@ ${renderGenderRadios()}
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p>Выражение <strong>Пол × Нормальный вес тела</strong> представляет нормальное общее количество воды в организме (ОКВО). Нормальное ОКВО специфично полу, о чём свидетельствуют факторы 0,6 и 0,5.</p>
-        <p><strong>Используемое уравнение:</strong></p>
-        <p>Дефицит натрия = Пол × Норм. вес × (Желаемый натрий − Натрий сыворотки)</p>
-        <p>Цифры в скобках у вариантов пола — дискретные коэффициенты, используемые в расчёте.</p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+        <div class="fc-calc__formula fc-calc__na-formula-note">
+          <p class="fc-calc__formula-eq"><strong>DNa</strong> = K × W × (NaT − NaP)</p>
+          <ul class="fc-calc__formula-legend">
+            <li><strong>K</strong> — коэффициент расчёта общего объёма жидкости организма</li>
+            <li><strong>W</strong> — вес тела, кг</li>
+            <li><strong>NaT</strong> — целевой уровень натрия, ммоль/л</li>
+            <li><strong>NaP</strong> — натрий сыворотки пациента, ммоль/л</li>
+          </ul>
+        </div>
+        <p>Выражение <strong>K × W</strong> представляет нормальное общее количество воды в организме (ОКВО). Коэффициент K зависит от пола и возраста:</p>
+${renderCoefTable()}
+        <p>Скорость коррекции принята <strong>0,5 ммоль/л/ч</strong> (ммоль/ч = 0,5 × ОКВО). Объём раствора (мл) = DNa / [Na раствора] × 1000; скорость введения (мл/ч) = объём / время коррекции.</p>
+${NOTES_DISCLAIMER_HTML}
       </div>
     </details>
   </div>

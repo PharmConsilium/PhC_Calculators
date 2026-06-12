@@ -1,0 +1,89 @@
+{
+  "slug": "potassium-deficit",
+  "source": "Medsoftpro — hypokalemia calculator",
+  "cases": [
+    {
+      "name": "reference 80 kg K 3.0",
+      "input": {
+        "weight": 80,
+        "serumK": 3,
+        "decimals": 1
+      },
+      "expected": {
+        "deficitMmol": 32,
+        "deficitMgKcl": 2388,
+        "maxDailyMmol": 240,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "reference 80 kg K 0.9",
+      "input": {
+        "weight": 80,
+        "serumK": 0.9,
+        "decimals": 1
+      },
+      "expected": {
+        "deficitMmol": 65.6,
+        "deficitMgKcl": 4896,
+        "maxDailyMmol": 240,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "70 kg K 3.5",
+      "input": {
+        "weight": 70,
+        "serumK": 3.5,
+        "decimals": 1
+      },
+      "expected": {
+        "deficitMmol": 21,
+        "maxDailyMmol": 210,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "60 kg K 5.0 no deficit",
+      "input": {
+        "weight": 60,
+        "serumK": 5
+      },
+      "expected": {
+        "deficitMmol": 0,
+        "maxDailyMmol": 180,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "solution volumes 80 kg K 3.0",
+      "input": {
+        "weight": 80,
+        "serumK": 3,
+        "decimals": 1
+      },
+      "expected": {
+        "solutions": [
+          { "id": "kcl75", "label": "7,5%-го раствора KCl", "percent": "7,5%", "volumeMl": 32 },
+          { "id": "kcl4", "label": "4%-го раствора KCl", "percent": "4%", "volumeMl": 59.7 }
+        ],
+        "status": "OK"
+      }
+    },
+    {
+      "name": "solution volumes 80 kg K 0.9",
+      "input": {
+        "weight": 80,
+        "serumK": 0.9,
+        "decimals": 1
+      },
+      "expected": {
+        "solutions": [
+          { "id": "kcl75", "label": "7,5%-го раствора KCl", "percent": "7,5%", "volumeMl": 65.6 },
+          { "id": "kcl4", "label": "4%-го раствора KCl", "percent": "4%", "volumeMl": 122.4 }
+        ],
+        "status": "OK"
+      }
+    }
+  ]
+}

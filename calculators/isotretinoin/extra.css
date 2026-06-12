@@ -1,0 +1,168 @@
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-panel {
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-sheet {
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 56, 79, 0.06);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 7.5rem) 3.5rem;
+  gap: 10px 12px;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--fc-border);
+  background: #fff;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row--out {
+  background: rgba(0, 94, 236, 0.03);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-label {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-value {
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-cell {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: 6px;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: var(--fc-font);
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-cell:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 2px rgba(0, 94, 236, 0.15);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-cell--out {
+  background: #fff;
+  border-color: rgba(0, 94, 236, 0.22);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-blue);
+  cursor: default;
+}
+
+.fc-calc[data-calculator="isotretinoin"] select.fc-calc__retin-cell {
+  appearance: auto;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="isotretinoin"] input.fc-calc__retin-cell::-webkit-outer-spin-button,
+.fc-calc[data-calculator="isotretinoin"] input.fc-calc__retin-cell::-webkit-inner-spin-button {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-unit {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-result-wrap {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-footer {
+  padding: 14px;
+  background: #fff;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drugs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn {
+  margin: 0;
+  padding: 11px 8px;
+  border: 1px solid var(--fc-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font);
+  font-size: 13px;
+  line-height: 1.25;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn:hover:not(.fc-calc__retin-drug-btn--active) {
+  background: rgba(0, 94, 236, 0.04);
+  border-color: rgba(0, 94, 236, 0.35);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn--active {
+  background: rgba(0, 94, 236, 0.08);
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 1px var(--fc-blue);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drug-btn--reset {
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-note {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--fc-text);
+}
+
+@media (max-width: 720px) {
+  .fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 12px 14px;
+  }
+
+  .fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-row-unit {
+    text-align: right;
+  }
+
+  .fc-calc[data-calculator="isotretinoin"] .fc-calc__retin-drugs {
+    grid-template-columns: 1fr 1fr;
+  }
+}

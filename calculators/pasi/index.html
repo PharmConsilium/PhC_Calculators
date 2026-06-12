@@ -1,6 +1,6 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Индекс площади поражения и тяжести псориаза (PASI)
+  Название: Расчет индексов площади поражения и тяжести дерматологических заболеваний
   Сборка: 2026-06-11
 -->
 <div class="fc-calc" data-calculator="pasi">
@@ -716,20 +716,66 @@
     padding: 14px;
   }
 }
-/* pasi — области тела и шкалы 0–4 / 0–6 */
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-region {
+/* pasi — 4-in-1 dermatology scales */
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-hint {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 36rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-hint-line {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__tabs {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__tab {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 8rem;
+  font-size: 14px;
+  padding: 10px 8px;
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="pasi"] .fc-calc__tab {
+    flex: 1 1 auto;
+    font-size: 15px;
+  }
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__tab-panel[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-region,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-region {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-group {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-group,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-group,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-group,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-group {
   margin: 0;
   padding: 0;
   border: none;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-legend {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-legend,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-legend,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-legend,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-legend {
   display: block;
   margin: 0 0 8px;
   padding: 0;
@@ -741,7 +787,10 @@
   text-align: left;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-options {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-options,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-options,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-options,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-options {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--fc-border);
@@ -750,10 +799,14 @@
   overflow: hidden;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-row,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-row,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-row {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  width: 100%;
   margin: 0;
   padding: 10px 12px;
   border-bottom: 1px solid var(--fc-border);
@@ -763,37 +816,278 @@
   text-align: left;
   color: var(--fc-text);
   background: var(--fc-bg-surface);
+  box-sizing: border-box;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:last-child {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:last-child,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-row:last-child,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-row:last-child,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-row:last-child {
   border-bottom: none;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:hover:not(:has(input:checked)) {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:hover:not(:has(input:checked)),
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-row:hover:not(:has(input:checked)),
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-row:hover:not(:has(input:checked)),
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-row:hover:not(:has(input:checked)) {
   background: rgba(0, 94, 236, 0.04);
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:has(input:checked) {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row:has(input:checked),
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-row:has(input:checked),
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-row:has(input:checked),
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-row:has(input:checked) {
   background: rgba(0, 94, 236, 0.1);
   box-shadow: inset 4px 0 0 var(--fc-blue);
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row input {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-row input,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-row input,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-row input,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-row input {
   margin-top: 3px;
   accent-color: var(--fc-blue);
   flex-shrink: 0;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-label {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-label,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-label,
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-label,
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-label {
   flex: 1;
   min-width: 0;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-points {
+.fc-calc[data-calculator="pasi"] .fc-calc__pasi-points,
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-points {
   flex-shrink: 0;
   color: var(--fc-muted-text);
   font-size: 13px;
   white-space: nowrap;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-intro {
+  margin: 0 0 12px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-manikin {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-torso {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px 12px;
+  align-items: start;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-legs-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-spine-lower {
+  width: min(100%, 11rem);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-legs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: min(100%, 22rem);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-leg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-leg--right .fc-calc__pest-joint {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-side-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fc-text);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-side--right .fc-calc__pest-joint {
+  text-align: right;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-spine {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 7.5rem;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-joint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-side--right .fc-calc__pest-joint {
+  flex-direction: row-reverse;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-joint:has(input:checked) {
+  background: rgba(0, 94, 236, 0.12);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__pest-joint input {
+  accent-color: var(--fc-blue);
+  flex-shrink: 0;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-areas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-hint {
+  font-family: var(--fc-font);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--fc-muted-text);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 10px 4px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  background: var(--fc-bg-surface);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt:has(input:checked) {
+  background: rgba(0, 94, 236, 0.1);
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 1px var(--fc-blue);
+}
+
+@media (max-width: 480px) {
+  .fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-options {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt {
+    padding: 10px 2px;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__scorad-area-opt-label {
+    font-size: 14px;
+  }
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__scorad-subjective {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .fc-calc[data-calculator="pasi"] .fc-calc__scorad-subjective {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__pest-torso {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__pest-spine {
+    order: -1;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__pest-legs {
+    width: 100%;
+  }
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__field input[type='number'] {
+  width: 100%;
+  max-width: 8rem;
 }
 
 .fc-calc[data-calculator="pasi"] .fc-calc__result-wrap {
@@ -809,6 +1103,104 @@
   margin-top: 8px;
   font-size: 15px;
   line-height: 1.45;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__result-detail {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale {
+  margin-top: 14px;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 8px;
+  align-items: stretch;
+  margin-bottom: 6px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell {
+  padding: 8px 4px;
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: center;
+  border-radius: 4px;
+  color: #10384f;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell--mild {
+  background: #8bc63f;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell--moderate {
+  background: #fff100;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell--medium {
+  background: #f7941d;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell--severe {
+  background: #e8a0bf;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell--very-severe {
+  background: #8b0029;
+  color: #fff;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell--active {
+  outline: 3px solid var(--fc-blue);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 1px #fff;
+}
+
+@media (max-width: 520px) {
+  .fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-row {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-calc[data-calculator="pasi"] .fc-calc__easi-scale-cell {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
 }
 
 .fc-calc[data-calculator="pasi"] .fc-calc__pasi-tables {
@@ -838,12 +1230,6 @@
   white-space: nowrap;
 }
 
-.fc-calc[data-calculator="pasi"] .fc-calc__pasi-table-note {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.45;
-}
-
 .fc-calc[data-calculator="pasi"] .fc-calc__notes-body .fc-calc__table-wrap {
   margin: 0;
 }
@@ -852,23 +1238,83 @@
   font-size: 14px;
 }
 
-@media (max-width: 480px) {
-  .fc-calc[data-calculator="pasi"] .fc-calc__pasi-row {
-    padding: 10px;
-    font-size: 14px;
-  }
+.fc-calc[data-calculator="pasi"] .fc-calc__notes-section {
+  margin-top: 16px;
+}
+
+.fc-calc[data-calculator="pasi"] .fc-calc__notes-section:first-child {
+  margin-top: 0;
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Индекс площади поражения и тяжести псориаза (PASI)</h2>
-        <p class="fc-calc__hint">Оценка площади поражения и тяжести псориаза по четырём областям тела</p>
+        <h2 class="fc-calc__title">Дерматологические индексы</h2>
+        <div class="fc-calc__hint fc-calc__pasi-hint">
+          <p class="fc-calc__pasi-hint-line"><strong>PASI</strong> (Индекс площади поражения и тяжести псориаза)</p>
+          <p class="fc-calc__pasi-hint-line"><strong>PEST</strong> (Скрининг для выявления псориатического артрита)</p>
+          <p class="fc-calc__pasi-hint-line"><strong>EASI</strong> (Индекс площади поражения и тяжести экземы атопического дерматита)</p>
+          <p class="fc-calc__pasi-hint-line"><strong>SCORAD</strong> (Система оценки атопического дерматита)</p>
+        </div>
       </header>
 
       <div class="fc-calc__body">
-        <form class="fc-calc__form" id="fc-calc-pasi-form" novalidate>
+      <div class="fc-calc__tabs" role="tablist" aria-label="Индексы дерматологических заболеваний">
+        <button
+          type="button"
+          class="fc-calc__tab fc-calc__tab--active"
+          role="tab"
+          id="fc-calc-pasi-tab-pasi"
+          data-mode="pasi"
+          aria-selected="true"
+          aria-controls="fc-calc-pasi-panel-pasi"
+          tabindex="0"
+          title="PASI (Индекс площади поражения и тяжести псориаза)"
+        >PASI</button>
+        <button
+          type="button"
+          class="fc-calc__tab"
+          role="tab"
+          id="fc-calc-pasi-tab-pest"
+          data-mode="pest"
+          aria-selected="false"
+          aria-controls="fc-calc-pasi-panel-pest"
+          tabindex="-1"
+          title="PEST (Скрининг для выявления псориатического артрита)"
+        >PEST</button>
+        <button
+          type="button"
+          class="fc-calc__tab"
+          role="tab"
+          id="fc-calc-pasi-tab-easi"
+          data-mode="easi"
+          aria-selected="false"
+          aria-controls="fc-calc-pasi-panel-easi"
+          tabindex="-1"
+          title="EASI (Индекс площади поражения и тяжести экземы атопического дерматита)"
+        >EASI</button>
+        <button
+          type="button"
+          class="fc-calc__tab"
+          role="tab"
+          id="fc-calc-pasi-tab-scorad"
+          data-mode="scorad"
+          aria-selected="false"
+          aria-controls="fc-calc-pasi-panel-scorad"
+          tabindex="-1"
+          title="SCORAD (Система оценки атопического дерматита)"
+        >SCORAD</button>
+      </div>
+        <div
+          class="fc-calc__tab-panel fc-calc__tab-panel--active"
+          data-mode="pasi"
+          role="tabpanel"
+          id="fc-calc-pasi-panel-pasi"
+          aria-labelledby="fc-calc-pasi-tab-pasi"
+          
+        >
+          <form class="fc-calc__form" id="fc-calc-pasi-form-pasi" novalidate>
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">Голова и шея</h3>
@@ -876,28 +1322,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Эритема</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Эритема — Голова и шея">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_erythema-0">
-                  <input type="radio" id="fc-calc-pasi-head_erythema-0" name="head_erythema" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_erythema-0" name="head_erythema" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_erythema-1">
-                  <input type="radio" id="fc-calc-pasi-head_erythema-1" name="head_erythema" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_erythema-1" name="head_erythema" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_erythema-2">
-                  <input type="radio" id="fc-calc-pasi-head_erythema-2" name="head_erythema" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_erythema-2" name="head_erythema" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_erythema-3">
-                  <input type="radio" id="fc-calc-pasi-head_erythema-3" name="head_erythema" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_erythema-3" name="head_erythema" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_erythema-4">
-                  <input type="radio" id="fc-calc-pasi-head_erythema-4" name="head_erythema" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_erythema-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_erythema-4" name="head_erythema" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -906,28 +1352,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Индурация / утолщение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Индурация / утолщение — Голова и шея">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_induration-0">
-                  <input type="radio" id="fc-calc-pasi-head_induration-0" name="head_induration" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_induration-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_induration-0" name="head_induration" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_induration-1">
-                  <input type="radio" id="fc-calc-pasi-head_induration-1" name="head_induration" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_induration-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_induration-1" name="head_induration" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_induration-2">
-                  <input type="radio" id="fc-calc-pasi-head_induration-2" name="head_induration" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_induration-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_induration-2" name="head_induration" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_induration-3">
-                  <input type="radio" id="fc-calc-pasi-head_induration-3" name="head_induration" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_induration-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_induration-3" name="head_induration" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_induration-4">
-                  <input type="radio" id="fc-calc-pasi-head_induration-4" name="head_induration" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_induration-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_induration-4" name="head_induration" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -936,28 +1382,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Десквамация / шелушение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Десквамация / шелушение — Голова и шея">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_desquamation-0">
-                  <input type="radio" id="fc-calc-pasi-head_desquamation-0" name="head_desquamation" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_desquamation-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_desquamation-0" name="head_desquamation" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_desquamation-1">
-                  <input type="radio" id="fc-calc-pasi-head_desquamation-1" name="head_desquamation" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_desquamation-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_desquamation-1" name="head_desquamation" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_desquamation-2">
-                  <input type="radio" id="fc-calc-pasi-head_desquamation-2" name="head_desquamation" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_desquamation-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_desquamation-2" name="head_desquamation" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_desquamation-3">
-                  <input type="radio" id="fc-calc-pasi-head_desquamation-3" name="head_desquamation" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_desquamation-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_desquamation-3" name="head_desquamation" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_desquamation-4">
-                  <input type="radio" id="fc-calc-pasi-head_desquamation-4" name="head_desquamation" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_desquamation-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_desquamation-4" name="head_desquamation" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -966,38 +1412,38 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Доля поражённой площади</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Доля поражённой площади — Голова и шея">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-0">
-                  <input type="radio" id="fc-calc-pasi-head_area-0" name="head_area" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-0" name="head_area" value="0" checked />
                   <span class="fc-calc__pasi-label">0%</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-1">
-                  <input type="radio" id="fc-calc-pasi-head_area-1" name="head_area" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-1" name="head_area" value="1" />
                   <span class="fc-calc__pasi-label">1–9%</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-2">
-                  <input type="radio" id="fc-calc-pasi-head_area-2" name="head_area" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-2" name="head_area" value="2" />
                   <span class="fc-calc__pasi-label">10–29%</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-3">
-                  <input type="radio" id="fc-calc-pasi-head_area-3" name="head_area" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-3" name="head_area" value="3" />
                   <span class="fc-calc__pasi-label">30–49%</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-4">
-                  <input type="radio" id="fc-calc-pasi-head_area-4" name="head_area" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-4" name="head_area" value="4" />
                   <span class="fc-calc__pasi-label">50–69%</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-5">
-                  <input type="radio" id="fc-calc-pasi-head_area-5" name="head_area" value="5" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-5">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-5" name="head_area" value="5" />
                   <span class="fc-calc__pasi-label">70–89%</span>
                   <span class="fc-calc__pasi-points">5</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-head_area-6">
-                  <input type="radio" id="fc-calc-pasi-head_area-6" name="head_area" value="6" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-head_area-6">
+                  <input type="radio" id="fc-calc-pasi-pasi-head_area-6" name="head_area" value="6" />
                   <span class="fc-calc__pasi-label">90–100%</span>
                   <span class="fc-calc__pasi-points">6</span>
                 </label>
@@ -1013,28 +1459,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Эритема</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Эритема — Верхние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_erythema-0">
-                  <input type="radio" id="fc-calc-pasi-upper_erythema-0" name="upper_erythema" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_erythema-0" name="upper_erythema" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_erythema-1">
-                  <input type="radio" id="fc-calc-pasi-upper_erythema-1" name="upper_erythema" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_erythema-1" name="upper_erythema" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_erythema-2">
-                  <input type="radio" id="fc-calc-pasi-upper_erythema-2" name="upper_erythema" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_erythema-2" name="upper_erythema" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_erythema-3">
-                  <input type="radio" id="fc-calc-pasi-upper_erythema-3" name="upper_erythema" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_erythema-3" name="upper_erythema" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_erythema-4">
-                  <input type="radio" id="fc-calc-pasi-upper_erythema-4" name="upper_erythema" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_erythema-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_erythema-4" name="upper_erythema" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1043,28 +1489,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Индурация / утолщение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Индурация / утолщение — Верхние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_induration-0">
-                  <input type="radio" id="fc-calc-pasi-upper_induration-0" name="upper_induration" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_induration-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_induration-0" name="upper_induration" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_induration-1">
-                  <input type="radio" id="fc-calc-pasi-upper_induration-1" name="upper_induration" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_induration-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_induration-1" name="upper_induration" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_induration-2">
-                  <input type="radio" id="fc-calc-pasi-upper_induration-2" name="upper_induration" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_induration-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_induration-2" name="upper_induration" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_induration-3">
-                  <input type="radio" id="fc-calc-pasi-upper_induration-3" name="upper_induration" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_induration-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_induration-3" name="upper_induration" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_induration-4">
-                  <input type="radio" id="fc-calc-pasi-upper_induration-4" name="upper_induration" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_induration-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_induration-4" name="upper_induration" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1073,28 +1519,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Десквамация / шелушение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Десквамация / шелушение — Верхние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_desquamation-0">
-                  <input type="radio" id="fc-calc-pasi-upper_desquamation-0" name="upper_desquamation" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_desquamation-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_desquamation-0" name="upper_desquamation" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_desquamation-1">
-                  <input type="radio" id="fc-calc-pasi-upper_desquamation-1" name="upper_desquamation" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_desquamation-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_desquamation-1" name="upper_desquamation" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_desquamation-2">
-                  <input type="radio" id="fc-calc-pasi-upper_desquamation-2" name="upper_desquamation" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_desquamation-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_desquamation-2" name="upper_desquamation" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_desquamation-3">
-                  <input type="radio" id="fc-calc-pasi-upper_desquamation-3" name="upper_desquamation" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_desquamation-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_desquamation-3" name="upper_desquamation" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_desquamation-4">
-                  <input type="radio" id="fc-calc-pasi-upper_desquamation-4" name="upper_desquamation" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_desquamation-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_desquamation-4" name="upper_desquamation" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1103,38 +1549,38 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Доля поражённой площади</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Доля поражённой площади — Верхние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-0">
-                  <input type="radio" id="fc-calc-pasi-upper_area-0" name="upper_area" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-0" name="upper_area" value="0" checked />
                   <span class="fc-calc__pasi-label">0%</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-1">
-                  <input type="radio" id="fc-calc-pasi-upper_area-1" name="upper_area" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-1" name="upper_area" value="1" />
                   <span class="fc-calc__pasi-label">1–9%</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-2">
-                  <input type="radio" id="fc-calc-pasi-upper_area-2" name="upper_area" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-2" name="upper_area" value="2" />
                   <span class="fc-calc__pasi-label">10–29%</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-3">
-                  <input type="radio" id="fc-calc-pasi-upper_area-3" name="upper_area" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-3" name="upper_area" value="3" />
                   <span class="fc-calc__pasi-label">30–49%</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-4">
-                  <input type="radio" id="fc-calc-pasi-upper_area-4" name="upper_area" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-4" name="upper_area" value="4" />
                   <span class="fc-calc__pasi-label">50–69%</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-5">
-                  <input type="radio" id="fc-calc-pasi-upper_area-5" name="upper_area" value="5" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-5">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-5" name="upper_area" value="5" />
                   <span class="fc-calc__pasi-label">70–89%</span>
                   <span class="fc-calc__pasi-points">5</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-upper_area-6">
-                  <input type="radio" id="fc-calc-pasi-upper_area-6" name="upper_area" value="6" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-upper_area-6">
+                  <input type="radio" id="fc-calc-pasi-pasi-upper_area-6" name="upper_area" value="6" />
                   <span class="fc-calc__pasi-label">90–100%</span>
                   <span class="fc-calc__pasi-points">6</span>
                 </label>
@@ -1150,28 +1596,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Эритема</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Эритема — Туловище">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_erythema-0">
-                  <input type="radio" id="fc-calc-pasi-trunk_erythema-0" name="trunk_erythema" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_erythema-0" name="trunk_erythema" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_erythema-1">
-                  <input type="radio" id="fc-calc-pasi-trunk_erythema-1" name="trunk_erythema" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_erythema-1" name="trunk_erythema" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_erythema-2">
-                  <input type="radio" id="fc-calc-pasi-trunk_erythema-2" name="trunk_erythema" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_erythema-2" name="trunk_erythema" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_erythema-3">
-                  <input type="radio" id="fc-calc-pasi-trunk_erythema-3" name="trunk_erythema" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_erythema-3" name="trunk_erythema" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_erythema-4">
-                  <input type="radio" id="fc-calc-pasi-trunk_erythema-4" name="trunk_erythema" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_erythema-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_erythema-4" name="trunk_erythema" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1180,28 +1626,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Индурация / утолщение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Индурация / утолщение — Туловище">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_induration-0">
-                  <input type="radio" id="fc-calc-pasi-trunk_induration-0" name="trunk_induration" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_induration-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_induration-0" name="trunk_induration" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_induration-1">
-                  <input type="radio" id="fc-calc-pasi-trunk_induration-1" name="trunk_induration" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_induration-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_induration-1" name="trunk_induration" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_induration-2">
-                  <input type="radio" id="fc-calc-pasi-trunk_induration-2" name="trunk_induration" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_induration-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_induration-2" name="trunk_induration" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_induration-3">
-                  <input type="radio" id="fc-calc-pasi-trunk_induration-3" name="trunk_induration" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_induration-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_induration-3" name="trunk_induration" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_induration-4">
-                  <input type="radio" id="fc-calc-pasi-trunk_induration-4" name="trunk_induration" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_induration-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_induration-4" name="trunk_induration" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1210,28 +1656,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Десквамация / шелушение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Десквамация / шелушение — Туловище">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_desquamation-0">
-                  <input type="radio" id="fc-calc-pasi-trunk_desquamation-0" name="trunk_desquamation" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_desquamation-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_desquamation-0" name="trunk_desquamation" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_desquamation-1">
-                  <input type="radio" id="fc-calc-pasi-trunk_desquamation-1" name="trunk_desquamation" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_desquamation-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_desquamation-1" name="trunk_desquamation" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_desquamation-2">
-                  <input type="radio" id="fc-calc-pasi-trunk_desquamation-2" name="trunk_desquamation" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_desquamation-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_desquamation-2" name="trunk_desquamation" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_desquamation-3">
-                  <input type="radio" id="fc-calc-pasi-trunk_desquamation-3" name="trunk_desquamation" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_desquamation-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_desquamation-3" name="trunk_desquamation" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_desquamation-4">
-                  <input type="radio" id="fc-calc-pasi-trunk_desquamation-4" name="trunk_desquamation" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_desquamation-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_desquamation-4" name="trunk_desquamation" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1240,38 +1686,38 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Доля поражённой площади</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Доля поражённой площади — Туловище">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-0">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-0" name="trunk_area" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-0" name="trunk_area" value="0" checked />
                   <span class="fc-calc__pasi-label">0%</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-1">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-1" name="trunk_area" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-1" name="trunk_area" value="1" />
                   <span class="fc-calc__pasi-label">1–9%</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-2">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-2" name="trunk_area" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-2" name="trunk_area" value="2" />
                   <span class="fc-calc__pasi-label">10–29%</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-3">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-3" name="trunk_area" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-3" name="trunk_area" value="3" />
                   <span class="fc-calc__pasi-label">30–49%</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-4">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-4" name="trunk_area" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-4" name="trunk_area" value="4" />
                   <span class="fc-calc__pasi-label">50–69%</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-5">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-5" name="trunk_area" value="5" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-5">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-5" name="trunk_area" value="5" />
                   <span class="fc-calc__pasi-label">70–89%</span>
                   <span class="fc-calc__pasi-points">5</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-trunk_area-6">
-                  <input type="radio" id="fc-calc-pasi-trunk_area-6" name="trunk_area" value="6" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-trunk_area-6">
+                  <input type="radio" id="fc-calc-pasi-pasi-trunk_area-6" name="trunk_area" value="6" />
                   <span class="fc-calc__pasi-label">90–100%</span>
                   <span class="fc-calc__pasi-points">6</span>
                 </label>
@@ -1287,28 +1733,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Эритема</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Эритема — Нижние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_erythema-0">
-                  <input type="radio" id="fc-calc-pasi-lower_erythema-0" name="lower_erythema" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_erythema-0" name="lower_erythema" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_erythema-1">
-                  <input type="radio" id="fc-calc-pasi-lower_erythema-1" name="lower_erythema" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_erythema-1" name="lower_erythema" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_erythema-2">
-                  <input type="radio" id="fc-calc-pasi-lower_erythema-2" name="lower_erythema" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_erythema-2" name="lower_erythema" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_erythema-3">
-                  <input type="radio" id="fc-calc-pasi-lower_erythema-3" name="lower_erythema" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_erythema-3" name="lower_erythema" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_erythema-4">
-                  <input type="radio" id="fc-calc-pasi-lower_erythema-4" name="lower_erythema" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_erythema-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_erythema-4" name="lower_erythema" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1317,28 +1763,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Индурация / утолщение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Индурация / утолщение — Нижние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_induration-0">
-                  <input type="radio" id="fc-calc-pasi-lower_induration-0" name="lower_induration" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_induration-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_induration-0" name="lower_induration" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_induration-1">
-                  <input type="radio" id="fc-calc-pasi-lower_induration-1" name="lower_induration" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_induration-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_induration-1" name="lower_induration" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_induration-2">
-                  <input type="radio" id="fc-calc-pasi-lower_induration-2" name="lower_induration" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_induration-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_induration-2" name="lower_induration" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_induration-3">
-                  <input type="radio" id="fc-calc-pasi-lower_induration-3" name="lower_induration" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_induration-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_induration-3" name="lower_induration" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_induration-4">
-                  <input type="radio" id="fc-calc-pasi-lower_induration-4" name="lower_induration" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_induration-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_induration-4" name="lower_induration" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1347,28 +1793,28 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Десквамация / шелушение</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Десквамация / шелушение — Нижние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_desquamation-0">
-                  <input type="radio" id="fc-calc-pasi-lower_desquamation-0" name="lower_desquamation" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_desquamation-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_desquamation-0" name="lower_desquamation" value="0" checked />
                   <span class="fc-calc__pasi-label">Нет</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_desquamation-1">
-                  <input type="radio" id="fc-calc-pasi-lower_desquamation-1" name="lower_desquamation" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_desquamation-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_desquamation-1" name="lower_desquamation" value="1" />
                   <span class="fc-calc__pasi-label">Слабая</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_desquamation-2">
-                  <input type="radio" id="fc-calc-pasi-lower_desquamation-2" name="lower_desquamation" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_desquamation-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_desquamation-2" name="lower_desquamation" value="2" />
                   <span class="fc-calc__pasi-label">Умеренная</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_desquamation-3">
-                  <input type="radio" id="fc-calc-pasi-lower_desquamation-3" name="lower_desquamation" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_desquamation-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_desquamation-3" name="lower_desquamation" value="3" />
                   <span class="fc-calc__pasi-label">Выраженная</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_desquamation-4">
-                  <input type="radio" id="fc-calc-pasi-lower_desquamation-4" name="lower_desquamation" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_desquamation-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_desquamation-4" name="lower_desquamation" value="4" />
                   <span class="fc-calc__pasi-label">Очень выраженная</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
@@ -1377,38 +1823,38 @@
               <fieldset class="fc-calc__pasi-group">
                 <legend class="fc-calc__pasi-legend">Доля поражённой площади</legend>
                 <div class="fc-calc__pasi-options" role="radiogroup" aria-label="Доля поражённой площади — Нижние конечности">
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-0">
-                  <input type="radio" id="fc-calc-pasi-lower_area-0" name="lower_area" value="0" checked />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-0">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-0" name="lower_area" value="0" checked />
                   <span class="fc-calc__pasi-label">0%</span>
                   <span class="fc-calc__pasi-points">0</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-1">
-                  <input type="radio" id="fc-calc-pasi-lower_area-1" name="lower_area" value="1" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-1">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-1" name="lower_area" value="1" />
                   <span class="fc-calc__pasi-label">1–9%</span>
                   <span class="fc-calc__pasi-points">1</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-2">
-                  <input type="radio" id="fc-calc-pasi-lower_area-2" name="lower_area" value="2" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-2">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-2" name="lower_area" value="2" />
                   <span class="fc-calc__pasi-label">10–29%</span>
                   <span class="fc-calc__pasi-points">2</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-3">
-                  <input type="radio" id="fc-calc-pasi-lower_area-3" name="lower_area" value="3" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-3">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-3" name="lower_area" value="3" />
                   <span class="fc-calc__pasi-label">30–49%</span>
                   <span class="fc-calc__pasi-points">3</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-4">
-                  <input type="radio" id="fc-calc-pasi-lower_area-4" name="lower_area" value="4" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-4">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-4" name="lower_area" value="4" />
                   <span class="fc-calc__pasi-label">50–69%</span>
                   <span class="fc-calc__pasi-points">4</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-5">
-                  <input type="radio" id="fc-calc-pasi-lower_area-5" name="lower_area" value="5" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-5">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-5" name="lower_area" value="5" />
                   <span class="fc-calc__pasi-label">70–89%</span>
                   <span class="fc-calc__pasi-points">5</span>
                 </label>
-                <label class="fc-calc__pasi-row" for="fc-calc-pasi-lower_area-6">
-                  <input type="radio" id="fc-calc-pasi-lower_area-6" name="lower_area" value="6" />
+                <label class="fc-calc__pasi-row" for="fc-calc-pasi-pasi-lower_area-6">
+                  <input type="radio" id="fc-calc-pasi-pasi-lower_area-6" name="lower_area" value="6" />
                   <span class="fc-calc__pasi-label">90–100%</span>
                   <span class="fc-calc__pasi-points">6</span>
                 </label>
@@ -1417,17 +1863,1231 @@
               </div>
             </div>
           </div>
-        </form>
-      </div>
-
-      <div class="fc-calc__actions">
-        <button type="submit" id="fc-calc-pasi-btn" class="fc-calc__btn" form="fc-calc-pasi-form">Рассчитать</button>
-      </div>
-
-      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-pasi-result" aria-live="polite">
-        <p class="fc-calc__result-label">PASI</p>
-        <p class="fc-calc__result-number" id="fc-calc-pasi-result-number">—</p>
-        <p class="fc-calc__result-desc" id="fc-calc-pasi-result-desc"></p>
+          </form>
+          <div class="fc-calc__actions">
+            <button type="submit" class="fc-calc__btn" form="fc-calc-pasi-form-pasi">Рассчитать</button>
+          </div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-pasi-result-pasi" aria-live="polite">
+            <p class="fc-calc__result-label">PASI</p>
+            <p class="fc-calc__result-number" id="fc-calc-pasi-result-number-pasi">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-pasi-result-desc-pasi"></p>
+            
+            
+          </div>
+        </div>
+        <div
+          class="fc-calc__tab-panel"
+          data-mode="pest"
+          role="tabpanel"
+          id="fc-calc-pasi-panel-pest"
+          aria-labelledby="fc-calc-pasi-tab-pest"
+          hidden
+        >
+          <form class="fc-calc__form" id="fc-calc-pasi-form-pest" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Опросник PEST</h3>
+              <p class="fc-calc__pest-intro">Инструмент эпидемиологического скрининга псориатического артрита. За каждый ответ «Да» — 1 балл.</p>
+            <fieldset class="fc-calc__pest-group">
+              <legend class="fc-calc__pest-legend">1. Был ли у вас когда-либо отёк сустава (суставов)?</legend>
+              <div class="fc-calc__pest-options" role="radiogroup" aria-label="Вопрос 1">
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q1-yes">
+                  <input type="radio" id="fc-calc-pasi-q1-yes" name="q1" value="yes" />
+                  <span class="fc-calc__pest-label">Да</span>
+                </label>
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q1-no">
+                  <input type="radio" id="fc-calc-pasi-q1-no" name="q1" value="no" checked />
+                  <span class="fc-calc__pest-label">Нет</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__pest-group">
+              <legend class="fc-calc__pest-legend">2. Говорил ли вам врач, что у вас артрит?</legend>
+              <div class="fc-calc__pest-options" role="radiogroup" aria-label="Вопрос 2">
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q2-yes">
+                  <input type="radio" id="fc-calc-pasi-q2-yes" name="q2" value="yes" />
+                  <span class="fc-calc__pest-label">Да</span>
+                </label>
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q2-no">
+                  <input type="radio" id="fc-calc-pasi-q2-no" name="q2" value="no" checked />
+                  <span class="fc-calc__pest-label">Нет</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__pest-group">
+              <legend class="fc-calc__pest-legend">3. Есть ли на ногтях пальцев рук или ног ямочки или углубления?</legend>
+              <div class="fc-calc__pest-options" role="radiogroup" aria-label="Вопрос 3">
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q3-yes">
+                  <input type="radio" id="fc-calc-pasi-q3-yes" name="q3" value="yes" />
+                  <span class="fc-calc__pest-label">Да</span>
+                </label>
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q3-no">
+                  <input type="radio" id="fc-calc-pasi-q3-no" name="q3" value="no" checked />
+                  <span class="fc-calc__pest-label">Нет</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__pest-group">
+              <legend class="fc-calc__pest-legend">4. Была ли у вас боль в пятке?</legend>
+              <div class="fc-calc__pest-options" role="radiogroup" aria-label="Вопрос 4">
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q4-yes">
+                  <input type="radio" id="fc-calc-pasi-q4-yes" name="q4" value="yes" />
+                  <span class="fc-calc__pest-label">Да</span>
+                </label>
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q4-no">
+                  <input type="radio" id="fc-calc-pasi-q4-no" name="q4" value="no" checked />
+                  <span class="fc-calc__pest-label">Нет</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__pest-group">
+              <legend class="fc-calc__pest-legend">5. Был ли у вас палец на руке или ноге, который полностью опух и болел без видимой причины?</legend>
+              <div class="fc-calc__pest-options" role="radiogroup" aria-label="Вопрос 5">
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q5-yes">
+                  <input type="radio" id="fc-calc-pasi-q5-yes" name="q5" value="yes" />
+                  <span class="fc-calc__pest-label">Да</span>
+                </label>
+                <label class="fc-calc__pest-row" for="fc-calc-pasi-q5-no">
+                  <input type="radio" id="fc-calc-pasi-q5-no" name="q5" value="no" checked />
+                  <span class="fc-calc__pest-label">Нет</span>
+                </label>
+              </div>
+            </fieldset>
+            </div>
+          </div>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Схема суставов</h3>
+              <p class="fc-calc__pest-intro">Отметьте суставы, которые вызывали дискомфорт (скованность, отёк или боль):</p>
+              <div class="fc-calc__pest-manikin">
+                <div class="fc-calc__pest-torso">
+                  <div class="fc-calc__pest-side fc-calc__pest-side--left">
+                    <div class="fc-calc__pest-side-title">Левая рука</div>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-shoulderL" data-joint-label="Левая рука — плечо">
+                  <input type="checkbox" id="fc-calc-pasi-joint-shoulderL" name="joint_shoulderL" value="1" />
+                  <span>Плечо</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-elbowL" data-joint-label="Левая рука — локоть">
+                  <input type="checkbox" id="fc-calc-pasi-joint-elbowL" name="joint_elbowL" value="1" />
+                  <span>Локоть</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-wristL" data-joint-label="Левая рука — запястье">
+                  <input type="checkbox" id="fc-calc-pasi-joint-wristL" name="joint_wristL" value="1" />
+                  <span>Запястье</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-handL" data-joint-label="Левая рука — кисть / пальцы">
+                  <input type="checkbox" id="fc-calc-pasi-joint-handL" name="joint_handL" value="1" />
+                  <span>Кисть / пальцы</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-thumbL" data-joint-label="Левая рука — большой палец">
+                  <input type="checkbox" id="fc-calc-pasi-joint-thumbL" name="joint_thumbL" value="1" />
+                  <span>Большой палец</span>
+                </label>
+                  </div>
+                  <div class="fc-calc__pest-spine">
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-neck" data-joint-label="Шея">
+                  <input type="checkbox" id="fc-calc-pasi-joint-neck" name="joint_neck" value="1" />
+                  <span>Шея</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-upperBack" data-joint-label="Верхняя часть спины">
+                  <input type="checkbox" id="fc-calc-pasi-joint-upperBack" name="joint_upperBack" value="1" />
+                  <span>Верхняя часть спины</span>
+                </label>
+                  </div>
+                  <div class="fc-calc__pest-side fc-calc__pest-side--right">
+                    <div class="fc-calc__pest-side-title">Правая рука</div>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-shoulderR" data-joint-label="Правая рука — плечо">
+                  <input type="checkbox" id="fc-calc-pasi-joint-shoulderR" name="joint_shoulderR" value="1" />
+                  <span>Плечо</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-elbowR" data-joint-label="Правая рука — локоть">
+                  <input type="checkbox" id="fc-calc-pasi-joint-elbowR" name="joint_elbowR" value="1" />
+                  <span>Локоть</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-wristR" data-joint-label="Правая рука — запястье">
+                  <input type="checkbox" id="fc-calc-pasi-joint-wristR" name="joint_wristR" value="1" />
+                  <span>Запястье</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-handR" data-joint-label="Правая рука — кисть / пальцы">
+                  <input type="checkbox" id="fc-calc-pasi-joint-handR" name="joint_handR" value="1" />
+                  <span>Кисть / пальцы</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-thumbR" data-joint-label="Правая рука — большой палец">
+                  <input type="checkbox" id="fc-calc-pasi-joint-thumbR" name="joint_thumbR" value="1" />
+                  <span>Большой палец</span>
+                </label>
+                  </div>
+                </div>
+                <div class="fc-calc__pest-legs-block">
+                  <div class="fc-calc__pest-spine-lower">
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-lowerBack" data-joint-label="Нижняя часть спины">
+                  <input type="checkbox" id="fc-calc-pasi-joint-lowerBack" name="joint_lowerBack" value="1" />
+                  <span>Нижняя часть спины</span>
+                </label>
+                  </div>
+                  <div class="fc-calc__pest-legs">
+                    <div class="fc-calc__pest-leg fc-calc__pest-leg--left">
+                      <div class="fc-calc__pest-side-title">Левая нога</div>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-hipL" data-joint-label="Левая нога — бедро">
+                  <input type="checkbox" id="fc-calc-pasi-joint-hipL" name="joint_hipL" value="1" />
+                  <span>Бедро</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-kneeL" data-joint-label="Левая нога — колено">
+                  <input type="checkbox" id="fc-calc-pasi-joint-kneeL" name="joint_kneeL" value="1" />
+                  <span>Колено</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-ankleL" data-joint-label="Левая нога — лодыжка">
+                  <input type="checkbox" id="fc-calc-pasi-joint-ankleL" name="joint_ankleL" value="1" />
+                  <span>Лодыжка</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-footL" data-joint-label="Левая нога — стопа / пальцы">
+                  <input type="checkbox" id="fc-calc-pasi-joint-footL" name="joint_footL" value="1" />
+                  <span>Стопа / пальцы</span>
+                </label>
+                    </div>
+                    <div class="fc-calc__pest-leg fc-calc__pest-leg--right">
+                      <div class="fc-calc__pest-side-title">Правая нога</div>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-hipR" data-joint-label="Правая нога — бедро">
+                  <input type="checkbox" id="fc-calc-pasi-joint-hipR" name="joint_hipR" value="1" />
+                  <span>Бедро</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-kneeR" data-joint-label="Правая нога — колено">
+                  <input type="checkbox" id="fc-calc-pasi-joint-kneeR" name="joint_kneeR" value="1" />
+                  <span>Колено</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-ankleR" data-joint-label="Правая нога — лодыжка">
+                  <input type="checkbox" id="fc-calc-pasi-joint-ankleR" name="joint_ankleR" value="1" />
+                  <span>Лодыжка</span>
+                </label>
+                <label class="fc-calc__pest-joint" for="fc-calc-pasi-joint-footR" data-joint-label="Правая нога — стопа / пальцы">
+                  <input type="checkbox" id="fc-calc-pasi-joint-footR" name="joint_footR" value="1" />
+                  <span>Стопа / пальцы</span>
+                </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+          <div class="fc-calc__actions">
+            <button type="submit" class="fc-calc__btn" form="fc-calc-pasi-form-pest">Рассчитать</button>
+          </div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-pasi-result-pest" aria-live="polite">
+            <p class="fc-calc__result-label">PEST</p>
+            <p class="fc-calc__result-number" id="fc-calc-pasi-result-number-pest">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-pasi-result-desc-pest"></p>
+            <p class="fc-calc__result-detail" id="fc-calc-pasi-result-joints-pest"></p>
+            
+          </div>
+        </div>
+        <div
+          class="fc-calc__tab-panel"
+          data-mode="easi"
+          role="tabpanel"
+          id="fc-calc-pasi-panel-easi"
+          aria-labelledby="fc-calc-pasi-tab-easi"
+          hidden
+        >
+          <form class="fc-calc__form" id="fc-calc-pasi-form-easi" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Голова и шея</h3>
+              <div class="fc-calc__easi-region">
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Площадь поражения</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Площадь — Голова и шея">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-0">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-0" name="head_area" value="0" checked />
+                  <span class="fc-calc__easi-label">0%</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-1">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-1" name="head_area" value="1" />
+                  <span class="fc-calc__easi-label">1–9%</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-2">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-2" name="head_area" value="2" />
+                  <span class="fc-calc__easi-label">10–29%</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-3">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-3" name="head_area" value="3" />
+                  <span class="fc-calc__easi-label">30–49%</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-4">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-4" name="head_area" value="4" />
+                  <span class="fc-calc__easi-label">50–69%</span>
+                  <span class="fc-calc__easi-points">4</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-5">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-5" name="head_area" value="5" />
+                  <span class="fc-calc__easi-label">70–89%</span>
+                  <span class="fc-calc__easi-points">5</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_area-6">
+                  <input type="radio" id="fc-calc-pasi-easi-head_area-6" name="head_area" value="6" />
+                  <span class="fc-calc__easi-label">90–100%</span>
+                  <span class="fc-calc__easi-points">6</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Эритема</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Эритема — Голова и шея">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-easi-head_erythema-0" name="head_erythema" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-easi-head_erythema-1" name="head_erythema" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-easi-head_erythema-2" name="head_erythema" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-easi-head_erythema-3" name="head_erythema" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Инфильтрация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Инфильтрация — Голова и шея">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_infiltration-0">
+                  <input type="radio" id="fc-calc-pasi-easi-head_infiltration-0" name="head_infiltration" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_infiltration-1">
+                  <input type="radio" id="fc-calc-pasi-easi-head_infiltration-1" name="head_infiltration" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_infiltration-2">
+                  <input type="radio" id="fc-calc-pasi-easi-head_infiltration-2" name="head_infiltration" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_infiltration-3">
+                  <input type="radio" id="fc-calc-pasi-easi-head_infiltration-3" name="head_infiltration" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Экскориация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Экскориация — Голова и шея">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_excoriation-0">
+                  <input type="radio" id="fc-calc-pasi-easi-head_excoriation-0" name="head_excoriation" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_excoriation-1">
+                  <input type="radio" id="fc-calc-pasi-easi-head_excoriation-1" name="head_excoriation" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_excoriation-2">
+                  <input type="radio" id="fc-calc-pasi-easi-head_excoriation-2" name="head_excoriation" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_excoriation-3">
+                  <input type="radio" id="fc-calc-pasi-easi-head_excoriation-3" name="head_excoriation" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Лихенификация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Лихенификация — Голова и шея">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_lichenification-0">
+                  <input type="radio" id="fc-calc-pasi-easi-head_lichenification-0" name="head_lichenification" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_lichenification-1">
+                  <input type="radio" id="fc-calc-pasi-easi-head_lichenification-1" name="head_lichenification" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_lichenification-2">
+                  <input type="radio" id="fc-calc-pasi-easi-head_lichenification-2" name="head_lichenification" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-head_lichenification-3">
+                  <input type="radio" id="fc-calc-pasi-easi-head_lichenification-3" name="head_lichenification" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Верхние конечности</h3>
+              <div class="fc-calc__easi-region">
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Площадь поражения</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Площадь — Верхние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-0">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-0" name="upper_area" value="0" checked />
+                  <span class="fc-calc__easi-label">0%</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-1">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-1" name="upper_area" value="1" />
+                  <span class="fc-calc__easi-label">1–9%</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-2">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-2" name="upper_area" value="2" />
+                  <span class="fc-calc__easi-label">10–29%</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-3">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-3" name="upper_area" value="3" />
+                  <span class="fc-calc__easi-label">30–49%</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-4">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-4" name="upper_area" value="4" />
+                  <span class="fc-calc__easi-label">50–69%</span>
+                  <span class="fc-calc__easi-points">4</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-5">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-5" name="upper_area" value="5" />
+                  <span class="fc-calc__easi-label">70–89%</span>
+                  <span class="fc-calc__easi-points">5</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_area-6">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_area-6" name="upper_area" value="6" />
+                  <span class="fc-calc__easi-label">90–100%</span>
+                  <span class="fc-calc__easi-points">6</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Эритема</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Эритема — Верхние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_erythema-0" name="upper_erythema" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_erythema-1" name="upper_erythema" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_erythema-2" name="upper_erythema" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_erythema-3" name="upper_erythema" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Инфильтрация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Инфильтрация — Верхние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_infiltration-0">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_infiltration-0" name="upper_infiltration" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_infiltration-1">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_infiltration-1" name="upper_infiltration" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_infiltration-2">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_infiltration-2" name="upper_infiltration" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_infiltration-3">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_infiltration-3" name="upper_infiltration" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Экскориация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Экскориация — Верхние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_excoriation-0">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_excoriation-0" name="upper_excoriation" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_excoriation-1">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_excoriation-1" name="upper_excoriation" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_excoriation-2">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_excoriation-2" name="upper_excoriation" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_excoriation-3">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_excoriation-3" name="upper_excoriation" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Лихенификация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Лихенификация — Верхние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_lichenification-0">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_lichenification-0" name="upper_lichenification" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_lichenification-1">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_lichenification-1" name="upper_lichenification" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_lichenification-2">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_lichenification-2" name="upper_lichenification" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-upper_lichenification-3">
+                  <input type="radio" id="fc-calc-pasi-easi-upper_lichenification-3" name="upper_lichenification" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Туловище</h3>
+              <div class="fc-calc__easi-region">
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Площадь поражения</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Площадь — Туловище">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-0">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-0" name="trunk_area" value="0" checked />
+                  <span class="fc-calc__easi-label">0%</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-1">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-1" name="trunk_area" value="1" />
+                  <span class="fc-calc__easi-label">1–9%</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-2">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-2" name="trunk_area" value="2" />
+                  <span class="fc-calc__easi-label">10–29%</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-3">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-3" name="trunk_area" value="3" />
+                  <span class="fc-calc__easi-label">30–49%</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-4">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-4" name="trunk_area" value="4" />
+                  <span class="fc-calc__easi-label">50–69%</span>
+                  <span class="fc-calc__easi-points">4</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-5">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-5" name="trunk_area" value="5" />
+                  <span class="fc-calc__easi-label">70–89%</span>
+                  <span class="fc-calc__easi-points">5</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_area-6">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_area-6" name="trunk_area" value="6" />
+                  <span class="fc-calc__easi-label">90–100%</span>
+                  <span class="fc-calc__easi-points">6</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Эритема</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Эритема — Туловище">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_erythema-0" name="trunk_erythema" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_erythema-1" name="trunk_erythema" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_erythema-2" name="trunk_erythema" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_erythema-3" name="trunk_erythema" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Инфильтрация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Инфильтрация — Туловище">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_infiltration-0">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_infiltration-0" name="trunk_infiltration" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_infiltration-1">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_infiltration-1" name="trunk_infiltration" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_infiltration-2">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_infiltration-2" name="trunk_infiltration" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_infiltration-3">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_infiltration-3" name="trunk_infiltration" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Экскориация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Экскориация — Туловище">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_excoriation-0">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_excoriation-0" name="trunk_excoriation" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_excoriation-1">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_excoriation-1" name="trunk_excoriation" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_excoriation-2">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_excoriation-2" name="trunk_excoriation" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_excoriation-3">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_excoriation-3" name="trunk_excoriation" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Лихенификация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Лихенификация — Туловище">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_lichenification-0">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_lichenification-0" name="trunk_lichenification" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_lichenification-1">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_lichenification-1" name="trunk_lichenification" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_lichenification-2">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_lichenification-2" name="trunk_lichenification" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-trunk_lichenification-3">
+                  <input type="radio" id="fc-calc-pasi-easi-trunk_lichenification-3" name="trunk_lichenification" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Нижние конечности</h3>
+              <div class="fc-calc__easi-region">
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Площадь поражения</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Площадь — Нижние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-0">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-0" name="lower_area" value="0" checked />
+                  <span class="fc-calc__easi-label">0%</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-1">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-1" name="lower_area" value="1" />
+                  <span class="fc-calc__easi-label">1–9%</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-2">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-2" name="lower_area" value="2" />
+                  <span class="fc-calc__easi-label">10–29%</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-3">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-3" name="lower_area" value="3" />
+                  <span class="fc-calc__easi-label">30–49%</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-4">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-4" name="lower_area" value="4" />
+                  <span class="fc-calc__easi-label">50–69%</span>
+                  <span class="fc-calc__easi-points">4</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-5">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-5" name="lower_area" value="5" />
+                  <span class="fc-calc__easi-label">70–89%</span>
+                  <span class="fc-calc__easi-points">5</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_area-6">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_area-6" name="lower_area" value="6" />
+                  <span class="fc-calc__easi-label">90–100%</span>
+                  <span class="fc-calc__easi-points">6</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Эритема</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Эритема — Нижние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_erythema-0">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_erythema-0" name="lower_erythema" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_erythema-1">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_erythema-1" name="lower_erythema" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_erythema-2">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_erythema-2" name="lower_erythema" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_erythema-3">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_erythema-3" name="lower_erythema" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Инфильтрация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Инфильтрация — Нижние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_infiltration-0">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_infiltration-0" name="lower_infiltration" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_infiltration-1">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_infiltration-1" name="lower_infiltration" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_infiltration-2">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_infiltration-2" name="lower_infiltration" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_infiltration-3">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_infiltration-3" name="lower_infiltration" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Экскориация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Экскориация — Нижние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_excoriation-0">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_excoriation-0" name="lower_excoriation" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_excoriation-1">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_excoriation-1" name="lower_excoriation" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_excoriation-2">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_excoriation-2" name="lower_excoriation" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_excoriation-3">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_excoriation-3" name="lower_excoriation" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__easi-group">
+                <legend class="fc-calc__easi-legend">Лихенификация</legend>
+                <div class="fc-calc__easi-options" role="radiogroup" aria-label="Лихенификация — Нижние конечности">
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_lichenification-0">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_lichenification-0" name="lower_lichenification" value="0" checked />
+                  <span class="fc-calc__easi-label">0</span>
+                  <span class="fc-calc__easi-points">0</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_lichenification-1">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_lichenification-1" name="lower_lichenification" value="1" />
+                  <span class="fc-calc__easi-label">1</span>
+                  <span class="fc-calc__easi-points">1</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_lichenification-2">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_lichenification-2" name="lower_lichenification" value="2" />
+                  <span class="fc-calc__easi-label">2</span>
+                  <span class="fc-calc__easi-points">2</span>
+                </label>
+                <label class="fc-calc__easi-row" for="fc-calc-pasi-easi-lower_lichenification-3">
+                  <input type="radio" id="fc-calc-pasi-easi-lower_lichenification-3" name="lower_lichenification" value="3" />
+                  <span class="fc-calc__easi-label">3</span>
+                  <span class="fc-calc__easi-points">3</span>
+                </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          </form>
+          <div class="fc-calc__actions">
+            <button type="submit" class="fc-calc__btn" form="fc-calc-pasi-form-easi">Рассчитать</button>
+          </div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-pasi-result-easi" aria-live="polite">
+            <p class="fc-calc__result-label">EASI</p>
+            <p class="fc-calc__result-number" id="fc-calc-pasi-result-number-easi">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-pasi-result-desc-easi"></p>
+            
+                        <div class="fc-calc__easi-scale" id="fc-calc-pasi-result-scale-easi" hidden>
+              <p class="fc-calc__easi-scale-title">Шкала тяжести EASI</p>
+              <div class="fc-calc__easi-scale-row">
+                <span class="fc-calc__easi-scale-head">Баллы</span>
+                <div class="fc-calc__easi-scale-grid">
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--mild" data-easi-category="mild">0,1–1,0</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--moderate" data-easi-category="moderate">1,1–7,0</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--medium" data-easi-category="medium">7,1–21,0</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--severe" data-easi-category="severe">21,1–50,0</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--very-severe" data-easi-category="very-severe">50,1–72,0</div>
+                </div>
+              </div>
+              <div class="fc-calc__easi-scale-row">
+                <span class="fc-calc__easi-scale-head">Степень</span>
+                <div class="fc-calc__easi-scale-grid">
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--mild" data-easi-category="mild">легкая</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--moderate" data-easi-category="moderate">умеренная</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--medium" data-easi-category="medium">средняя</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--severe" data-easi-category="severe">тяжелая</div>
+              <div class="fc-calc__easi-scale-cell fc-calc__easi-scale-cell--very-severe" data-easi-category="very-severe">очень тяжелая</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="fc-calc__tab-panel"
+          data-mode="scorad"
+          role="tabpanel"
+          id="fc-calc-pasi-panel-scorad"
+          aria-labelledby="fc-calc-pasi-tab-scorad"
+          hidden
+        >
+          <form class="fc-calc__form" id="fc-calc-pasi-form-scorad" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Площадь поражения</h3>
+              <div class="fc-calc__scorad-areas">
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Голова и шея <span class="fc-calc__scorad-area-hint">9% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Голова и шея">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-head-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-head-0" name="area_head" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-head-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-head-25" name="area_head" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-head-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-head-50" name="area_head" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-head-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-head-75" name="area_head" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-head-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-head-100" name="area_head" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Гениталии <span class="fc-calc__scorad-area-hint">1% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Гениталии">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-genital-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-genital-0" name="area_genital" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-genital-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-genital-25" name="area_genital" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-genital-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-genital-50" name="area_genital" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-genital-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-genital-75" name="area_genital" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-genital-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-genital-100" name="area_genital" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Левая рука <span class="fc-calc__scorad-area-hint">9% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Левая рука">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armL-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-armL-0" name="area_armL" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armL-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-armL-25" name="area_armL" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armL-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-armL-50" name="area_armL" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armL-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-armL-75" name="area_armL" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armL-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-armL-100" name="area_armL" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Правая рука <span class="fc-calc__scorad-area-hint">9% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Правая рука">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armR-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-armR-0" name="area_armR" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armR-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-armR-25" name="area_armR" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armR-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-armR-50" name="area_armR" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armR-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-armR-75" name="area_armR" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-armR-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-armR-100" name="area_armR" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Левая нога <span class="fc-calc__scorad-area-hint">18% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Левая нога">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legL-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-legL-0" name="area_legL" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legL-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-legL-25" name="area_legL" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legL-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-legL-50" name="area_legL" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legL-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-legL-75" name="area_legL" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legL-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-legL-100" name="area_legL" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Правая нога <span class="fc-calc__scorad-area-hint">18% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Правая нога">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legR-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-legR-0" name="area_legR" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legR-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-legR-25" name="area_legR" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legR-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-legR-50" name="area_legR" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legR-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-legR-75" name="area_legR" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-legR-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-legR-100" name="area_legR" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Грудь, живот <span class="fc-calc__scorad-area-hint">18% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Грудь, живот">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-trunkFront-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-trunkFront-0" name="area_trunkFront" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-trunkFront-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-trunkFront-25" name="area_trunkFront" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-trunkFront-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-trunkFront-50" name="area_trunkFront" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-trunkFront-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-trunkFront-75" name="area_trunkFront" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-trunkFront-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-trunkFront-100" name="area_trunkFront" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-area-group">
+                <legend class="fc-calc__scorad-area-legend">Спина <span class="fc-calc__scorad-area-hint">18% ППТ</span></legend>
+                <div class="fc-calc__scorad-area-options" role="radiogroup" aria-label="Площадь — Спина">
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-back-0">
+                  <input type="radio" id="fc-calc-pasi-scorad-back-0" name="area_back" value="0" checked />
+                  <span class="fc-calc__scorad-area-opt-label">0</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-back-25">
+                  <input type="radio" id="fc-calc-pasi-scorad-back-25" name="area_back" value="25" />
+                  <span class="fc-calc__scorad-area-opt-label">25</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-back-50">
+                  <input type="radio" id="fc-calc-pasi-scorad-back-50" name="area_back" value="50" />
+                  <span class="fc-calc__scorad-area-opt-label">50</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-back-75">
+                  <input type="radio" id="fc-calc-pasi-scorad-back-75" name="area_back" value="75" />
+                  <span class="fc-calc__scorad-area-opt-label">75</span>
+                </label>
+                <label class="fc-calc__scorad-area-opt" for="fc-calc-pasi-scorad-back-100">
+                  <input type="radio" id="fc-calc-pasi-scorad-back-100" name="area_back" value="100" />
+                  <span class="fc-calc__scorad-area-opt-label">100</span>
+                </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Интенсивность (0–3)</h3>
+              <div class="fc-calc__scorad-intensity">
+              <fieldset class="fc-calc__scorad-group">
+                <legend class="fc-calc__scorad-legend">Эритема</legend>
+                <div class="fc-calc__scorad-options" role="radiogroup" aria-label="Эритема">
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-erythema-0">
+                  <input type="radio" id="fc-calc-pasi-int-erythema-0" name="int_erythema" value="0" checked />
+                  <span class="fc-calc__scorad-label">0 — нет</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-erythema-1">
+                  <input type="radio" id="fc-calc-pasi-int-erythema-1" name="int_erythema" value="1" />
+                  <span class="fc-calc__scorad-label">1 — лёгкая</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-erythema-2">
+                  <input type="radio" id="fc-calc-pasi-int-erythema-2" name="int_erythema" value="2" />
+                  <span class="fc-calc__scorad-label">2 — средняя</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-erythema-3">
+                  <input type="radio" id="fc-calc-pasi-int-erythema-3" name="int_erythema" value="3" />
+                  <span class="fc-calc__scorad-label">3 — тяжёлая</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-group">
+                <legend class="fc-calc__scorad-legend">Отёк / папула</legend>
+                <div class="fc-calc__scorad-options" role="radiogroup" aria-label="Отёк / папула">
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-edema-0">
+                  <input type="radio" id="fc-calc-pasi-int-edema-0" name="int_edema" value="0" checked />
+                  <span class="fc-calc__scorad-label">0 — нет</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-edema-1">
+                  <input type="radio" id="fc-calc-pasi-int-edema-1" name="int_edema" value="1" />
+                  <span class="fc-calc__scorad-label">1 — лёгкая</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-edema-2">
+                  <input type="radio" id="fc-calc-pasi-int-edema-2" name="int_edema" value="2" />
+                  <span class="fc-calc__scorad-label">2 — средняя</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-edema-3">
+                  <input type="radio" id="fc-calc-pasi-int-edema-3" name="int_edema" value="3" />
+                  <span class="fc-calc__scorad-label">3 — тяжёлая</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-group">
+                <legend class="fc-calc__scorad-legend">Корки / мокнутие</legend>
+                <div class="fc-calc__scorad-options" role="radiogroup" aria-label="Корки / мокнутие">
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-oozing-0">
+                  <input type="radio" id="fc-calc-pasi-int-oozing-0" name="int_oozing" value="0" checked />
+                  <span class="fc-calc__scorad-label">0 — нет</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-oozing-1">
+                  <input type="radio" id="fc-calc-pasi-int-oozing-1" name="int_oozing" value="1" />
+                  <span class="fc-calc__scorad-label">1 — лёгкая</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-oozing-2">
+                  <input type="radio" id="fc-calc-pasi-int-oozing-2" name="int_oozing" value="2" />
+                  <span class="fc-calc__scorad-label">2 — средняя</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-oozing-3">
+                  <input type="radio" id="fc-calc-pasi-int-oozing-3" name="int_oozing" value="3" />
+                  <span class="fc-calc__scorad-label">3 — тяжёлая</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-group">
+                <legend class="fc-calc__scorad-legend">Экскориации</legend>
+                <div class="fc-calc__scorad-options" role="radiogroup" aria-label="Экскориации">
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-excoriation-0">
+                  <input type="radio" id="fc-calc-pasi-int-excoriation-0" name="int_excoriation" value="0" checked />
+                  <span class="fc-calc__scorad-label">0 — нет</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-excoriation-1">
+                  <input type="radio" id="fc-calc-pasi-int-excoriation-1" name="int_excoriation" value="1" />
+                  <span class="fc-calc__scorad-label">1 — лёгкая</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-excoriation-2">
+                  <input type="radio" id="fc-calc-pasi-int-excoriation-2" name="int_excoriation" value="2" />
+                  <span class="fc-calc__scorad-label">2 — средняя</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-excoriation-3">
+                  <input type="radio" id="fc-calc-pasi-int-excoriation-3" name="int_excoriation" value="3" />
+                  <span class="fc-calc__scorad-label">3 — тяжёлая</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-group">
+                <legend class="fc-calc__scorad-legend">Лихенификация</legend>
+                <div class="fc-calc__scorad-options" role="radiogroup" aria-label="Лихенификация">
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-lichenification-0">
+                  <input type="radio" id="fc-calc-pasi-int-lichenification-0" name="int_lichenification" value="0" checked />
+                  <span class="fc-calc__scorad-label">0 — нет</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-lichenification-1">
+                  <input type="radio" id="fc-calc-pasi-int-lichenification-1" name="int_lichenification" value="1" />
+                  <span class="fc-calc__scorad-label">1 — лёгкая</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-lichenification-2">
+                  <input type="radio" id="fc-calc-pasi-int-lichenification-2" name="int_lichenification" value="2" />
+                  <span class="fc-calc__scorad-label">2 — средняя</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-lichenification-3">
+                  <input type="radio" id="fc-calc-pasi-int-lichenification-3" name="int_lichenification" value="3" />
+                  <span class="fc-calc__scorad-label">3 — тяжёлая</span>
+                </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__scorad-group">
+                <legend class="fc-calc__scorad-legend">Сухость кожи</legend>
+                <div class="fc-calc__scorad-options" role="radiogroup" aria-label="Сухость кожи">
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-dryness-0">
+                  <input type="radio" id="fc-calc-pasi-int-dryness-0" name="int_dryness" value="0" checked />
+                  <span class="fc-calc__scorad-label">0 — нет</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-dryness-1">
+                  <input type="radio" id="fc-calc-pasi-int-dryness-1" name="int_dryness" value="1" />
+                  <span class="fc-calc__scorad-label">1 — лёгкая</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-dryness-2">
+                  <input type="radio" id="fc-calc-pasi-int-dryness-2" name="int_dryness" value="2" />
+                  <span class="fc-calc__scorad-label">2 — средняя</span>
+                </label>
+                <label class="fc-calc__scorad-row" for="fc-calc-pasi-int-dryness-3">
+                  <input type="radio" id="fc-calc-pasi-int-dryness-3" name="int_dryness" value="3" />
+                  <span class="fc-calc__scorad-label">3 — тяжёлая</span>
+                </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Субъективные симптомы (0–10)</h3>
+              <div class="fc-calc__scorad-subjective">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-pasi-pruritus">Зуд</label>
+                  <input type="number" id="fc-calc-pasi-pruritus" name="pruritus" min="0" max="10" step="1" value="0" inputmode="numeric" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-pasi-sleep">Нарушение сна</label>
+                  <input type="number" id="fc-calc-pasi-sleep" name="sleep" min="0" max="10" step="1" value="0" inputmode="numeric" />
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+          <div class="fc-calc__actions">
+            <button type="submit" class="fc-calc__btn" form="fc-calc-pasi-form-scorad">Рассчитать</button>
+          </div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-pasi-result-scorad" aria-live="polite">
+            <p class="fc-calc__result-label">SCORAD</p>
+            <p class="fc-calc__result-number" id="fc-calc-pasi-result-number-scorad">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-pasi-result-desc-scorad"></p>
+            
+            
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1437,79 +3097,63 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p><strong>PASI</strong> = сумма по областям: (эритема + индурация + десквамация) × площадь × коэффициент ППТ</p>
-        <p>Общий PASI — сумма по каждой области (голова и шея, верхние конечности, туловище, нижние конечности). PASI области = тяжесть поражения × балл площади × коэффициент ППТ. Тяжесть поражения = эритема + индурация / утолщение + десквамация / шелушение (каждый признак 0–4).</p>
-        <div class="fc-calc__pasi-tables">
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table fc-calc__pasi-ref-table">
-            <colgroup>
-              <col class="fc-calc__pasi-col-label" />
-              <col class="fc-calc__pasi-col-value" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Признак поражения</th>
-                <th>Баллы</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Нет</td><td>0</td></tr>
-              <tr><td>Слабая</td><td>1</td></tr>
-              <tr><td>Умеренная</td><td>2</td></tr>
-              <tr><td>Выраженная</td><td>3</td></tr>
-              <tr><td>Очень выраженная</td><td>4</td></tr>
-            </tbody>
-          </table>
+        <div class="fc-calc__notes-section">
+          <p><strong>PASI</strong> — индекс площади поражения и тяжести псориаза.</p>
+          <p><strong>PASI</strong> = сумма по областям: (эритема + индурация + десквамация) × площадь × коэффициент ППТ. Диапазон 0–72.</p>
+          <div class="fc-calc__pasi-tables">
+            <div class="fc-calc__table-wrap">
+              <table class="fc-calc__table fc-calc__pasi-ref-table">
+                <colgroup><col class="fc-calc__pasi-col-label" /><col class="fc-calc__pasi-col-value" /></colgroup>
+                <thead><tr><th>Область</th><th>Коэффициент ППТ</th></tr></thead>
+                <tbody>
+                  <tr><td>Голова и шея</td><td>0,1</td></tr>
+                  <tr><td>Верхние конечности</td><td>0,2</td></tr>
+                  <tr><td>Туловище</td><td>0,3</td></tr>
+                  <tr><td>Нижние конечности</td><td>0,4</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table fc-calc__pasi-ref-table">
-            <colgroup>
-              <col class="fc-calc__pasi-col-label" />
-              <col class="fc-calc__pasi-col-value" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Доля поражённой площади</th>
-                <th>Баллы</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>0%</td><td>0</td></tr>
-              <tr><td>1–9%</td><td>1</td></tr>
-              <tr><td>10–29%</td><td>2</td></tr>
-              <tr><td>30–49%</td><td>3</td></tr>
-              <tr><td>50–69%</td><td>4</td></tr>
-              <tr><td>70–89%</td><td>5</td></tr>
-              <tr><td>90–100%</td><td>6</td></tr>
-            </tbody>
-          </table>
+        <div class="fc-calc__notes-section">
+          <p><strong>PEST</strong> — скрининг риска псориатического артрита у пациентов с псориазом. 1 балл за каждый ответ «Да». При сумме ≥ 3 рекомендуется направление к ревматологу.</p>
         </div>
-        <p class="fc-calc__pasi-table-note">Оценка площади валидирована методом «ладони» (ладонь пациента без пальцев ≈ 1% ППТ).</p>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table fc-calc__pasi-ref-table">
-            <colgroup>
-              <col class="fc-calc__pasi-col-label" />
-              <col class="fc-calc__pasi-col-value" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Область</th>
-                <th>Коэффициент ППТ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Голова и шея</td><td>0,1</td></tr>
-              <tr><td>Верхние конечности</td><td>0,2</td></tr>
-              <tr><td>Туловище</td><td>0,3</td></tr>
-              <tr><td>Нижние конечности</td><td>0,4</td></tr>
-            </tbody>
-          </table>
+        <div class="fc-calc__notes-section">
+          <p><strong>EASI</strong> — индекс площади и тяжести атопического дерматита. Сумма по 4 областям: (эритема + инфильтрация + экскориация + лихенификация) × площадь × коэффициент ППТ.</p>
+          <div class="fc-calc__table-wrap">
+            <table class="fc-calc__table fc-calc__pasi-ref-table">
+              <colgroup><col class="fc-calc__pasi-col-label" /><col class="fc-calc__pasi-col-value" /></colgroup>
+              <thead><tr><th>EASI</th><th>Степень</th></tr></thead>
+              <tbody>
+                <tr><td>0,1–1,0</td><td>Лёгкая</td></tr>
+                <tr><td>1,1–7,0</td><td>Умеренная</td></tr>
+                <tr><td>7,1–21,0</td><td>Средняя</td></tr>
+                <tr><td>21,1–50,0</td><td>Тяжёлая</td></tr>
+                <tr><td>50,1–72,0</td><td>Очень тяжёлая</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <div class="fc-calc__notes-section">
+          <p><strong>SCORAD</strong> = A / 5 + 7 × I / 2 + S, где A — площадь поражения (%), I — сумма 6 признаков интенсивности (0–3), S — зуд + нарушение сна (0–10 каждый). Диапазон 0–103.</p>
+          <div class="fc-calc__table-wrap">
+            <table class="fc-calc__table fc-calc__pasi-ref-table">
+              <colgroup><col class="fc-calc__pasi-col-label" /><col class="fc-calc__pasi-col-value" /></colgroup>
+              <thead><tr><th>SCORAD</th><th>Течение</th></tr></thead>
+              <tbody>
+                <tr><td>&lt; 20</td><td>Лёгкое</td></tr>
+                <tr><td>20–40</td><td>Средней тяжести</td></tr>
+                <tr><td>&gt; 40</td><td>Тяжёлое</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <p><strong>Интерпретация:</strong> чем выше PASI, тем тяжелее псориаз. Диапазон 0 (нет заболевания) — 72 (максимальная тяжесть). При динамическом наблюдении PASI 75 означает снижение на 75% (хороший ответ на терапию); PASI 50–74 — частичный ответ; PASI &lt;50 — неудача лечения.</p>
         <p><strong>Ссылки:</strong></p>
-        <p class="fc-calc__source-item">Fredriksson T, Pettersson U. Severe psoriasis — oral therapy with a new retinoid. <em>Dermatologica.</em> 1978;157(4):238-44. <a href="https://pubmed.ncbi.nlm.nih.gov/357213/" target="_blank" rel="noopener noreferrer">PubMed 357213</a></p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+        <p class="fc-calc__source-item">Fredriksson T, Pettersson U. Severe psoriasis — oral therapy with a new retinoid. <em>Dermatologica.</em> 1978;157(4):238-44.</p>
+        <p class="fc-calc__source-item">Ibrahim GH, et al. Evaluation of an existing screening tool for psoriatic arthritis. <em>Clin Exp Rheumatol.</em> 2009;27(3):469-474.</p>
+        <p class="fc-calc__source-item">Hanifin JM, et al. The Eczema Area and Severity Index (EASI). <em>Exp Dermatol.</em> 2001.</p>
+        <p class="fc-calc__source-item">European Task Force on Atopic Dermatitis. Severity scoring of atopic dermatitis: the SCORAD index. <em>Dermatology.</em> 1993;186(1):23-31.</p>
+                <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
   </div>
@@ -1525,116 +3169,332 @@
   var root = document.querySelector('.fc-calc[data-calculator="pasi"]');
   if (!root) return;
 
-  var REGIONS = [
-    { id: 'head', label: 'Голова и шея', bsa: 0.1 },
-    { id: 'upper', label: 'Верхние конечности', bsa: 0.2 },
-    { id: 'trunk', label: 'Туловище', bsa: 0.3 },
-    { id: 'lower', label: 'Нижние конечности', bsa: 0.4 }
-  ];
-
-  var SIGNS = ['erythema', 'induration', 'desquamation'];
-
-  var form = root.querySelector('#fc-calc-pasi-form');
-  var calcBtn = root.querySelector('#fc-calc-pasi-btn');
-  var resultWrap = root.querySelector('#fc-calc-pasi-result');
-  var resultNumber = root.querySelector('#fc-calc-pasi-result-number');
-  var resultDesc = root.querySelector('#fc-calc-pasi-result-desc');
+  var tabs = root.querySelectorAll('.fc-calc__tab[data-mode]');
+  var panels = root.querySelectorAll('.fc-calc__tab-panel[data-mode]');
 
   function formatNum(n) {
     return String(n).replace('.', ',');
   }
 
-  function parseScore(value, min, max) {
+  function switchMode(mode) {
+    tabs.forEach(function (tab) {
+      var active = tab.getAttribute('data-mode') === mode;
+      tab.classList.toggle('fc-calc__tab--active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach(function (panel) {
+      var active = panel.getAttribute('data-mode') === mode;
+      panel.classList.toggle('fc-calc__tab-panel--active', active);
+      panel.hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      switchMode(tab.getAttribute('data-mode'));
+    });
+    tab.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      var list = Array.prototype.slice.call(tabs);
+      var index = list.indexOf(tab);
+      if (index < 0) return;
+      var next = e.key === 'ArrowRight' ? index + 1 : index - 1;
+      if (next < 0) next = list.length - 1;
+      if (next >= list.length) next = 0;
+      list[next].focus();
+      switchMode(list[next].getAttribute('data-mode'));
+    });
+  });
+
+  function hideResult(wrap) {
+    if (wrap) wrap.classList.add('fc-calc__result-wrap--hidden');
+  }
+
+  function showResult(wrap, numberEl, descEl, score, interpretation, extra) {
+    if (!wrap || !numberEl) return;
+    numberEl.textContent = formatNum(score);
+    if (descEl) {
+      descEl.textContent = interpretation + (extra ? '. ' + extra : '');
+    }
+    wrap.classList.remove('fc-calc__result-wrap--hidden');
+  }
+
+  function parseIntField(value, min, max) {
     if (value === null || value === undefined || value === '') return null;
     var n = Number(value);
-    if (!Number.isFinite(n) || n < min || n > max || Math.floor(n) !== n) return null;
+    if (!isFinite(n) || n < min || n > max || Math.floor(n) !== n) return null;
     return n;
   }
 
-  function roundPasi(value) {
+  function roundScore(value) {
     return Math.round(value * 10) / 10;
   }
 
-  function regionPasi(erythema, induration, desquamation, areaPoints, bsa) {
-    return (erythema + induration + desquamation) * areaPoints * bsa;
-  }
+  // ── PASI ──
+  var PASI_REGIONS = [
+    { id: 'head', bsa: 0.1, label: 'Голова и шея' },
+    { id: 'upper', bsa: 0.2, label: 'Верхние конечности' },
+    { id: 'trunk', bsa: 0.3, label: 'Туловище' },
+    { id: 'lower', bsa: 0.4, label: 'Нижние конечности' }
+  ];
 
-  function interpretPasi(total) {
-    if (total <= 0) return 'Нет признаков заболевания (PASI 0)';
-    if (total < 10) return 'Лёгкая степень тяжести';
-    if (total <= 20) return 'Средняя степень тяжести';
-    return 'Тяжёлая степень';
-  }
-
-  function getInput() {
-    var input = {};
-    REGIONS.forEach(function (region) {
-      SIGNS.forEach(function (sign) {
-        var name = region.id + '_' + sign;
-        var checked = form.querySelector('input[name="' + name + '"]:checked');
-        input[name] = checked ? checked.value : null;
-      });
-      var areaName = region.id + '_area';
-      var areaChecked = form.querySelector('input[name="' + areaName + '"]:checked');
-      input[areaName] = areaChecked ? areaChecked.value : null;
-    });
-    return input;
-  }
-
-  function calculate(input) {
+  function calcPasi(form) {
     var total = 0;
     var parts = [];
-
-    for (var i = 0; i < REGIONS.length; i++) {
-      var region = REGIONS[i];
-      var erythema = parseScore(input[region.id + '_erythema'], 0, 4);
-      var induration = parseScore(input[region.id + '_induration'], 0, 4);
-      var desquamation = parseScore(input[region.id + '_desquamation'], 0, 4);
-      var area = parseScore(input[region.id + '_area'], 0, 6);
-
-      if (
-        erythema === null ||
-        induration === null ||
-        desquamation === null ||
-        area === null
-      ) {
-        return null;
-      }
-
-      var score = regionPasi(erythema, induration, desquamation, area, region.bsa);
+    for (var i = 0; i < PASI_REGIONS.length; i++) {
+      var r = PASI_REGIONS[i];
+      var e = parseIntField(form.querySelector('[name="' + r.id + '_erythema"]:checked')?.value, 0, 4);
+      var ind = parseIntField(form.querySelector('[name="' + r.id + '_induration"]:checked')?.value, 0, 4);
+      var d = parseIntField(form.querySelector('[name="' + r.id + '_desquamation"]:checked')?.value, 0, 4);
+      var a = parseIntField(form.querySelector('[name="' + r.id + '_area"]:checked')?.value, 0, 6);
+      if (e === null || ind === null || d === null || a === null) return null;
+      var score = (e + ind + d) * a * r.bsa;
       total += score;
-      parts.push(region.label + ': ' + formatNum(roundPasi(score)));
+      parts.push(r.label + ': ' + formatNum(roundScore(score)));
     }
+    var pasi = roundScore(total);
+    var interp = pasi <= 0 ? 'Нет признаков заболевания (PASI 0)' :
+      pasi < 10 ? 'Лёгкая степень тяжести' :
+      pasi <= 20 ? 'Средняя степень тяжести' : 'Тяжёлая степень';
+    return { score: pasi, interpretation: interp, extra: parts.join('; ') };
+  }
 
-    var pasi = roundPasi(total);
+  // ── EASI ──
+  var EASI_SCALE = [
+    { category: 'mild', min: 0.1, max: 1.0, rangeLabel: '0,1–1,0', label: 'легкая' },
+    { category: 'moderate', min: 1.1, max: 7.0, rangeLabel: '1,1–7,0', label: 'умеренная' },
+    { category: 'medium', min: 7.1, max: 21.0, rangeLabel: '7,1–21,0', label: 'средняя' },
+    { category: 'severe', min: 21.1, max: 50.0, rangeLabel: '21,1–50,0', label: 'тяжелая' },
+    { category: 'very-severe', min: 50.1, max: 72.0, rangeLabel: '50,1–72,0', label: 'очень тяжелая' }
+  ];
+  var EASI_SIGNS = ['erythema', 'infiltration', 'excoriation', 'lichenification'];
+
+  function interpretEasi(total) {
+    if (total <= 0) {
+      return { category: 'none', label: 'нет признаков', rangeLabel: '0', text: 'Нет признаков заболевания (EASI 0)' };
+    }
+    for (var i = 0; i < EASI_SCALE.length; i++) {
+      var band = EASI_SCALE[i];
+      if (total >= band.min && total <= band.max) {
+        return {
+          category: band.category,
+          label: band.label,
+          rangeLabel: band.rangeLabel,
+          text: 'Степень: ' + band.label + ' (баллы ' + band.rangeLabel + ')'
+        };
+      }
+    }
+    var last = EASI_SCALE[EASI_SCALE.length - 1];
     return {
-      pasi: pasi,
-      interpretation: interpretPasi(pasi),
-      breakdown: parts.join('; ')
+      category: last.category,
+      label: last.label,
+      rangeLabel: last.rangeLabel,
+      text: 'Степень: ' + last.label + ' (баллы ' + last.rangeLabel + ')'
     };
   }
 
-  function showResult() {
-    var out = calculate(getInput());
-    if (!out) return;
-    resultNumber.textContent = formatNum(out.pasi);
-    resultDesc.textContent = out.interpretation + '. ' + out.breakdown + '.';
-    resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+  function calcEasi(form) {
+    var total = 0;
+    var parts = [];
+    for (var i = 0; i < PASI_REGIONS.length; i++) {
+      var r = PASI_REGIONS[i];
+      var a = parseIntField(form.querySelector('[name="' + r.id + '_area"]:checked')?.value, 0, 6);
+      var sev = 0;
+      for (var j = 0; j < EASI_SIGNS.length; j++) {
+        var v = parseIntField(
+          form.querySelector('[name="' + r.id + '_' + EASI_SIGNS[j] + '"]:checked')?.value,
+          0,
+          3
+        );
+        if (v === null) return null;
+        sev += v;
+      }
+      if (a === null) return null;
+      var score = sev * a * r.bsa;
+      total += score;
+      parts.push(r.label + ': ' + formatNum(roundScore(score)));
+    }
+    var easi = roundScore(total);
+    var band = interpretEasi(easi);
+    return {
+      score: easi,
+      interpretation: band.text,
+      category: band.category,
+      extra: parts.join('; ')
+    };
   }
 
-  function hideResult() {
-    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+  // ── PEST ──
+  function calcPest(form) {
+    var total = 0;
+    for (var i = 1; i <= 5; i++) {
+      var yes = form.querySelector('[name="q' + i + '"][value="yes"]');
+      if (yes && yes.checked) total += 1;
+    }
+    var jointLabels = [];
+    form.querySelectorAll('.fc-calc__pest-joint input:checked').forEach(function (cb) {
+      var row = cb.closest('.fc-calc__pest-joint');
+      if (row) {
+        var label = row.getAttribute('data-joint-label');
+        if (label) jointLabels.push(label);
+      }
+    });
+    var interpretation = total >= 3 ? 'Положительный скрининг' : 'Отрицательный скрининг';
+    var recommendation =
+      total >= 3
+        ? 'PEST ≥ 3 указывает на возможный недиагностированный псориатический артрит. Рекомендуется направление к ревматологу.'
+        : 'PEST ≤ 2 — по шкале направление к ревматологу не требуется. При появлении симптомов повторите оценку.';
+    var jointsText = jointLabels.length
+      ? 'Болезненные суставы: ' + jointLabels.sort(function (a, b) { return a.localeCompare(b, 'ru'); }).join('; ')
+      : 'Болезненные суставы: не отмечены';
+    return {
+      score: total,
+      interpretation: interpretation,
+      recommendation: recommendation,
+      jointsText: jointsText,
+    };
   }
 
-  form.addEventListener('change', hideResult);
+  // ── SCORAD ──
+  var SCORAD_AREAS = [
+    { id: 'head', w: 0.09 }, { id: 'genital', w: 0.01 },
+    { id: 'armL', w: 0.09 }, { id: 'armR', w: 0.09 },
+    { id: 'legL', w: 0.18 }, { id: 'legR', w: 0.18 },
+    { id: 'trunkFront', w: 0.18 }, { id: 'back', w: 0.18 }
+  ];
+  var SCORAD_AREA_STEPS = [0, 25, 50, 75, 100];
+  var SCORAD_INTS = ['erythema', 'edema', 'oozing', 'excoriation', 'lichenification', 'dryness'];
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    showResult();
+  function calcScorad(form) {
+    var area = 0;
+    for (var i = 0; i < SCORAD_AREAS.length; i++) {
+      var pct = parseIntField(
+        form.querySelector('[name="area_' + SCORAD_AREAS[i].id + '"]:checked')?.value,
+        0,
+        100
+      );
+      if (pct === null || SCORAD_AREA_STEPS.indexOf(pct) === -1) return null;
+      area += pct * SCORAD_AREAS[i].w;
+    }
+    var intensity = 0;
+    for (var j = 0; j < SCORAD_INTS.length; j++) {
+      var v = parseIntField(
+        form.querySelector('[name="int_' + SCORAD_INTS[j] + '"]:checked')?.value,
+        0,
+        3
+      );
+      if (v === null) return null;
+      intensity += v;
+    }
+    var pruritus = Number(form.querySelector('[name="pruritus"]')?.value);
+    var sleep = Number(form.querySelector('[name="sleep"]')?.value);
+    if (!isFinite(pruritus) || pruritus < 0 || pruritus > 10) return null;
+    if (!isFinite(sleep) || sleep < 0 || sleep > 10) return null;
+    var scorad = roundScore(area / 5 + (7 * intensity) / 2 + pruritus + sleep);
+    var interp = scorad < 20 ? 'Лёгкое течение атопического дерматита' :
+      scorad <= 40 ? 'Средней тяжести течение атопического дерматита' :
+      'Тяжёлое течение атопического дерматита';
+    return {
+      score: scorad,
+      interpretation: interp
+    };
+  }
+
+  function bindForm(config) {
+    var form = root.querySelector(config.formId);
+    var resultWrap = root.querySelector(config.resultId);
+    var resultNumber = root.querySelector(config.numberId);
+    var resultDesc = root.querySelector(config.descId);
+    if (!form) return;
+
+    function hideFormResult() {
+      hideResult(resultWrap);
+      if (config.onHide) config.onHide();
+    }
+
+    form.addEventListener('change', hideFormResult);
+
+    form.addEventListener('input', hideFormResult);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var out = config.calc(form);
+      if (!out) return;
+      showResult(resultWrap, resultNumber, resultDesc, out.score, out.interpretation, out.extra);
+      if (config.onShow) config.onShow(out, resultWrap);
+    });
+  }
+
+  bindForm({
+    formId: '#fc-calc-pasi-form-pasi',
+    resultId: '#fc-calc-pasi-result-pasi',
+    numberId: '#fc-calc-pasi-result-number-pasi',
+    descId: '#fc-calc-pasi-result-desc-pasi',
+    calc: calcPasi
   });
 
-  calcBtn.disabled = false;
-  calcBtn.classList.remove('fc-calc__btn--inactive');
+  (function bindPestForm() {
+    var form = root.querySelector('#fc-calc-pasi-form-pest');
+    var resultWrap = root.querySelector('#fc-calc-pasi-result-pest');
+    var resultNumber = root.querySelector('#fc-calc-pasi-result-number-pest');
+    var resultDesc = root.querySelector('#fc-calc-pasi-result-desc-pest');
+    var resultJoints = root.querySelector('#fc-calc-pasi-result-joints-pest');
+    if (!form) return;
+
+    function hidePestResult() {
+      hideResult(resultWrap);
+      if (resultJoints) resultJoints.textContent = '';
+    }
+
+    form.addEventListener('change', hidePestResult);
+    form.addEventListener('input', hidePestResult);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var out = calcPest(form);
+      resultNumber.textContent = formatNum(out.score);
+      resultDesc.textContent = out.interpretation + '. ' + out.recommendation + '.';
+      if (resultJoints) resultJoints.textContent = out.jointsText;
+      resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+    });
+  })();
+
+  bindForm({
+    formId: '#fc-calc-pasi-form-easi',
+    resultId: '#fc-calc-pasi-result-easi',
+    numberId: '#fc-calc-pasi-result-number-easi',
+    descId: '#fc-calc-pasi-result-desc-easi',
+    calc: calcEasi,
+    onShow: function (out, resultWrap) {
+      var scale = root.querySelector('#fc-calc-pasi-result-scale-easi');
+      if (!scale) return;
+      scale.querySelectorAll('.fc-calc__easi-scale-cell').forEach(function (cell) {
+        cell.classList.remove('fc-calc__easi-scale-cell--active');
+      });
+      if (out.category && out.category !== 'none') {
+        scale.hidden = false;
+        scale.querySelectorAll('[data-easi-category="' + out.category + '"]').forEach(function (cell) {
+          cell.classList.add('fc-calc__easi-scale-cell--active');
+        });
+      } else {
+        scale.hidden = true;
+      }
+    },
+    onHide: function () {
+      var scale = root.querySelector('#fc-calc-pasi-result-scale-easi');
+      if (scale) scale.hidden = true;
+    }
+  });
+
+  bindForm({
+    formId: '#fc-calc-pasi-form-scorad',
+    resultId: '#fc-calc-pasi-result-scorad',
+    numberId: '#fc-calc-pasi-result-number-scorad',
+    descId: '#fc-calc-pasi-result-desc-scorad',
+    calc: calcScorad
+  });
 })();
   </script>
 </div>
