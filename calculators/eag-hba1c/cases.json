@@ -1,0 +1,69 @@
+{
+  "slug": "eag-hba1c",
+  "source": "MDCalc Estimated Average Glucose (eAG) From HbA1C",
+  "cases": [
+    {
+      "name": "6 percent",
+      "input": { "hba1c": 6 },
+      "expected": {
+        "value": 125.5,
+        "eagMgDl": 125.5,
+        "eagMmolL": 7
+      }
+    },
+    {
+      "name": "6.5 percent",
+      "input": { "hba1c": 6.5 },
+      "expected": {
+        "value": 139.8,
+        "eagMgDl": 139.8,
+        "eagMmolL": 7.8
+      }
+    },
+    {
+      "name": "7 percent",
+      "input": { "hba1c": 7 },
+      "expected": {
+        "value": 154.2,
+        "eagMgDl": 154.2,
+        "eagMmolL": 8.6
+      }
+    },
+    {
+      "name": "7.5 percent",
+      "input": { "hba1c": 7.5 },
+      "expected": {
+        "value": 168.6,
+        "eagMgDl": 168.6,
+        "eagMmolL": 9.4
+      }
+    },
+    {
+      "name": "8 percent",
+      "input": { "hba1c": 8 },
+      "expected": {
+        "value": 182.9,
+        "eagMgDl": 182.9,
+        "eagMmolL": 10.2
+      }
+    },
+    {
+      "name": "9 percent",
+      "input": { "hba1c": 9 },
+      "expected": {
+        "value": 211.6,
+        "eagMgDl": 211.6,
+        "eagMmolL": 11.8
+      }
+    },
+    {
+      "name": "10 percent",
+      "input": { "hba1c": 10 },
+      "expected": {
+        "value": 240.3,
+        "eagMgDl": 240.3,
+        "eagMmolL": 13.4
+      }
+    }
+  ]
+}
