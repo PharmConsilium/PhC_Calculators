@@ -1,0 +1,7 @@
+{
+  "slug": "sofa",
+  "title": "Динамическая оценка органной недостаточности SOFA / qSOFA",
+  "sitePath": "/calculator/sofa",
+  "source": "Vincent JL et al.; Singer M et al. Sepsis-3; MSD Manuals",
+  "complexity": "B"
+}

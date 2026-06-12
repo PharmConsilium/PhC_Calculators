@@ -1,28 +1,26 @@
 {
   "slug": "anion-gap",
-  "source": "MSD Manuals — анионная разница",
+  "source": "MDCalc Serum Anion Gap",
   "cases": [
     {
-      "name": "typical elevated AG",
+      "name": "basic elevated ag",
       "input": {
+        "mode": "basic",
         "na": 140,
         "cl": 100,
         "hco3": 24,
-        "naUnit": "mEq/L",
-        "clUnit": "mEq/L",
-        "hco3Unit": "mEq/L",
         "decimals": 1
       },
       "expected": {
         "ag": 16,
-        "deltaAg": 4,
-        "deltaHco3": 0,
-        "deltaDelta": 4
+        "deltaGap": 4,
+        "deltaRatio": null
       }
     },
     {
-      "name": "pure high anion gap acidosis",
+      "name": "basic delta ratio one",
       "input": {
+        "mode": "basic",
         "na": 140,
         "cl": 104,
         "hco3": 12,
@@ -30,23 +28,46 @@
       },
       "expected": {
         "ag": 24,
-        "deltaAg": 12,
-        "deltaHco3": 12,
-        "deltaDelta": 0,
-        "interpretation": "Соответствует изолированному ацидозу с повышением АР"
+        "deltaGap": 12,
+        "deltaRatio": 1
       }
     },
     {
-      "name": "low anion gap",
+      "name": "albumin corrected",
       "input": {
+        "mode": "albumin",
         "na": 140,
-        "cl": 110,
+        "cl": 100,
+        "hco3": 20,
+        "albumin": 20,
+        "albuminUnit": "gL",
+        "decimals": 1
+      },
+      "expected": {
+        "ag": 20,
+        "correctedAg": 25,
+        "deltaGap": 8,
+        "correctedDeltaGap": 13,
+        "deltaRatio": 2,
+        "correctedDeltaRatio": 3.3
+      }
+    },
+    {
+      "name": "albumin normal no correction",
+      "input": {
+        "mode": "albumin",
+        "na": 140,
+        "cl": 106,
         "hco3": 24,
+        "albumin": 40,
+        "albuminUnit": "gL",
         "decimals": 0
       },
       "expected": {
-        "ag": 6,
-        "deltaAg": -6
+        "ag": 10,
+        "correctedAg": 10,
+        "deltaGap": -2,
+        "correctedDeltaGap": -2
       }
     }
   ]

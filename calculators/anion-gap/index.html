@@ -1,6 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Анионная разница (дельта-дельта градиент)
+  Название: Калькулятор анионного разрыва
+  Сборка: 2026-06-12
 -->
 <div class="fc-calc" data-calculator="anion-gap">
   <style>
@@ -716,6 +717,19 @@
   }
 }
 /* anion-gap */
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-hint {
+  max-width: 36rem;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__tab-panel[hidden] {
+  display: none !important;
+}
+
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid {
   display: grid;
   gap: 14px;
@@ -725,31 +739,76 @@
   margin-bottom: 0;
 }
 
-.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid .fc-calc__field-row select {
-  min-width: 7.5rem;
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
 }
 
-.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details {
-  margin-top: 12px;
-  padding: 12px 14px;
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-input-row input[type="number"] {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-unit--fixed {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 10px;
   border: 1px solid var(--fc-border);
   border-radius: var(--fc-radius);
-  background: var(--fc-bg-page);
-  text-align: left;
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--fc-bg-input);
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  white-space: nowrap;
 }
 
-.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details p {
-  margin: 0 0 6px;
+.fc-calc[data-calculator="anion-gap"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+  text-align: center;
 }
 
-.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details p:last-child {
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-result {
+  text-align: center;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-result-value {
+  margin: 0 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-result-title {
+  margin: 0 0 14px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-result-line {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-result-line strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-result-line:last-child {
   margin-bottom: 0;
-}
-
-.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-details--hidden {
-  display: none;
 }
 
 .fc-calc[data-calculator="anion-gap"] .fc-calc__formula {
@@ -757,76 +816,183 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__table th {
+  background: var(--fc-bg-page);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__table td,
+.fc-calc[data-calculator="anion-gap"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-source-heading {
+  margin: 16px 0 6px;
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-source-type {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--fc-muted-text);
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__source-item {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: 8px;
+}
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Анионная разница</h2>
-        <p class="fc-calc__hint">Расчёт анионной разницы и дельта-дельта градиента по натрию, хлору и бикарбонату</p>
+        <h2 class="fc-calc__title">Калькулятор анионного разрыва</h2>
+        <p class="fc-calc__hint fc-calc__ag-hint">Анионный разрыв — расчётный показатель, который отражает разницу между концентрациями основных измеряемых катионов (положительно заряженных ионов) и анионов (отрицательно заряженных ионов) в сыворотке крови.</p>
       </header>
 
       <div class="fc-calc__body">
-        <form class="fc-calc__form" id="fc-calc-anion-gap-form" novalidate>
-          <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
-              <div class="fc-calc__ag-ion-grid">
-              <div class="fc-calc__field">
-                <label for="fc-calc-anion-gap-na">Натрий (Na)</label>
-                <div class="fc-calc__field-row">
-                  <input type="number" id="fc-calc-anion-gap-na" name="na" inputmode="decimal" step="any" required />
-                  <select id="fc-calc-anion-gap-na-unit" name="naUnit" aria-label="Единица Na">
-                    <option value="mEq/L" selected>mEq/L</option>
-                    <option value="mmol/L">mmol/L</option>
-                  </select>
+      <div class="fc-calc__tabs" role="tablist" aria-label="Анионный разрыв">
+        <button
+          type="button"
+          class="fc-calc__tab fc-calc__tab--active"
+          role="tab"
+          id="fc-calc-anion-gap-tab-basic"
+          data-mode="basic"
+          aria-selected="true"
+          aria-controls="fc-calc-anion-gap-panel-basic"
+          tabindex="0"
+        >Без альбумина</button>
+        <button
+          type="button"
+          class="fc-calc__tab"
+          role="tab"
+          id="fc-calc-anion-gap-tab-albumin"
+          data-mode="albumin"
+          aria-selected="false"
+          aria-controls="fc-calc-anion-gap-panel-albumin"
+          tabindex="-1"
+        >С альбумином</button>
+      </div>
+        <div
+          class="fc-calc__tab-panel fc-calc__tab-panel--active"
+          data-mode="basic"
+          role="tabpanel"
+          id="fc-calc-anion-gap-panel-basic"
+          aria-labelledby="fc-calc-anion-gap-tab-basic"
+          
+        >
+          <form class="fc-calc__form" id="fc-calc-anion-gap-form-basic" novalidate>
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Ввод данных</h3>
+                <div class="fc-calc__ag-ion-grid">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-basic-na">Натрий (Na), ммоль/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-basic-na" name="na" inputmode="decimal" step="any" required />
+                    <span class="fc-calc__ag-unit--fixed">ммоль/л</span>
+                  </div>
                 </div>
-              </div>
-              <div class="fc-calc__field">
-                <label for="fc-calc-anion-gap-cl">Хлор (Cl)</label>
-                <div class="fc-calc__field-row">
-                  <input type="number" id="fc-calc-anion-gap-cl" name="cl" inputmode="decimal" step="any" required />
-                  <select id="fc-calc-anion-gap-cl-unit" name="clUnit" aria-label="Единица Cl">
-                    <option value="mEq/L" selected>mEq/L</option>
-                    <option value="mmol/L">mmol/L</option>
-                  </select>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-basic-cl">Хлор (Cl), ммоль/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-basic-cl" name="cl" inputmode="decimal" step="any" required />
+                    <span class="fc-calc__ag-unit--fixed">ммоль/л</span>
+                  </div>
                 </div>
-              </div>
-              <div class="fc-calc__field">
-                <label for="fc-calc-anion-gap-hco3">Бикарбонат (HCO₃)</label>
-                <div class="fc-calc__field-row">
-                  <input type="number" id="fc-calc-anion-gap-hco3" name="hco3" inputmode="decimal" step="any" required />
-                  <select id="fc-calc-anion-gap-hco3-unit" name="hco3Unit" aria-label="Единица HCO₃">
-                    <option value="mEq/L" selected>mEq/L</option>
-                    <option value="mmol/L">mmol/L</option>
-                  </select>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-basic-hco3">Бикарбонат (HCO₃), ммоль/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-basic-hco3" name="hco3" inputmode="decimal" step="any" required />
+                    <span class="fc-calc__ag-unit--fixed">ммоль/л</span>
+                  </div>
                 </div>
-              </div>
-              </div>
-              <div class="fc-calc__field" style="margin-top: 14px">
-                <label for="fc-calc-anion-gap-decimals">Десятичная точность</label>
-                <select id="fc-calc-anion-gap-decimals" name="decimals">
-                  <option value="0">0</option>
-                  <option value="1" selected>1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
+
+                </div>
               </div>
             </div>
+            <span class="fc-calc__error" id="fc-calc-anion-gap-form-error-basic" role="alert"></span>
+          </form>
+          <div class="fc-calc__actions">
+            <button type="submit" id="fc-calc-anion-gap-btn-basic" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-anion-gap-form-basic" disabled>Рассчитать</button>
           </div>
-          <span class="fc-calc__error" id="fc-calc-anion-gap-form-error" role="alert"></span>
-        </form>
-      </div>
-
-      <div class="fc-calc__actions">
-        <button type="submit" id="fc-calc-anion-gap-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-anion-gap-form" disabled>Рассчитать</button>
-      </div>
-
-      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-anion-gap-result" aria-live="polite">
-        <p class="fc-calc__result-label">АР</p>
-        <p class="fc-calc__result-number" id="fc-calc-anion-gap-result-number">—</p>
-        <p class="fc-calc__result-desc" id="fc-calc-anion-gap-result-desc"></p>
-        <div class="fc-calc__ag-details fc-calc__ag-details--hidden" id="fc-calc-anion-gap-details"></div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-anion-gap-result-basic" aria-live="polite">
+            <div id="fc-calc-anion-gap-result-body-basic"></div>
+          </div>
+        </div>
+        <div
+          class="fc-calc__tab-panel"
+          data-mode="albumin"
+          role="tabpanel"
+          id="fc-calc-anion-gap-panel-albumin"
+          aria-labelledby="fc-calc-anion-gap-tab-albumin"
+          hidden
+        >
+          <form class="fc-calc__form" id="fc-calc-anion-gap-form-albumin" novalidate>
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Ввод данных</h3>
+                <div class="fc-calc__ag-ion-grid">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-albumin-na">Натрий (Na), ммоль/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-albumin-na" name="na" inputmode="decimal" step="any" required />
+                    <span class="fc-calc__ag-unit--fixed">ммоль/л</span>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-albumin-cl">Хлор (Cl), ммоль/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-albumin-cl" name="cl" inputmode="decimal" step="any" required />
+                    <span class="fc-calc__ag-unit--fixed">ммоль/л</span>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-albumin-hco3">Бикарбонат (HCO₃), ммоль/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-albumin-hco3" name="hco3" inputmode="decimal" step="any" required />
+                    <span class="fc-calc__ag-unit--fixed">ммоль/л</span>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-anion-gap-albumin-albumin">Альбумин, г/л</label>
+                  <div class="fc-calc__field-row fc-calc__ag-input-row">
+                    <input type="number" id="fc-calc-anion-gap-albumin-albumin" name="albumin" inputmode="decimal" step="any" required />
+                    <select name="albuminUnit" aria-label="Единицы альбумина">
+                      <option value="gL" selected>г/л</option>
+                      <option value="gdl">г/дл</option>
+                    </select>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <span class="fc-calc__error" id="fc-calc-anion-gap-form-error-albumin" role="alert"></span>
+          </form>
+          <div class="fc-calc__actions">
+            <button type="submit" id="fc-calc-anion-gap-btn-albumin" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-anion-gap-form-albumin" disabled>Рассчитать</button>
+          </div>
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-anion-gap-result-albumin" aria-live="polite">
+            <div id="fc-calc-anion-gap-result-body-albumin"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -836,39 +1002,58 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p><strong>Формулы:</strong></p>
+        <p><strong>АР</strong> = [Na⁺] − ([Cl⁻] + [HCO₃⁻])</p>
+        <p><strong>Без альбумина:</strong></p>
         <ul>
-          <li>АР = Na − (Cl + HCO₃)</li>
-          <li>ΔАР = АР − 12 mEq/L</li>
-          <li>ΔHCO₃ = 24 − HCO₃ mEq/L</li>
-          <li>ΔΔ (дельта-дельта) = ΔАР − ΔHCO₃</li>
+          <li>Δ gap = АР пациента − нормальный АР (10–12 ммоль/л; в расчёте 12)</li>
+          <li>Δ ratio = Δ gap / (24 − HCO₃)</li>
         </ul>
+        <p><strong>С коррекцией на альбумин:</strong></p>
+        <ul>
+          <li>АР с коррекцией = АР + 0,25 × (40 − альбумин, г/л)</li>
+          <li>Δ gap (с коррекцией) = АР с коррекцией − 12</li>
+          <li>Δ ratio (с коррекцией) = Δ gap (с коррекцией) / (24 − HCO₃)</li>
+        </ul>
+        <p>При гипоальбуминемии или гиперальбуминемии коррекция на альбумин может быть точнее. Если альбумин в норме, коррекция не требуется.</p>
+        <p><strong>Дельта-соотношение (Δ ratio):</strong></p>
         <div class="fc-calc__table-wrap">
           <table class="fc-calc__table">
             <thead>
               <tr>
-                <th>ΔΔ</th>
-                <th>Интерпретация</th>
+                <th>Δ ratio</th>
+                <th>Предлагает</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>≈ 0 (от −6 до +6)</td>
-                <td>Изолированный ацидоз с повышением АР</td>
+                <td>&lt; 0,4</td>
+                <td>Чистый ацидоз с нормальным анионным разрывом</td>
               </tr>
               <tr>
-                <td>&gt; +6</td>
-                <td>Сопутствующая метаболическая алкалозная компонента</td>
+                <td>0,4–0,8</td>
+                <td>Смешанный ацидоз с высоким и нормальным анионным разрывом</td>
               </tr>
               <tr>
-                <td>&lt; −6</td>
-                <td>Сопутствующая метаболическая ацидозная компонента без увеличения АР</td>
+                <td>0,8–2,0</td>
+                <td>Чистый ацидоз с увеличенным анионным разрывом</td>
+              </tr>
+              <tr>
+                <td>&gt; 2</td>
+                <td>Ацидоз с высоким анионным разрывом и предшествующим метаболическим алкалозом</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p>Нормальная анионная разница принимается 12 mEq/L, нормальный бикарбонат — 24 mEq/L.</p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+        <p><strong>Источники</strong></p>
+        <p class="fc-calc__ag-source-heading">Оригинал / первичная ссылка</p>
+        <p class="fc-calc__ag-source-type">Научная работа</p>
+        <p class="fc-calc__source-item">О, MS, Кэрролл Х.Дж. Анионный разрыв. <em>N Engl J Med.</em> 1977;297(15):814–7. <a href="https://doi.org/10.1056/NEJM197710132971507" target="_blank" rel="noopener noreferrer">doi:10.1056/NEJM197710132971507</a>. <a href="https://pubmed.ncbi.nlm.nih.gov/895822/" target="_blank" rel="noopener noreferrer">PMID 895822</a></p>
+        <p class="fc-calc__ag-source-heading">Другие ссылки</p>
+        <p class="fc-calc__ag-source-type">Научная работа</p>
+        <p class="fc-calc__source-item">Кринер Г.Дж. Метаболические нарушения кислотно-щелочного баланса и электролитов. В: Руководство по изучению интенсивной терапии: текст и обзор. 2-е изд. Филадельфия, Пенсильвания: Springer; 2010:696.</p>
+        <p class="fc-calc__ag-source-type">Научная работа</p>
+        <p class="fc-calc__source-item">Беренд К., Де Врис А.П., Ганс Р.О. Физиологический подход к оценке нарушений кислотно-щелочного баланса. <em>N Engl J Med.</em> 2014;371(15):1434–45. <a href="https://pubmed.ncbi.nlm.nih.gov/25285602/" target="_blank" rel="noopener noreferrer">PMID 25285602</a></p>
+                <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
   </div>
@@ -881,143 +1066,216 @@
 
   <script>
 (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="anion-gap"]');
-      if (!root) return;
+  var root = document.querySelector('.fc-calc[data-calculator="anion-gap"]');
+  if (!root) return;
 
-      var NORMAL_AG = 12;
-      var NORMAL_HCO3 = 24;
+  var NORMAL_AG = 12;
+  var NORMAL_HCO3 = 24;
+  var NORMAL_ALBUMIN_G_DL = 4;
+  var CORRECTION = 2.5;
+  var DECIMALS = 1;
+  var UNIT = 'ммоль/л';
 
-      var form = root.querySelector('#fc-calc-anion-gap-form');
-      var calcBtn = root.querySelector('#fc-calc-anion-gap-btn');
-      var formError = root.querySelector('#fc-calc-anion-gap-form-error');
-      var resultWrap = root.querySelector('#fc-calc-anion-gap-result');
-      var resultNumber = root.querySelector('#fc-calc-anion-gap-result-number');
-      var resultDesc = root.querySelector('#fc-calc-anion-gap-result-desc');
-      var detailsEl = root.querySelector('#fc-calc-anion-gap-details');
+  var tabs = root.querySelectorAll('.fc-calc__tab[data-mode]');
+  var panels = root.querySelectorAll('.fc-calc__tab-panel[data-mode]');
 
-      var inputs = {
-        na: root.querySelector('#fc-calc-anion-gap-na'),
-        cl: root.querySelector('#fc-calc-anion-gap-cl'),
-        hco3: root.querySelector('#fc-calc-anion-gap-hco3')
-      };
-      var units = {
-        na: root.querySelector('#fc-calc-anion-gap-na-unit'),
-        cl: root.querySelector('#fc-calc-anion-gap-cl-unit'),
-        hco3: root.querySelector('#fc-calc-anion-gap-hco3-unit')
-      };
-      var decimalsSelect = root.querySelector('#fc-calc-anion-gap-decimals');
+  function switchMode(mode) {
+    tabs.forEach(function (tab) {
+      var active = tab.getAttribute('data-mode') === mode;
+      tab.classList.toggle('fc-calc__tab--active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach(function (panel) {
+      var active = panel.getAttribute('data-mode') === mode;
+      panel.classList.toggle('fc-calc__tab-panel--active', active);
+      panel.hidden = !active;
+    });
+  }
 
-      function roundHalfUp(value, decimals) {
-        var factor = Math.pow(10, decimals);
-        return Math.round(value * factor + Number.EPSILON) / factor;
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      switchMode(tab.getAttribute('data-mode'));
+    });
+  });
+
+  function roundHalfUp(value, decimals) {
+    var factor = Math.pow(10, decimals);
+    return Math.round(value * factor + Number.EPSILON) / factor;
+  }
+
+  function parseNumber(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function formatNum(n, decimals) {
+    return String(roundHalfUp(n, decimals)).replace('.', ',');
+  }
+
+  function formatWithUnitSpace(n, decimals) {
+    return formatNum(n, decimals) + ' ' + UNIT;
+  }
+
+  function capitalizeFirst(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  function interpretDeltaRatio(ratio) {
+    if (ratio == null || !Number.isFinite(ratio)) return null;
+    if (ratio < 0.4) return 'чистый ацидоз с нормальным анионным разрывом';
+    if (ratio < 0.8) return 'смешанный ацидоз с высоким и нормальным анионным разрывом';
+    if (ratio <= 2) return 'чистый ацидоз с увеличенным анионным разрывом';
+    return 'ацидоз с высоким анионным разрывом при наличии предшествующего метаболического алкалоза';
+  }
+
+  function hideResult(mode) {
+    var wrap = root.querySelector('#fc-calc-anion-gap-result-' + mode);
+    if (wrap) wrap.classList.add('fc-calc__result-wrap--hidden');
+  }
+
+  function readIons(form) {
+    var na = parseNumber(form.querySelector('[name="na"]').value);
+    var cl = parseNumber(form.querySelector('[name="cl"]').value);
+    var hco3 = parseNumber(form.querySelector('[name="hco3"]').value);
+    if (na == null || cl == null || hco3 == null) return null;
+    return { na: na, cl: cl, hco3: hco3 };
+  }
+
+  function deltaGap(ag) {
+    return ag - NORMAL_AG;
+  }
+
+  function deltaRatio(dGap, hco3) {
+    var denom = NORMAL_HCO3 - hco3;
+    if (denom === 0) return null;
+    return dGap / denom;
+  }
+
+  function albuminGdl(value, unit) {
+    return unit === 'gL' ? value / 10 : value;
+  }
+
+  function renderBasicResult(ag, dGap, dRatio, decimals) {
+    var html = '<div class="fc-calc__ag-result">';
+    html += '<p class="fc-calc__ag-result-value">' + formatWithUnitSpace(ag, decimals) + '</p>';
+    html += '<p class="fc-calc__ag-result-title">Анионный разрыв</p>';
+    html +=
+      '<p class="fc-calc__ag-result-line"><strong>Дельта-разрыв:</strong> ' +
+      formatWithUnitSpace(dGap, decimals) +
+      '</p>';
+    if (dRatio == null) {
+      html +=
+        '<p class="fc-calc__ag-result-line"><strong>Дельта-соотношение:</strong> не рассчитывается (24 − бикарбонат = 0)</p>';
+    } else {
+      html +=
+        '<p class="fc-calc__ag-result-line"><strong>Дельта-соотношение:</strong> ' +
+        formatNum(dRatio, decimals) +
+        '; ' +
+        capitalizeFirst(interpretDeltaRatio(dRatio)) +
+        '</p>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function albuminCorrection(albuminGdl) {
+    return CORRECTION * (NORMAL_ALBUMIN_G_DL - albuminGdl);
+  }
+
+  function renderAlbuminResult(ag, albuminGdl, hco3, decimals) {
+    var correction = albuminCorrection(albuminGdl);
+    var correctedAgValue = ag + correction;
+    var correctedDeltaGap = deltaGap(ag) + correction;
+    var correctedDeltaRatio = deltaRatio(correctedDeltaGap, hco3);
+    var html = '<div class="fc-calc__ag-result">';
+    html +=
+      '<p class="fc-calc__ag-result-value">' + formatWithUnitSpace(correctedAgValue, decimals) + '</p>';
+    html += '<p class="fc-calc__ag-result-title">Скорректированный анионный разрыв</p>';
+    html +=
+      '<p class="fc-calc__ag-result-line"><strong>Дельта-разрыв, скорректированный по альбумину:</strong> ' +
+      formatWithUnitSpace(correctedDeltaGap, decimals) +
+      '</p>';
+    if (correctedDeltaRatio == null) {
+      html +=
+        '<p class="fc-calc__ag-result-line"><strong>Дельта-соотношение, скорректированное по альбумину:</strong> не рассчитывается (24 − бикарбонат = 0)</p>';
+    } else {
+      html +=
+        '<p class="fc-calc__ag-result-line"><strong>Дельта-соотношение, скорректированное по альбумину:</strong> ' +
+        formatNum(correctedDeltaRatio, decimals) +
+        '</p>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function bindForm(mode) {
+    var form = root.querySelector('#fc-calc-anion-gap-form-' + mode);
+    var btn = root.querySelector('#fc-calc-anion-gap-btn-' + mode);
+    var formError = root.querySelector('#fc-calc-anion-gap-form-error-' + mode);
+    var resultWrap = root.querySelector('#fc-calc-anion-gap-result-' + mode);
+    var resultBody = root.querySelector('#fc-calc-anion-gap-result-body-' + mode);
+    if (!form || !btn) return;
+
+    function isReady() {
+      var ions = readIons(form);
+      if (!ions) return false;
+      if (mode === 'albumin') {
+        return parseNumber(form.querySelector('[name="albumin"]').value) != null;
       }
+      return true;
+    }
 
-      function parseIon(value) {
-        var s = String(value || '').trim().replace(',', '.');
-        if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
-        var n = Number(s);
-        return Number.isFinite(n) ? n : null;
-      }
+    function updateButton() {
+      var ok = isReady();
+      btn.disabled = !ok;
+      btn.classList.toggle('fc-calc__btn--inactive', !ok);
+    }
 
-      function formatNum(n, decimals) {
-        return String(roundHalfUp(n, decimals)).replace('.', ',');
-      }
-
-      function interpretDeltaDelta(deltaDelta) {
-        if (deltaDelta > 6) return 'Вероятна сопутствующая метаболическая алкалозная компонента';
-        if (deltaDelta < -6) return 'Вероятна сопутствующая метаболическая ацидозная компонента без увеличения АР';
-        return 'Соответствует изолированному ацидозу с повышением АР';
-      }
-
-      function hideResult() {
-        resultWrap.classList.add('fc-calc__result-wrap--hidden');
-        detailsEl.classList.add('fc-calc__ag-details--hidden');
-        formError.textContent = '';
-      }
-
-      function isReady() {
-        return (
-          parseIon(inputs.na.value) != null &&
-          parseIon(inputs.cl.value) != null &&
-          parseIon(inputs.hco3.value) != null
-        );
-      }
-
-      function updateButton() {
-        var ok = isReady();
-        calcBtn.disabled = !ok;
-        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
-      }
-
-      function calculate() {
-        var na = parseIon(inputs.na.value);
-        var cl = parseIon(inputs.cl.value);
-        var hco3 = parseIon(inputs.hco3.value);
-        var decimals = Number(decimalsSelect.value);
-        if (!Number.isFinite(decimals) || decimals < 0 || decimals > 3) decimals = 1;
-
-        if (na == null || cl == null || hco3 == null) {
-          formError.textContent = 'Укажите Na, Cl и HCO₃';
-          return null;
-        }
-
-        var ag = na - (cl + hco3);
-        var deltaAg = ag - NORMAL_AG;
-        var deltaHco3 = NORMAL_HCO3 - hco3;
-        var deltaDelta = deltaAg - deltaHco3;
-        var deltaRatio = deltaHco3 !== 0 ? deltaAg / deltaHco3 : null;
-
-        return {
-          ag: roundHalfUp(ag, decimals),
-          deltaAg: roundHalfUp(deltaAg, decimals),
-          deltaHco3: roundHalfUp(deltaHco3, decimals),
-          deltaDelta: roundHalfUp(deltaDelta, decimals),
-          deltaRatio: deltaRatio == null ? null : roundHalfUp(deltaRatio, decimals),
-          decimals: decimals,
-          interpretation: interpretDeltaDelta(deltaDelta)
-        };
-      }
-
-      form.addEventListener('change', function () {
-        hideResult();
-        updateButton();
-      });
-
-      form.addEventListener('input', function () {
-        hideResult();
-        updateButton();
-      });
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var out = calculate();
-        if (!out) return;
-
-        resultNumber.textContent = formatNum(out.ag, out.decimals) + ' mEq/L';
-        resultDesc.textContent = out.interpretation;
-        detailsEl.innerHTML =
-          '<p><strong>ΔАР</strong> = ' +
-          formatNum(out.deltaAg, out.decimals) +
-          ' mEq/L (норма АР ' +
-          NORMAL_AG +
-          ')</p>' +
-          '<p><strong>ΔHCO₃</strong> = ' +
-          formatNum(out.deltaHco3, out.decimals) +
-          ' mEq/L (норма HCO₃ ' +
-          NORMAL_HCO3 +
-          ')</p>' +
-          '<p><strong>ΔΔ</strong> = ' +
-          formatNum(out.deltaDelta, out.decimals) +
-          ' mEq/L</p>' +
-          (out.deltaRatio != null
-            ? '<p><strong>Соотношение ΔАР/ΔHCO₃</strong> = ' + formatNum(out.deltaRatio, out.decimals) + '</p>'
-            : '');
-
-        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
-        detailsEl.classList.remove('fc-calc__ag-details--hidden');
-      });
-
+    function onChange() {
+      hideResult(mode);
+      if (formError) formError.textContent = '';
       updateButton();
-    })();
+    }
+
+    form.addEventListener('input', onChange);
+    form.addEventListener('change', onChange);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideResult(mode);
+      if (!isReady()) {
+        if (formError) formError.textContent = 'Заполните все поля';
+        return;
+      }
+
+      var ions = readIons(form);
+      var decimals = DECIMALS;
+      var ag = ions.na - (ions.cl + ions.hco3);
+      var html = '';
+
+      if (mode === 'basic') {
+        html = renderBasicResult(ag, deltaGap(ag), deltaRatio(deltaGap(ag), ions.hco3), decimals);
+      } else {
+        var albuminInput = parseNumber(form.querySelector('[name="albumin"]').value);
+        var albuminUnitEl = form.querySelector('[name="albuminUnit"]');
+        var albuminUnit = albuminUnitEl ? albuminUnitEl.value : 'gL';
+        var alb = albuminGdl(albuminInput, albuminUnit);
+        html = renderAlbuminResult(ag, alb, ions.hco3, decimals);
+      }
+
+      if (resultBody) resultBody.innerHTML = html;
+      resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+    });
+
+    updateButton();
+  }
+
+  bindForm('basic');
+  bindForm('albumin');
+})();
   </script>
 </div>

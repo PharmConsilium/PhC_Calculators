@@ -1,7 +1,7 @@
 {
   "slug": "anion-gap",
-  "title": "Анионная разница (дельта-дельта градиент)",
+  "title": "Калькулятор анионного разрыва",
   "sitePath": "/calculator/anion-gap",
-  "source": "MSD Manuals — анионная разница",
+  "source": "Oh MS, Carroll HJ. N Engl J Med. 1977",
   "complexity": "A"
 }

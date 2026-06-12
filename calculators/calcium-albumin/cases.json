@@ -1,0 +1,62 @@
+{
+  "slug": "calcium-albumin",
+  "source": "MSD Manual / Figge 1998",
+  "cases": [
+    {
+      "name": "mmol default normal 40",
+      "input": {
+        "serumCa": 2,
+        "serumCaUnit": "mmolL",
+        "normalAlbumin": 40,
+        "patientAlbumin": 20,
+        "patientAlbuminUnit": "gL"
+      },
+      "expected": {
+        "correctedCalcium": 2.4,
+        "correctionDelta": 0.4
+      }
+    },
+    {
+      "name": "mmol normal 44",
+      "input": {
+        "serumCa": 2,
+        "serumCaUnit": "mmolL",
+        "normalAlbumin": 44,
+        "patientAlbumin": 20,
+        "patientAlbuminUnit": "gL"
+      },
+      "expected": {
+        "correctedCalcium": 2.48,
+        "correctionDelta": 0.48
+      }
+    },
+    {
+      "name": "mg/dl units",
+      "input": {
+        "serumCa": 8,
+        "serumCaUnit": "mgdl",
+        "normalAlbumin": 40,
+        "patientAlbumin": 2,
+        "patientAlbuminUnit": "gdl"
+      },
+      "expected": {
+        "correctedCalcium": 9.6,
+        "correctionDelta": 1.6
+      }
+    },
+    {
+      "name": "normal albumin no correction",
+      "input": {
+        "serumCa": 2.25,
+        "serumCaUnit": "mmolL",
+        "normalAlbumin": 40,
+        "patientAlbumin": 40,
+        "patientAlbuminUnit": "gL"
+      },
+      "expected": {
+        "correctedCalcium": 2.25,
+        "correctionDelta": 0
+      }
+    }
+  ]
+}
