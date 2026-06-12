@@ -1,0 +1,156 @@
+{
+  "slug": "sofa",
+  "source": "Vincent JL et al.; Singer M et al. Sepsis-3; MSD Manuals",
+  "cases": [
+    {
+      "name": "sofa minimal",
+      "input": {
+        "mode": "sofa",
+        "pao2": 100,
+        "fio2": 21,
+        "fio2Unit": "percent",
+        "ventilation": false,
+        "platelets": 200,
+        "bilirubin": 0.8,
+        "cardiovascular": 0,
+        "eye": 4,
+        "motor": 6,
+        "verbal": 5,
+        "creatinine": 0.8
+      },
+      "expected": {
+        "total": 0,
+        "gcs": 15,
+        "pao2Fio2": 476,
+        "category": "minimal"
+      }
+    },
+    {
+      "name": "sofa respiration with vent",
+      "input": {
+        "mode": "sofa",
+        "pao2": 90,
+        "fio2": 50,
+        "fio2Unit": "percent",
+        "ventilation": true,
+        "platelets": 150,
+        "bilirubin": 1.0,
+        "cardiovascular": 0,
+        "eye": 4,
+        "motor": 6,
+        "verbal": 5,
+        "creatinine": 1.0
+      },
+      "expected": {
+        "total": 3,
+        "pao2Fio2": 180,
+        "scores": {
+          "respiration": 3,
+          "coagulation": 0,
+          "liver": 0,
+          "cardiovascular": 0,
+          "cns": 0,
+          "renal": 0
+        }
+      }
+    },
+    {
+      "name": "sofa renal from urine output",
+      "input": {
+        "mode": "sofa",
+        "pao2": 120,
+        "fio2": 21,
+        "ventilation": false,
+        "platelets": 160,
+        "bilirubin": 0.5,
+        "cardiovascular": 0,
+        "eye": 4,
+        "motor": 6,
+        "verbal": 5,
+        "urineOutput": 150
+      },
+      "expected": {
+        "total": 4,
+        "scores": {
+          "respiration": 0,
+          "coagulation": 0,
+          "liver": 0,
+          "cardiovascular": 0,
+          "cns": 0,
+          "renal": 4
+        }
+      }
+    },
+    {
+      "name": "sofa severe cardiovascular",
+      "input": {
+        "mode": "sofa",
+        "pao2": 400,
+        "fio2": 100,
+        "ventilation": false,
+        "platelets": 10,
+        "bilirubin": 15,
+        "cardiovascular": 4,
+        "eye": 1,
+        "motor": 2,
+        "verbal": 2,
+        "creatinine": 6
+      },
+      "expected": {
+        "total": 21,
+        "gcs": 5,
+        "category": "severe"
+      }
+    },
+    {
+      "name": "qsofa low risk",
+      "input": {
+        "mode": "qsofa",
+        "eye": 4,
+        "motor": 6,
+        "verbal": 5,
+        "sbp": 120,
+        "rr": 18
+      },
+      "expected": {
+        "total": 0,
+        "gcs": 15,
+        "category": "low",
+        "interpretation": "Невысокий риск"
+      }
+    },
+    {
+      "name": "qsofa high risk two criteria",
+      "input": {
+        "mode": "qsofa",
+        "eye": 4,
+        "motor": 5,
+        "verbal": 5,
+        "sbp": 95,
+        "rr": 18
+      },
+      "expected": {
+        "total": 2,
+        "gcs": 14,
+        "category": "high",
+        "interpretation": "Высокий риск"
+      }
+    },
+    {
+      "name": "qsofa high risk all three",
+      "input": {
+        "mode": "qsofa",
+        "eye": 2,
+        "motor": 4,
+        "verbal": 4,
+        "sbp": 90,
+        "rr": 28
+      },
+      "expected": {
+        "total": 3,
+        "gcs": 10,
+        "category": "high"
+      }
+    }
+  ]
+}

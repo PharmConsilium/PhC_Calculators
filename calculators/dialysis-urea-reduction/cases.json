@@ -1,0 +1,56 @@
+{
+  "slug": "dialysis-urea-reduction",
+  "source": "MSD Manuals — Процент снижения мочевины при гемодиализе",
+  "cases": [
+    {
+      "name": "adequate reduction",
+      "input": {
+        "ureaPre": 20,
+        "ureaPost": 5,
+        "ureaUnit": "mmolL"
+      },
+      "expected": {
+        "prm": 75,
+        "interpretation": "достаточный процент снижения мочевины",
+        "adequate": true
+      }
+    },
+    {
+      "name": "insufficient reduction",
+      "input": {
+        "ureaPre": 20,
+        "ureaPost": 10,
+        "ureaUnit": "mmolL"
+      },
+      "expected": {
+        "prm": 50,
+        "interpretation": "недостаточный процент снижения мочевины",
+        "adequate": false
+      }
+    },
+    {
+      "name": "mg/dl units",
+      "input": {
+        "ureaPre": 120,
+        "ureaPost": 30,
+        "ureaUnit": "mgdl"
+      },
+      "expected": {
+        "prm": 75,
+        "adequate": true
+      }
+    },
+    {
+      "name": "threshold 65 percent",
+      "input": {
+        "ureaPre": 100,
+        "ureaPost": 35,
+        "ureaUnit": "mgdl"
+      },
+      "expected": {
+        "prm": 65,
+        "adequate": true
+      }
+    }
+  ]
+}

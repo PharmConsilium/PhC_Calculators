@@ -1,0 +1,1303 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Определение адекватности гемодиализа
+-->
+<div class="fc-calc" data-calculator="hemodialysis-adequacy">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* hemodialysis-adequacy */
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__formula,
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-formula-note {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(0, 94, 236, 0.22);
+  border-radius: var(--fc-radius);
+  background: rgba(0, 94, 236, 0.05);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-formula-note {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__formula-eq {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__formula-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__formula-legend li + li {
+  margin-top: 2px;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__field > label:first-child {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-grid {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-grid .fc-calc__field {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-input-row input[type="number"] {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-input-row select {
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-unit--fixed {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-input);
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--fc-text);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-radio-option {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--fc-text);
+  user-select: none;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-radio-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-radio-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(0, 94, 236, 0.25);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result {
+  padding: 18px 20px;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-title {
+  margin: 0 0 12px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-block + .fc-calc__hd-result-block {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-block-title {
+  margin: 0 0 6px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-line {
+  margin: 0 0 4px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-line:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-line strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__hd-result-note {
+  margin: 4px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__field .fc-calc__error {
+  min-height: 1.125rem;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__notes-body h4 {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__notes-body h4:first-child {
+  margin-top: 0;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.25rem;
+}
+
+.fc-calc[data-calculator="hemodialysis-adequacy"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Определение адекватности гемодиализа</h2>
+        <p class="fc-calc__hint">Расчёт spKt/V, eKt/V и URR по формулам Daugirdas (MedSoftPro)</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-hemodialysis-adequacy-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
+
+              <div class="fc-calc__hd-grid">
+                <div class="fc-calc__field">
+                  <label>Доступ</label>
+                  <div class="fc-calc__hd-radio" role="radiogroup" aria-label="Тип сосудистого доступа">
+                  <label class="fc-calc__hd-radio-option">
+                    <input type="radio" name="access" value="venovenous" checked required />
+                    <span>Веновенозный</span>
+                  </label>
+                  <label class="fc-calc__hd-radio-option">
+                    <input type="radio" name="access" value="arteriovenous" required />
+                    <span>Артериовенозный</span>
+                  </label>
+                  </div>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hemodialysis-adequacy-time">Время диализа</label>
+                  <div class="fc-calc__hd-input-row">
+                    <input type="number" id="fc-calc-hemodialysis-adequacy-time" name="dialysisTime" inputmode="decimal" min="0.5" max="12" step="any" required />
+                    <select id="fc-calc-hemodialysis-adequacy-time-unit" name="timeUnit" aria-label="Единица времени">
+                      <option value="hours" selected>часы</option>
+                      <option value="minutes">мин</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hemodialysis-adequacy-urea-pre">Мочевина до диализа</label>
+                  <div class="fc-calc__hd-input-row">
+                    <input type="number" id="fc-calc-hemodialysis-adequacy-urea-pre" name="ureaPre" inputmode="decimal" min="0.1" max="80" step="any" required />
+                    <span class="fc-calc__hd-unit--fixed">ммоль/л</span>
+                  </div>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hemodialysis-adequacy-urea-post">Мочевина после диализа</label>
+                  <div class="fc-calc__hd-input-row">
+                    <input type="number" id="fc-calc-hemodialysis-adequacy-urea-post" name="ureaPost" inputmode="decimal" min="0.1" max="80" step="any" required />
+                    <span class="fc-calc__hd-unit--fixed">ммоль/л</span>
+                  </div>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hemodialysis-adequacy-weight-loss">Потеря веса в ходе диализа</label>
+                  <div class="fc-calc__hd-input-row">
+                    <input type="number" id="fc-calc-hemodialysis-adequacy-weight-loss" name="weightLoss" inputmode="decimal" min="0" max="20" step="any" required />
+                    <span class="fc-calc__hd-unit--fixed">кг</span>
+                  </div>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hemodialysis-adequacy-weight-post">Вес пациента после диализа</label>
+                  <div class="fc-calc__hd-input-row">
+                    <input type="number" id="fc-calc-hemodialysis-adequacy-weight-post" name="weightPost" inputmode="decimal" min="20" max="250" step="any" required />
+                    <span class="fc-calc__hd-unit--fixed">кг</span>
+                  </div>
+                </div>
+              </div>
+
+              <span class="fc-calc__error" id="fc-calc-hemodialysis-adequacy-form-error" role="alert"></span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-hemodialysis-adequacy-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-hemodialysis-adequacy-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-hemodialysis-adequacy-result" aria-live="polite">
+        <div class="fc-calc__hd-result">
+          <p class="fc-calc__hd-result-title">Результат</p>
+          <div id="fc-calc-hemodialysis-adequacy-result-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Доза диализа выражается коэффициентом очищения <strong>Kt/V</strong> по мочевине, представленного в виде эквилибрированного показателя (<strong>eKt/V</strong>) и рассчитанного на основании двухпуловой кинетической модели с изменяемым объёмом.</p>
+        <p>В обычной практике эквилибрированный показатель рассчитывается по величине <strong>spKt/V</strong> — показателя, рассчитанного по формуле, основанной на однопуловой модели с изменяемым объёмом, с учётом ожидаемого влияния перераспределения мочевины.</p>
+
+        <h4>Формула eKt/V</h4>
+        <div class="fc-calc__formula fc-calc__hd-formula-note">
+          <p class="fc-calc__formula-eq"><strong>Артериовенозный доступ:</strong> eKt/V = spKt/V − (0,6 × spKt/V / t) + 0,03</p>
+          <p class="fc-calc__formula-eq"><strong>Веновенозный доступ:</strong> eKt/V = spKt/V − (0,47 × spKt/V / t) + 0,02</p>
+          <ul class="fc-calc__formula-legend">
+            <li><strong>spKt/V</strong> — показатель по однопуловой модели с изменяемым объёмом</li>
+            <li><strong>t</strong> — продолжительность диализа в часах</li>
+          </ul>
+        </div>
+
+        <h4>Формула spKt/V</h4>
+        <div class="fc-calc__formula fc-calc__hd-formula-note">
+          <p class="fc-calc__formula-eq">spKt/V = − ln (Ct / Co − 0,008 × t) + (4 − 3,5 × Ct / Co) × dBW / BW</p>
+          <ul class="fc-calc__formula-legend">
+            <li><strong>t</strong> — продолжительность диализа в часах</li>
+            <li><strong>Co</strong> — мочевина до диализа (ммоль/л)</li>
+            <li><strong>Ct</strong> — мочевина после диализа (ммоль/л)</li>
+            <li><strong>BW</strong> — вес пациента после диализа (кг)</li>
+            <li><strong>dBW</strong> — потеря веса в ходе процедуры (кг), ≈ объём ультрафильтрации</li>
+          </ul>
+        </div>
+
+        <h4>URR — доля снижения мочевины</h4>
+        <div class="fc-calc__formula fc-calc__hd-formula-note">
+          <p class="fc-calc__formula-eq">URR = 100 × (1 − Ct / Co)</p>
+        </div>
+
+        <h4>Интерпретация</h4>
+        <ul>
+          <li><strong>eKt/V ≥ 1,2</strong> — адекватный гемодиализ</li>
+          <li><strong>eKt/V ≥ 1,6</strong> — оптимальный гемодиализ</li>
+          <li><strong>eKt/V ≥ 2,3</strong> — идеальный гемодиализ</li>
+          <li><strong>URR ≥ 65 %</strong> — достаточный процент снижения мочевины</li>
+        </ul>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  var root = document.querySelector('.fc-calc[data-calculator="hemodialysis-adequacy"]');
+  if (!root) return;
+
+  var DISPLAY_DECIMALS = 2;
+  var LIMITS = {
+    hours: { min: 0.5, max: 12 },
+    minutes: { min: 30, max: 720 },
+    urea: { min: 0.1, max: 80 },
+    weightLoss: { min: 0, max: 20 },
+    weight: { min: 20, max: 250 },
+  };
+
+  var form = root.querySelector('#fc-calc-hemodialysis-adequacy-form');
+  var btn = root.querySelector('#fc-calc-hemodialysis-adequacy-btn');
+  var formError = root.querySelector('#fc-calc-hemodialysis-adequacy-form-error');
+  var resultWrap = root.querySelector('#fc-calc-hemodialysis-adequacy-result');
+  var resultBody = root.querySelector('#fc-calc-hemodialysis-adequacy-result-body');
+
+  function roundHalfUp(value, decimals) {
+    var factor = Math.pow(10, decimals);
+    return Math.round(value * factor + Number.EPSILON) / factor;
+  }
+
+  function parsePositive(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+
+  function parseNonNegative(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  }
+
+  function formatNum(n) {
+    return String(n).replace('.', ',');
+  }
+
+  function getAccess() {
+    var checked = form.querySelector('input[name="access"]:checked');
+    return checked ? checked.value : null;
+  }
+
+  function timeToHours(value, unit) {
+    return unit === 'minutes' ? value / 60 : value;
+  }
+
+  function spKtV(co, ct, tHours, dBw, bw) {
+    var ratio = ct / co;
+    var logTerm = ratio - 0.008 * tHours;
+    if (logTerm <= 0) {
+      throw new Error('Некорректные данные для расчёта spKt/V');
+    }
+    return -Math.log(logTerm) + (4 - 3.5 * ratio) * (dBw / bw);
+  }
+
+  function eKtV(sp, tHours, access) {
+    if (access === 'arteriovenous') {
+      return sp - (0.6 * sp) / tHours + 0.03;
+    }
+    return sp - (0.47 * sp) / tHours + 0.02;
+  }
+
+  function urrPercent(co, ct) {
+    return 100 * (1 - ct / co);
+  }
+
+  function interpretEKtV(value) {
+    if (value >= 2.3) return 'идеальный гемодиализ';
+    if (value >= 1.6) return 'оптимальный гемодиализ';
+    if (value >= 1.2) return 'адекватный гемодиализ';
+    return 'недостаточный гемодиализ';
+  }
+
+  function interpretUrr(value) {
+    return value >= 65
+      ? 'достаточный процент снижения мочевины'
+      : 'недостаточный процент снижения мочевины';
+  }
+
+  function validate(showMessages) {
+    var timeRaw = parsePositive(form.querySelector('[name="dialysisTime"]').value);
+    var timeUnitEl = form.querySelector('[name="timeUnit"]');
+    var timeUnit = timeUnitEl && timeUnitEl.value === 'minutes' ? 'minutes' : 'hours';
+    var ureaPre = parsePositive(form.querySelector('[name="ureaPre"]').value);
+    var ureaPost = parsePositive(form.querySelector('[name="ureaPost"]').value);
+    var weightLoss = parseNonNegative(form.querySelector('[name="weightLoss"]').value);
+    var weightPost = parsePositive(form.querySelector('[name="weightPost"]').value);
+    var access = getAccess();
+    var limits = timeUnit === 'minutes' ? LIMITS.minutes : LIMITS.hours;
+
+    if (formError) formError.textContent = '';
+
+    if (!access) {
+      if (showMessages && formError) formError.textContent = 'Выберите тип доступа';
+      return { ok: false };
+    }
+    if (timeRaw == null) {
+      if (showMessages && formError) formError.textContent = 'Укажите время диализа';
+      return { ok: false };
+    }
+    if (ureaPre == null || ureaPost == null) {
+      if (showMessages && formError) formError.textContent = 'Укажите мочевину до и после диализа';
+      return { ok: false };
+    }
+    if (weightLoss == null) {
+      if (showMessages && formError) formError.textContent = 'Укажите потерю веса';
+      return { ok: false };
+    }
+    if (weightPost == null) {
+      if (showMessages && formError) formError.textContent = 'Укажите вес после диализа';
+      return { ok: false };
+    }
+    if (timeRaw < limits.min || timeRaw > limits.max) {
+      if (showMessages && formError) {
+        formError.textContent = 'Время диализа вне допустимого диапазона';
+      }
+      return { ok: false };
+    }
+
+    return {
+      ok: true,
+      access: access,
+      timeRaw: timeRaw,
+      timeUnit: timeUnit,
+      ureaPre: ureaPre,
+      ureaPost: ureaPost,
+      weightLoss: weightLoss,
+      weightPost: weightPost,
+    };
+  }
+
+  function isReady() {
+    return validate(false).ok;
+  }
+
+  function hideResult() {
+    if (resultWrap) resultWrap.classList.add('fc-calc__result-wrap--hidden');
+    if (resultBody) resultBody.innerHTML = '';
+  }
+
+  function renderResult(out) {
+    if (!resultBody) return;
+    resultBody.innerHTML =
+      '<div class="fc-calc__hd-result-block">' +
+      '<p class="fc-calc__hd-result-block-title">Коэффициент очищения</p>' +
+      '<p class="fc-calc__hd-result-line"><strong>spKt/V:</strong> ' +
+      formatNum(out.spKtV) +
+      '</p>' +
+      '<p class="fc-calc__hd-result-line"><strong>eKt/V:</strong> ' +
+      formatNum(out.eKtV) +
+      '</p>' +
+      '<p class="fc-calc__hd-result-note">— ' +
+      out.eKtVInterpretation +
+      '</p>' +
+      '</div>' +
+      '<div class="fc-calc__hd-result-block">' +
+      '<p class="fc-calc__hd-result-block-title">Доля снижения мочевины</p>' +
+      '<p class="fc-calc__hd-result-line"><strong>URR:</strong> ' +
+      formatNum(out.urr) +
+      ' %</p>' +
+      '<p class="fc-calc__hd-result-note">— ' +
+      out.urrInterpretation +
+      '</p>' +
+      '</div>';
+  }
+
+  function updateButton() {
+    var ok = isReady();
+    if (btn) {
+      btn.disabled = !ok;
+      btn.classList.toggle('fc-calc__btn--inactive', !ok);
+    }
+  }
+
+  if (form) {
+    form.addEventListener('input', function () {
+      hideResult();
+      updateButton();
+    });
+    form.addEventListener('change', function () {
+      hideResult();
+      updateButton();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideResult();
+      var check = validate(true);
+      if (!check.ok) return;
+
+      try {
+        var tHours = timeToHours(check.timeRaw, check.timeUnit);
+        var sp = roundHalfUp(
+          spKtV(check.ureaPre, check.ureaPost, tHours, check.weightLoss, check.weightPost),
+          DISPLAY_DECIMALS
+        );
+        var e = roundHalfUp(eKtV(sp, tHours, check.access), DISPLAY_DECIMALS);
+        var urr = roundHalfUp(urrPercent(check.ureaPre, check.ureaPost), DISPLAY_DECIMALS);
+
+        renderResult({
+          spKtV: sp,
+          eKtV: e,
+          urr: urr,
+          eKtVInterpretation: interpretEKtV(e),
+          urrInterpretation: interpretUrr(urr),
+        });
+        if (resultWrap) resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+      } catch (err) {
+        if (formError) formError.textContent = err.message || 'Ошибка расчёта';
+      }
+    });
+  }
+
+  updateButton();
+})();
+  </script>
+</div>

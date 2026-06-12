@@ -1,0 +1,120 @@
+/* dialysis-urea-reduction */
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__formula,
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-formula-note {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(0, 94, 236, 0.22);
+  border-radius: var(--fc-radius);
+  background: rgba(0, 94, 236, 0.05);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-formula-note {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__formula-eq {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__formula-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__field > label:first-child {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-input-row input[type="number"] {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-input-row select {
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-result-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-result-value {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-page);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-result-value--empty {
+  color: var(--fc-muted-text);
+  font-weight: 400;
+  font-family: var(--fc-font-sans);
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-unit--fixed {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-input);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--fc-text);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__dur-result-note {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="dialysis-urea-reduction"] .fc-calc__field .fc-calc__error {
+  min-height: 1.125rem;
+}

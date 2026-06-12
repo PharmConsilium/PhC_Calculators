@@ -1,0 +1,125 @@
+/* serum-osmolality */
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__formula,
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-formula-note {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(0, 94, 236, 0.22);
+  border-radius: var(--fc-radius);
+  background: rgba(0, 94, 236, 0.05);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-formula-note {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__formula-eq {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__formula-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__formula-legend li + li {
+  margin-top: 2px;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+  }
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid .fc-calc__field {
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    gap: 6px;
+  }
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid .fc-calc__field > label {
+    align-self: end;
+  }
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-grid .fc-calc__field .fc-calc__error {
+  min-height: 1.125rem;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-input-row input[type="number"] {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__osm-unit--fixed {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-input);
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--fc-text);
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+}
+
+.fc-calc[data-calculator="serum-osmolality"] .fc-calc__result-number {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}

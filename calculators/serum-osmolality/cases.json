@@ -1,0 +1,21 @@
+{
+  "slug": "serum-osmolality",
+  "source": "MedSoftPro osmolarity",
+  "cases": [
+    {
+      "name": "medsoftpro example",
+      "input": { "serumNa": 100, "glucose": 15, "bun": 10 },
+      "expected": { "osmolality": 204.4 }
+    },
+    {
+      "name": "typical values",
+      "input": { "serumNa": 140, "glucose": 5, "bun": 5 },
+      "expected": { "osmolality": 282.1 }
+    },
+    {
+      "name": "upper normal",
+      "input": { "serumNa": 142, "glucose": 5.5, "bun": 7 },
+      "expected": { "osmolality": 286.8 }
+    }
+  ]
+}

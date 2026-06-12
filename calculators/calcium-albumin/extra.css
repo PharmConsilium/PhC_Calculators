@@ -1,0 +1,143 @@
+/* calcium-albumin */
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__formula,
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-formula-note {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(0, 94, 236, 0.22);
+  border-radius: var(--fc-radius);
+  background: rgba(0, 94, 236, 0.05);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-formula-note {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__formula-eq {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__formula-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__formula-legend li + li {
+  margin-top: 2px;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__field > label:first-child {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-input-row input[type="number"] {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-input-row select {
+  flex: 0 0 6.5rem;
+  width: 6.5rem;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-radio-option {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--fc-text);
+  user-select: none;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-radio-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-radio-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(0, 94, 236, 0.25);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-radio-option:hover:not(:has(input:checked)) {
+  background: rgba(0, 94, 236, 0.03);
+  border-color: rgba(0, 94, 236, 0.25);
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__ca-result-panel {
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__result-number {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__source-item {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__source-item:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="calcium-albumin"] .fc-calc__source-item a {
+  color: var(--fc-blue);
+}

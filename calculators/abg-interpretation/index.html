@@ -1,7 +1,9 @@
-<!-- Публикация: весь файл → админка «HTML-код (виджет, калькулятор)». Стили сайта в блоке style. -->
-<div class="fc-calc" data-calculator="levothyroxine-dose">
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Интерпретация газов артериальной крови
+-->
+<div class="fc-calc" data-calculator="abg-interpretation">
   <style>
-/* FC-CALC-STYLES — from shared/fc-calc.css; sync: node scripts/sync-calculator-styles.mjs levothyroxine-dose */
 /* Единый вид всех калькуляторов. Только внутри .fc-calc */
 
 .fc-calc {
@@ -713,66 +715,135 @@
     padding: 14px;
   }
 }
-
-.fc-calc[data-calculator="levothyroxine-dose"] .fc-calc__panel > .fc-calc__hint {
-  margin: 0 0 16px;
+/* abg-interpretation */
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__abg-grid {
+  display: grid;
+  gap: 14px;
 }
 
-.fc-calc[data-calculator="levothyroxine-dose"] .fc-calc__lt4-source-heading {
-  margin: 16px 0 6px;
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="abg-interpretation"] .fc-calc__abg-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__abg-grid .fc-calc__field {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__abg-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__abg-input-row input[type="number"] {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__abg-unit--fixed {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-input);
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__result-number {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__table th {
+  background: var(--fc-bg-page);
   font-weight: 600;
 }
 
-.fc-calc[data-calculator="levothyroxine-dose"] .fc-calc__lt4-source-type {
-  margin: 0 0 4px;
-  font-size: 13px;
-  color: var(--fc-muted-text);
-}
-
-.fc-calc[data-calculator="levothyroxine-dose"] .fc-calc__source-item {
-  margin: 0 0 12px;
-  padding: 10px 12px;
-  font-size: 14px;
-  line-height: 1.45;
-  background: var(--fc-bg-page);
-  border: 1px solid var(--fc-border);
-  border-radius: 8px;
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__table td,
+.fc-calc[data-calculator="abg-interpretation"] .fc-calc__table th {
+  vertical-align: top;
+  line-height: 1.35;
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Калькулятор дозы левотироксина на основе веса для гипотиреоза у взрослых</h2>
-        <p class="fc-calc__hint">Рассчитывает per os дозу левотироксина для заместительной терапии первичного гипотиреоза.</p>
+        <h2 class="fc-calc__title">Интерпретация газов артериальной крови</h2>
+        <p class="fc-calc__hint">Интерпретация кислотно-щелочного состояния по pH, PaCO₂ и BE-ecf</p>
       </header>
 
       <div class="fc-calc__body">
-        <form class="fc-calc__form" id="fc-calc-levothyroxine-dose-form" novalidate>
+        <form class="fc-calc__form" id="fc-calc-abg-interpretation-form" novalidate>
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Ввод данных</h3>
-              <p class="fc-calc__hint">Введите массу тела пациента для расчёта полной per os дозы левотироксина.</p>
-              <div class="fc-calc__field">
-                <label for="fc-calc-levothyroxine-dose-weight">Масса тела, кг</label>
-                <input type="number" id="fc-calc-levothyroxine-dose-weight" name="weightKg" inputmode="decimal" min="0" step="any" placeholder="70" required />
-                <span class="fc-calc__error" id="fc-calc-levothyroxine-dose-weight-error" role="alert"></span>
+              <h3 class="fc-calc__panel-heading">Показатели газового состава крови</h3>
+
+              <div class="fc-calc__abg-grid">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-abg-interpretation-ph">pH</label>
+                  <input type="number" id="fc-calc-abg-interpretation-ph" name="ph" inputmode="decimal" min="6.8" max="8" step="any" required />
+                  <span class="fc-calc__error" id="fc-calc-abg-interpretation-ph-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-abg-interpretation-paco2">PaCO₂</label>
+                  <div class="fc-calc__abg-input-row">
+                    <input type="number" id="fc-calc-abg-interpretation-paco2" name="paco2" inputmode="decimal" min="10" max="120" step="any" required />
+                    <span class="fc-calc__abg-unit--fixed">мм. рт. ст.</span>
+                  </div>
+                  <span class="fc-calc__error" id="fc-calc-abg-interpretation-paco2-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-abg-interpretation-be">BE ecf</label>
+                  <div class="fc-calc__abg-input-row">
+                    <input type="number" id="fc-calc-abg-interpretation-be" name="be" inputmode="decimal" min="-30" max="30" step="any" required />
+                    <span class="fc-calc__abg-unit--fixed">ммоль/л</span>
+                  </div>
+                  <span class="fc-calc__error" id="fc-calc-abg-interpretation-be-error" role="alert"></span>
+                </div>
               </div>
+
+              <span class="fc-calc__error" id="fc-calc-abg-interpretation-form-error" role="alert"></span>
             </div>
           </div>
         </form>
       </div>
 
       <div class="fc-calc__actions">
-        <button type="submit" class="fc-calc__btn" form="fc-calc-levothyroxine-dose-form">Рассчитать</button>
+        <button type="submit" id="fc-calc-abg-interpretation-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-abg-interpretation-form" disabled>Рассчитать</button>
       </div>
 
-      <div class="fc-calc__result-wrap" aria-live="polite">
-        <div class="fc-calc__result fc-calc__result--empty" id="fc-calc-levothyroxine-dose-result">
-          <p class="fc-calc__result-placeholder">Заполните поля и нажмите «Рассчитать»</p>
-          <p class="fc-calc__result-label">Рекомендуемая доза левотироксина</p>
-          <p class="fc-calc__result-number" id="fc-calc-levothyroxine-dose-result-number">—</p>
-          <p class="fc-calc__result-desc" id="fc-calc-levothyroxine-dose-result-desc"></p>
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-abg-interpretation-result" aria-live="polite">
+        <div class="fc-calc__result fc-calc__result--empty" id="fc-calc-abg-interpretation-result-box">
+          <p class="fc-calc__result-label">Результат</p>
+          <p class="fc-calc__result-number" id="fc-calc-abg-interpretation-result-number">—</p>
+          <p class="fc-calc__result-desc" id="fc-calc-abg-interpretation-result-desc"></p>
         </div>
       </div>
     </div>
@@ -782,30 +853,81 @@
         <span class="fc-calc__notes-title">Примечание</span>
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
-      <div class="fc-calc__notes-body" id="fc-calc-levothyroxine-dose-notes">
-        <p><strong>Формула:</strong> доза (мкг/сут) = 1,6 × масса тела (кг). При весе в фунтах: 0,7257 × масса (фунты).</p>
-        <p>Стандартные дозы таблеток: 25, 50, 75, 88, 100, 112, 125, 137, 150, 175, 200 и 300 мкг. Расчётную дозу округляйте до ближайшей доступной силы таблетки (обычно с точностью 10–15 мкг).</p>
-        <p>При необходимости внутривенной терапии используйте примерно на 30% меньшую дозу, чем per os, из‑за более высокой биодоступности.</p>
-        <p>Контролируйте ТТГ и клинический ответ каждые 4–8 недель, корректируя дозу на 12,5–25 мкг. Потребность, значительно превышающая расчёт по весу, или &gt;200–300 мкг/сут настораживает в отношении мальабсорбции или несоблюдения терапии.</p>
-        <p>Пациенту: принимать натощак с водой, утром; через 30–60 минут — еда и другие препараты; кальций/железо (включая поливитамины) — не ранее чем через 4 часа.</p>
-        <p><strong>Источники</strong></p>
-        <p class="fc-calc__lt4-source-heading">Оригинал / первичная ссылка</p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Хеннесси Дж. В., Эвол Дж. Э., Цзенг Ю. С., Бурман К. Д., Вартофски Л. Дозировка L-тироксина: переоценка терапии современными препаратами. <em>Ann Intern Med.</em> 1986;105(1):11-15. <a href="https://doi.org/10.7326/0003-4819-105-1-11" target="_blank" rel="noopener noreferrer">doi:10.7326/0003-4819-105-1-11</a></p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Фиш Л.Х., Шварц Х.Л., Кавана Дж., Стеффес М.В., Бантл Дж.П., Оппенхаймер Дж.Х. Заместительная доза, метаболизм и биодоступность левотироксина при лечении гипотиреоза. Роль трийодтиронина в гипофизарной обратной связи у человека. <em>N Engl J Med.</em> 1987;316(13):764-770. <a href="https://doi.org/10.1056/NEJM198703263161302" target="_blank" rel="noopener noreferrer">doi:10.1056/NEJM198703263161302</a></p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Бурмейстер Л.А., Гумаз М.О., Мариаш К.Н., Оппенхаймер Дж.Х. Требования к дозе левотироксина для подавления тиреотропина при лечении дифференцированного рака щитовидной железы. <em>J Clin Endocrinol Metab.</em> 1992;75:344-50.</p>
-        <p class="fc-calc__lt4-source-heading">Проверка</p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Roos A, Linn-Rasker SP, van Domburg RT, Tijssen JP, Berghout A. Начальная доза левотироксина при лечении первичного гипотиреоза: проспективное рандомизированное двойное слепое исследование. <em>Arch Intern Med.</em> 2005;165(15):1714-1720. <a href="https://doi.org/10.1001/archinte.165.15.1714" target="_blank" rel="noopener noreferrer">doi:10.1001/archinte.165.15.1714</a></p>
-        <p class="fc-calc__lt4-source-heading">Другие ссылки</p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Папоян В., Илли Д., Фельгер Э.А., Вартофски Л., Розен Дж.Е. Оценка дозировки заместительной гормональной терапии щитовидной железы у пациентов с избыточным весом и ожирением после тиреоидэктомии. <em>Thyroid.</em> 2019;29(11):1558-1562. <a href="https://doi.org/10.1089/thy.2019.0251" target="_blank" rel="noopener noreferrer">doi:10.1089/thy.2019.0251</a></p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Йонклас Дж., Бьянко А.С., Бауэр А.Дж. и др. Рекомендации по лечению гипотиреоза: подготовлены целевой группой Американской ассоциации щитовидной железы по заместительной гормональной терапии щитовидной железы. <em>Thyroid.</em> 2014;24(12):1670-1751. <a href="https://doi.org/10.1089/thy.2014.0028" target="_blank" rel="noopener noreferrer">doi:10.1089/thy.2014.0028</a></p>
-        <p class="fc-calc__lt4-source-type">Научная работа</p>
-        <p class="fc-calc__source-item">Гарбер Дж. Р., Кобин Р. Х., Гариб Х. и др. Клинические рекомендации по лечению гипотиреоза у взрослых: совместно разработаны Американской ассоциацией клинических эндокринологов и Американской ассоциацией щитовидной железы. <em>Endocr Pract.</em> 2012;18(6):988-1028. <a href="https://doi.org/10.4158/EP12280.GL" target="_blank" rel="noopener noreferrer">doi:10.4158/EP12280.GL</a></p>
+      <div class="fc-calc__notes-body">
+        <p><strong>pH</strong> — показатель, демонстрирующий соотношение кислот (могут отдавать ионы водорода) и щелочей (могут присоединять данные ионы) в крови.</p>
+        <p><strong>PaCO₂</strong> — уровень парциального давления углекислого газа в крови.</p>
+        <p><strong>BE-ecf</strong> (base excess — extracellular fluid) — рассчитанный дефицит либо избыток оснований для всей внеклеточной жидкости, включая кровь.</p>
+
+        <p><strong>Нормальные значения газового состава крови</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th scope="col">Показатель</th>
+                <th scope="col">Границы нормы</th>
+                <th scope="col">Единицы</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">pH</th>
+                <td>7,36 – 7,44</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <th scope="row">PaCO₂</th>
+                <td>36 – 44</td>
+                <td>мм. рт. ст.</td>
+              </tr>
+              <tr>
+                <th scope="row">Избыток оснований (BE)</th>
+                <td>−2,4 – +2,2</td>
+                <td>ммоль/л</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Интерпретация</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th scope="col">Состояние</th>
+                <th scope="col">Вторичный показатель</th>
+                <th scope="col">Описание и возможные причины</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">pH &lt; 7,36<br>Респираторный ацидоз</th>
+                <td>PaCO₂ повышено</td>
+                <td>Развивается при неадекватной вентиляции, когда продукция CO₂ превышает его элиминацию. Возможные причины: обструкция дыхательных путей, депрессия дыхания.</td>
+              </tr>
+              <tr>
+                <th scope="row">pH &gt; 7,44<br>Респираторный алкалоз</th>
+                <td>PaCO₂ снижено</td>
+                <td>Возникает при гипервентиляции. Может быть следствием ответа на гипоксемию и включения гипоксического респираторного драйва. Причиной может быть ИВЛ с высоким минутным объёмом вентиляции.</td>
+              </tr>
+              <tr>
+                <th scope="row">pH &lt; 7,36<br>Метаболический ацидоз</th>
+                <td>BE снижен (дефицит оснований)</td>
+                <td>Потери бикарбоната через ЖКТ или хроническое поражение почек; поступление неорганических кислот (диабетический кетоацидоз, лактат-ацидоз, отравления); снижение экскреции кислот при почечной недостаточности.</td>
+              </tr>
+              <tr>
+                <th scope="row">pH &gt; 7,44<br>Метаболический алкалоз</th>
+                <td>BE повышен (избыток оснований)</td>
+                <td>Возникает при потерях желудочного содержимого (например, пилоростеноз) и терапии диуретиками. Часто сопровождается снижением хлоридов (Cl⁻) сыворотки.</td>
+              </tr>
+              <tr>
+                <th scope="row">Смешанный ацидоз или алкалоз</th>
+                <td>PaCO₂ и BE изменены в противоположных направлениях</td>
+                <td>Могут развиваться при тяжёлых расстройствах: септический шок, полиорганная недостаточность, остановка кровообращения.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
   </div>
@@ -817,82 +939,150 @@
   </footer>
 
   <script>
-    (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="levothyroxine-dose"]');
-      if (!root) return;
+(function () {
+  var root = document.querySelector('.fc-calc[data-calculator="abg-interpretation"]');
+  if (!root) return;
 
-      var form = root.querySelector('#fc-calc-levothyroxine-dose-form');
-      var resultBox = root.querySelector('#fc-calc-levothyroxine-dose-result');
-      var resultNumber = root.querySelector('#fc-calc-levothyroxine-dose-result-number');
-      var resultDesc = root.querySelector('#fc-calc-levothyroxine-dose-result-desc');
-      var weightInput = root.querySelector('#fc-calc-levothyroxine-dose-weight');
-      var weightError = root.querySelector('#fc-calc-levothyroxine-dose-weight-error');
+  var PH_MIN = 6.8;
+  var PH_MAX = 8.0;
+  var PACO2_MIN = 10;
+  var PACO2_MAX = 120;
+  var BE_MIN = -30;
+  var BE_MAX = 30;
+  var PH_LOW = 7.36;
+  var PH_HIGH = 7.44;
+  var PACO2_LOW = 36;
+  var PACO2_HIGH = 44;
+  var BE_LOW = -2.4;
+  var BE_HIGH = 2.2;
 
-      var MCG_PER_KG = 1.6;
-      var IV_DOSE_FACTOR = 0.7;
-      var TABLET_STRENGTHS_MCG = [25, 50, 75, 88, 100, 112, 125, 137, 150, 175, 200, 300];
+  var form = root.querySelector('#fc-calc-abg-interpretation-form');
+  var btn = root.querySelector('#fc-calc-abg-interpretation-btn');
+  var formError = root.querySelector('#fc-calc-abg-interpretation-form-error');
+  var resultWrap = root.querySelector('#fc-calc-abg-interpretation-result');
+  var resultBox = root.querySelector('#fc-calc-abg-interpretation-result-box');
+  var resultNumber = root.querySelector('#fc-calc-abg-interpretation-result-number');
+  var resultDesc = root.querySelector('#fc-calc-abg-interpretation-result-desc');
 
-      function parsePositive(value) {
-        var n = parseFloat(String(value).replace(',', '.'));
-        return Number.isFinite(n) && n > 0 ? n : null;
+  function parseNumber(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^-?\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function formatNum(n) {
+    return String(n).replace('.', ',');
+  }
+
+  function interpretAcidBase(ph, paco2, be) {
+    var acidosis = ph < PH_LOW;
+    var alkalosis = ph > PH_HIGH;
+    var co2High = paco2 > PACO2_HIGH;
+    var co2Low = paco2 < PACO2_LOW;
+    var beLow = be < BE_LOW;
+    var beHigh = be > BE_HIGH;
+
+    if (!acidosis && !alkalosis) {
+      return {
+        label: 'Нормальное кислотно-щелочное состояние',
+        detail: 'pH в пределах референсного диапазона.',
+      };
+    }
+
+    if ((co2High && beHigh) || (co2Low && beLow)) {
+      return {
+        label: 'Смешанный (метаболический и респираторный) ацидоз или алкалоз',
+        detail: 'PaCO₂ и BE изменены в противоположных направлениях.',
+      };
+    }
+
+    if (acidosis) {
+      if (co2High) {
+        return { label: 'Респираторный ацидоз', detail: 'PaCO₂ повышено.' };
+      }
+      return {
+        label: 'Метаболический ацидоз',
+        detail: beLow ? 'BE снижен (дефицит оснований).' : 'PaCO₂ не повышено.',
+      };
+    }
+
+    if (co2Low) {
+      return { label: 'Респираторный алкалоз', detail: 'PaCO₂ снижено.' };
+    }
+
+    return {
+      label: 'Метаболический алкалоз',
+      detail: beHigh ? 'BE повышен (избыток оснований).' : 'PaCO₂ не снижено.',
+    };
+  }
+
+  function validate() {
+    var ph = parseNumber(form.querySelector('[name="ph"]').value);
+    var paco2 = parseNumber(form.querySelector('[name="paco2"]').value);
+    var be = parseNumber(form.querySelector('[name="be"]').value);
+
+    if (ph == null || paco2 == null || be == null) {
+      return { ok: false, message: 'Заполните все поля' };
+    }
+    if (ph < PH_MIN || ph > PH_MAX) {
+      return { ok: false, message: 'pH вне допустимого диапазона ' + PH_MIN + '–' + PH_MAX };
+    }
+    if (paco2 < PACO2_MIN || paco2 > PACO2_MAX) {
+      return { ok: false, message: 'PaCO₂ вне допустимого диапазона ' + PACO2_MIN + '–' + PACO2_MAX };
+    }
+    if (be < BE_MIN || be > BE_MAX) {
+      return { ok: false, message: 'BE вне допустимого диапазона ' + BE_MIN + '–' + BE_MAX };
+    }
+
+    return { ok: true, ph: ph, paco2: paco2, be: be };
+  }
+
+  function isReady() {
+    return validate().ok;
+  }
+
+  function hideResult() {
+    if (resultWrap) resultWrap.classList.add('fc-calc__result-wrap--hidden');
+    if (resultBox) resultBox.classList.add('fc-calc__result--empty');
+  }
+
+  function updateButton() {
+    var ok = isReady();
+    if (btn) {
+      btn.disabled = !ok;
+      btn.classList.toggle('fc-calc__btn--inactive', !ok);
+    }
+  }
+
+  function onChange() {
+    hideResult();
+    if (formError) formError.textContent = '';
+    updateButton();
+  }
+
+  if (form) {
+    form.addEventListener('input', onChange);
+    form.addEventListener('change', onChange);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideResult();
+      var check = validate();
+      if (!check.ok) {
+        if (formError) formError.textContent = check.message;
+        return;
       }
 
-      function setError(el, message) {
-        el.textContent = message || '';
-      }
+      var out = interpretAcidBase(check.ph, check.paco2, check.be);
+      if (resultNumber) resultNumber.textContent = out.label;
+      if (resultDesc) resultDesc.textContent = out.detail;
+      if (resultBox) resultBox.classList.remove('fc-calc__result--empty');
+      if (resultWrap) resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+    });
+  }
 
-      function roundToNearestTabletStrength(doseMcg) {
-        var nearest = TABLET_STRENGTHS_MCG[0];
-        var smallestDiff = Math.abs(doseMcg - nearest);
-        for (var i = 0; i < TABLET_STRENGTHS_MCG.length; i++) {
-          var diff = Math.abs(doseMcg - TABLET_STRENGTHS_MCG[i]);
-          if (diff < smallestDiff) {
-            smallestDiff = diff;
-            nearest = TABLET_STRENGTHS_MCG[i];
-          }
-        }
-        return nearest;
-      }
-
-      function showResult(out) {
-        resultNumber.textContent = out.doseMcg + ' мкг/сут';
-        resultDesc.textContent =
-          'Ближайшая доступная сила таблетки: ' +
-          out.nearestTabletMcg +
-          ' мкг/сут. Ориентир для в/в: ' +
-          out.ivDoseMcg +
-          ' мкг/сут.';
-        resultBox.classList.remove('fc-calc__result--empty');
-      }
-
-      function clearResult() {
-        resultNumber.textContent = '—';
-        resultDesc.textContent = '';
-        resultBox.classList.add('fc-calc__result--empty');
-      }
-
-      function calculate(input) {
-        var doseMcgExact = input.weightKg * MCG_PER_KG;
-        return {
-          doseMcg: Math.round(doseMcgExact),
-          nearestTabletMcg: roundToNearestTabletStrength(doseMcgExact),
-          ivDoseMcg: Math.round(doseMcgExact * IV_DOSE_FACTOR),
-        };
-      }
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        setError(weightError, '');
-        clearResult();
-
-        var weightKg = parsePositive(weightInput.value);
-        if (weightKg === null) {
-          setError(weightError, 'Введите корректную массу тела');
-          return;
-        }
-
-        showResult(calculate({ weightKg: weightKg }));
-      });
-    })();
+  updateButton();
+})();
   </script>
 </div>

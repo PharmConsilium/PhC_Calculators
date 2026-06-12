@@ -1,0 +1,54 @@
+{
+  "slug": "hemodialysis-adequacy",
+  "source": "MedSoftPro hemodialysis-calc",
+  "cases": [
+    {
+      "name": "medsoftpro example",
+      "input": {
+        "access": "venovenous",
+        "dialysisTime": 1,
+        "timeUnit": "hours",
+        "ureaPre": 2,
+        "ureaPost": 3,
+        "weightLoss": 1,
+        "weightPost": 100
+      },
+      "expected": {
+        "spKtV": -0.41,
+        "eKtV": -0.2,
+        "urr": -50,
+        "eKtVInterpretation": "недостаточный гемодиализ"
+      }
+    },
+    {
+      "name": "adequate dialysis",
+      "input": {
+        "access": "venovenous",
+        "dialysisTime": 4,
+        "timeUnit": "hours",
+        "ureaPre": 20,
+        "ureaPost": 5,
+        "weightLoss": 2,
+        "weightPost": 70
+      },
+      "expected": {
+        "urr": 75
+      }
+    },
+    {
+      "name": "arteriovenous access",
+      "input": {
+        "access": "arteriovenous",
+        "dialysisTime": 240,
+        "timeUnit": "minutes",
+        "ureaPre": 25,
+        "ureaPost": 8,
+        "weightLoss": 3,
+        "weightPost": 80
+      },
+      "expected": {
+        "access": "arteriovenous"
+      }
+    }
+  ]
+}

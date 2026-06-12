@@ -1,0 +1,46 @@
+{
+  "slug": "abg-interpretation",
+  "source": "MedSoftPro acid-base-state",
+  "cases": [
+    {
+      "name": "normal",
+      "input": { "ph": 7.4, "paco2": 40, "be": 0 },
+      "expected": { "code": "normal", "label": "Нормальное кислотно-щелочное состояние" }
+    },
+    {
+      "name": "respiratory acidosis",
+      "input": { "ph": 7.3, "paco2": 50, "be": 0 },
+      "expected": { "code": "respiratoryAcidosis", "label": "Респираторный ацидоз" }
+    },
+    {
+      "name": "respiratory alkalosis",
+      "input": { "ph": 7.5, "paco2": 30, "be": 0 },
+      "expected": { "code": "respiratoryAlkalosis", "label": "Респираторный алкалоз" }
+    },
+    {
+      "name": "metabolic acidosis",
+      "input": { "ph": 7.3, "paco2": 40, "be": -5 },
+      "expected": { "code": "metabolicAcidosis", "label": "Метаболический ацидоз" }
+    },
+    {
+      "name": "metabolic alkalosis",
+      "input": { "ph": 7.5, "paco2": 40, "be": 5 },
+      "expected": { "code": "metabolicAlkalosis", "label": "Метаболический алкалоз" }
+    },
+    {
+      "name": "medsoftpro example",
+      "input": { "ph": 7, "paco2": 20, "be": 0 },
+      "expected": { "code": "metabolicAcidosis", "label": "Метаболический ацидоз" }
+    },
+    {
+      "name": "mixed alkalosis pattern",
+      "input": { "ph": 7.5, "paco2": 30, "be": -5 },
+      "expected": { "code": "mixed", "label": "Смешанный (метаболический и респираторный) ацидоз или алкалоз" }
+    },
+    {
+      "name": "mixed acidosis pattern",
+      "input": { "ph": 7.2, "paco2": 50, "be": 5 },
+      "expected": { "code": "mixed", "label": "Смешанный (метаболический и респираторный) ацидоз или алкалоз" }
+    }
+  ]
+}

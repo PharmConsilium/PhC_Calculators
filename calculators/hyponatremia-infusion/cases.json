@@ -1,0 +1,51 @@
+{
+  "slug": "hyponatremia-infusion",
+  "source": "Medscape sodium correction rate / Adrogue-Madias",
+  "cases": [
+    {
+      "name": "medscape example",
+      "input": {
+        "naChangePerHour": 0.25,
+        "serumNa": 120,
+        "waterFraction": "adult_female",
+        "weight": 70,
+        "ivSolution": "nacl3",
+        "ivK": 0
+      },
+      "expected": {
+        "changePerLiter": 10.9,
+        "infusionRateMlHr": 22.9
+      }
+    },
+    {
+      "name": "normal saline child",
+      "input": {
+        "naChangePerHour": 0.25,
+        "serumNa": 125,
+        "waterFraction": "child",
+        "weight": 30,
+        "ivSolution": "nacl09",
+        "ivK": 0
+      },
+      "expected": {
+        "changePerLiter": 1.5,
+        "infusionRateMlHr": 163.8
+      }
+    },
+    {
+      "name": "with iv potassium",
+      "input": {
+        "naChangePerHour": 0.5,
+        "serumNa": 110,
+        "waterFraction": "adult_male",
+        "weight": 80,
+        "ivSolution": "nacl3",
+        "ivK": 20
+      },
+      "expected": {
+        "changePerLiter": 8.6,
+        "infusionRateMlHr": 57.9
+      }
+    }
+  ]
+}

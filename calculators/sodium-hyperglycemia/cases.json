@@ -1,0 +1,21 @@
+{
+  "slug": "sodium-hyperglycemia",
+  "source": "MedSoftPro sodium-correction-in-hyperglycemia",
+  "cases": [
+    {
+      "name": "medsoftpro example",
+      "input": { "measuredNa": 100, "glucose": 120 },
+      "expected": { "correctedNaKatz": 133, "correctedNaHillier": 149.4 }
+    },
+    {
+      "name": "moderate hyperglycemia",
+      "input": { "measuredNa": 130, "glucose": 10 },
+      "expected": { "correctedNaKatz": 131.3, "correctedNaHillier": 131.9 }
+    },
+    {
+      "name": "normal glucose",
+      "input": { "measuredNa": 140, "glucose": 5.5 },
+      "expected": { "correctedNaKatz": 140, "correctedNaHillier": 140 }
+    }
+  ]
+}
