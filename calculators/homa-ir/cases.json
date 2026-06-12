@@ -1,0 +1,45 @@
+{
+  "slug": "homa-ir",
+  "source": "HOMA-IR (Homeostatic Model Assessment for Insulin Resistance)",
+  "cases": [
+    {
+      "name": "below NHANES cutoff",
+      "input": {
+        "insulinPmolL": 60,
+        "glucoseMmolL": 5
+      },
+      "expected": {
+        "value": 2.2,
+        "homaIr": 2.2,
+        "insulinResistanceLikely": false,
+        "interpretation": "HOMA-IR <2,5 — ниже порога NHANES для инсулинорезистентности"
+      }
+    },
+    {
+      "name": "at NHANES cutoff",
+      "input": {
+        "insulinPmolL": 69,
+        "glucoseMmolL": 5
+      },
+      "expected": {
+        "value": 2.6,
+        "homaIr": 2.6,
+        "insulinResistanceLikely": true,
+        "interpretation": "HOMA-IR ≥2,5 — по данным NHANES соответствует инсулинорезистентности"
+      }
+    },
+    {
+      "name": "elevated HOMA-IR",
+      "input": {
+        "insulinPmolL": 120,
+        "glucoseMmolL": 5.5
+      },
+      "expected": {
+        "value": 4.9,
+        "homaIr": 4.9,
+        "insulinResistanceLikely": true,
+        "interpretation": "HOMA-IR ≥2,5 — по данным NHANES соответствует инсулинорезистентности"
+      }
+    }
+  ]
+}
