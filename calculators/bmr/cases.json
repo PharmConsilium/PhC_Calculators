@@ -1,0 +1,49 @@
+{
+  "slug": "bmr",
+  "source": "calculator.net BMR Calculator (Mifflin–St Jeor)",
+  "cases": [
+    {
+      "name": "calculator.net metric default male",
+      "input": {
+        "unitSystem": "metric",
+        "age": 25,
+        "sex": "male",
+        "weightKg": 60,
+        "heightCm": 180
+      },
+      "expected": {
+        "value": 1605,
+        "bmr": 1605
+      }
+    },
+    {
+      "name": "calculator.net US default male",
+      "input": {
+        "unitSystem": "us",
+        "age": 25,
+        "sex": "male",
+        "heightFeet": 5,
+        "heightInches": 10,
+        "weightLb": 160
+      },
+      "expected": {
+        "value": 1717,
+        "bmr": 1717
+      }
+    },
+    {
+      "name": "metric female",
+      "input": {
+        "unitSystem": "metric",
+        "age": 25,
+        "sex": "female",
+        "weightKg": 60,
+        "heightCm": 180
+      },
+      "expected": {
+        "value": 1439,
+        "bmr": 1439
+      }
+    }
+  ]
+}
