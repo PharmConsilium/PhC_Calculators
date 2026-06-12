@@ -1,0 +1,97 @@
+{
+  "slug": "tyg-index",
+  "source": "MDApp TyG Index Calculator",
+  "cases": [
+    {
+      "name": "mdapp no insulin resistance",
+      "input": {
+        "triglycerides": 80,
+        "glucose": 85
+      },
+      "expected": {
+        "value": 4.41,
+        "tyg": 4.41,
+        "insulinResistanceCategory": "unlikely",
+        "nafldCategory": "unlikely"
+      }
+    },
+    {
+      "name": "mdapp at insulin resistance cutoff",
+      "input": {
+        "triglycerides": 88,
+        "glucose": 90
+      },
+      "expected": {
+        "value": 4.49,
+        "tyg": 4.49,
+        "insulinResistanceCategory": "suggestive",
+        "nafldCategory": "unlikely"
+      }
+    },
+    {
+      "name": "mdapp suggestive insulin resistance",
+      "input": {
+        "triglycerides": 100,
+        "glucose": 90
+      },
+      "expected": {
+        "value": 4.55,
+        "tyg": 4.55,
+        "insulinResistanceCategory": "suggestive",
+        "nafldCategory": "unlikely"
+      }
+    },
+    {
+      "name": "mdapp 150/100",
+      "input": {
+        "triglycerides": 150,
+        "glucose": 100
+      },
+      "expected": {
+        "value": 4.81,
+        "tyg": 4.81,
+        "insulinResistanceCategory": "suggestive",
+        "nafldCategory": "unlikely"
+      }
+    },
+    {
+      "name": "mdapp rounded whole number",
+      "input": {
+        "triglycerides": 200,
+        "glucose": 110
+      },
+      "expected": {
+        "value": 5,
+        "tyg": 5,
+        "insulinResistanceCategory": "suggestive",
+        "nafldCategory": "unlikely"
+      }
+    },
+    {
+      "name": "nafld cutoff",
+      "input": {
+        "triglycerides": 22000,
+        "glucose": 1200
+      },
+      "expected": {
+        "value": 8.54,
+        "tyg": 8.54,
+        "insulinResistanceCategory": "suggestive",
+        "nafldCategory": "likely"
+      }
+    },
+    {
+      "name": "nafld at threshold",
+      "input": {
+        "triglycerides": 20000,
+        "glucose": 1200
+      },
+      "expected": {
+        "value": 8.5,
+        "tyg": 8.5,
+        "insulinResistanceCategory": "suggestive",
+        "nafldCategory": "likely"
+      }
+    }
+  ]
+}
