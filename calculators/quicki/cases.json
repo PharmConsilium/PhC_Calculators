@@ -1,0 +1,76 @@
+{
+  "slug": "quicki",
+  "source": "calc4lab QUICKI calculator",
+  "cases": [
+    {
+      "name": "calc4lab 354 g/L and 111 uU/mL",
+      "input": {
+        "glucose": 354,
+        "glucoseUnit": "gl",
+        "insulin": 111
+      },
+      "expected": {
+        "value": 0.152,
+        "quicki": 0.152,
+        "category": "resistance",
+        "statusKey": "resistance"
+      }
+    },
+    {
+      "name": "calc4lab 354 mg/dL and 111 uU/mL",
+      "input": {
+        "glucose": 354,
+        "glucoseUnit": "mgdl",
+        "insulin": 111
+      },
+      "expected": {
+        "value": 0.218,
+        "quicki": 0.218,
+        "category": "resistance",
+        "statusKey": "resistance"
+      }
+    },
+    {
+      "name": "normal sensitivity at threshold",
+      "input": {
+        "glucose": 90,
+        "glucoseUnit": "mgdl",
+        "insulin": 10
+      },
+      "expected": {
+        "value": 0.338,
+        "quicki": 0.338,
+        "category": "normal",
+        "statusKey": "normal"
+      }
+    },
+    {
+      "name": "insulin resistance below cutoff",
+      "input": {
+        "glucose": 100,
+        "glucoseUnit": "mgdl",
+        "insulin": 15
+      },
+      "expected": {
+        "value": 0.315,
+        "quicki": 0.315,
+        "category": "resistance",
+        "statusKey": "resistance"
+      }
+    },
+    {
+      "name": "glucose in g/L",
+      "input": {
+        "glucose": 0.9,
+        "glucoseUnit": "gl",
+        "insulin": 2
+      },
+      "expected": {
+        "value": 0.443,
+        "quicki": 0.443,
+        "category": "normal",
+        "statusKey": "normal"
+      }
+    }
+  ]
+}
