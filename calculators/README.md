@@ -56,6 +56,7 @@ node scripts/sync-calculator-readme.mjs
 - **`gestation-due-date/`** — Определение срока беременности и даты родов
 - **`glasgow-coma/`** — Шкала комы Глазго
 - **`hemodialysis-adequacy/`** — Определение адекватности гемодиализа
+- **`homa-b/`** — Индекс HOMA-B
 - **`homa-ir/`** — Индекс HOMA-IR
 - **`hydro-balance/`** — Расчет гидробаланса
 - **`hyponatremia-infusion/`** — Коррекция нормы инфузии при гипонатриемии
@@ -75,6 +76,7 @@ node scripts/sync-calculator-readme.mjs
 - **`pesi-pe/`** — Шкала PESI оценки летальности пациентов с ТЭЛА
 - **`potassium-deficit/`** — Дефицит калия
 - **`pregnancy-dating/`** — Определение срока беременности по последней менструации и ультразвуковой биометрии
+- **`quicki/`** — Индекс QUICKI
 - **`serum-osmolality/`** — Расчёт осмоляльности сыворотки
 - **`sodium-deficit/`** — Дефицит натрия при гипонатриемии
 - **`sodium-hyperglycemia/`** — Коррекция натрия при гипергликемии

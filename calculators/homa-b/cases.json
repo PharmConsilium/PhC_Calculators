@@ -1,0 +1,104 @@
+{
+  "slug": "homa-b",
+  "source": "https://super-calculator.com/homa-b-calculator",
+  "cases": [
+    {
+      "name": "reference default mmol/L",
+      "input": {
+        "insulin": 10,
+        "insulinUnit": "uuml",
+        "glucose": 5.0,
+        "glucoseUnit": "mmol"
+      },
+      "expected": {
+        "value": 133.3,
+        "homaB": 133.3,
+        "homaIr": 2.22,
+        "quicki": 0.338,
+        "homaBCategory": "elevated",
+        "homaIrCategory": "earlyResistance",
+        "quickiCategory": "reduced",
+        "combinedInterpretation": "Компенсаторная гиперинсулинемия: β-клетки перегружены. Высокий риск прогрессии.",
+        "compensatoryPhaseNote": "Компенсаторная фаза: β-клетки компенсируют инсулинорезистентность повышенной секрецией инсулина. Без коррекции возможно последующее снижение функции β-клеток."
+      }
+    },
+    {
+      "name": "user case glucose 4.2 insulin 11 uU/mL",
+      "input": {
+        "insulin": 11,
+        "insulinUnit": "uuml",
+        "glucose": 4.2,
+        "glucoseUnit": "mmol"
+      },
+      "expected": {
+        "value": 314.3,
+        "homaB": 314.3,
+        "homaIr": 2.05,
+        "quicki": 0.342,
+        "homaBCategory": "markedlyElevated",
+        "homaIrCategory": "earlyResistance",
+        "quickiCategory": "normal"
+      }
+    },
+    {
+      "name": "user case glucose 4.2 insulin 66 pmol/L",
+      "input": {
+        "insulin": 66,
+        "insulinUnit": "pmol",
+        "glucose": 4.2,
+        "glucoseUnit": "mmol"
+      },
+      "expected": {
+        "value": 314.3,
+        "homaB": 314.3,
+        "homaIr": 2.05,
+        "quicki": 0.342
+      }
+    },
+    {
+      "name": "reference default mg/dL",
+      "input": {
+        "insulin": 10,
+        "insulinUnit": "uuml",
+        "glucose": 90,
+        "glucoseUnit": "mgdl"
+      },
+      "expected": {
+        "value": 133.3,
+        "homaB": 133.3,
+        "homaIr": 2.22,
+        "quicki": 0.338
+      }
+    },
+    {
+      "name": "significantly reduced",
+      "input": {
+        "insulin": 6,
+        "insulinUnit": "uuml",
+        "glucose": 6.0,
+        "glucoseUnit": "mmol"
+      },
+      "expected": {
+        "value": 48.0,
+        "homaB": 48.0,
+        "homaBCategory": "significantlyReduced",
+        "combinedInterpretation": "Возможная первичная дисфункция β-клеток. Рекомендуется дополнительная оценка."
+      }
+    },
+    {
+      "name": "normal HOMA-B with elevated HOMA-IR",
+      "input": {
+        "insulin": 9,
+        "insulinUnit": "uuml",
+        "glucose": 5.0,
+        "glucoseUnit": "mmol"
+      },
+      "expected": {
+        "value": 120.0,
+        "homaB": 120.0,
+        "homaBCategory": "normal",
+        "combinedInterpretation": "Инсулинорезистентность есть, но β-клетки пока компенсируют. Коррекция резистентности."
+      }
+    }
+  ]
+}
