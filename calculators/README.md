@@ -52,6 +52,7 @@ node scripts/sync-calculator-readme.mjs
 - **`geneva-pe/`** — Женевская шкала (индекс Geneva) оценки вероятности развития ТЭЛА
 - **`gestation-due-date/`** — Определение срока беременности и даты родов
 - **`glasgow-coma/`** — Шкала комы Глазго
+- **`homa-b/`** — Индекс HOMA-B
 - **`homa-ir/`** — Индекс HOMA-IR
 - **`hydro-balance/`** — Расчет гидробаланса
 - **`improve-scale/`** — Шкала IMPROVE
