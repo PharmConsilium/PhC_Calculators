@@ -121,17 +121,21 @@ export function formatAgeFromDates(birthIso, examIso) {
   return parts.join(' ') || '0 дн.';
 }
 
+/** Верхняя граница массы для режимов роста (кг). */
+export const MAX_GROWTH_WEIGHT_KG = 250;
+
 /** Масса в одном поле: кг (по умолчанию) или г. */
-export function weightWithUnitToKg(value, unit) {
+export function weightWithUnitToKg(value, unit, maxKg = MAX_GROWTH_WEIGHT_KG) {
   const s = value === null || value === undefined ? '' : String(value).trim();
   if (!s) return NaN;
   const n = Number(s.replace(',', '.'));
   if (!Number.isFinite(n) || n <= 0) return NaN;
+  const maxG = maxKg * 1000;
   if (unit === 'g') {
-    if (n > 30000) return NaN;
+    if (n > maxG) return NaN;
     return n / 1000;
   }
-  if (n > 30) return NaN;
+  if (n > maxKg) return NaN;
   return n;
 }
 

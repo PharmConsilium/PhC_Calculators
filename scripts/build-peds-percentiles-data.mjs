@@ -118,6 +118,8 @@ async function main() {
   const headAge = await loadWho2006MonthlyLms([20, 21, 22], [23, 24, 25]);
   const bmiAge06 = await loadWho2006MonthlyLms([14, 15, 16], [17, 18, 19]);
   const bmiChild = await loadLmsTable(join(dataDir, 'bmiagerev.csv'));
+  const heightAgeOver5 = await loadLmsTable(join(dataDir, 'statage.csv'), 'Agemos', 228);
+  const weightAgeOver5 = await loadLmsTable(join(dataDir, 'wtage.csv'), 'Agemos', 120);
   const wtLenRaw = JSON.parse(await readFile(join(dataDir, 'month-wfl.json'), 'utf8'));
   const weightForLength = { male: [], female: [] };
   for (const sex of ['male', 'female']) {
@@ -155,11 +157,13 @@ async function main() {
 
   const output = {
     source:
-      'WHO igrowup day tables 0–1826 d (Anthro mobile); monthly head 0–60 mo; BMI 61–228 mo (bmiagerev)',
+      'WHO igrowup day tables 0–1826 d (Anthro mobile); monthly head 0–60 mo; BMI 61–228 mo (bmiagerev); height 61–228 mo (statage); weight 61–120 mo (wtage)',
     weightAge,
     heightAge,
     headAge,
     bmiAge,
+    heightAgeOver5,
+    weightAgeOver5,
     weightForLength,
     dayWeightAge,
     dayHeightAge,

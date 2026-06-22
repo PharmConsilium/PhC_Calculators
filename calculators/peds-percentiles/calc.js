@@ -1,5 +1,5 @@
 /**
- * Процентили в педиатрии — расчёт по стандартам ВОЗ (LMS, z-score).
+ * Оценка физического развития детей — расчёт по стандартам ВОЗ (LMS, z-score).
  */
 import whoLms from './data/who-lms.json' with { type: 'json' };
 import birthWeightData from './data/birth-weight.json' with { type: 'json' };
@@ -11,7 +11,6 @@ import {
   adjustedHeightForLhfa,
   formatZScore,
   heightMeasureLabel,
-  heightMeasureLabelGenitive,
   lhfaExpectedMeasure,
   lmsZScoreFromTable,
   lmsZScoreFromTableDiscrete,
@@ -28,23 +27,30 @@ import {
 } from './lms.js';
 
 export const MODES = {
-  baby: 'Масса, длина тела, окружность головы до 2-х лет',
-  birthweight: 'Масса при рождении',
-  bmi: 'ИМТ',
-  height: 'Длина тела / рост до 5-ти лет',
-  head: 'Окружность головы до 5-ти лет',
-  weight: 'Масса до 5-ти лет',
+  growthUnder5: 'Масса, длина тела (рост), масса/длина (рост), ИМТ до 5 лет',
+  growthOver5: 'Масса, рост, масса/рост, ИМТ старше 5 лет',
+  head: 'Окружность головы до 5 лет',
   fetal: 'Масса плода',
-  targetHeight: 'Потенциал роста ребенка на основании роста родителей',
+  birthweight: 'Масса при рождении',
+  targetHeight: 'Потенциал роста ребёнка',
 };
 
 const INFANT_MAX_MONTHS = 24;
+const MAX_GROWTH_UNDER5_MONTHS = 60;
+const MIN_GROWTH_OVER5_MONTHS = 61;
+const MAX_HEIGHT_OVER5_MONTHS = 228;
+const MAX_WEIGHT_OVER5_MONTHS = 120;
 const WFL_MIN_CM = 45;
 const WFL_MAX_CM = 110;
 
 function parseSex(sex) {
   if (sex === 'male' || sex === 'female') return sex;
   throw new Error('Укажите пол ребёнка');
+}
+
+function parseHeightMeasure(value, ageMonths) {
+  if (value === 'L' || value === 'H') return value;
+  return ageMonths < INFANT_MAX_MONTHS ? 'L' : 'H';
 }
 
 function ageToMonths(input) {
@@ -77,48 +83,24 @@ function resolveAge(input) {
   return { ageMonths, ageDays, fromDates };
 }
 
-/**
- * Индекс возраста LMS до 5 лет.
- * По датам — доли месяца из дней жизни; при вводе возраста — полные месяцы (вниз).
- */
-function growthAgeX(ageDays, ageMonths, fromDates) {
-  const days = Number.isFinite(ageDays) ? ageDays : ageMonths * 30.4375;
-  if (days > WHO_MAX_GROWTH_DAYS) {
-    throw new Error('Возраст вне диапазона ВОЗ (до 1856 дн. жизни)');
-  }
-  if (fromDates) return whoAgeMonthsFromDays(days);
-  return whoCompletedMonths(ageMonths);
-}
-
-/** ИМТ к возрасту: до 60 мес. — дневные таблицы igrowup; с 61 мес. — месячные. */
-function bmiLmsResult(sex, ageDays, ageMonths, bmi) {
-  if (ageMonths <= 60) {
-    const day = whoGrowthAgeDays(ageDays, ageMonths);
-    return lmsZScoreFromTableDiscrete(whoLms.dayBmiAge[sex], day, bmi);
-  }
-  return lmsZScoreFromTableDiscrete(
-    whoLms.bmiAge[sex],
-    whoCompletedMonths(ageMonths),
-    bmi
-  );
-}
-
-function weightForLengthKey(lengthCm, fineStep = true) {
-  return fineStep ? Math.round(lengthCm * 10) / 10 : Math.round(lengthCm * 2) / 2;
-}
-
 function resolveAgeLabel(input) {
   if (input.ageLabel) return input.ageLabel;
   if (input.birthDate && input.examDate) return formatAgeFromDates(input.birthDate, input.examDate);
   return '';
 }
 
-function weightForLengthResult(sex, lengthCm, weightKg, ageMonths) {
-  const useDay = ageMonths < 24;
-  const table = useDay ? whoLms.dayWeightForLength[sex] : whoLms.dayWeightForHeight[sex];
-  const key = weightForLengthKey(lengthCm, useDay);
-  if (key < WFL_MIN_CM || key > WFL_MAX_CM) return null;
-  return lmsZScoreFromTableKey(table, key, weightKg);
+function weightForLengthKey(lengthCm, fineStep = true) {
+  return fineStep ? Math.round(lengthCm * 10) / 10 : Math.round(lengthCm * 2) / 2;
+}
+
+function weightForLengthLabel(ageMonths, measure) {
+  if (ageMonths >= MIN_GROWTH_OVER5_MONTHS) return 'Масса к росту';
+  return measure === 'H' ? 'Масса к росту' : 'Масса к длине тела';
+}
+
+function heightAgeLabel(ageMonths, measure) {
+  if (ageMonths >= MIN_GROWTH_OVER5_MONTHS) return 'Рост к возрасту';
+  return measure === 'H' ? 'Рост к возрасту' : 'Длина тела к возрасту';
 }
 
 function metricResult(label, value, unit, lms) {
@@ -134,19 +116,28 @@ function metricResult(label, value, unit, lms) {
   };
 }
 
-function valueOnlyResult(text) {
-  return { text };
+function bmiLmsResult(sex, ageDays, ageMonths, bmi) {
+  if (ageMonths <= 60) {
+    const day = whoGrowthAgeDays(ageDays, ageMonths);
+    return lmsZScoreFromTableDiscrete(whoLms.dayBmiAge[sex], day, bmi);
+  }
+  return lmsZScoreFromTableDiscrete(
+    whoLms.bmiAge[sex],
+    whoCompletedMonths(ageMonths),
+    bmi
+  );
 }
 
-function growthLms(sex, kind, ageDays, ageMonths, value, fromDates, measureUsed) {
+function growthLmsUnder5(sex, kind, ageDays, ageMonths, value, fromDates, measureUsed) {
   if (kind === 'head') {
-    const ageX = growthAgeX(ageDays, ageMonths, fromDates);
+    const ageX = fromDates ? whoAgeMonthsFromDays(ageDays) : whoCompletedMonths(ageMonths);
     const table = whoLms.headAge[sex];
     if (!fromDates && Number.isInteger(ageX)) {
       return lmsZScoreFromTableDiscrete(table, ageX, value);
     }
     return lmsZScoreFromTable(table, ageX, value);
   }
+
   const day = whoGrowthAgeDays(ageDays, ageMonths);
   if (day > WHO_MAX_GROWTH_DAYS) {
     throw new Error('Возраст вне диапазона ВОЗ (до 1856 дн. жизни)');
@@ -154,66 +145,100 @@ function growthLms(sex, kind, ageDays, ageMonths, value, fromDates, measureUsed)
   const dayTable =
     kind === 'weight' ? whoLms.dayWeightAge : kind === 'height' ? whoLms.dayHeightAge : null;
   if (!dayTable) throw new Error('Нет данных для расчёта');
+
   if (kind === 'height') {
     const rows = dayTable[sex];
     const row = rows.find((r) => r.x === day);
     const expected = lhfaExpectedMeasure(row, ageMonths);
-    const measure =
-      measureUsed ?? (ageMonths <= INFANT_MAX_MONTHS ? 'L' : 'H');
+    const measure = measureUsed ?? (ageMonths < INFANT_MAX_MONTHS ? 'L' : 'H');
     const adj = adjustedHeightForLhfa(value, expected, measure);
     return lmsZScoreFromTableDiscrete(rows, day, adj);
   }
   return lmsZScoreFromTableDiscrete(dayTable[sex], day, value);
 }
 
-function calcBaby(input) {
+function growthLmsOver5(sex, kind, ageMonths, value) {
+  const ageX = whoCompletedMonths(ageMonths);
+  const table =
+    kind === 'weight' ? whoLms.weightAgeOver5[sex] : whoLms.heightAgeOver5[sex];
+  if (!table?.length) throw new Error('Нет данных для расчёта');
+  return lmsZScoreFromTable(table, ageX, value);
+}
+
+function weightForLengthResult(sex, lengthCm, weightKg, ageMonths, measureUsed) {
+  const useLengthTable = ageMonths < INFANT_MAX_MONTHS;
+  const table = useLengthTable ? whoLms.dayWeightForLength[sex] : whoLms.dayWeightForHeight[sex];
+  const expectedMeasure = useLengthTable ? 'L' : 'H';
+  const measure = measureUsed ?? expectedMeasure;
+  const adj = adjustedHeightForLhfa(lengthCm, expectedMeasure, measure);
+  const key = weightForLengthKey(adj, useLengthTable);
+  if (key < WFL_MIN_CM || key > WFL_MAX_CM) return null;
+  return lmsZScoreFromTableKey(table, key, weightKg);
+}
+
+function calcGrowthBundle(input, options) {
   const sex = parseSex(input.sex);
   const { ageMonths, ageDays, fromDates } = resolveAge(input);
-  if (ageMonths > 24) throw new Error('Калькулятор младенца: возраст до 2 лет (24 мес.)');
-  const results = [];
+  const { minMonths, maxMonths, useDayTables } = options;
 
+  if (ageMonths < minMonths) {
+    throw new Error(
+      minMonths >= MIN_GROWTH_OVER5_MONTHS
+        ? 'Возраст должен быть старше 5 лет (61 мес.)'
+        : 'Возраст вне диапазона'
+    );
+  }
+  if (ageMonths > maxMonths) {
+    throw new Error(
+      maxMonths === MAX_GROWTH_UNDER5_MONTHS
+        ? 'Возраст на дату осмотра превышает 5 лет (60 мес.)'
+        : 'Возраст вне допустимого диапазона'
+    );
+  }
+
+  const measure = parseHeightMeasure(input.heightMeasure, ageMonths);
+  const results = [];
   const w =
     input.weightKg != null && input.weightKg !== '' ? Number(input.weightKg) : null;
   const h =
     input.heightCm != null && input.heightCm !== '' ? Number(input.heightCm) : null;
-  const hc = input.headCm != null && input.headCm !== '' ? Number(input.headCm) : null;
 
   if (w != null) {
-    results.push(
-      metricResult('Масса к возрасту', w, 'кг', growthLms(sex, 'weight', ageDays, ageMonths, w, fromDates))
-    );
+    const wLms = useDayTables
+      ? growthLmsUnder5(sex, 'weight', ageDays, ageMonths, w, fromDates)
+      : growthLmsOver5(sex, 'weight', ageMonths, w);
+    results.push(metricResult('Масса к возрасту', w, 'кг', wLms));
   }
+
   if (h != null) {
-    const haz = growthLms(sex, 'height', ageDays, ageMonths, h, fromDates, 'L');
-    results.push(metricResult('Длина тела к возрасту', h, 'см', haz));
+    const hLms = useDayTables
+      ? growthLmsUnder5(sex, 'height', ageDays, ageMonths, h, fromDates, measure)
+      : growthLmsOver5(sex, 'height', ageMonths, h);
+    results.push(metricResult(heightAgeLabel(ageMonths, measure), h, 'см', hLms));
   }
+
   let bmiDisplay = null;
   if (w != null && h != null && h > 0) {
     const hm = h / 100;
     const bmi = w / (hm * hm);
     bmiDisplay = Math.round(bmi * 10) / 10;
-    const bmiLms = bmiLmsResult(sex, ageDays, ageMonths, bmi);
-    results.push(metricResult('ИМТ к возрасту', bmi, 'кг/м²', bmiLms));
+    if (ageMonths > WHO_BMI_MAX_MONTHS) {
+      throw new Error('Возраст вне диапазона ИМТ (до 19 лет)');
+    }
+    results.push(metricResult('ИМТ к возрасту', bmi, 'кг/м²', bmiLmsResult(sex, ageDays, ageMonths, bmi)));
   }
-  if (hc != null) {
-    results.push(
-      metricResult(
-        'Окружность головы',
-        hc,
-        'см',
-        growthLms(sex, 'head', ageDays, ageMonths, hc, fromDates)
-      )
-    );
-  }
+
   if (w != null && h != null) {
-    const wfl = weightForLengthResult(sex, h, w, ageMonths);
+    const wfl = weightForLengthResult(sex, h, w, ageMonths, measure);
     if (wfl) {
-      results.push(metricResult('Масса к длине тела', w, 'кг', wfl));
+      results.push(metricResult(weightForLengthLabel(ageMonths, measure), w, 'кг', wfl));
     }
   }
+
   if (!results.length) throw new Error('Укажите хотя бы одно измерение');
+
   return {
-    mode: 'baby',
+    mode: options.mode,
     results,
     bmi: bmiDisplay,
     ageLabel: resolveAgeLabel(input),
@@ -221,62 +246,46 @@ function calcBaby(input) {
   };
 }
 
-function calcBmi(input) {
-  const sex = parseSex(input.sex);
-  const { ageMonths, ageDays, fromDates } = resolveAge(input);
-  if (ageMonths > WHO_BMI_MAX_MONTHS) throw new Error('Возраст до 19 лет (228 мес.)');
-  const w = Number(input.weightKg);
-  const h = Number(input.heightCm) / 100;
-  if (!Number.isFinite(w) || !Number.isFinite(h) || h <= 0) {
-    throw new Error(`Укажите массу и ${heightMeasureLabelGenitive(ageMonths)}`);
-  }
-  const bmi = w / (h * h);
-  const lms = bmiLmsResult(sex, ageDays, ageMonths, bmi);
-  return {
-    mode: 'bmi',
-    bmi: Math.round(bmi * 100) / 100,
-    percentile: lms.percentile,
-    zScore: lms.zScore,
-    band: lms.band,
-    ageLabel: resolveAgeLabel(input),
-    summary: `ИМТ ${Math.round(bmi * 100) / 100} кг/м²: ${lms.band} (z = ${formatZScore(lms.zScore)})`,
-  };
+function calcGrowthUnder5(input) {
+  return calcGrowthBundle(input, {
+    mode: 'growthUnder5',
+    minMonths: 0,
+    maxMonths: MAX_GROWTH_UNDER5_MONTHS,
+    useDayTables: true,
+  });
 }
 
-const MAX_HEIGHT_AGE_MONTHS = 60;
-
-function calcHeight(input) {
-  const sex = parseSex(input.sex);
-  const { ageMonths, ageDays, fromDates } = resolveAge(input);
-  if (ageMonths > MAX_HEIGHT_AGE_MONTHS) {
-    throw new Error('Возраст до 5 лет (60 мес.)');
+function calcGrowthOver5(input) {
+  const { ageMonths } = resolveAge(input);
+  if (ageMonths < MIN_GROWTH_OVER5_MONTHS) {
+    throw new Error('Возраст должен быть старше 5 лет (61 мес.)');
   }
-  const h = Number(input.heightCm);
-  const heightLabel = heightMeasureLabel(ageMonths);
-  const measure = ageMonths <= INFANT_MAX_MONTHS ? 'L' : 'H';
-  const lms = growthLms(sex, 'height', ageDays, ageMonths, h, fromDates, measure);
-  return {
-    mode: 'height',
-    heightCm: h,
-    heightLabel,
-    percentile: lms.percentile,
-    zScore: lms.zScore,
-    band: lms.band,
-    ageLabel: resolveAgeLabel(input),
-    summary: `${heightLabel}: ${lms.band} (z = ${formatZScore(lms.zScore)})`,
-  };
+  if (ageMonths > MAX_HEIGHT_OVER5_MONTHS) {
+    throw new Error('Возраст вне диапазона (до 19 лет для роста и ИМТ)');
+  }
+  const w =
+    input.weightKg != null && input.weightKg !== '' ? Number(input.weightKg) : null;
+  const h =
+    input.heightCm != null && input.heightCm !== '' ? Number(input.heightCm) : null;
+  if (w != null && h == null && ageMonths > MAX_WEIGHT_OVER5_MONTHS) {
+    throw new Error('Масса к возрасту: возраст до 10 лет (120 мес.)');
+  }
+  return calcGrowthBundle(input, {
+    mode: 'growthOver5',
+    minMonths: MIN_GROWTH_OVER5_MONTHS,
+    maxMonths: MAX_HEIGHT_OVER5_MONTHS,
+    useDayTables: false,
+  });
 }
-
-const MAX_HEAD_AGE_MONTHS = 60;
 
 function calcHead(input) {
   const sex = parseSex(input.sex);
   const { ageMonths, ageDays, fromDates } = resolveAge(input);
-  if (ageMonths > MAX_HEAD_AGE_MONTHS) {
+  if (ageMonths > MAX_GROWTH_UNDER5_MONTHS) {
     throw new Error('Окружность головы: возраст до 5 лет (60 мес.)');
   }
   const hc = Number(input.headCm);
-  const lms = growthLms(sex, 'head', ageDays, ageMonths, hc, fromDates);
+  const lms = growthLmsUnder5(sex, 'head', ageDays, ageMonths, hc, fromDates);
   return {
     mode: 'head',
     headCm: hc,
@@ -286,28 +295,6 @@ function calcHead(input) {
     band: lms.band,
     ageLabel: resolveAgeLabel(input),
     summary: `Окружность головы: ${lms.band} (z = ${formatZScore(lms.zScore)})`,
-  };
-}
-
-const MAX_WEIGHT_AGE_MONTHS = 60;
-
-function calcWeight(input) {
-  const sex = parseSex(input.sex);
-  const { ageMonths, ageDays, fromDates } = resolveAge(input);
-  if (ageMonths > MAX_WEIGHT_AGE_MONTHS) {
-    throw new Error('Масса: возраст до 5 лет (60 мес.)');
-  }
-  const w = Number(input.weightKg);
-  const lms = growthLms(sex, 'weight', ageDays, ageMonths, w, fromDates);
-  return {
-    mode: 'weight',
-    weightKg: w,
-    measureLabel: 'Масса',
-    percentile: lms.percentile,
-    zScore: lms.zScore,
-    band: lms.band,
-    ageLabel: resolveAgeLabel(input),
-    summary: `Масса: ${lms.band} (z = ${formatZScore(lms.zScore)})`,
   };
 }
 
@@ -372,6 +359,9 @@ function calcTargetHeight(input) {
   const sex = parseSex(input.sex);
   const mother = Number(input.motherHeightCm);
   const father = Number(input.fatherHeightCm);
+  if (!Number.isFinite(mother) || !Number.isFinite(father) || mother <= 0 || father <= 0) {
+    throw new Error('Укажите рост матери и отца');
+  }
   const { potentialCm, targetCm, rangeLowCm, rangeHighCm, zScore, percentile } = targetHeightCm(
     sex,
     mother,
@@ -392,22 +382,23 @@ function calcTargetHeight(input) {
 export function calculate(input) {
   const mode = input.mode;
   switch (mode) {
+    case 'growthUnder5':
     case 'baby':
-      return calcBaby(input);
-    case 'bmi':
-      return calcBmi(input);
-    case 'height':
-      return calcHeight(input);
+      return calcGrowthUnder5(input);
+    case 'growthOver5':
+      return calcGrowthOver5(input);
     case 'head':
       return calcHead(input);
-    case 'weight':
-      return calcWeight(input);
     case 'birthweight':
       return calcBirthWeight(input);
     case 'fetal':
       return calcFetal(input);
     case 'targetHeight':
       return calcTargetHeight(input);
+    case 'bmi':
+    case 'height':
+    case 'weight':
+      return calcGrowthUnder5({ ...input, mode: 'growthUnder5' });
     default:
       throw new Error('Неизвестный режим расчёта');
   }
