@@ -1,4 +1,17 @@
 /* anion-gap */
+.fc-calc[data-calculator="anion-gap"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__card,
+.fc-calc[data-calculator="anion-gap"] .fc-calc__panel,
+.fc-calc[data-calculator="anion-gap"] .fc-calc__panel-section,
+.fc-calc[data-calculator="anion-gap"] .fc-calc__form {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-hint {
   max-width: 36rem;
   margin: 0 auto;
@@ -15,23 +28,37 @@
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid {
   display: grid;
   gap: 14px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-ion-grid .fc-calc__field {
   margin-bottom: 0;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-input-row {
   display: flex;
+  flex-wrap: nowrap;
   gap: 8px;
   align-items: stretch;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-input-row input[type="number"] {
-  flex: 1 1 auto;
-  width: auto;
+  flex: 1 1 0;
   min-width: 0;
+  width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="anion-gap"] .fc-calc__ag-input-row select {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 5.5rem;
 }
 
 .fc-calc[data-calculator="anion-gap"] .fc-calc__ag-unit--fixed {
