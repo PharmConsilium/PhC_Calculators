@@ -2,6 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { NOTES_DISCLAIMER_HTML } from './snippets/notes-disclaimer.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const slug = 'peds-percentiles';
@@ -27,7 +28,6 @@ function stripModuleExports(src) {
 
 const calcCore = stripModuleExports(calcJs)
   .replace(/\bwhoLms\b/g, 'WHO_LMS')
-  .replace(/\bomniBaby\b/g, 'OMNI_BABY')
   .replace(/\bbirthWeightData\b/g, 'BIRTH_WEIGHT')
   .replace(/\bfetalWeightData\b/g, 'FETAL_WEIGHT');
 
@@ -44,14 +44,12 @@ const script = `(function () {
 await writeFile(join(calcDir, 'widget.js'), script, 'utf8');
 
 const modes = [
-  ['baby', 'Масса, длина тела, окружность головы до 2-х лет'],
-  ['birthweight', 'Масса при рождении'],
-  ['bmi', 'ИМТ'],
-  ['height', 'Длина тела / рост до 5-ти лет'],
-  ['head', 'Окружность головы до 5-ти лет'],
-  ['weight', 'Масса до 5-ти лет'],
+  ['growthUnder5', 'Масса, длина тела (рост), масса/длина (рост), ИМТ до 5 лет'],
+  ['growthOver5', 'Масса, рост, масса/рост, ИМТ старше 5 лет'],
+  ['head', 'Окружность головы до 5 лет'],
   ['fetal', 'Масса плода'],
-  ['targetHeight', 'Потенциал роста ребенка на основании роста родителей'],
+  ['birthweight', 'Масса при рождении'],
+  ['targetHeight', 'Потенциал роста ребёнка'],
 ];
 
 const modeOptions = modes
@@ -97,12 +95,37 @@ function weightField(inputId, unitGroup, label = 'Масса') {
                 </div>`;
 }
 
+function heightMeasureField(group) {
+  return `                <div class="fc-calc__field fc-calc__height-measure-field" id="fc-calc-peds-percentiles-${group}-measure-field" hidden>
+                  <span class="fc-calc__hint">Способ измерения</span>
+              <div class="fc-calc__segmented" data-height-measure="${group}">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-measure="L">Длина тела</button>
+                <button type="button" class="fc-calc__segment" data-measure="H">Рост</button>
+              </div>
+                </div>`;
+}
+
+function growthPanel(prefix, group, sexGroup, heightLabel = 'Длина тела, см', withMeasureToggle = false) {
+  return `                <div class="fc-calc__field">
+                  <span class="fc-calc__hint">Пол</span>
+${sexSegment(sexGroup)}
+                </div>
+${dateRow(`fc-calc-peds-percentiles-${prefix}-birth`, `fc-calc-peds-percentiles-${prefix}-exam`)}
+${weightField(`fc-calc-peds-percentiles-${prefix}-weight`, group)}
+${withMeasureToggle ? heightMeasureField(group) + '\n' : ''}                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-${prefix}-height" id="fc-calc-peds-percentiles-${prefix}-height-label">${heightLabel}</label>
+                  <div class="fc-calc__input-unit-row">
+                    <input type="number" id="fc-calc-peds-percentiles-${prefix}-height" inputmode="decimal" min="0" step="any" placeholder="0" />
+                    <span class="fc-calc__unit-fixed">см</span>
+                  </div>
+                </div>`;
+}
+
 const html = `<!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Процентили в педиатрии
-  Сборка: 2026-06-09o
+  Название: Оценка физического развития детей
 -->
-<div class="fc-calc" data-calculator="peds-percentiles" data-build="2026-06-09y">
+<div class="fc-calc" data-calculator="peds-percentiles">
   <style>
 ${css.trim()}
 ${extra.trim()}
@@ -111,8 +134,8 @@ ${extra.trim()}
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Процентили в педиатрии</h2>
-        <p class="fc-calc__hint">Расчёт процентилей по стандартам ВОЗ: масса, длина тела / рост, ИМТ, ОГ, масса при рождении, масса плода, целевой рост</p>
+        <h2 class="fc-calc__title">Оценка физического развития детей</h2>
+        <p class="fc-calc__hint">Расчёт процентилей и z-score ведётся по стандартам ВОЗ для следующих антропометрических показателей: масса, длина тела / рост, масса к длине / росту, индекс массы тела (ИМТ), окружность головы, масса плода, масса при рождении, потенциал роста ребёнка.</p>
       </header>
 
       <div class="fc-calc__body">
@@ -121,66 +144,15 @@ ${extra.trim()}
             <div class="fc-calc__panel">
               <h3 class="fc-calc__panel-heading">Введите данные</h3>
               <div class="fc-calc__field">
-                <label for="fc-calc-peds-percentiles-mode">Калькулятор</label>
+                <label for="fc-calc-peds-percentiles-mode">Показатель</label>
                 <select class="fc-calc__mode-select" id="fc-calc-peds-percentiles-mode" name="mode" required>
 ${modeOptions}
                 </select>
               </div>
-              <p class="fc-calc__mode-hint" id="fc-calc-peds-percentiles-mode-hint">Возраст до 2 лет: дата рождения и дата осмотра. Заполните хотя бы одно измерение.</p>
+              <p class="fc-calc__mode-hint" id="fc-calc-peds-percentiles-mode-hint">Возраст до 5 лет: дата рождения и дата осмотра. Заполните массу, длину тела / рост или оба показателя.</p>
               <div class="fc-calc__mode-fields">
-${modePanel('baby', true, `                <div class="fc-calc__field">
-                  <span class="fc-calc__hint">Пол</span>
-${sexSegment('baby')}
-                </div>
-${dateRow('fc-calc-peds-percentiles-baby-birth', 'fc-calc-peds-percentiles-baby-exam')}
-${weightField('fc-calc-peds-percentiles-baby-weight', 'baby')}
-                <div class="fc-calc__field">
-                  <label for="fc-calc-peds-percentiles-baby-height">Длина тела</label>
-                  <div class="fc-calc__input-unit-row">
-                    <input type="number" id="fc-calc-peds-percentiles-baby-height" inputmode="decimal" min="0" step="any" placeholder="0" />
-                    <span class="fc-calc__unit-fixed">см</span>
-                  </div>
-                </div>
-                <div class="fc-calc__field">
-                  <label for="fc-calc-peds-percentiles-baby-head">Окружность головы</label>
-                  <div class="fc-calc__input-unit-row">
-                    <input type="number" id="fc-calc-peds-percentiles-baby-head" inputmode="decimal" min="0" step="any" placeholder="0" />
-                    <span class="fc-calc__unit-fixed">см</span>
-                  </div>
-                </div>`)}
-${modePanel('birthweight', false, `                <div class="fc-calc__age-row">
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-peds-percentiles-bw-weeks">Гестационный возраст, нед.</label>
-                    <input type="number" id="fc-calc-peds-percentiles-bw-weeks" inputmode="numeric" min="20" max="41" step="1" placeholder="нед." />
-                  </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-peds-percentiles-bw-days">Дни</label>
-                    <input type="number" id="fc-calc-peds-percentiles-bw-days" inputmode="numeric" min="0" max="6" step="1" placeholder="0" />
-                  </div>
-                </div>
-                <div class="fc-calc__field">
-                  <label for="fc-calc-peds-percentiles-bw-weight">Масса при рождении, г</label>
-                  <input type="number" id="fc-calc-peds-percentiles-bw-weight" inputmode="numeric" min="0" step="1" placeholder="г" />
-                </div>`)}
-${modePanel('bmi', false, `                <div class="fc-calc__field">
-                  <span class="fc-calc__hint">Пол</span>
-${sexSegment('bmi')}
-                </div>
-${dateRow('fc-calc-peds-percentiles-bmi-birth', 'fc-calc-peds-percentiles-bmi-exam')}
-${weightField('fc-calc-peds-percentiles-bmi-weight', 'bmi', 'Масса')}
-                <div class="fc-calc__field">
-                  <label for="fc-calc-peds-percentiles-bmi-height" id="fc-calc-peds-percentiles-bmi-height-label">Длина тела, см</label>
-                  <input type="number" id="fc-calc-peds-percentiles-bmi-height" inputmode="decimal" min="0" step="any" placeholder="см" />
-                </div>`)}
-${modePanel('height', false, `                <div class="fc-calc__field">
-                  <span class="fc-calc__hint">Пол</span>
-${sexSegment('height')}
-                </div>
-${dateRow('fc-calc-peds-percentiles-height-birth', 'fc-calc-peds-percentiles-height-exam')}
-                <div class="fc-calc__field">
-                  <label for="fc-calc-peds-percentiles-height-cm" id="fc-calc-peds-percentiles-height-cm-label">Длина тела, см</label>
-                  <input type="number" id="fc-calc-peds-percentiles-height-cm" inputmode="decimal" min="0" step="any" placeholder="см" />
-                </div>`)}
+${modePanel('growthUnder5', true, growthPanel('growth-u5', 'growth-u5', 'growth-u5', 'Длина тела, см', true))}
+${modePanel('growthOver5', false, growthPanel('growth-o5', 'growth-o5', 'growth-o5', 'Рост, см'))}
 ${modePanel('head', false, `                <div class="fc-calc__field">
                   <span class="fc-calc__hint">Пол</span>
 ${sexSegment('head')}
@@ -190,12 +162,6 @@ ${dateRow('fc-calc-peds-percentiles-head-birth', 'fc-calc-peds-percentiles-head-
                   <label for="fc-calc-peds-percentiles-head-cm">Окружность головы, см</label>
                   <input type="number" id="fc-calc-peds-percentiles-head-cm" inputmode="decimal" min="0" step="any" placeholder="см" />
                 </div>`)}
-${modePanel('weight', false, `                <div class="fc-calc__field">
-                  <span class="fc-calc__hint">Пол</span>
-${sexSegment('weight')}
-                </div>
-${dateRow('fc-calc-peds-percentiles-weight-birth', 'fc-calc-peds-percentiles-weight-exam')}
-${weightField('fc-calc-peds-percentiles-weight-value', 'weight')}`)}
 ${modePanel('fetal', false, `                <div class="fc-calc__field">
                   <span class="fc-calc__hint">Пол плода</span>
 ${sexSegment('fetal')}
@@ -225,6 +191,20 @@ ${sexSegment('fetal')}
                 <div class="fc-calc__field">
                   <label for="fc-calc-peds-percentiles-fetal-bpd">Бипариетальный размер (BPD), см</label>
                   <input type="number" id="fc-calc-peds-percentiles-fetal-bpd" inputmode="decimal" min="0" step="any" />
+                </div>`)}
+${modePanel('birthweight', false, `                <div class="fc-calc__age-row">
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-bw-weeks">Гестационный возраст, нед.</label>
+                    <input type="number" id="fc-calc-peds-percentiles-bw-weeks" inputmode="numeric" min="20" max="41" step="1" placeholder="нед." />
+                  </div>
+                  <div class="fc-calc__field">
+                    <label for="fc-calc-peds-percentiles-bw-days">Дни</label>
+                    <input type="number" id="fc-calc-peds-percentiles-bw-days" inputmode="numeric" min="0" max="6" step="1" placeholder="0" />
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-peds-percentiles-bw-weight">Масса при рождении, г</label>
+                  <input type="number" id="fc-calc-peds-percentiles-bw-weight" inputmode="numeric" min="0" step="1" placeholder="г" />
                 </div>`)}
 ${modePanel('targetHeight', false, `                <div class="fc-calc__field">
                   <span class="fc-calc__hint">Пол ребёнка</span>
@@ -266,13 +246,14 @@ ${sexSegment('target')}
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p>Калькулятор объединяет расчёт педиатрических процентилей по стандартам ВОЗ (метод LMS): масса, длина тела / рост, ИМТ, окружность головы, масса при рождении и масса плода. До 2 лет для ростового показателя используется термин «длина тела».</p>
-        <p><strong>Потенциал роста ребенка на основании роста родителей</strong> рассчитывается по среднему росту родителей: для мальчиков (рост отца + рост матери + 13) / 2, для девочек (рост отца + рост матери − 13) / 2; диапазон ±8,5 см.</p>
+        <p>Калькулятор рассчитывает процентили и z-score по стандартам ВОЗ (метод LMS) для массы, длины тела / роста, массы к длине / росту, ИМТ, окружности головы, массы плода, массы при рождении и потенциала роста ребёнка.</p>
+        <p>До 5 лет — стандарты ВОЗ для детей 0–5 лет; старше 5 лет — референсы ВОЗ 2007 для роста и массы к возрасту, ИМТ — до 19 лет.</p>
+        <p>До 2 лет (младше 24 мес.) в режиме «до 5 лет» можно указать способ измерения — длина тела лёжа или рост стоя; при несовпадении с эталоном таблицы применяется поправка ±0,7 см. С 2 лет используется рост стоя.</p>
+        <p><strong>Потенциал роста ребёнка</strong> — по среднему росту родителей: для мальчиков (рост отца + рост матери + 13) / 2, для девочек (рост отца + рост матери − 13) / 2; ожидаемый диапазон ±8,5 см.</p>
         <p><strong>Масса плода</strong> — формула Hadlock по параметрам УЗИ (AC, FL, HC, BPD); процентиль — по кривым ВОЗ.</p>
-        <p>Процентиль показывает долю детей того же пола и возраста с меньшим значением показателя. Интерпретация — по клиническим центильным коридорам: 3, 10, 25, 50, 75, 97. Оценка проводится в динамике; резкий переход через 2+ коридора требует консультации педиатра.</p>
-        <p><strong>Что такое z-score?</strong> Z-score показывает отклонение измеренного значения от среднего для контрольной популяции, делённое на стандартное отклонение для этой популяции. Z-score напрямую связаны с перцентилями: возможно преобразование z-score в перцентили и обратно. В калькуляторе z-score вычисляется по методу ВОЗ (LMS, коэффициенты L, M, S).</p>
-        <p>В большинстве клинических ситуаций значения z-score от −2 до +2 считаются нормальными. Однако зачастую куда большее клиническое значение имеет не столько значение z-score конкретного измерения, сколько динамика его изменения с течением времени.</p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+        <p>Процентиль показывает долю детей того же пола и возраста с меньшим значением показателя. Оценка проводится в динамике; резкий переход через 2+ коридора требует консультации педиатра.</p>
+        <p><strong>Что такое z-score?</strong> Z-score показывает отклонение измеренного значения от среднего для контрольной популяции, делённое на стандартное отклонение. В калькуляторе z-score вычисляется по методу ВОЗ (LMS).</p>
+${NOTES_DISCLAIMER_HTML}
       </div>
     </details>
   </div>

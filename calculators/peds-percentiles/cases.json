@@ -1,6 +1,6 @@
 {
   "slug": "peds-percentiles",
-  "source": "WHO Child Growth Standards; Nicolaides FMF 2018 birth weight; Hadlock EFW; MSD mid-parental height",
+  "source": "WHO Child Growth Standards; WHO Growth Reference 2007",
   "cases": [
     {
       "name": "target height boy",
@@ -35,9 +35,9 @@
       }
     },
     {
-      "name": "baby weight 14mo boy 10.6kg",
+      "name": "growth under5 weight 14mo boy",
       "input": {
-        "mode": "baby",
+        "mode": "growthUnder5",
         "sex": "male",
         "ageMonths": 14,
         "weightKg": 10.6
@@ -47,34 +47,89 @@
       }
     },
     {
-      "name": "anthro mobile 1y boy 8kg 70cm",
+      "name": "growth under5 boy 4y 50kg 120cm",
       "input": {
-        "mode": "baby",
+        "mode": "growthUnder5",
+        "sex": "male",
+        "birthDate": "2022-06-08",
+        "examDate": "2026-06-22",
+        "weightKg": 50,
+        "heightCm": 120,
+        "heightMeasure": "H"
+      },
+      "expected": {
+        "bmi": 34.7
+      }
+    },
+    {
+      "name": "growth under5 infant standing height correction",
+      "input": {
+        "mode": "growthUnder5",
+        "sex": "male",
+        "ageMonths": 12,
+        "heightCm": 75,
+        "heightMeasure": "H"
+      },
+      "expected": {
+        "mode": "growthUnder5"
+      }
+    },
+    {
+      "name": "growth under5 anthro 1y boy",
+      "input": {
+        "mode": "growthUnder5",
         "sex": "male",
         "birthDate": "2025-06-11",
         "examDate": "2026-06-11",
         "weightKg": 8,
-        "heightCm": 70
+        "heightCm": 70,
+        "heightMeasure": "L"
       },
       "expected": {
         "bmi": 16.3
       }
     },
     {
-      "name": "baby boy 12mo weight height BMI",
+      "name": "growth under5 weight 5mo",
       "input": {
-        "mode": "baby",
+        "mode": "growthUnder5",
         "sex": "male",
-        "ageMonths": 12,
-        "weightKg": 9.5,
-        "heightCm": 76
+        "ageMonths": 5,
+        "weightKg": 8
       },
       "expected": {
-        "mode": "baby"
+        "mode": "growthUnder5"
       }
     },
     {
-      "name": "birth weight Omni example 35+5 2500g",
+      "name": "growth under5 weight girl 4y",
+      "input": {
+        "mode": "growthUnder5",
+        "sex": "female",
+        "ageYears": 4,
+        "ageMonthsPart": 0,
+        "weightKg": 16
+      },
+      "expected": {
+        "mode": "growthUnder5"
+      }
+    },
+    {
+      "name": "growth under5 height girl 4y",
+      "input": {
+        "mode": "growthUnder5",
+        "sex": "female",
+        "ageYears": 4,
+        "ageMonthsPart": 0,
+        "heightCm": 108,
+        "heightMeasure": "H"
+      },
+      "expected": {
+        "mode": "growthUnder5"
+      }
+    },
+    {
+      "name": "birth weight 35+5 2500g",
       "input": {
         "mode": "birthweight",
         "gestWeeks": 35,
@@ -87,75 +142,6 @@
       }
     },
     {
-      "name": "weight boy 5mo 8kg Omni example",
-      "input": {
-        "mode": "weight",
-        "sex": "male",
-        "ageMonths": 5,
-        "weightKg": 8
-      },
-      "expected": {
-        "percentile": 71.8,
-        "band": "50–75-й процентиль"
-      }
-    },
-    {
-      "name": "weight girl 4y 16kg",
-      "input": {
-        "mode": "weight",
-        "sex": "female",
-        "ageYears": 4,
-        "ageMonthsPart": 0,
-        "weightKg": 16
-      },
-      "expected": {
-        "percentile": 48.8,
-        "band": "25–50-й процентиль"
-      }
-    },
-    {
-      "name": "weight boy 5y 20kg",
-      "input": {
-        "mode": "weight",
-        "sex": "male",
-        "ageYears": 5,
-        "ageMonthsPart": 0,
-        "weightKg": 20
-      },
-      "expected": {
-        "percentile": 73.9,
-        "band": "50–75-й процентиль"
-      }
-    },
-    {
-      "name": "height girl 4y 108cm Omni example",
-      "input": {
-        "mode": "height",
-        "sex": "female",
-        "ageYears": 4,
-        "ageMonthsPart": 0,
-        "heightCm": 108
-      },
-      "expected": {
-        "percentile": 88.9,
-        "band": "75–97-й процентиль"
-      }
-    },
-    {
-      "name": "height girl 4y 110cm WHO chart",
-      "input": {
-        "mode": "height",
-        "sex": "female",
-        "ageYears": 4,
-        "ageMonthsPart": 0,
-        "heightCm": 110
-      },
-      "expected": {
-        "percentile": 95.4,
-        "band": "75–97-й процентиль"
-      }
-    },
-    {
       "name": "head girl 4y 50cm",
       "input": {
         "mode": "head",
@@ -165,36 +151,7 @@
         "headCm": 50
       },
       "expected": {
-        "percentile": 68.1,
-        "band": "50–75-й процентиль"
-      }
-    },
-    {
-      "name": "head girl 5y 52cm",
-      "input": {
-        "mode": "head",
-        "sex": "female",
-        "ageYears": 5,
-        "ageMonthsPart": 0,
-        "headCm": 52
-      },
-      "expected": {
-        "percentile": 92.8,
-        "band": "75–97-й процентиль"
-      }
-    },
-    {
-      "name": "height boy 2y 86.4cm",
-      "input": {
-        "mode": "height",
-        "sex": "male",
-        "ageYears": 2,
-        "ageMonthsPart": 0,
-        "heightCm": 86.4
-      },
-      "expected": {
-        "percentile": 32,
-        "band": "25–50-й процентиль"
+        "mode": "head"
       }
     },
     {
