@@ -1,0 +1,1258 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: CHA₂DS₂-VA — оценка риска инсульта при фибрилляции предсердий
+  Сборка: 2026-07-17
+-->
+<div class="fc-calc" data-calculator="cha2ds2-va">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* cha2ds2-va */
+.fc-calc[data-calculator="cha2ds2-va"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-criteria {
+  display: grid;
+  gap: 16px;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-criterion {
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-legend {
+  display: block;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-options--stack {
+  flex-direction: column;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-options:not(.fc-calc__cha-options--stack) .fc-calc__cha-option {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-height: 52px;
+  padding: 10px 8px;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option:hover {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option:has(input:checked) {
+  border-color: var(--fc-blue);
+  background: rgba(0, 94, 236, 0.1);
+  box-shadow: inset 0 0 0 1px var(--fc-blue);
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--fc-text);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option:has(input:checked) .fc-calc__cha-option-label,
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-option:has(input:checked) .fc-calc__cha-option-points {
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__result-number {
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-result-line {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-result-line strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="cha2ds2-va"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 479px) {
+  .fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-options:not(.fc-calc__cha-options--stack) {
+    flex-direction: column;
+  }
+
+  .fc-calc[data-calculator="cha2ds2-va"] .fc-calc__cha-options:not(.fc-calc__cha-options--stack) .fc-calc__cha-option {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Шкала оценивает риск ишемического инсульта и системной тромбоэмболии у пациентов с фибрилляцией предсердий.</h2>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-cha2ds2-va-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Факторы риска</h3>
+              <div class="fc-calc__cha-criteria">
+              <fieldset class="fc-calc__cha-criterion">
+                <legend class="fc-calc__cha-legend">Возраст</legend>
+                <div class="fc-calc__cha-options">
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-age-lt65">
+                    <input type="radio" id="fc-calc-cha2ds2-va-age-lt65" name="fc-calc-cha2ds2-va-age" value="lt65" />
+                    <span class="fc-calc__cha-option-label"><65</span>
+                    <span class="fc-calc__cha-option-points">0</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-age-65_74">
+                    <input type="radio" id="fc-calc-cha2ds2-va-age-65_74" name="fc-calc-cha2ds2-va-age" value="65_74" />
+                    <span class="fc-calc__cha-option-label">65–74</span>
+                    <span class="fc-calc__cha-option-points">+1</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-age-ge75">
+                    <input type="radio" id="fc-calc-cha2ds2-va-age-ge75" name="fc-calc-cha2ds2-va-age" value="ge75" />
+                    <span class="fc-calc__cha-option-label">≥75</span>
+                    <span class="fc-calc__cha-option-points">+2</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__cha-criterion">
+                <legend class="fc-calc__cha-legend">Хроническая сердечная недостаточность</legend>
+                <div class="fc-calc__cha-options">
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-heartFailure-no">
+                    <input type="radio" id="fc-calc-cha2ds2-va-heartFailure-no" name="fc-calc-cha2ds2-va-heartFailure" value="no" />
+                    <span class="fc-calc__cha-option-label">Нет</span>
+                    <span class="fc-calc__cha-option-points">0</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-heartFailure-yes">
+                    <input type="radio" id="fc-calc-cha2ds2-va-heartFailure-yes" name="fc-calc-cha2ds2-va-heartFailure" value="yes" />
+                    <span class="fc-calc__cha-option-label">Да</span>
+                    <span class="fc-calc__cha-option-points">+1</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__cha-criterion">
+                <legend class="fc-calc__cha-legend">Гипертония</legend>
+                <div class="fc-calc__cha-options">
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-hypertension-no">
+                    <input type="radio" id="fc-calc-cha2ds2-va-hypertension-no" name="fc-calc-cha2ds2-va-hypertension" value="no" />
+                    <span class="fc-calc__cha-option-label">Нет</span>
+                    <span class="fc-calc__cha-option-points">0</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-hypertension-yes">
+                    <input type="radio" id="fc-calc-cha2ds2-va-hypertension-yes" name="fc-calc-cha2ds2-va-hypertension" value="yes" />
+                    <span class="fc-calc__cha-option-label">Да</span>
+                    <span class="fc-calc__cha-option-points">+1</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__cha-criterion">
+                <legend class="fc-calc__cha-legend">Перенесённый ранее инсульт, транзиторная ишемическая атака или артериальная тромбоэмболия</legend>
+                <div class="fc-calc__cha-options fc-calc__cha-options--stack">
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-stroke-no">
+                    <input type="radio" id="fc-calc-cha2ds2-va-stroke-no" name="fc-calc-cha2ds2-va-stroke" value="no" />
+                    <span class="fc-calc__cha-option-label">Нет</span>
+                    <span class="fc-calc__cha-option-points">0</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-stroke-yes">
+                    <input type="radio" id="fc-calc-cha2ds2-va-stroke-yes" name="fc-calc-cha2ds2-va-stroke" value="yes" />
+                    <span class="fc-calc__cha-option-label">Да</span>
+                    <span class="fc-calc__cha-option-points">+2</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__cha-criterion">
+                <legend class="fc-calc__cha-legend">Сосудистые заболевания</legend>
+                <div class="fc-calc__cha-options">
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-vascular-no">
+                    <input type="radio" id="fc-calc-cha2ds2-va-vascular-no" name="fc-calc-cha2ds2-va-vascular" value="no" />
+                    <span class="fc-calc__cha-option-label">Нет</span>
+                    <span class="fc-calc__cha-option-points">0</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-vascular-yes">
+                    <input type="radio" id="fc-calc-cha2ds2-va-vascular-yes" name="fc-calc-cha2ds2-va-vascular" value="yes" />
+                    <span class="fc-calc__cha-option-label">Да</span>
+                    <span class="fc-calc__cha-option-points">+1</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="fc-calc__cha-criterion">
+                <legend class="fc-calc__cha-legend">Сахарный диабет</legend>
+                <div class="fc-calc__cha-options">
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-diabetes-no">
+                    <input type="radio" id="fc-calc-cha2ds2-va-diabetes-no" name="fc-calc-cha2ds2-va-diabetes" value="no" />
+                    <span class="fc-calc__cha-option-label">Нет</span>
+                    <span class="fc-calc__cha-option-points">0</span>
+                  </label>
+                  <label class="fc-calc__cha-option" for="fc-calc-cha2ds2-va-diabetes-yes">
+                    <input type="radio" id="fc-calc-cha2ds2-va-diabetes-yes" name="fc-calc-cha2ds2-va-diabetes" value="yes" />
+                    <span class="fc-calc__cha-option-label">Да</span>
+                    <span class="fc-calc__cha-option-points">+1</span>
+                  </label>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+          </div>
+          <span class="fc-calc__error" id="fc-calc-cha2ds2-va-form-error" role="alert"></span>
+        </form>
+
+        <div class="fc-calc__actions">
+          <button type="submit" id="fc-calc-cha2ds2-va-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-cha2ds2-va-form" disabled>Рассчитать</button>
+        </div>
+
+        <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-cha2ds2-va-result" aria-live="polite">
+          <p class="fc-calc__result-label">Показатель CHA₂DS₂-VA</p>
+          <p class="fc-calc__result-number" id="fc-calc-cha2ds2-va-result-number">—</p>
+          <p class="fc-calc__result-desc" id="fc-calc-cha2ds2-va-result-desc"></p>
+          <div id="fc-calc-cha2ds2-va-result-extra"></div>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Показатель CHA₂DS₂-VA — сумма баллов по факторам риска. Компонент пола (Sex category) из CHA₂DS₂-VASc не учитывается.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Баллы</th>
+                <th>Инсульт (на 100 пациенто-лет)</th>
+                <th>Рекомендация</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0</td><td>0,5</td><td>Антикоагулянтная терапия не рекомендуется</td></tr>
+              <tr><td>1</td><td>1,5</td><td>Рассмотреть назначение антикоагулянтов</td></tr>
+              <tr><td>2</td><td>2,9</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+              <tr><td>3</td><td>5,1</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+              <tr><td>4</td><td>7,3</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+              <tr><td>5</td><td>11,2</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+              <tr><td>6</td><td>15,5</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+              <tr><td>7</td><td>14,7</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+              <tr><td>8</td><td>19,5</td><td>Рекомендуется антикоагулянтная терапия</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Оценивайте риск тромбоэмболий вместе со шкалой кровотечения (например, HAS-BLED) и клинической ситуацией пациента. Переоценивайте риск инсульта периодически.</p>
+        <p><strong>Источник</strong></p>
+        <p>Champse A., Mobley A.R., Subramanian A. et al. Gender and contemporary risk of adverse events in atrial fibrillation. <em>Eur Heart J.</em> 2024;45(36):3707-3717.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  /**
+ * CHA₂DS₂-VA — оценка риска инсульта при фибрилляции предсердий.
+ * Актуализированная версия CHA₂DS₂-VASc без учёта пола.
+ * Источник: Champse et al., Eur Heart J. 2024; мобильное приложение Calculators_MobileApp.
+ */
+
+const CRITERIA = [
+  {
+    id: 'age',
+    label: 'Возраст',
+    options: [
+      { value: 'lt65', label: '<65', points: 0 },
+      { value: '65_74', label: '65–74', points: 1 },
+      { value: 'ge75', label: '≥75', points: 2 },
+    ],
+  },
+  {
+    id: 'heartFailure',
+    label: 'Хроническая сердечная недостаточность',
+    options: [
+      { value: 'no', label: 'Нет', points: 0 },
+      { value: 'yes', label: 'Да', points: 1 },
+    ],
+  },
+  {
+    id: 'hypertension',
+    label: 'Гипертония',
+    options: [
+      { value: 'no', label: 'Нет', points: 0 },
+      { value: 'yes', label: 'Да', points: 1 },
+    ],
+  },
+  {
+    id: 'stroke',
+    label:
+      'Перенесённый ранее инсульт, транзиторная ишемическая атака или артериальная тромбоэмболия',
+    options: [
+      { value: 'no', label: 'Нет', points: 0 },
+      { value: 'yes', label: 'Да', points: 2 },
+    ],
+  },
+  {
+    id: 'vascular',
+    label: 'Сосудистые заболевания',
+    options: [
+      { value: 'no', label: 'Нет', points: 0 },
+      { value: 'yes', label: 'Да', points: 1 },
+    ],
+  },
+  {
+    id: 'diabetes',
+    label: 'Сахарный диабет',
+    options: [
+      { value: 'no', label: 'Нет', points: 0 },
+      { value: 'yes', label: 'Да', points: 1 },
+    ],
+  },
+];
+
+const STROKE_RATES = {
+  0: '0,5',
+  1: '1,5',
+  2: '2,9',
+  3: '5,1',
+  4: '7,3',
+  5: '11,2',
+  6: '15,5',
+  7: '14,7',
+  8: '19,5',
+};
+
+function formatPoints(points) {
+  if (points === 0) return '0';
+  return `+${points}`;
+}
+
+function scoreWord(total) {
+  const abs = Math.abs(total);
+  const mod10 = abs % 10;
+  const mod100 = abs % 100;
+  if (mod100 >= 11 && mod100 <= 14) return 'баллов';
+  if (mod10 === 1) return 'балл';
+  if (mod10 >= 2 && mod10 <= 4) return 'балла';
+  return 'баллов';
+}
+
+function pluralBalls(total) {
+  return `${total} ${scoreWord(total)}`;
+}
+
+function strokeRateLabel(total) {
+  const rate = STROKE_RATES[Math.min(total, 8)] ?? STROKE_RATES[8];
+  return `Частота ишемического инсульта: ${rate} случая на 100 пациенто-лет.`;
+}
+
+function interpretCha2ds2Va(total) {
+  const strokeRate = STROKE_RATES[Math.min(total, 8)] ?? STROKE_RATES[8];
+
+  if (total === 0) {
+    return {
+      category: 'none',
+      recommendation: 'Антикоагулянтная терапия не рекомендуется.',
+      strokeRate,
+    };
+  }
+
+  if (total === 1) {
+    return {
+      category: 'consider',
+      recommendation: 'Следует рассмотреть возможность назначения антикоагулянтов.',
+      strokeRate,
+    };
+  }
+
+  return {
+    category: 'recommended',
+    recommendation: 'Рекомендуется антикоагулянтная терапия.',
+    strokeRate,
+  };
+}
+
+function isReady(input) {
+  return CRITERIA.every((c) => {
+    const v = input[c.id];
+    return v != null && String(v).trim() !== '';
+  });
+}
+
+function calculate(input) {
+  if (!isReady(input || {})) {
+    throw new Error('Заполните все поля');
+  }
+
+  let total = 0;
+  for (const criterion of CRITERIA) {
+    const selected = criterion.options.find((o) => o.value === input[criterion.id]);
+    if (!selected) throw new Error('Заполните все поля');
+    total += selected.points;
+  }
+
+  const { category, recommendation, strokeRate } = interpretCha2ds2Va(total);
+
+  return {
+    total,
+    score: total,
+    value: total,
+    category,
+    recommendation,
+    strokeRate,
+    strokeRateText: strokeRateLabel(total),
+    interpretation: recommendation,
+  };
+}
+
+    var root = document.querySelector('.fc-calc[data-calculator="cha2ds2-va"]');
+  if (!root) return;
+
+  var form = root.querySelector('#fc-calc-cha2ds2-va-form');
+  var calcBtn = root.querySelector('#fc-calc-cha2ds2-va-btn');
+  var formError = root.querySelector('#fc-calc-cha2ds2-va-form-error');
+  var resultWrap = root.querySelector('#fc-calc-cha2ds2-va-result');
+  var resultNumber = root.querySelector('#fc-calc-cha2ds2-va-result-number');
+  var resultDesc = root.querySelector('#fc-calc-cha2ds2-va-result-desc');
+  var resultExtra = root.querySelector('#fc-calc-cha2ds2-va-result-extra');
+
+  function buildInput() {
+    var input = {};
+    CRITERIA.forEach(function (criterion) {
+      var checked = form.querySelector(
+        'input[name="fc-calc-cha2ds2-va-' + criterion.id + '"]:checked'
+      );
+      input[criterion.id] = checked ? checked.value : '';
+    });
+    return input;
+  }
+
+  function canCalculate() {
+    try {
+      return isReady(buildInput());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function updateBtn() {
+    var ok = canCalculate();
+    calcBtn.disabled = !ok;
+    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+  }
+
+  function clearResult() {
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+  }
+
+  function renderResult(out) {
+    resultNumber.textContent = pluralBalls(out.total);
+    resultDesc.textContent = out.recommendation;
+    resultExtra.innerHTML =
+      '<p class="fc-calc__cha-result-line"><strong>Частота ишемического инсульта:</strong> ' +
+      out.strokeRate +
+      ' случая на 100 пациенто-лет.</p>';
+    resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+  }
+
+  form.querySelectorAll('input[type="radio"]').forEach(function (el) {
+    el.addEventListener('change', updateBtn);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.textContent = '';
+    try {
+      var out = calculate(buildInput());
+      renderResult(out);
+    } catch (err) {
+      clearResult();
+      formError.textContent = err.message || 'Заполните все поля';
+    }
+  });
+
+  updateBtn();
+
+})();
+  </script>
+</div>

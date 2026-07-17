@@ -1,0 +1,73 @@
+{
+  "slug": "cha2ds2-va",
+  "source": "Champse et al. Eur Heart J. 2024",
+  "cases": [
+    {
+      "name": "score 0 no anticoagulation",
+      "input": {
+        "age": "lt65",
+        "heartFailure": "no",
+        "hypertension": "no",
+        "stroke": "no",
+        "vascular": "no",
+        "diabetes": "no"
+      },
+      "expected": {
+        "total": 0,
+        "category": "none",
+        "recommendation": "Антикоагулянтная терапия не рекомендуется.",
+        "strokeRate": "0,5"
+      }
+    },
+    {
+      "name": "score 1 consider anticoagulation",
+      "input": {
+        "age": "65_74",
+        "heartFailure": "no",
+        "hypertension": "no",
+        "stroke": "no",
+        "vascular": "no",
+        "diabetes": "no"
+      },
+      "expected": {
+        "total": 1,
+        "category": "consider",
+        "recommendation": "Следует рассмотреть возможность назначения антикоагулянтов.",
+        "strokeRate": "1,5"
+      }
+    },
+    {
+      "name": "score 4 recommend anticoagulation",
+      "input": {
+        "age": "ge75",
+        "heartFailure": "no",
+        "hypertension": "no",
+        "stroke": "yes",
+        "vascular": "no",
+        "diabetes": "no"
+      },
+      "expected": {
+        "total": 4,
+        "category": "recommended",
+        "recommendation": "Рекомендуется антикоагулянтная терапия.",
+        "strokeRate": "7,3"
+      }
+    },
+    {
+      "name": "max clinical factors",
+      "input": {
+        "age": "ge75",
+        "heartFailure": "yes",
+        "hypertension": "yes",
+        "stroke": "yes",
+        "vascular": "yes",
+        "diabetes": "yes"
+      },
+      "expected": {
+        "total": 8,
+        "category": "recommended",
+        "strokeRate": "19,5"
+      }
+    }
+  ]
+}

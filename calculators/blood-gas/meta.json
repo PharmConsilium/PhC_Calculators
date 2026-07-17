@@ -1,7 +1,7 @@
 {
   "slug": "blood-gas",
-  "title": "Интерпретация КЩС и газового состава крови",
+  "title": "Интерпретация кислотно-щелочного баланса и метаболических параметров по газам артериальной крови, электролитам и гемоглобину",
   "sitePath": "/calculator/blood-gas",
-  "source": "anest-rean.ru/index-oxygenation, medvestnik.ru",
+  "source": "Brunner & Suddarth; StatPearls ABG Interpretation",
   "complexity": "B"
 }
