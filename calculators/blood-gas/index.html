@@ -1,6 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Интерпретация КЩС и газового состава крови
+  Название: Интерпретация кислотно-щелочного баланса и метаболических параметров по газам артериальной крови, электролитам и гемоглобину
+  Сборка: 2026-07-17
 -->
 <div class="fc-calc" data-calculator="blood-gas">
   <style>
@@ -715,137 +716,76 @@
     padding: 14px;
   }
 }
-/* blood-gas — anest-rean + medvestnik */
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-block {
-  margin-bottom: 20px;
+/* blood-gas — интерпретация КЩС */
+.fc-calc[data-calculator="blood-gas"] {
+  min-width: 0;
+  max-width: 100%;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-block:last-of-type {
-  margin-bottom: 0;
+.fc-calc[data-calculator="blood-gas"] .fc-calc__card,
+.fc-calc[data-calculator="blood-gas"] .fc-calc__panel,
+.fc-calc[data-calculator="blood-gas"] .fc-calc__form {
+  min-width: 0;
+  max-width: 100%;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-block-title {
-  margin: 0 0 12px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  line-height: 1.3;
-  text-align: left;
-  color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-grid {
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-fields {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+  min-width: 0;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-grid .fc-calc__field,
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-grid .fc-calc__field {
-  display: grid;
-  grid-template-rows: minmax(2.75rem, auto) 44px;
-  gap: 6px;
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-fields .fc-calc__field {
   margin-bottom: 0;
   min-width: 0;
-  text-align: left;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-grid .fc-calc__field label,
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-grid .fc-calc__field label {
-  align-self: end;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.25;
-  text-align: left;
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-grid .fc-calc__field input,
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-grid .fc-calc__field input {
-  width: 100%;
-  height: 44px;
-  min-height: 44px;
-  padding: 0 12px;
-  margin: 0;
-  box-sizing: border-box;
+.fc-calc[data-calculator="blood-gas"] .fc-calc__panel .fc-calc__field input {
   background: var(--fc-bg-surface);
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-block-actions {
-  margin-top: 14px;
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-field-hint {
-  margin: 10px 0 0;
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--fc-text);
-  opacity: 0.7;
-  text-align: left;
+.fc-calc[data-calculator="blood-gas"] .fc-calc__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .fc-calc[data-calculator="blood-gas"] .fc-calc__result-wrap {
-  margin-top: 14px;
-  padding: 18px;
+  padding: 18px 20px;
   text-align: center;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-result .fc-calc__result-number {
-  margin: 0 0 8px;
-  font-size: 2.25rem;
-  line-height: 1.1;
-  color: var(--fc-blue);
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-result {
+  text-align: center;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-result .fc-calc__result-label {
-  margin: 0 0 10px;
-  font-size: 1rem;
+.fc-calc[data-calculator="blood-gas"] .fc-calc__result-number {
+  font-size: 1.5rem;
+  line-height: 1.3;
 }
 
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-result .fc-calc__result-desc {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  opacity: 1;
-  color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-detail {
-  margin: 8px 0 0;
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-result-line {
+  margin: 10px 0 0;
   font-size: 15px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--fc-text);
-  opacity: 0.7;
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-result .fc-calc__result-number {
-  margin: 0 0 8px;
-  font-size: 2.25rem;
-  line-height: 1.1;
-  color: var(--fc-blue);
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-result .fc-calc__result-label {
-  margin: 0 0 10px;
-  font-size: 1rem;
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-result .fc-calc__result-desc {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  opacity: 1;
-  color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__notes-body p,
-.fc-calc[data-calculator="blood-gas"] .fc-calc__notes-body ul {
   text-align: left;
+}
+
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-result-line strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-result-lines {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--fc-border);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="blood-gas"] .fc-calc__bg-result-lines .fc-calc__bg-result-line:first-child {
+  margin-top: 0;
 }
 
 .fc-calc[data-calculator="blood-gas"] .fc-calc__notes-body ul,
@@ -855,95 +795,124 @@
 }
 
 .fc-calc[data-calculator="blood-gas"] .fc-calc__notes-body li {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.4;
-}
-
-.fc-calc[data-calculator="blood-gas"] .fc-calc__table-wrap {
-  margin: 12px 0;
-}
-
-@media (max-width: 639px) {
-  .fc-calc[data-calculator="blood-gas"] .fc-calc__bg-o2-grid,
-  .fc-calc[data-calculator="blood-gas"] .fc-calc__bg-oi2-grid {
-    grid-template-columns: 1fr;
-  }
 }
   </style>
 
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Интерпретация КЩС и газового состава крови</h2>
-        <p class="fc-calc__hint">Два калькулятора индекса оксигенации: PaO₂/FiO₂ и (FiO₂ × Pmean) / PaO₂</p>
-        <p class="fc-calc__formula"><strong>PaO₂/FiO₂</strong> &nbsp;|&nbsp; <strong>OI</strong> = (FiO₂ × Pmean) / PaO₂</p>
+        <h2 class="fc-calc__title">Интерпретация кислотно-щелочного баланса и метаболических параметров по газам артериальной крови, электролитам и гемоглобину</h2>
       </header>
 
       <div class="fc-calc__body">
-        <section class="fc-calc__bg-block">
+        <form class="fc-calc__form" id="fc-calc-blood-gas-form" novalidate>
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Калькулятор индекса оксигенации № 1</h3>
-              <form class="fc-calc__form" id="fc-calc-blood-gas-o2-form" novalidate>
-                <div class="fc-calc__bg-o2-grid">
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-blood-gas-pao2">PaO₂, мм рт. ст.</label>
-                    <input type="number" id="fc-calc-blood-gas-pao2" name="pao2" inputmode="decimal" min="0" max="250" step="any" placeholder="0–250" required />
-                  </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-blood-gas-fio2">FiO₂, %</label>
-                    <input type="number" id="fc-calc-blood-gas-fio2" name="fio2" inputmode="decimal" min="21" max="100" step="any" placeholder="21–100" required />
-                  </div>
+              <h3 class="fc-calc__panel-heading">Артериальные газы</h3>
+              <div class="fc-calc__bg-fields">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-ph">pH</label>
+                  <input type="number" id="fc-calc-blood-gas-ph" name="ph" inputmode="decimal" step="any" placeholder="7.35 – 7.45" />
                 </div>
-                <p class="fc-calc__bg-field-hint">PaO₂ — парциальное напряжение кислорода; FiO₂ — концентрация кислорода на вдохе.</p>
-                <span class="fc-calc__error" id="fc-calc-blood-gas-o2-error" role="alert"></span>
-              </form>
-              <div class="fc-calc__bg-block-actions">
-                <button type="submit" id="fc-calc-blood-gas-o2-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-blood-gas-o2-form" disabled>Рассчитать</button>
-              </div>
-              <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden fc-calc__bg-o2-result" id="fc-calc-blood-gas-o2-result" aria-live="polite">
-                <p class="fc-calc__result-label">Индекс оксигенации</p>
-                <p class="fc-calc__result-number" id="fc-calc-blood-gas-o2-result-number">—</p>
-                <p class="fc-calc__result-desc" id="fc-calc-blood-gas-o2-result-desc"></p>
-                <p class="fc-calc__bg-o2-detail" id="fc-calc-blood-gas-o2-result-detail"></p>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-paco2">PaCO₂, мм рт.ст.</label>
+                  <input type="number" id="fc-calc-blood-gas-paco2" name="paco2" inputmode="decimal" step="any" placeholder="35 – 45" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-hco3">HCO₃⁻, ммоль/л</label>
+                  <input type="number" id="fc-calc-blood-gas-hco3" name="hco3" inputmode="decimal" step="any" placeholder="22 – 26" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-pao2">PaO₂, мм рт.ст.</label>
+                  <input type="number" id="fc-calc-blood-gas-pao2" name="pao2" inputmode="decimal" step="any" placeholder="80 – 100" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-be">BE (избыток оснований)</label>
+                  <input type="number" id="fc-calc-blood-gas-be" name="be" inputmode="decimal" step="any" placeholder="−2 / +2" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-sato2">SatO₂, %</label>
+                  <input type="number" id="fc-calc-blood-gas-sato2" name="sato2" inputmode="decimal" step="any" placeholder="> 95%" />
+                </div>
               </div>
             </div>
           </div>
-        </section>
 
-        <section class="fc-calc__bg-block">
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Калькулятор индекса оксигенации № 2</h3>
-              <form class="fc-calc__form" id="fc-calc-blood-gas-oi2-form" novalidate>
-                <div class="fc-calc__bg-oi2-grid">
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-blood-gas-oi2-fio2">FiO₂, %</label>
-                    <input type="number" id="fc-calc-blood-gas-oi2-fio2" name="fio2" inputmode="decimal" min="21" max="100" step="any" placeholder="21–100" required />
-                  </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-blood-gas-oi2-pmean">Pmean, мм вод. ст.</label>
-                    <input type="number" id="fc-calc-blood-gas-oi2-pmean" name="pmean" inputmode="decimal" min="0" max="50" step="any" placeholder="0–50" required />
-                  </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-blood-gas-oi2-pao2">PaO₂, мм рт. ст.</label>
-                    <input type="number" id="fc-calc-blood-gas-oi2-pao2" name="pao2" inputmode="decimal" min="0" max="250" step="any" placeholder="0–250" required />
-                  </div>
+              <h3 class="fc-calc__panel-heading">Электролиты</h3>
+              <div class="fc-calc__bg-fields">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-na">Натрий (Na⁺)</label>
+                  <input type="number" id="fc-calc-blood-gas-na" name="na" inputmode="decimal" step="any" placeholder="135–145" />
                 </div>
-                <p class="fc-calc__bg-field-hint"><strong>OI</strong> = (FiO₂ × Pmean) / PaO₂</p>
-                <span class="fc-calc__error" id="fc-calc-blood-gas-oi2-error" role="alert"></span>
-              </form>
-              <div class="fc-calc__bg-block-actions">
-                <button type="submit" id="fc-calc-blood-gas-oi2-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-blood-gas-oi2-form" disabled>Рассчитать</button>
-              </div>
-              <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden fc-calc__bg-oi2-result" id="fc-calc-blood-gas-oi2-result" aria-live="polite">
-                <p class="fc-calc__result-label">Индекс оксигенации</p>
-                <p class="fc-calc__result-number" id="fc-calc-blood-gas-oi2-result-number">—</p>
-                <p class="fc-calc__result-desc" id="fc-calc-blood-gas-oi2-result-desc"></p>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-k">Калий (K⁺)</label>
+                  <input type="number" id="fc-calc-blood-gas-k" name="k" inputmode="decimal" step="any" placeholder="3.5–5.0" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-cl">Хлор (Cl⁻)</label>
+                  <input type="number" id="fc-calc-blood-gas-cl" name="cl" inputmode="decimal" step="any" placeholder="98–107" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-ca">Кальций (Ca²⁺)</label>
+                  <input type="number" id="fc-calc-blood-gas-ca" name="ca" inputmode="decimal" step="any" placeholder="8.5–10.5" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-mg">Магний (Mg²⁺)</label>
+                  <input type="number" id="fc-calc-blood-gas-mg" name="mg" inputmode="decimal" step="any" placeholder="1.7–2.2" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-lactate">Лактат, ммоль/л</label>
+                  <input type="number" id="fc-calc-blood-gas-lactate" name="lactate" inputmode="decimal" step="any" placeholder="< 2.0" />
+                </div>
               </div>
             </div>
           </div>
-        </section>
+
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Гемоглобин и фракции</h3>
+              <div class="fc-calc__bg-fields">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-hb">Гемоглобин (Hb), г/л</label>
+                  <input type="number" id="fc-calc-blood-gas-hb" name="hb" inputmode="decimal" step="any" placeholder="120–160" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-ht">Гематокрит (Ht), %</label>
+                  <input type="number" id="fc-calc-blood-gas-ht" name="ht" inputmode="decimal" step="any" placeholder="36–48%" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-cohb">Карбоксигемоглобин (COHb), %</label>
+                  <input type="number" id="fc-calc-blood-gas-cohb" name="cohb" inputmode="decimal" step="any" placeholder="< 1.5%" />
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-blood-gas-methb">Метгемоглобин (MetHb), %</label>
+                  <input type="number" id="fc-calc-blood-gas-methb" name="methb" inputmode="decimal" step="any" placeholder="< 1.0%" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-blood-gas-form-error" role="alert"></span>
+        </form>
+
+        <div class="fc-calc__actions">
+          <button type="submit" id="fc-calc-blood-gas-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-blood-gas-form" disabled>Рассчитать</button>
+          <button type="button" id="fc-calc-blood-gas-reset" class="fc-calc__btn fc-calc__btn--secondary">Сброс</button>
+        </div>
+
+        <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-blood-gas-result" aria-live="polite">
+          <div class="fc-calc__bg-result">
+            <p class="fc-calc__result-label">Кислотно-щелочной диагноз</p>
+            <p class="fc-calc__result-number" id="fc-calc-blood-gas-diagnosis">—</p>
+            <p class="fc-calc__result-desc" id="fc-calc-blood-gas-compensation"></p>
+            <div class="fc-calc__bg-result-lines" id="fc-calc-blood-gas-result-lines"></div>
+            <p class="fc-calc__bg-result-line" id="fc-calc-blood-gas-summary"></p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -953,45 +922,21 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body">
-        <p><strong>Индекс оксигенации</strong> (респираторный индекс, PaO₂/FiO₂) — соотношение парциального напряжения кислорода в артериальной крови к фракции кислорода на вдохе. В норме на воздухе ≈ 500 (PaO₂ 100 мм рт. ст. / FiO₂ 21%).</p>
+        <p>Для базовой интерпретации обязательны <strong>pH</strong>, <strong>PaCO₂</strong> и <strong>HCO₃⁻</strong>. Остальные показатели уточняют анионный разрыв, оксигенацию, лактат и гемоглобин.</p>
+        <p><strong>Референсы КЩС:</strong> pH 7,35–7,45; PaCO₂ 35–45 мм рт.ст.; HCO₃⁻ 22–26 ммоль/л.</p>
         <ul>
-          <li>Индекс оксигенации &lt; 300 — острое повреждение легких (ОПЛ).</li>
-          <li>Индекс оксигенации &lt; 200 — острый респираторный дистресс-синдром (ОРДС).</li>
+          <li>pH &lt; 7,35 — ацидемия; pH &gt; 7,45 — алкалемия.</li>
+          <li>Первичный респираторный процесс — изменение PaCO₂ в направлении, объясняющем сдвиг pH.</li>
+          <li>Первичный метаболический процесс — изменение HCO₃⁻ в направлении, объясняющем сдвиг pH.</li>
+          <li>Частичная компенсация — вторичное изменение «противоположного» компонента при ещё нарушенном pH.</li>
+          <li>Анионный разрыв = Na⁺ − (Cl⁻ + HCO₃⁻); повышен при &gt; 12 ммоль/л.</li>
+          <li>Оксигенация: нормоксемия (PaO₂ ≥ 80 / SatO₂ ≥ 95%); лёгкая гипоксемия (PaO₂ 60–79 / SatO₂ 90–94%); умеренная (PaO₂ 40–59 / SatO₂ 75–89%); тяжёлая (PaO₂ &lt; 40 / SatO₂ &lt; 75%). При обоих показателях берётся более тяжёлая степень.</li>
         </ul>
-        <div class="fc-calc__table-wrap">
-          <table class="fc-calc__table">
-            <thead>
-              <tr>
-                <th>Степень тяжести ОРДС</th>
-                <th>Индекс оксигенации</th>
-                <th>Летальность</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>легкая</td><td>200–300</td><td>27%</td></tr>
-              <tr><td>средняя</td><td>100–200</td><td>32%</td></tr>
-              <tr><td>тяжелая</td><td>&lt; 100</td><td>45%</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p><strong>Калькулятор № 2:</strong> OI = (FiO₂ × Pmean) / PaO₂, где FiO₂ — концентрация кислорода во вдыхаемой смеси (%), Pmean — среднее давление в дыхательных путях (мм вод. ст.), PaO₂ — парциальное давление кислорода в артериальной крови (мм рт. ст.).</p>
-        <p><strong>Интерпретация результата:</strong></p>
-        <ul>
-          <li>индекс оксигенации 0–25 — вариант нормы;</li>
-          <li>индекс оксигенации 25–40 — летальный исход более 40%;</li>
-          <li>индекс оксигенации &gt; 40 — экстракорпоральная мембранная оксигенация.</li>
-        </ul>
-        <p><strong>Источники:</strong></p>
+        <p><strong>Источники</strong></p>
         <ol>
-          <li>Marshall JC, Cook DJ, Christou NV, et al. Multiple organ dysfunction score: a reliable descriptor of a complex clinical outcome. <em>Crit Care Med.</em> 1995 Oct;23(10):1638-52. PMID: 7587228.</li>
-          <li>Ortiz RM, Cilley RE, Bartlett RH. Extracorporeal membrane oxygenation in pediatric respiratory failure. <em>Pediatr Clin North Am.</em> 1987 Feb;34(1):39-46.</li>
-          <li>Власенко А.В., Мороз В.В., Яковлев В.Н., Алексеев В.Г. Информативность индекса оксигенации при диагностике острого респираторного дистресс-синдрома. <em>Общая реаниматология</em>, 2009; 5(5): 54–62.</li>
-          <li>Karbing DS, Kjaergaard S, Smith BW, Espersen K, Allerød C, Andreassen S, Rees SE. Variation in the PaO2/FiO2 ratio with FiO2: mathematical and experimental description, and clinical relevance. <em>Crit Care.</em> 2007;11(6):R118.</li>
-          <li>Whiteley JP, Gavaghan DJ, Hahn CE. Variation of venous admixture, SF6 shunt, PaO2, and the PaO2/FIO2 ratio with FIO2. <em>Br J Anaesth.</em> 2002 Jun;88(6):771-8.</li>
-          <li>Bilan N., Dastranji A., Ghalehgolab Behbahani A. Comparison of the spo2/fio2 ratio and the pao2/fio2 ratio in patients with acute lung injury or acute respiratory distress syndrome. <em>J Cardiovasc Thorac Res.</em> 2015;7(1):28-31.</li>
-          <li>Hsu-Ching Kao, Ting-Yu Lai, Heui-Ling Hung. Sequential Oxygenation Index and Organ Dysfunction Assessment within the First 3 Days of Mechanical Ventilation Predict the Outcome of Adult Patients with Severe Acute Respiratory Failure. <em>ScientificWorldJournal</em>, 2013.</li>
+          <li>Hinkle J.L., Cheever K.H. Brunner &amp; Suddarth's Textbook of Medical-Surgical Nursing. 15th ed. Wolters Kluwer; 2021.</li>
+          <li>Kauffmann R., et al. Arterial Blood Gas Interpretation. StatPearls Publishing; 2023.</li>
         </ol>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
       </div>
     </details>
   </div>
@@ -1004,182 +949,332 @@
 
   <script>
 (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="blood-gas"]');
-      if (!root) return;
+  /**
+ * Интерпретация КЩС и газового состава крови
+ * Логика по calculadorasdeenfermagem.com.br/ru/gasometria.html
+ */
 
-      var o2Form = root.querySelector('#fc-calc-blood-gas-o2-form');
-      var oi2Form = root.querySelector('#fc-calc-blood-gas-oi2-form');
-      var o2Btn = root.querySelector('#fc-calc-blood-gas-o2-btn');
-      var oi2Btn = root.querySelector('#fc-calc-blood-gas-oi2-btn');
-      var o2Error = root.querySelector('#fc-calc-blood-gas-o2-error');
-      var oi2Error = root.querySelector('#fc-calc-blood-gas-oi2-error');
-      var o2ResultWrap = root.querySelector('#fc-calc-blood-gas-o2-result');
-      var oi2ResultWrap = root.querySelector('#fc-calc-blood-gas-oi2-result');
-      var o2ResultNumber = root.querySelector('#fc-calc-blood-gas-o2-result-number');
-      var o2ResultDesc = root.querySelector('#fc-calc-blood-gas-o2-result-desc');
-      var o2ResultDetail = root.querySelector('#fc-calc-blood-gas-o2-result-detail');
-      var oi2ResultNumber = root.querySelector('#fc-calc-blood-gas-oi2-result-number');
-      var oi2ResultDesc = root.querySelector('#fc-calc-blood-gas-oi2-result-desc');
+function parseNumber(value) {
+  if (value === null || value === undefined) return null;
+  const s = String(value).trim().replace(',', '.');
+  if (!s) return null;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
 
-      var o2Inputs = {
-        pao2: root.querySelector('#fc-calc-blood-gas-pao2'),
-        fio2: root.querySelector('#fc-calc-blood-gas-fio2')
-      };
-      var oi2Inputs = {
-        fio2: root.querySelector('#fc-calc-blood-gas-oi2-fio2'),
-        pmean: root.querySelector('#fc-calc-blood-gas-oi2-pmean'),
-        pao2: root.querySelector('#fc-calc-blood-gas-oi2-pao2')
-      };
+function optionalNumber(value) {
+  const n = parseNumber(value);
+  return n;
+}
 
-      function parseNumber(value) {
-        var s = String(value || '').trim().replace(',', '.');
-        if (!s || !/^-?\d+(\.\d+)?$/.test(s)) return null;
-        var n = Number(s);
-        return Number.isFinite(n) ? n : null;
+/** Нормальные диапазоны (для подсказок в UI и валидации по смыслу). */
+const REFS = {
+  ph: { low: 7.35, high: 7.45, label: '7.35 – 7.45' },
+  paco2: { low: 35, high: 45, label: '35 – 45' },
+  hco3: { low: 22, high: 26, label: '22 – 26' },
+  pao2: { low: 80, high: 100, label: '80 – 100' },
+  be: { low: -2, high: 2, label: '−2 / +2' },
+  sato2: { low: 95, high: null, label: '> 95%' },
+  na: { low: 135, high: 145, label: '135–145' },
+  k: { low: 3.5, high: 5.0, label: '3.5–5.0' },
+  cl: { low: 98, high: 107, label: '98–107' },
+  ca: { low: 8.5, high: 10.5, label: '8.5–10.5' },
+  mg: { low: 1.7, high: 2.2, label: '1.7–2.2' },
+  lactate: { low: null, high: 2.0, label: '< 2.0' },
+  hb: { low: 120, high: 160, label: '120–160' },
+  ht: { low: 36, high: 48, label: '36–48%' },
+  cohb: { low: null, high: 1.5, label: '< 1.5%' },
+  methb: { low: null, high: 1.0, label: '< 1.0%' },
+};
+
+const ANION_GAP_HIGH = 12;
+
+/** Степень гипоксемии: 0 норма, 1 лёгкая, 2 умеренная, 3 тяжёлая. */
+function oxygenationGradeFromPao2(pao2) {
+  if (pao2 < 40) return 3;
+  if (pao2 < 60) return 2;
+  if (pao2 < 80) return 1;
+  return 0;
+}
+
+function oxygenationGradeFromSato2(sato2) {
+  if (sato2 < 75) return 3;
+  if (sato2 < 90) return 2;
+  if (sato2 < 95) return 1;
+  return 0;
+}
+
+const OXYGENATION_LABELS = [
+  'Нормоксемия',
+  'Легкая гипоксемия',
+  'Умеренная гипоксемия',
+  'Тяжелая гипоксемия',
+];
+
+function interpretOxygenation(pao2, sato2) {
+  let grade = null;
+  if (pao2 != null) grade = oxygenationGradeFromPao2(pao2);
+  if (sato2 != null) {
+    const g = oxygenationGradeFromSato2(sato2);
+    grade = grade == null ? g : Math.max(grade, g);
+  }
+  return grade == null ? null : OXYGENATION_LABELS[grade];
+}
+
+function formatPh(ph) {
+  return ph.toFixed(2).replace('.', ',');
+}
+
+function formatOne(n) {
+  return (Math.round(n * 10) / 10).toFixed(1).replace('.', ',');
+}
+
+/**
+ * @param {object} input
+ * @returns {object}
+ */
+function calculate(input) {
+  const ph = parseNumber(input.ph);
+  const paco2 = parseNumber(input.paco2);
+  const hco3 = parseNumber(input.hco3);
+
+  if (ph == null || paco2 == null || hco3 == null) {
+    throw new Error('Введите как минимум pH, PaCO₂ и HCO₃⁻');
+  }
+
+  const pao2 = optionalNumber(input.pao2);
+  const na = optionalNumber(input.na);
+  const cl = optionalNumber(input.cl);
+  const lactate = optionalNumber(input.lactate);
+  const hb = optionalNumber(input.hb);
+  const cohb = optionalNumber(input.cohb);
+
+  let diagnosis = '';
+  let compensation = '';
+  let phStatus = formatPh(ph);
+  let respDesc = '';
+  let metabDesc = '';
+
+  // 1. Анализ КЩС
+  if (ph < 7.35) {
+    diagnosis = 'АЦИДОЗ';
+    phStatus += ' (Ацидемия)';
+  } else if (ph > 7.45) {
+    diagnosis = 'АЛКАЛОЗ';
+    phStatus += ' (Алкалемия)';
+  } else {
+    diagnosis = 'НОРМА / КОМПЕНСИРОВАН';
+    phStatus += ' (Норма)';
+  }
+
+  if (diagnosis !== 'НОРМА / КОМПЕНСИРОВАН') {
+    const isResp = (ph < 7.35 && paco2 > 45) || (ph > 7.45 && paco2 < 35);
+    const isMetab = (ph < 7.35 && hco3 < 22) || (ph > 7.45 && hco3 > 26);
+
+    if (isResp && !isMetab) {
+      diagnosis += ' РЕСПИРАТОРНЫЙ';
+      respDesc = `${paco2} мм рт.ст. (Первичный)`;
+      if ((ph < 7.35 && hco3 > 26) || (ph > 7.45 && hco3 < 22)) {
+        compensation = 'ЧАСТИЧНО КОМПЕНСИРОВАН';
+      } else {
+        compensation = 'НЕКОМПЕНСИРОВАН';
       }
-
-      function interpretPfRatio(index) {
-        if (index >= 300) return 'Вариант нормы';
-        if (index >= 200) return 'легкая';
-        if (index >= 100) return 'средняя';
-        return 'тяжелая';
+    } else if (isMetab && !isResp) {
+      diagnosis += ' МЕТАБОЛИЧЕСКИЙ';
+      metabDesc = `${hco3} ммоль/л (Первичный)`;
+      if ((ph < 7.35 && paco2 < 35) || (ph > 7.45 && paco2 > 45)) {
+        compensation = 'ЧАСТИЧНО КОМПЕНСИРОВАН';
+      } else {
+        compensation = 'НЕКОМПЕНСИРОВАН';
       }
+    } else if (isResp && isMetab) {
+      diagnosis += ' СМЕШАННЫЙ';
+      compensation = 'ТЯЖЕЛЫЙ';
+    }
+  } else if (paco2 !== 40 && hco3 !== 24) {
+    if (ph < 7.4) diagnosis = 'КОМПЕНСИРОВАННЫЙ АЦИДОЗ';
+    else diagnosis = 'КОМПЕНСИРОВАННЫЙ АЛКАЛОЗ';
+    compensation = 'ПОЛНОСТЬЮ КОМПЕНСИРОВАН';
+  }
 
-      function interpretPfMortality(index) {
-        if (index >= 300) return null;
-        if (index >= 200) return '27%';
-        if (index >= 100) return '32%';
-        return '45%';
-      }
+  if (!compensation) compensation = 'СТАБИЛЬНЫЙ БАЛАНС';
 
-      function interpretPfDetail(index) {
-        if (index >= 300) return 'Индекс оксигенации в пределах нормы (≈500 на воздухе).';
-        var mortality = interpretPfMortality(index);
-        if (index >= 200) return 'Степень тяжести ОРДС: легкая. Летальность ' + mortality + '.';
-        if (index >= 100) return 'Степень тяжести ОРДС: средняя. Летальность ' + mortality + '.';
-        return 'Степень тяжести ОРДС: тяжелая. Летальность ' + mortality + '.';
-      }
+  // 2. Анионный разрыв
+  let anionGap = null;
+  let anionGapText = null;
+  if (na != null && cl != null) {
+    anionGap = Math.round((na - (cl + hco3)) * 10) / 10;
+    anionGapText =
+      formatOne(anionGap) + (anionGap > ANION_GAP_HIGH ? ' (Высокая)' : ' (Норма)');
+  }
 
-      function interpretOi(index) {
-        if (index <= 25) return 'вариант нормы';
-        if (index <= 40) return 'летальный исход более 40%';
-        return 'экстракорпоральная мембранная оксигенация';
-      }
+  // 3. Оксигенация (клиническая шкала PaO₂ / SatO₂)
+  const sato2 = optionalNumber(input.sato2);
+  const oxygenation = interpretOxygenation(pao2, sato2);
 
-      function hideO2Result() {
-        o2ResultWrap.classList.add('fc-calc__result-wrap--hidden');
-        o2Error.textContent = '';
-      }
+  // 4. Гемоглобин
+  let hbText = null;
+  if (hb != null) {
+    hbText = `${hb} г/л` + (hb < 120 ? ' (Анемия)' : '');
+  }
 
-      function hideOi2Result() {
-        oi2ResultWrap.classList.add('fc-calc__result-wrap--hidden');
-        oi2Error.textContent = '';
-      }
+  let summary = `Интерпретация: У пациента наблюдается ${diagnosis.toLowerCase()}.`;
+  if (lactate != null && lactate > 2) {
+    summary += ' Зафиксирована гиперлактатемия (возможная гипоперфузия).';
+  }
+  if (cohb != null && cohb > 2) {
+    summary += ' Внимание: повышенный уровень COHb.';
+  }
 
-      function validateO2(paO2, fio2) {
-        if (fio2 < 21 || fio2 > 100) return 'FiO₂ должен быть от 21 до 100 %';
-        if (paO2 < 0 || paO2 > 250) return 'paO₂ должен быть от 0 до 250 мм рт. ст.';
-        if (paO2 === 0) return 'paO₂ не может быть 0';
-        return '';
-      }
+  return {
+    diagnosis,
+    compensation,
+    phStatus,
+    paco2Text: respDesc || `${paco2} мм рт.ст.`,
+    hco3Text: metabDesc || `${hco3} ммоль/л`,
+    anionGap,
+    anionGapText,
+    lactateText: lactate != null ? `${lactate} ммоль/л` : null,
+    oxygenation,
+    hbText,
+    summary,
+  };
+}
 
-      function isO2InRange(paO2, fio2) {
-        return fio2 >= 21 && fio2 <= 100 && paO2 >= 0 && paO2 <= 250;
-      }
+    var root = document.querySelector('.fc-calc[data-calculator="blood-gas"]');
+  if (!root) return;
 
-      function validateOi2(fio2, pmean, paO2) {
-        if (fio2 < 21 || fio2 > 100) return 'FiO₂ должен быть от 21 до 100 %';
-        if (pmean < 0 || pmean > 50) return 'Pmean должен быть от 0 до 50 мм вод. ст.';
-        if (paO2 < 0 || paO2 > 250) return 'paO₂ должен быть от 0 до 250 мм рт. ст.';
-        if (paO2 === 0) return 'paO₂ не может быть 0';
-        return '';
-      }
+  var form = root.querySelector('#fc-calc-blood-gas-form');
+  var calcBtn = root.querySelector('#fc-calc-blood-gas-btn');
+  var resetBtn = root.querySelector('#fc-calc-blood-gas-reset');
+  var formError = root.querySelector('#fc-calc-blood-gas-form-error');
+  var resultWrap = root.querySelector('#fc-calc-blood-gas-result');
+  var diagnosisEl = root.querySelector('#fc-calc-blood-gas-diagnosis');
+  var compensationEl = root.querySelector('#fc-calc-blood-gas-compensation');
+  var linesEl = root.querySelector('#fc-calc-blood-gas-result-lines');
+  var summaryEl = root.querySelector('#fc-calc-blood-gas-summary');
 
-      function isOi2InRange(fio2, pmean, paO2) {
-        return (
-          fio2 >= 21 && fio2 <= 100 &&
-          pmean >= 0 && pmean <= 50 &&
-          paO2 >= 0 && paO2 <= 250
-        );
-      }
+  var FIELD_NAMES = [
+    'ph',
+    'paco2',
+    'hco3',
+    'pao2',
+    'be',
+    'sato2',
+    'na',
+    'k',
+    'cl',
+    'ca',
+    'mg',
+    'lactate',
+    'hb',
+    'ht',
+    'cohb',
+    'methb',
+  ];
 
-      function updateO2Button() {
-        var paO2 = parseNumber(o2Inputs.pao2.value);
-        var fio2 = parseNumber(o2Inputs.fio2.value);
-        var ok = paO2 != null && fio2 != null && isO2InRange(paO2, fio2);
-        o2Btn.disabled = !ok;
-        o2Btn.classList.toggle('fc-calc__btn--inactive', !ok);
-      }
+  function raw(id) {
+    var el = root.querySelector(id);
+    return el ? String(el.value || '').trim() : '';
+  }
 
-      function updateOi2Button() {
-        var fio2 = parseNumber(oi2Inputs.fio2.value);
-        var pmean = parseNumber(oi2Inputs.pmean.value);
-        var paO2 = parseNumber(oi2Inputs.pao2.value);
-        var ok = fio2 != null && pmean != null && paO2 != null && isOi2InRange(fio2, pmean, paO2);
-        oi2Btn.disabled = !ok;
-        oi2Btn.classList.toggle('fc-calc__btn--inactive', !ok);
-      }
+  function num(id) {
+    var s = raw(id).replace(',', '.');
+    if (!s) return null;
+    var n = Number(s);
+    return Number.isFinite(n) ? n : { error: true };
+  }
 
-      o2Form.addEventListener('input', function () {
-        hideO2Result();
-        updateO2Button();
-      });
-      o2Form.addEventListener('change', function () {
-        hideO2Result();
-        updateO2Button();
-      });
+  function buildInput() {
+    var required = ['ph', 'paco2', 'hco3'];
+    var input = {};
+    for (var i = 0; i < FIELD_NAMES.length; i++) {
+      var key = FIELD_NAMES[i];
+      var v = num('#fc-calc-blood-gas-' + key);
+      if (v && v.error) throw new Error('invalid');
+      if (v != null) input[key] = v;
+      else if (required.indexOf(key) !== -1) throw new Error('required');
+    }
+    return input;
+  }
 
-      oi2Form.addEventListener('input', function () {
-        hideOi2Result();
-        updateOi2Button();
-      });
-      oi2Form.addEventListener('change', function () {
-        hideOi2Result();
-        updateOi2Button();
-      });
+  function canCalculate() {
+    try {
+      buildInput();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
-      o2Form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var paO2 = parseNumber(o2Inputs.pao2.value);
-        var fio2 = parseNumber(o2Inputs.fio2.value);
-        if (paO2 == null || fio2 == null) {
-          o2Error.textContent = 'Заполните PaO₂ и FiO₂';
-          return;
-        }
-        var err = validateO2(paO2, fio2);
-        if (err) {
-          o2Error.textContent = err;
-          return;
-        }
-        var index = Math.round(paO2 / (fio2 / 100));
-        o2ResultNumber.textContent = String(index);
-        o2ResultDesc.textContent = interpretPfRatio(index);
-        o2ResultDetail.textContent = interpretPfDetail(index);
-        o2ResultWrap.classList.remove('fc-calc__result-wrap--hidden');
-      });
+  function updateBtn() {
+    var ok = canCalculate();
+    calcBtn.disabled = !ok;
+    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+  }
 
-      oi2Form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var fio2 = parseNumber(oi2Inputs.fio2.value);
-        var pmean = parseNumber(oi2Inputs.pmean.value);
-        var paO2 = parseNumber(oi2Inputs.pao2.value);
-        if (fio2 == null || pmean == null || paO2 == null) {
-          oi2Error.textContent = 'Заполните FiO₂, Pmean и PaO₂';
-          return;
-        }
-        var err = validateOi2(fio2, pmean, paO2);
-        if (err) {
-          oi2Error.textContent = err;
-          return;
-        }
-        var index = Math.round((fio2 * pmean) / paO2);
-        oi2ResultNumber.textContent = String(index);
-        oi2ResultDesc.textContent = interpretOi(index);
-        oi2ResultWrap.classList.remove('fc-calc__result-wrap--hidden');
-      });
+  function clearResult() {
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+  }
 
-      updateO2Button();
-      updateOi2Button();
-    })();
+  function line(label, value) {
+    if (value == null || value === '' || value === '—') return null;
+    var p = document.createElement('p');
+    p.className = 'fc-calc__bg-result-line';
+    p.innerHTML = '<strong>' + label + ':</strong> ' + value;
+    return p;
+  }
+
+  function renderResult(out) {
+    diagnosisEl.textContent = out.diagnosis;
+    compensationEl.textContent = out.compensation;
+    summaryEl.textContent = out.summary;
+    linesEl.innerHTML = '';
+    [
+      line('Статус pH', out.phStatus),
+      line('PaCO₂ (респ.)', out.paco2Text),
+      line('HCO₃⁻ (метаб.)', out.hco3Text),
+      line('Анионная разница', out.anionGapText),
+      line('Лактат', out.lactateText),
+      line('Оксигенация', out.oxygenation),
+      line('Гемоглобин', out.hbText),
+    ].forEach(function (el) {
+      if (el) linesEl.appendChild(el);
+    });
+    resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+  }
+
+  form.querySelectorAll('input').forEach(function (el) {
+    el.addEventListener('input', updateBtn);
+    el.addEventListener('change', updateBtn);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.textContent = '';
+    try {
+      var out = calculate(buildInput());
+      renderResult(out);
+    } catch (err) {
+      clearResult();
+      formError.textContent =
+        err.message === 'required' || err.message === 'invalid'
+          ? 'Введите как минимум pH, PaCO₂ и HCO₃⁻'
+          : err.message || 'Проверьте введённые данные';
+    }
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      form.reset();
+      formError.textContent = '';
+      clearResult();
+      updateBtn();
+    });
+  }
+
+  updateBtn();
+
+})();
   </script>
 </div>

@@ -1,53 +1,108 @@
 {
   "slug": "blood-gas",
-  "source": "anest-rean.ru/index-oxygenation",
+  "source": "calculadorasdeenfermagem.com.br/ru/gasometria.html",
   "cases": [
     {
-      "name": "pf ratio severe ARDS",
-      "input": { "mode": "pfRatio", "pao2": 60, "fio2": 100 },
+      "name": "acidosis pH only with stable balance",
+      "input": {
+        "ph": 7,
+        "paco2": 40,
+        "hco3": 23,
+        "pao2": 90,
+        "na": 100,
+        "cl": 100,
+        "lactate": 1,
+        "hb": 100
+      },
       "expected": {
-        "index": 60,
-        "interpretation": "тяжелая"
+        "diagnosis": "АЦИДОЗ",
+        "compensation": "СТАБИЛЬНЫЙ БАЛАНС",
+        "anionGap": -23,
+        "oxygenation": "Нормоксемия",
+        "hbText": "100 г/л (Анемия)"
       }
     },
     {
-      "name": "pf ratio room air normal",
-      "input": { "mode": "pfRatio", "pao2": 100, "fio2": 21 },
+      "name": "uncompensated respiratory acidosis",
+      "input": { "ph": 7.25, "paco2": 55, "hco3": 24 },
       "expected": {
-        "index": 476,
-        "interpretation": "Вариант нормы"
+        "diagnosis": "АЦИДОЗ РЕСПИРАТОРНЫЙ",
+        "compensation": "НЕКОМПЕНСИРОВАН"
       }
     },
     {
-      "name": "pf ratio mild ARDS",
-      "input": { "mode": "pfRatio", "pao2": 60, "fio2": 21 },
+      "name": "partially compensated metabolic acidosis",
+      "input": { "ph": 7.28, "paco2": 30, "hco3": 14 },
       "expected": {
-        "index": 286,
-        "interpretation": "легкая"
+        "diagnosis": "АЦИДОЗ МЕТАБОЛИЧЕСКИЙ",
+        "compensation": "ЧАСТИЧНО КОМПЕНСИРОВАН"
       }
     },
     {
-      "name": "oi calculator 2 example",
-      "input": { "mode": "oi", "fio2": 40, "pmean": 10, "pao2": 40 },
+      "name": "mixed acidosis",
+      "input": { "ph": 7.2, "paco2": 50, "hco3": 18 },
       "expected": {
-        "index": 10,
-        "interpretation": "вариант нормы"
+        "diagnosis": "АЦИДОЗ СМЕШАННЫЙ",
+        "compensation": "ТЯЖЕЛЫЙ"
       }
     },
     {
-      "name": "oi mortality risk",
-      "input": { "mode": "oi", "fio2": 60, "pmean": 20, "pao2": 40 },
+      "name": "respiratory alkalosis uncompensated",
+      "input": { "ph": 7.5, "paco2": 28, "hco3": 24 },
       "expected": {
-        "index": 30,
-        "interpretation": "летальный исход более 40%"
+        "diagnosis": "АЛКАЛОЗ РЕСПИРАТОРНЫЙ",
+        "compensation": "НЕКОМПЕНСИРОВАН"
       }
     },
     {
-      "name": "oi ECMO",
-      "input": { "mode": "oi", "fio2": 100, "pmean": 20, "pao2": 40 },
+      "name": "normal pH fully compensated",
+      "input": { "ph": 7.38, "paco2": 55, "hco3": 32 },
       "expected": {
-        "index": 50,
-        "interpretation": "экстракорпоральная мембранная оксигенация"
+        "diagnosis": "КОМПЕНСИРОВАННЫЙ АЦИДОЗ",
+        "compensation": "ПОЛНОСТЬЮ КОМПЕНСИРОВАН"
+      }
+    },
+    {
+      "name": "high anion gap",
+      "input": { "ph": 7.3, "paco2": 40, "hco3": 15, "na": 140, "cl": 100 },
+      "expected": {
+        "anionGap": 25,
+        "anionGapText": "25,0 (Высокая)"
+      }
+    },
+    {
+      "name": "mild hypoxemia at PaO2 60",
+      "input": { "ph": 7.4, "paco2": 40, "hco3": 24, "pao2": 60 },
+      "expected": {
+        "oxygenation": "Легкая гипоксемия"
+      }
+    },
+    {
+      "name": "moderate hypoxemia by SatO2",
+      "input": { "ph": 7.4, "paco2": 40, "hco3": 24, "sato2": 88 },
+      "expected": {
+        "oxygenation": "Умеренная гипоксемия"
+      }
+    },
+    {
+      "name": "moderate hypoxemia PaO2 50",
+      "input": { "ph": 7.32, "paco2": 40, "hco3": 20, "pao2": 50, "lactate": 4 },
+      "expected": {
+        "oxygenation": "Умеренная гипоксемия"
+      }
+    },
+    {
+      "name": "severe hypoxemia PaO2 35",
+      "input": { "ph": 7.3, "paco2": 40, "hco3": 22, "pao2": 35 },
+      "expected": {
+        "oxygenation": "Тяжелая гипоксемия"
+      }
+    },
+    {
+      "name": "severe by worse of PaO2 and SatO2",
+      "input": { "ph": 7.4, "paco2": 40, "hco3": 24, "pao2": 70, "sato2": 70 },
+      "expected": {
+        "oxygenation": "Тяжелая гипоксемия"
       }
     }
   ]
