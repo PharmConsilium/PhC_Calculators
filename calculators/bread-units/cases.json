@@ -1,0 +1,61 @@
+{
+  "slug": "bread-units",
+  "source": "ХЕ = carbs/100 * portion / standard; diary + custom products",
+  "cases": [
+    {
+      "name": "manual 50g carbs 100g portion 12g HE",
+      "input": { "mode": "manual", "carbsPer100": 50, "portionG": 100, "standard": 12 },
+      "expected": { "he": 4.166666666666667, "carbsInPortion": 50, "standard": 12 }
+    },
+    {
+      "name": "manual white bread slice ~25g",
+      "input": { "mode": "manual", "carbsPer100": 50, "portionG": 25, "standard": 12 },
+      "expected": { "heLabel": "1,0", "carbsLabel": "12,5" }
+    },
+    {
+      "name": "manual standard 10g",
+      "input": { "mode": "manual", "carbsPer100": 40, "portionG": 50, "standard": 10 },
+      "expected": { "he": 2, "carbsInPortion": 20 }
+    },
+    {
+      "name": "product mode uses 12g standard",
+      "input": {
+        "mode": "product",
+        "carbsPer100": 50,
+        "portionG": 24,
+        "productName": "Хлеб белый пшеничный",
+        "standard": 15
+      },
+      "expected": { "standard": 12, "heLabel": "1,0" }
+    },
+    {
+      "name": "summarizeDay empty",
+      "fn": "summarizeDay",
+      "input": [{ "breakfast": [], "lunch": [], "dinner": [], "snack": [] }],
+      "expected": { "totalHe": 0, "itemCount": 0, "level": "good", "normPct": 0 }
+    },
+    {
+      "name": "summarizeDay over norm",
+      "fn": "summarizeDay",
+      "input": [{
+        "breakfast": [{ "id": "1", "name": "x", "he": 10, "gram": 100, "note": "", "meal": "breakfast" }],
+        "lunch": [{ "id": "2", "name": "y", "he": 10, "gram": 100, "note": "", "meal": "lunch" }],
+        "dinner": [],
+        "snack": []
+      }],
+      "expected": { "totalHe": 20, "itemCount": 2, "level": "bad" }
+    },
+    {
+      "name": "gram1heFromCarbs 50",
+      "fn": "gram1heFromCarbs",
+      "input": [50],
+      "expected": 24
+    },
+    {
+      "name": "createCustomProduct",
+      "fn": "createCustomProduct",
+      "input": [{ "name": "Йогурт", "carbs": 12, "portion": "150 г" }],
+      "expected": { "name": "Йогурт", "carbs": 12, "cat": "Свои продукты", "gram1he": 100 }
+    }
+  ]
+}
