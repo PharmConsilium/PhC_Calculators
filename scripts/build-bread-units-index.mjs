@@ -189,10 +189,6 @@ const customPanel = `        <div
                     <label for="fc-calc-bread-units-custom-portion">Порция (необязательно)</label>
                     <input type="text" id="fc-calc-bread-units-custom-portion" name="portion" placeholder="напр. 150 г" />
                   </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-custom-gi">ГИ (необязательно)</label>
-                    <input type="number" id="fc-calc-bread-units-custom-gi" name="gi" inputmode="numeric" min="0" step="1" placeholder="напр. 40" />
-                  </div>
                 </div>
                 <p class="fc-calc__bu-custom-error" id="fc-calc-bread-units-custom-error" role="alert"></p>
                 <div class="fc-calc__actions" style="margin-top:12px">

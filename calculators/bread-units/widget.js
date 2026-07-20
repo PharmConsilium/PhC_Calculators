@@ -944,12 +944,10 @@ function summarizeDay(log) {
     customError.textContent = '';
     var fd = new FormData(customForm);
     try {
-      var giRaw = parseNumber(fd.get('gi'));
       var product = createCustomProduct({
         name: fd.get('name'),
         carbs: parseNumber(fd.get('carbs')),
         portion: String(fd.get('portion') || ''),
-        gi: giRaw != null ? giRaw : 0,
       });
       var dup = customProducts.some(function (p) {
         return p.name.toLowerCase() === product.name.toLowerCase();

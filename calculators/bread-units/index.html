@@ -1351,10 +1351,6 @@
                     <label for="fc-calc-bread-units-custom-portion">Порция (необязательно)</label>
                     <input type="text" id="fc-calc-bread-units-custom-portion" name="portion" placeholder="напр. 150 г" />
                   </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-custom-gi">ГИ (необязательно)</label>
-                    <input type="number" id="fc-calc-bread-units-custom-gi" name="gi" inputmode="numeric" min="0" step="1" placeholder="напр. 40" />
-                  </div>
                 </div>
                 <p class="fc-calc__bu-custom-error" id="fc-calc-bread-units-custom-error" role="alert"></p>
                 <div class="fc-calc__actions" style="margin-top:12px">
@@ -2355,12 +2351,10 @@ function summarizeDay(log) {
     customError.textContent = '';
     var fd = new FormData(customForm);
     try {
-      var giRaw = parseNumber(fd.get('gi'));
       var product = createCustomProduct({
         name: fd.get('name'),
         carbs: parseNumber(fd.get('carbs')),
         portion: String(fd.get('portion') || ''),
-        gi: giRaw != null ? giRaw : 0,
       });
       var dup = customProducts.some(function (p) {
         return p.name.toLowerCase() === product.name.toLowerCase();
