@@ -23,8 +23,38 @@ export const MEAL_OPTIONS = [
   { id: 'snack', label: 'Перекус' },
 ];
 
+/** Углеводный коэффициент (Ед на 1 ХЕ) по умолчанию. */
+export const DEFAULT_MEAL_CARB_COEFFICIENTS = {
+  breakfast: 2,
+  lunch: 1.25,
+  dinner: 0.75,
+  snack: 1,
+};
+
 export function emptyMealLog() {
   return { breakfast: [], lunch: [], dinner: [], snack: [] };
+}
+
+export function emptyMealCoefficients() {
+  return { ...DEFAULT_MEAL_CARB_COEFFICIENTS };
+}
+
+/** Единицы инсулина = ХЕ × углеводный коэффициент. */
+export function insulinUnitsFromHe(he, coefficient) {
+  const h = Number(he);
+  const c = Number(coefficient);
+  if (!Number.isFinite(h) || !Number.isFinite(c) || c < 0) return 0;
+  return Math.round(h * c * 10) / 10;
+}
+
+export function parseStoredMealCoefficients(raw) {
+  const out = emptyMealCoefficients();
+  if (!raw || typeof raw !== 'object') return out;
+  for (const meal of MEAL_OPTIONS) {
+    const n = Number(raw[meal.id]);
+    if (Number.isFinite(n) && n >= 0) out[meal.id] = n;
+  }
+  return out;
 }
 
 export function formatHe(value, digits = 1) {
@@ -47,11 +77,11 @@ export function calculateHeFromCarbs(carbsPer100, portionG, standard = 12) {
   ) {
     throw new Error('Некорректные данные');
   }
-  if (!HE_STANDARDS.includes(standard)) {
+  if (!HE_STANDARDS.some((s) => Number(s) === Number(standard))) {
     throw new Error('Некорректный стандарт ХЕ');
   }
   const carbsInPortion = (carbsPer100 * portionG) / 100;
-  return { carbsInPortion, he: carbsInPortion / standard };
+  return { carbsInPortion, he: carbsInPortion / Number(standard) };
 }
 
 export function parseNumber(value) {
@@ -93,7 +123,7 @@ export function calculate(input) {
   if (portionG == null || portionG <= 0) {
     throw new Error('Укажите вес порции');
   }
-  if (!HE_STANDARDS.includes(standard)) {
+  if (!HE_STANDARDS.some((s) => Number(s) === Number(standard))) {
     throw new Error('Некорректный стандарт ХЕ');
   }
 
@@ -329,10 +359,45 @@ export function mealTotalHe(items) {
   return (items || []).reduce((s, i) => s + (Number(i.he) || 0), 0);
 }
 
+export function mealItemCarbsG(item) {
+  if (!item || typeof item !== 'object') return 0;
+  const carbsG = Number(item.carbsG);
+  if (Number.isFinite(carbsG) && carbsG >= 0) return carbsG;
+  return (Number(item.he) || 0) * LOOKUP_HE_STANDARD;
+}
+
+export function heFromCarbsG(carbsG, standard = LOOKUP_HE_STANDARD) {
+  const carbs = Number(carbsG);
+  const std = Number(standard);
+  if (!Number.isFinite(carbs) || carbs < 0 || !Number.isFinite(std) || std <= 0) {
+    return 0;
+  }
+  return carbs / std;
+}
+
+/** Пересчёт ХЕ в дневнике при смене стандарта (углеводы порции неизменны). */
+export function recalculateMealLogHe(log, standard = LOOKUP_HE_STANDARD) {
+  const std = Number(standard);
+  const next = emptyMealLog();
+  for (const meal of MEAL_OPTIONS) {
+    next[meal.id] = (log?.[meal.id] || []).map((item) => {
+      const carbsG = mealItemCarbsG(item);
+      const he = heFromCarbsG(carbsG, std);
+      return {
+        ...item,
+        carbsG,
+        he,
+        note: `${formatCarbs(carbsG)} г углеводов`,
+      };
+    });
+  }
+  return next;
+}
+
 export function summarizeDay(log) {
   const all = Object.values(log || emptyMealLog()).flat();
   const totalHe = all.reduce((s, i) => s + (Number(i.he) || 0), 0);
-  const totalCarbsG = totalHe * LOOKUP_HE_STANDARD;
+  const totalCarbsG = all.reduce((s, i) => s + mealItemCarbsG(i), 0);
   const normPct = Math.min((totalHe / DAILY_NORM_HE) * 100, 100);
   let level = 'good';
   if (totalHe > DAILY_NORM_HE) level = 'bad';

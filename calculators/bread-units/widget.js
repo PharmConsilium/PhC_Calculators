@@ -25,8 +25,38 @@ const MEAL_OPTIONS = [
   { id: 'snack', label: 'Перекус' },
 ];
 
+/** Углеводный коэффициент (Ед на 1 ХЕ) по умолчанию. */
+const DEFAULT_MEAL_CARB_COEFFICIENTS = {
+  breakfast: 2,
+  lunch: 1.25,
+  dinner: 0.75,
+  snack: 1,
+};
+
 function emptyMealLog() {
   return { breakfast: [], lunch: [], dinner: [], snack: [] };
+}
+
+function emptyMealCoefficients() {
+  return { ...DEFAULT_MEAL_CARB_COEFFICIENTS };
+}
+
+/** Единицы инсулина = ХЕ × углеводный коэффициент. */
+function insulinUnitsFromHe(he, coefficient) {
+  const h = Number(he);
+  const c = Number(coefficient);
+  if (!Number.isFinite(h) || !Number.isFinite(c) || c < 0) return 0;
+  return Math.round(h * c * 10) / 10;
+}
+
+function parseStoredMealCoefficients(raw) {
+  const out = emptyMealCoefficients();
+  if (!raw || typeof raw !== 'object') return out;
+  for (const meal of MEAL_OPTIONS) {
+    const n = Number(raw[meal.id]);
+    if (Number.isFinite(n) && n >= 0) out[meal.id] = n;
+  }
+  return out;
 }
 
 function formatHe(value, digits = 1) {
@@ -49,11 +79,11 @@ function calculateHeFromCarbs(carbsPer100, portionG, standard = 12) {
   ) {
     throw new Error('Некорректные данные');
   }
-  if (!HE_STANDARDS.includes(standard)) {
+  if (!HE_STANDARDS.some((s) => Number(s) === Number(standard))) {
     throw new Error('Некорректный стандарт ХЕ');
   }
   const carbsInPortion = (carbsPer100 * portionG) / 100;
-  return { carbsInPortion, he: carbsInPortion / standard };
+  return { carbsInPortion, he: carbsInPortion / Number(standard) };
 }
 
 function parseNumber(value) {
@@ -95,7 +125,7 @@ function calculate(input) {
   if (portionG == null || portionG <= 0) {
     throw new Error('Укажите вес порции');
   }
-  if (!HE_STANDARDS.includes(standard)) {
+  if (!HE_STANDARDS.some((s) => Number(s) === Number(standard))) {
     throw new Error('Некорректный стандарт ХЕ');
   }
 
@@ -331,10 +361,45 @@ function mealTotalHe(items) {
   return (items || []).reduce((s, i) => s + (Number(i.he) || 0), 0);
 }
 
+function mealItemCarbsG(item) {
+  if (!item || typeof item !== 'object') return 0;
+  const carbsG = Number(item.carbsG);
+  if (Number.isFinite(carbsG) && carbsG >= 0) return carbsG;
+  return (Number(item.he) || 0) * LOOKUP_HE_STANDARD;
+}
+
+function heFromCarbsG(carbsG, standard = LOOKUP_HE_STANDARD) {
+  const carbs = Number(carbsG);
+  const std = Number(standard);
+  if (!Number.isFinite(carbs) || carbs < 0 || !Number.isFinite(std) || std <= 0) {
+    return 0;
+  }
+  return carbs / std;
+}
+
+/** Пересчёт ХЕ в дневнике при смене стандарта (углеводы порции неизменны). */
+function recalculateMealLogHe(log, standard = LOOKUP_HE_STANDARD) {
+  const std = Number(standard);
+  const next = emptyMealLog();
+  for (const meal of MEAL_OPTIONS) {
+    next[meal.id] = (log?.[meal.id] || []).map((item) => {
+      const carbsG = mealItemCarbsG(item);
+      const he = heFromCarbsG(carbsG, std);
+      return {
+        ...item,
+        carbsG,
+        he,
+        note: `${formatCarbs(carbsG)} г углеводов`,
+      };
+    });
+  }
+  return next;
+}
+
 function summarizeDay(log) {
   const all = Object.values(log || emptyMealLog()).flat();
   const totalHe = all.reduce((s, i) => s + (Number(i.he) || 0), 0);
-  const totalCarbsG = totalHe * LOOKUP_HE_STANDARD;
+  const totalCarbsG = all.reduce((s, i) => s + mealItemCarbsG(i), 0);
   const normPct = Math.min((totalHe / DAILY_NORM_HE) * 100, 100);
   let level = 'good';
   if (totalHe > DAILY_NORM_HE) level = 'bad';
@@ -352,24 +417,21 @@ function summarizeDay(log) {
   if (!root) return;
 
   var MEALS_KEY = 'fc:bread-units:meals';
-  var CUSTOM_KEY = 'fc:bread-units:custom-products';
+  var COEFF_KEY = 'fc:bread-units:meal-coefficients';
 
   var tabs = root.querySelectorAll('.fc-calc__tab[data-mode]');
   var panels = root.querySelectorAll('.fc-calc__tab-panel[data-mode]');
   var activeMode = 'main';
   var activeMeal = 'breakfast';
   var meals = emptyMealLog();
-  var customProducts = [];
+  var mealCoefficients = emptyMealCoefficients();
   var lastResult = null;
   var searchTimer = null;
   var refCat = ALL_PRODUCTS_CATEGORY;
   var refPage = 0;
 
-  var calcBtn = root.querySelector('#fc-calc-bread-units-btn');
   var addDiaryBtn = root.querySelector('#fc-calc-bread-units-add-diary');
-  var saveCustomBtn = root.querySelector('#fc-calc-bread-units-save-custom');
   var formError = root.querySelector('#fc-calc-bread-units-form-error');
-  var actionsRow = root.querySelector('#fc-calc-bread-units-actions');
   var resultWrap = root.querySelector('#fc-calc-bread-units-result');
   var resultNumber = root.querySelector('#fc-calc-bread-units-result-number');
   var resultDesc = root.querySelector('#fc-calc-bread-units-result-desc');
@@ -386,16 +448,13 @@ function summarizeDay(log) {
   var mealTabs = root.querySelector('#fc-calc-bread-units-meal-tabs');
   var logList = root.querySelector('#fc-calc-bread-units-log');
   var logEmpty = root.querySelector('#fc-calc-bread-units-log-empty');
-  var mealTotal = root.querySelector('#fc-calc-bread-units-meal-total');
-  var clearMealBtn = root.querySelector('#fc-calc-bread-units-clear-meal');
+  var mealTotals = root.querySelector('#fc-calc-bread-units-meal-totals');
   var clearDayBtn = root.querySelector('#fc-calc-bread-units-clear-day');
 
   var dayHe = root.querySelector('#fc-calc-bread-units-day-he');
   var dayCarbs = root.querySelector('#fc-calc-bread-units-day-carbs');
   var dayCount = root.querySelector('#fc-calc-bread-units-day-count');
-  var normLabel = root.querySelector('#fc-calc-bread-units-norm-label');
-  var normFill = root.querySelector('#fc-calc-bread-units-norm-fill');
-  var dbCount = root.querySelector('#fc-calc-bread-units-db-count');
+  var dayInsulinStat = root.querySelector('#fc-calc-bread-units-day-insulin-stat');
 
   var refCats = root.querySelector('#fc-calc-bread-units-ref-cats');
   var refFilter = root.querySelector('#fc-calc-bread-units-ref-filter');
@@ -405,11 +464,6 @@ function summarizeDay(log) {
   var refPagerLabel = root.querySelector('#fc-calc-bread-units-ref-pager-label');
   var refPrev = root.querySelector('#fc-calc-bread-units-ref-prev');
   var refNext = root.querySelector('#fc-calc-bread-units-ref-next');
-
-  var customForm = root.querySelector('#fc-calc-bread-units-form-custom');
-  var customError = root.querySelector('#fc-calc-bread-units-custom-error');
-  var customList = root.querySelector('#fc-calc-bread-units-custom-list');
-  var customEmpty = root.querySelector('#fc-calc-bread-units-custom-empty');
 
   function escapeHtml(text) {
     return String(text)
@@ -433,11 +487,8 @@ function summarizeDay(log) {
       panel.hidden = !active;
     });
     formError.textContent = '';
-    var onMain = mode === 'main';
-    if (actionsRow) actionsRow.hidden = !onMain;
-    if (!onMain) clearResult();
+    if (mode !== 'main') clearResult();
     if (mode === 'ref') renderRef();
-    if (mode === 'custom') renderCustomList();
     updateMainActions();
   }
 
@@ -454,11 +505,11 @@ function summarizeDay(log) {
       meals = emptyMealLog();
     }
     try {
-      customProducts = parseStoredCustomProducts(
-        JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]')
+      mealCoefficients = parseStoredMealCoefficients(
+        JSON.parse(localStorage.getItem(COEFF_KEY) || 'null')
       );
     } catch (e) {
-      customProducts = [];
+      mealCoefficients = emptyMealCoefficients();
     }
   }
 
@@ -470,29 +521,29 @@ function summarizeDay(log) {
     }
   }
 
-  function saveCustom() {
+  function saveCoefficients() {
     try {
-      localStorage.setItem(CUSTOM_KEY, JSON.stringify(customProducts));
+      localStorage.setItem(COEFF_KEY, JSON.stringify(mealCoefficients));
     } catch (e) {
       /* ignore */
     }
   }
 
+  function dayInsulinTotal() {
+    return MEAL_OPTIONS.reduce(function (sum, meal) {
+      return (
+        sum +
+        insulinUnitsFromHe(mealTotalHe(meals[meal.id]), mealCoefficients[meal.id])
+      );
+    }, 0);
+  }
+
   function renderDay() {
     var day = summarizeDay(meals);
     dayHe.textContent = formatHe(day.totalHe);
-    dayHe.className =
-      'fc-calc__bu-stat-value fc-calc__bu-stat-value--' + day.level;
     dayCarbs.textContent = String(Math.round(day.totalCarbsG));
     dayCount.textContent = String(day.itemCount);
-    normLabel.textContent =
-      'Норма: ' + formatHe(day.totalHe) + ' / ' + DAILY_NORM_HE + ' ХЕ';
-    normFill.style.width = day.normPct + '%';
-    normFill.className = 'fc-calc__bu-norm-fill fc-calc__bu-norm-fill--' + day.level;
-    dbCount.textContent =
-      BREAD_PRODUCTS.length +
-      ' в базе' +
-      (customProducts.length ? ' · ' + customProducts.length + ' своих' : '');
+    dayInsulinStat.textContent = formatHe(dayInsulinTotal());
     clearDayBtn.disabled = day.itemCount === 0;
   }
 
@@ -554,8 +605,101 @@ function summarizeDay(log) {
       li.appendChild(remove);
       logList.appendChild(li);
     });
-    mealTotal.textContent = formatHe(mealTotalHe(items)) + ' ХЕ';
-    clearMealBtn.disabled = items.length === 0;
+    renderMealTotals();
+  }
+
+  function renderMealTotals() {
+    var dayHe = 0;
+    var dayInsulin = 0;
+    var rows = MEAL_OPTIONS.map(function (meal) {
+      var he = mealTotalHe(meals[meal.id]);
+      var coeff = mealCoefficients[meal.id];
+      var insulin = insulinUnitsFromHe(he, coeff);
+      dayHe += he;
+      dayInsulin += insulin;
+      return (
+        '<tr class="' +
+        (meal.id === activeMeal ? 'fc-calc__bu-ins-row--active' : '') +
+        '" data-meal="' +
+        meal.id +
+        '">' +
+        '<td>' +
+        escapeHtml(meal.label) +
+        '</td>' +
+        '<td>' +
+        formatHe(he) +
+        '</td>' +
+        '<td><input class="fc-calc__bu-coeff-input" type="number" inputmode="decimal" min="0" step="any" data-meal-coeff="' +
+        meal.id +
+        '" value="' +
+        String(coeff) +
+        '" aria-label="Углеводный коэффициент: ' +
+        escapeHtml(meal.label) +
+        '" /></td>' +
+        '<td data-insulin-for="' +
+        meal.id +
+        '">' +
+        formatHe(insulin) +
+        '</td>' +
+        '</tr>'
+      );
+    }).join('');
+
+    mealTotals.innerHTML =
+      '<table class="fc-calc__bu-ins-table">' +
+      '<thead><tr>' +
+      '<th scope="col">Приём пищи</th>' +
+      '<th scope="col">ХЕ</th>' +
+      '<th scope="col">Углеводный коэффициент</th>' +
+      '<th scope="col">Инсулин короткого/ультракороткого действия, ЕД</th>' +
+      '</tr></thead><tbody>' +
+      rows +
+      '<tr class="fc-calc__bu-ins-row--day">' +
+      '<td>Итого рацион дня</td>' +
+      '<td id="fc-calc-bread-units-day-he-table">' +
+      formatHe(dayHe) +
+      '</td>' +
+      '<td></td>' +
+      '<td id="fc-calc-bread-units-day-insulin">' +
+      formatHe(dayInsulin) +
+      '</td>' +
+      '</tr></tbody></table>';
+
+    mealTotals.querySelectorAll('tr[data-meal]').forEach(function (tr) {
+      tr.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('input')) return;
+        activeMeal = tr.getAttribute('data-meal');
+        renderMealTabs();
+        renderLog();
+      });
+    });
+
+    mealTotals.querySelectorAll('input[data-meal-coeff]').forEach(function (input) {
+      input.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+      input.addEventListener('change', function () {
+        var mealId = input.getAttribute('data-meal-coeff');
+        var value = parseNumber(input.value);
+        if (value == null || value < 0) {
+          input.value = String(mealCoefficients[mealId]);
+          return;
+        }
+        mealCoefficients[mealId] = value;
+        saveCoefficients();
+        renderDay();
+        renderMealTotals();
+      });
+    });
+  }
+
+  function getActiveStandard() {
+    var s = Number(standardSelect.value || LOOKUP_HE_STANDARD);
+    return HE_STANDARDS.some(function (x) {
+      return Number(x) === s;
+    })
+      ? s
+      : LOOKUP_HE_STANDARD;
   }
 
   function buildManualInput() {
@@ -563,7 +707,7 @@ function summarizeDay(log) {
       mode: 'manual',
       carbsPer100: carbsInput.value,
       portionG: portionInput.value,
-      standard: Number(standardSelect.value || LOOKUP_HE_STANDARD),
+      standard: getActiveStandard(),
       productName: nameInput.value.trim(),
     };
   }
@@ -574,14 +718,28 @@ function summarizeDay(log) {
     return carbs != null && carbs >= 0 && portion != null && portion > 0;
   }
 
+  function refreshDiaryForStandard() {
+    meals = recalculateMealLogHe(meals, getActiveStandard());
+    saveMeals();
+    renderDay();
+    renderMealTabs();
+    renderLog();
+  }
+
   function updateMainActions() {
     var ok = canCalculate();
-    calcBtn.disabled = !ok;
-    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
     addDiaryBtn.disabled = !ok;
-    var name = nameInput.value.trim();
-    var carbs = parseNumber(carbsInput.value);
-    saveCustomBtn.disabled = !(name && carbs != null && carbs >= 0);
+    formError.textContent = '';
+    if (!ok) {
+      clearResult();
+      return;
+    }
+    try {
+      renderResult(calculate(buildManualInput()));
+    } catch (err) {
+      clearResult();
+      formError.textContent = err.message || 'Проверьте ввод';
+    }
   }
 
   function clearResult() {
@@ -618,7 +776,6 @@ function summarizeDay(log) {
     hitsList.hidden = true;
     searchEmpty.hidden = true;
     switchMode('main');
-    clearResult();
     updateMainActions();
   }
 
@@ -665,12 +822,10 @@ function summarizeDay(log) {
       searchEmpty.hidden = true;
       return;
     }
-    renderHits(searchProducts(BREAD_PRODUCTS, q, 30, customProducts));
+    renderHits(searchProducts(BREAD_PRODUCTS, q, 30));
   }
 
   nameInput.addEventListener('input', function () {
-    clearResult();
-    formError.textContent = '';
     updateMainActions();
     clearTimeout(searchTimer);
     searchTimer = setTimeout(runNameSearch, 160);
@@ -686,37 +841,28 @@ function summarizeDay(log) {
     hitsList.hidden = true;
   });
 
-  [carbsInput, portionInput, standardSelect].forEach(function (el) {
-    el.addEventListener('input', function () {
-      clearResult();
-      formError.textContent = '';
-      updateMainActions();
-    });
+  [carbsInput, portionInput].forEach(function (el) {
+    el.addEventListener('input', updateMainActions);
     el.addEventListener('change', updateMainActions);
   });
 
-  function onCalculate(e) {
-    if (e) e.preventDefault();
-    formError.textContent = '';
-    try {
-      renderResult(calculate(buildManualInput()));
-    } catch (err) {
-      clearResult();
-      formError.textContent = err.message || 'Проверьте ввод';
-    }
-  }
+  standardSelect.addEventListener('change', function () {
+    refreshDiaryForStandard();
+    updateMainActions();
+  });
 
   function onAddDiary(e) {
     if (e) e.preventDefault();
     formError.textContent = '';
     try {
-      var out = lastResult && canCalculate() ? lastResult : calculate(buildManualInput());
-      if (!lastResult) renderResult(out);
+      var out = calculate(buildManualInput());
+      renderResult(out);
       meals[activeMeal] = meals[activeMeal].concat([
         {
           id: createMealItemId(),
           name: (out.productName || nameInput.value.trim() || 'Продукт').slice(0, 120),
           he: out.he,
+          carbsG: out.carbsInPortion,
           gram: out.portionG,
           note: out.carbsLabel + ' г углеводов',
           meal: activeMeal,
@@ -731,49 +877,11 @@ function summarizeDay(log) {
     }
   }
 
-  function onSaveCustomFromMain(e) {
-    if (e) e.preventDefault();
-    formError.textContent = '';
-    try {
-      var carbs = parseNumber(carbsInput.value);
-      var portion = parseNumber(portionInput.value);
-      var product = createCustomProduct({
-        name: nameInput.value,
-        carbs: carbs,
-        portion:
-          portion != null && portion > 0
-            ? String(portionInput.value).trim() +
-              (/\s*г\s*$/i.test(portionInput.value) ? '' : ' г')
-            : '',
-      });
-      var dup = customProducts.some(function (p) {
-        return p.name.toLowerCase() === product.name.toLowerCase();
-      });
-      if (dup) {
-        formError.textContent = 'Продукт с таким названием уже есть';
-        return;
-      }
-      customProducts = [product].concat(customProducts);
-      saveCustom();
-      renderDay();
-      switchMode('custom');
-    } catch (err) {
-      formError.textContent = err.message || 'Не удалось сохранить';
-    }
-  }
-
-  manualForm.addEventListener('submit', onCalculate);
-  calcBtn.addEventListener('click', onCalculate);
-  addDiaryBtn.addEventListener('click', onAddDiary);
-  saveCustomBtn.addEventListener('click', onSaveCustomFromMain);
-
-  clearMealBtn.addEventListener('click', function () {
-    meals[activeMeal] = [];
-    saveMeals();
-    renderDay();
-    renderMealTabs();
-    renderLog();
+  manualForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!addDiaryBtn.disabled) onAddDiary();
   });
+  addDiaryBtn.addEventListener('click', onAddDiary);
 
   clearDayBtn.addEventListener('click', function () {
     meals = emptyMealLog();
@@ -784,7 +892,7 @@ function summarizeDay(log) {
   });
 
   function ensureRefCat() {
-    var cats = listProductCategories(BREAD_PRODUCTS, customProducts);
+    var cats = listProductCategories(BREAD_PRODUCTS);
     if (!cats.includes(refCat)) {
       refCat = ALL_PRODUCTS_CATEGORY;
       refPage = 0;
@@ -823,12 +931,7 @@ function summarizeDay(log) {
       refCats.appendChild(btn);
     });
 
-    var all = productsByCategory(
-      BREAD_PRODUCTS,
-      refCat,
-      refFilter.value,
-      customProducts
-    );
+    var all = productsByCategory(BREAD_PRODUCTS, refCat, refFilter.value);
     var pageCount = Math.max(1, Math.ceil(all.length / REF_PAGE_SIZE));
     if (refPage > pageCount - 1) refPage = pageCount - 1;
     var start = refPage * REF_PAGE_SIZE;
@@ -837,10 +940,7 @@ function summarizeDay(log) {
     refList.innerHTML = '';
     refEmpty.hidden = all.length > 0;
     if (all.length === 0) {
-      refEmpty.textContent =
-        refCat === CUSTOM_PRODUCT_CATEGORY
-          ? 'Своих продуктов пока нет — добавьте на вкладке «Свои продукты».'
-          : 'Нет продуктов в этой категории.';
+      refEmpty.textContent = 'Нет продуктов в этой категории.';
       refPager.hidden = true;
       return;
     }
@@ -893,80 +993,9 @@ function summarizeDay(log) {
     renderRef();
   });
 
-  function renderCustomList() {
-    customList.innerHTML = '';
-    customEmpty.hidden = customProducts.length > 0;
-    customProducts.forEach(function (p) {
-      var li = document.createElement('li');
-      li.className = 'fc-calc__bu-log-item';
-      var info = document.createElement('button');
-      info.type = 'button';
-      info.className = 'fc-calc__bu-hit';
-      info.style.padding = '0';
-      info.style.border = '0';
-      info.innerHTML =
-        '<span class="fc-calc__bu-log-name">' +
-        escapeHtml(p.name) +
-        '</span><span class="fc-calc__bu-log-meta">' +
-        p.carbs +
-        ' г/100 г · 1 ХЕ ≈ ' +
-        escapeHtml(gram1heLabel(p.gram1he)) +
-        (p.portion ? ' · ' + escapeHtml(p.portion) : '') +
-        '</span>';
-      info.addEventListener('click', function () {
-        applyProduct(p);
-      });
-      var he = document.createElement('span');
-      he.className = 'fc-calc__bu-log-he';
-      he.textContent = p.carbs + ' г';
-      var remove = document.createElement('button');
-      remove.type = 'button';
-      remove.className = 'fc-calc__bu-remove';
-      remove.setAttribute('aria-label', 'Удалить');
-      remove.textContent = '✕';
-      remove.addEventListener('click', function () {
-        customProducts = customProducts.filter(function (x) {
-          return x.id !== p.id;
-        });
-        saveCustom();
-        renderDay();
-        renderCustomList();
-      });
-      li.appendChild(info);
-      li.appendChild(he);
-      li.appendChild(remove);
-      customList.appendChild(li);
-    });
-  }
-
-  customForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    customError.textContent = '';
-    var fd = new FormData(customForm);
-    try {
-      var product = createCustomProduct({
-        name: fd.get('name'),
-        carbs: parseNumber(fd.get('carbs')),
-        portion: String(fd.get('portion') || ''),
-      });
-      var dup = customProducts.some(function (p) {
-        return p.name.toLowerCase() === product.name.toLowerCase();
-      });
-      if (dup) {
-        customError.textContent = 'Продукт с таким названием уже есть';
-        return;
-      }
-      customProducts = [product].concat(customProducts);
-      saveCustom();
-      customForm.reset();
-      renderDay();
-      renderCustomList();
-    } catch (err) {
-      customError.textContent = err.message || 'Не удалось добавить';
-    }
-  });
-
   loadStorage();
+  meals = recalculateMealLogHe(meals, getActiveStandard());
+  saveMeals();
   renderDay();
   renderMealTabs();
   renderLog();

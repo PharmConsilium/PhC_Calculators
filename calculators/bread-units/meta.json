@@ -1,6 +1,6 @@
 {
   "slug": "bread-units",
-  "title": "Калькулятор хлебных единиц (ХЕ)",
+  "title": "Сколько хлебных единиц в рационе, калькулятор хлебных единиц (ХЕ)",
   "sitePath": "/calculator/bread-units",
   "source": "Calculators_MobileApp bread-units; стандарт РФ/СНГ 12 г углеводов = 1 ХЕ",
   "complexity": "B"

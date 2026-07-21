@@ -1,7 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
-  Название: Калькулятор хлебных единиц (ХЕ)
-  Сборка: 2026-07-20
+  Название: Сколько хлебных единиц в рационе, калькулятор хлебных единиц (ХЕ)
+  Сборка: 2026-07-21
 -->
 <div class="fc-calc" data-calculator="bread-units">
   <style>
@@ -721,8 +721,32 @@
   max-width: 100%;
 }
 
+.fc-calc[data-calculator="bread-units"] .fc-calc__title {
+  font-size: clamp(12px, 3.1vw, 20px);
+  line-height: 1.25;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+  .fc-calc[data-calculator="bread-units"] .fc-calc__title {
+    font-size: clamp(15px, 2.4vw, 20px);
+  }
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__head .fc-calc__hint {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  text-align: justify;
+  text-align-last: center;
+  hyphens: auto;
+  line-height: 1.5;
+}
+
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-day {
-  margin-bottom: 16px;
+  margin-top: 16px;
+  margin-bottom: 0;
   padding: 14px;
   border-radius: 10px;
   background: rgba(0, 94, 236, 0.04);
@@ -731,9 +755,15 @@
 
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 8px;
+  margin-bottom: 0;
+}
+
+@media (min-width: 560px) {
+  .fc-calc[data-calculator="bread-units"] .fc-calc__bu-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-stat {
@@ -765,42 +795,13 @@
   display: block;
   margin-top: 2px;
   font-size: 11px;
+  line-height: 1.35;
   color: var(--fc-muted, #6b7280);
+  min-height: 2.7em;
 }
 
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-norm-label {
-  margin: 0 0 6px;
-  font-size: 12px;
-  color: var(--fc-text);
-}
-
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-norm-track {
-  height: 8px;
-  border-radius: 4px;
-  background: var(--fc-border, #e2e5ea);
-  overflow: hidden;
-}
-
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-norm-fill {
-  height: 100%;
-  border-radius: 4px;
-  background: #15803d;
-  max-width: 100%;
-  transition: width 0.2s ease;
-}
-
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-norm-fill--warn {
-  background: #ca8a04;
-}
-
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-norm-fill--bad {
-  background: #dc2626;
-}
-
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-db-count {
-  margin: 8px 0 0;
-  font-size: 12px;
-  color: var(--fc-muted, #6b7280);
+.fc-calc[data-calculator="bread-units"] .fc-calc__panel--diary {
+  border-width: 2px;
 }
 
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-grid {
@@ -913,11 +914,80 @@
   color: var(--fc-muted, #6b7280);
 }
 
-.fc-calc[data-calculator="bread-units"] .fc-calc__bu-meal-total {
-  display: flex;
-  justify-content: space-between;
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-meal-totals {
   margin-top: 12px;
+  overflow-x: auto;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table th,
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table td {
+  width: 25%;
+  padding: 8px 6px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--fc-border, #e2e5ea);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table th {
+  font-family: var(--fc-font-semibold, inherit);
+  font-weight: 600;
   font-size: 14px;
+  color: var(--fc-muted, #6b7280);
+  white-space: normal;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table tr[data-meal] {
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table tr[data-meal]:hover {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table tr.fc-calc__bu-ins-row--active {
+  background: rgba(0, 94, 236, 0.06);
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table tr.fc-calc__bu-ins-row--active td:first-child {
+  font-family: var(--fc-font-semibold, inherit);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-ins-table .fc-calc__bu-ins-row--day td {
+  border-bottom: 0;
+  border-top: 1px solid var(--fc-border, #e2e5ea);
+  font-family: var(--fc-font-semibold, inherit);
+  font-weight: 600;
+  padding-top: 12px;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-coeff-input {
+  width: 100%;
+  max-width: 5rem;
+  margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1.5px solid var(--fc-border, #e2e5ea);
+  border-radius: 8px;
+  background: var(--fc-surface, #fff);
+  font: inherit;
+  font-size: 13px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__bu-coeff-input:focus {
+  outline: none;
+  border-color: var(--fc-accent, #005eec);
 }
 
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-row-actions {
@@ -953,10 +1023,19 @@
   line-height: 1.25;
 }
 
+.fc-calc[data-calculator="bread-units"] .fc-calc__panel .fc-calc__result-wrap {
+  margin-top: 16px;
+}
+
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-actions {
   display: grid;
   gap: 10px;
-  margin-top: 4px;
+  margin-top: 12px;
+}
+
+.fc-calc[data-calculator="bread-units"] .fc-calc__panel .fc-calc__error {
+  display: block;
+  margin-top: 12px;
 }
 
 .fc-calc[data-calculator="bread-units"] .fc-calc__bu-actions-secondary {
@@ -1186,32 +1265,10 @@
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Калькулятор хлебных единиц (ХЕ)</h2>
-        <p class="fc-calc__hint">Расчёт ХЕ, дневник приёмов, база продуктов и свои позиции. Стандарт РФ/СНГ: 1 ХЕ = 12 г углеводов. Ориентир нормы — 18 ХЕ/сут.</p>
+        <p class="fc-calc__hint">Онлайн‑калькулятор для людей с сахарным диабетом 1 и 2 типа, который помогает быстро рассчитать количество хлебных единиц (ХЕ) и углеводов в продуктах и готовых блюдах, а также рассчитает ориентировочную дозу ультракороткого инсулина по вашему углеводному коэффициенту (по назначению врача)</p>
       </header>
 
       <div class="fc-calc__body">
-        <div class="fc-calc__bu-day" aria-live="polite">
-          <div class="fc-calc__bu-stats">
-            <div class="fc-calc__bu-stat">
-              <span class="fc-calc__bu-stat-value fc-calc__bu-stat-value--good" id="fc-calc-bread-units-day-he">0,0</span>
-              <span class="fc-calc__bu-stat-label">ХЕ</span>
-            </div>
-            <div class="fc-calc__bu-stat">
-              <span class="fc-calc__bu-stat-value" id="fc-calc-bread-units-day-carbs">0</span>
-              <span class="fc-calc__bu-stat-label">Углеводов г.</span>
-            </div>
-            <div class="fc-calc__bu-stat">
-              <span class="fc-calc__bu-stat-value" id="fc-calc-bread-units-day-count">0</span>
-              <span class="fc-calc__bu-stat-label">Продуктов</span>
-            </div>
-          </div>
-          <p class="fc-calc__bu-norm-label" id="fc-calc-bread-units-norm-label">Норма: 0,0 / 18 ХЕ</p>
-          <div class="fc-calc__bu-norm-track" aria-hidden="true">
-            <div class="fc-calc__bu-norm-fill fc-calc__bu-norm-fill--good" id="fc-calc-bread-units-norm-fill" style="width:0%"></div>
-          </div>
-          <p class="fc-calc__bu-db-count" id="fc-calc-bread-units-db-count"></p>
-        </div>
       <div class="fc-calc__tabs" role="tablist" aria-label="Калькулятор хлебных единиц">
         <button
           type="button"
@@ -1222,7 +1279,7 @@
           aria-selected="true"
           aria-controls="fc-calc-bread-units-panel-main"
           tabindex="0"
-        >Главная</button>
+        >Ввод данных</button>
         <button
           type="button"
           class="fc-calc__tab"
@@ -1232,17 +1289,7 @@
           aria-selected="false"
           aria-controls="fc-calc-bread-units-panel-ref"
           tabindex="-1"
-        >База продуктов</button>
-        <button
-          type="button"
-          class="fc-calc__tab"
-          role="tab"
-          id="fc-calc-bread-units-tab-custom"
-          data-mode="custom"
-          aria-selected="false"
-          aria-controls="fc-calc-bread-units-panel-custom"
-          tabindex="-1"
-        >Свои продукты</button>
+        >Список продуктов и блюд</button>
       </div>
         <div
           class="fc-calc__tab-panel fc-calc__tab-panel--active"
@@ -1251,39 +1298,22 @@
           id="fc-calc-bread-units-panel-main"
           aria-labelledby="fc-calc-bread-units-tab-main"
         >
-          <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Дневник</h3>
-              <div class="fc-calc__bu-meal-tabs" id="fc-calc-bread-units-meal-tabs"></div>
-              <p class="fc-calc__bu-empty" id="fc-calc-bread-units-log-empty">Список пуст. Добавьте продукт ниже.</p>
-              <ul class="fc-calc__bu-log" id="fc-calc-bread-units-log"></ul>
-              <div class="fc-calc__bu-meal-total">
-                <span>Итого приём</span>
-                <strong id="fc-calc-bread-units-meal-total">0,0 ХЕ</strong>
-              </div>
-              <div class="fc-calc__bu-row-actions">
-                <button type="button" class="fc-calc__bu-secondary" id="fc-calc-bread-units-clear-meal" disabled>Очистить приём</button>
-                <button type="button" class="fc-calc__bu-secondary" id="fc-calc-bread-units-clear-day" disabled>Очистить день</button>
-              </div>
-            </div>
-          </div>
           <form class="fc-calc__form" id="fc-calc-bread-units-form-main" novalidate>
             <div class="fc-calc__panel-section">
               <div class="fc-calc__panel">
-                <h3 class="fc-calc__panel-heading">Расчёт</h3>
                 <div class="fc-calc__bu-grid">
                   <div class="fc-calc__field fc-calc__bu-search-wrap">
-                    <label for="fc-calc-bread-units-name">Название</label>
+                    <label for="fc-calc-bread-units-name">Название продукта или блюда</label>
                     <input type="text" id="fc-calc-bread-units-name" name="productName" autocomplete="off" placeholder="Начните вводить — подсказки из базы" />
                     <ul class="fc-calc__bu-hits" id="fc-calc-bread-units-hits" hidden></ul>
                     <p class="fc-calc__bu-empty" id="fc-calc-bread-units-search-empty" hidden></p>
                   </div>
                   <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-carbs">Углеводы на 100 г, г</label>
+                    <label for="fc-calc-bread-units-carbs">Углеводы на 100 г. Введите данные с упаковки</label>
                     <input type="number" id="fc-calc-bread-units-carbs" name="carbsPer100" inputmode="decimal" min="0" step="any" placeholder="напр. 50" required />
                   </div>
                   <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-portion">Вес порции, г</label>
+                    <label for="fc-calc-bread-units-portion">Вес порции, г.</label>
                     <input type="number" id="fc-calc-bread-units-portion" name="portionG" inputmode="decimal" min="0" step="any" placeholder="напр. 25" required />
                   </div>
                   <div class="fc-calc__field">
@@ -1295,9 +1325,51 @@
                     </select>
                   </div>
                 </div>
+                <span class="fc-calc__error" id="fc-calc-bread-units-form-error" role="alert"></span>
+                <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-bread-units-result" aria-live="polite">
+                  <p class="fc-calc__result-label">Результат</p>
+                  <p class="fc-calc__result-number" id="fc-calc-bread-units-result-number">—</p>
+                  <p class="fc-calc__result-desc" id="fc-calc-bread-units-result-desc"></p>
+                  <div class="fc-calc__bu-result-extra" id="fc-calc-bread-units-result-extra"></div>
+                </div>
+                <div class="fc-calc__bu-actions" id="fc-calc-bread-units-actions">
+                  <button type="button" id="fc-calc-bread-units-add-diary" class="fc-calc__bu-secondary fc-calc__bu-secondary--wide" disabled>Добавить в рацион дня</button>
+                </div>
               </div>
             </div>
           </form>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel fc-calc__panel--diary">
+              <h3 class="fc-calc__panel-heading">Рацион дня</h3>
+              <div class="fc-calc__bu-meal-tabs" id="fc-calc-bread-units-meal-tabs"></div>
+              <p class="fc-calc__bu-empty" id="fc-calc-bread-units-log-empty">Список пуст. Заполните данные выше и нажмите «Добавить в рацион дня».</p>
+              <ul class="fc-calc__bu-log" id="fc-calc-bread-units-log"></ul>
+              <div class="fc-calc__bu-meal-totals" id="fc-calc-bread-units-meal-totals"></div>
+              <div class="fc-calc__bu-row-actions">
+                <button type="button" class="fc-calc__bu-secondary" id="fc-calc-bread-units-clear-day" disabled>Удалить данные</button>
+              </div>
+        <div class="fc-calc__bu-day" aria-live="polite">
+          <div class="fc-calc__bu-stats">
+            <div class="fc-calc__bu-stat">
+              <span class="fc-calc__bu-stat-value" id="fc-calc-bread-units-day-count">0</span>
+              <span class="fc-calc__bu-stat-label">Продуктов</span>
+            </div>
+            <div class="fc-calc__bu-stat">
+              <span class="fc-calc__bu-stat-value" id="fc-calc-bread-units-day-carbs">0</span>
+              <span class="fc-calc__bu-stat-label">Углеводов г.</span>
+            </div>
+            <div class="fc-calc__bu-stat">
+              <span class="fc-calc__bu-stat-value" id="fc-calc-bread-units-day-he">0,0</span>
+              <span class="fc-calc__bu-stat-label">ХЕ</span>
+            </div>
+            <div class="fc-calc__bu-stat">
+              <span class="fc-calc__bu-stat-value" id="fc-calc-bread-units-day-insulin-stat">0,0</span>
+              <span class="fc-calc__bu-stat-label">Инсулин короткого/ультракороткого действия, ЕД</span>
+            </div>
+          </div>
+        </div>
+            </div>
+          </div>
         </div>
         <div
           class="fc-calc__tab-panel"
@@ -1309,7 +1381,7 @@
         >
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">База продуктов</h3>
+              <h3 class="fc-calc__panel-heading">Список продуктов и блюд (800+)</h3>
               <div class="fc-calc__bu-cats" id="fc-calc-bread-units-ref-cats"></div>
               <div class="fc-calc__field">
                 <label for="fc-calc-bread-units-ref-filter">Фильтр по названию</label>
@@ -1325,59 +1397,6 @@
             </div>
           </div>
         </div>
-        <div
-          class="fc-calc__tab-panel"
-          data-mode="custom"
-          role="tabpanel"
-          id="fc-calc-bread-units-panel-custom"
-          aria-labelledby="fc-calc-bread-units-tab-custom"
-          hidden
-        >
-          <form class="fc-calc__form" id="fc-calc-bread-units-form-custom" novalidate>
-            <div class="fc-calc__panel-section">
-              <div class="fc-calc__panel">
-                <h3 class="fc-calc__panel-heading">Свои продукты</h3>
-                <p class="fc-calc__hint">Сохраняются в браузере и участвуют в поиске на «Главной».</p>
-                <div class="fc-calc__bu-grid">
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-custom-name">Название</label>
-                    <input type="text" id="fc-calc-bread-units-custom-name" name="name" required placeholder="напр. Йогурт домашний" />
-                  </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-custom-carbs">Углеводы на 100 г, г</label>
-                    <input type="number" id="fc-calc-bread-units-custom-carbs" name="carbs" inputmode="decimal" min="0" step="any" required placeholder="напр. 12" />
-                  </div>
-                  <div class="fc-calc__field">
-                    <label for="fc-calc-bread-units-custom-portion">Порция (необязательно)</label>
-                    <input type="text" id="fc-calc-bread-units-custom-portion" name="portion" placeholder="напр. 150 г" />
-                  </div>
-                </div>
-                <p class="fc-calc__bu-custom-error" id="fc-calc-bread-units-custom-error" role="alert"></p>
-                <div class="fc-calc__actions" style="margin-top:12px">
-                  <button type="submit" class="fc-calc__btn">Добавить</button>
-                </div>
-                <p class="fc-calc__bu-empty" id="fc-calc-bread-units-custom-empty" style="margin-top:16px">Список пуст.</p>
-                <ul class="fc-calc__bu-log" id="fc-calc-bread-units-custom-list" style="margin-top:12px"></ul>
-              </div>
-            </div>
-          </form>
-        </div>
-        <span class="fc-calc__error" id="fc-calc-bread-units-form-error" role="alert"></span>
-        <div class="fc-calc__bu-actions" id="fc-calc-bread-units-actions">
-          <div class="fc-calc__bu-actions-secondary">
-            <button type="button" id="fc-calc-bread-units-add-diary" class="fc-calc__bu-secondary fc-calc__bu-secondary--wide" disabled>В дневник</button>
-            <button type="button" id="fc-calc-bread-units-save-custom" class="fc-calc__bu-secondary fc-calc__bu-secondary--wide" disabled>В свои продукты</button>
-          </div>
-          <div class="fc-calc__actions">
-            <button type="button" id="fc-calc-bread-units-btn" class="fc-calc__btn fc-calc__btn--inactive" disabled>Рассчитать</button>
-          </div>
-        </div>
-        <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-bread-units-result" aria-live="polite">
-          <p class="fc-calc__result-label">Результат</p>
-          <p class="fc-calc__result-number" id="fc-calc-bread-units-result-number">—</p>
-          <p class="fc-calc__result-desc" id="fc-calc-bread-units-result-desc"></p>
-          <div class="fc-calc__bu-result-extra" id="fc-calc-bread-units-result-extra"></div>
-        </div>
       </div>
     </div>
 
@@ -1390,10 +1409,29 @@
         <p><strong>Формула:</strong> ХЕ = (углеводы на 100 г × вес порции, г) ÷ (100 × стандарт).</p>
         <p>Стандарт РФ/СНГ: 1 ХЕ = 12 г углеводов. Упрощённый: 10 г. США/ВОЗ: 15 г.</p>
         <p>База продуктов и поиск используют стандарт <strong>12 г/ХЕ</strong>.</p>
-        <p><strong>Ориентиры суточной нормы:</strong> сидячий образ жизни 15–18 ХЕ; умеренная активность 18–25 ХЕ; физический труд до 30 ХЕ. На один приём — обычно не более 7–8 ХЕ; перекус — 1–2 ХЕ. Полоса «норма» ориентирована на 18 ХЕ/сут.</p>
-        <p><strong>ХЕ и инсулин (ориентир):</strong> 1 ХЕ повышает глюкозу примерно на 1,5–2 ммоль/л; на 1 ХЕ может потребоваться около 1–4 ЕД инсулина (индивидуально). Дозу согласовывают с эндокринологом.</p>
+        <p><strong>Ориентиры рациона дня:</strong></p>
+        <ul>
+          <li>сидячий образ жизни 15–18 ХЕ;</li>
+          <li>умеренная активность 18–25 ХЕ;</li>
+          <li>физический труд до 30 ХЕ;</li>
+          <li>на один приём — обычно не более 7–8 ХЕ;</li>
+          <li>перекус — 1–2 ХЕ.</li>
+        </ul>
+        <p><strong>Углеводный коэффициент</strong> — это количество единиц инсулина короткого или ультракороткого действия, которое необходимо ввести на усвоение одной хлебной единицы (ХЕ) или определённого количества углеводов (обычно 10–12 г). Универсальной нормы не существует. Для каждого человека это значение подбирается индивидуально и меняется в зависимости от времени суток, физической активности и чувствительности к гормону. В среднем для взрослых людей со средним весом этот показатель составляет 1–2 единицы инсулина на одну ХЕ.</p>
+        <p>Потребность в инсулине колеблется из-за циркадных ритмов и концентрации контринсулярных гормонов (например, кортизола и гормона роста), уровень которых максимален в утренние часы. Стандартное распределение выглядит так:</p>
+        <ul>
+          <li><strong>Завтрак:</strong> коэффициент самый высокий. На 1 ХЕ может требоваться 2 единицы инсулина, так как организм утром более устойчив к его действию.</li>
+          <li><strong>Обед:</strong> потребность обычно снижается. На 1 ХЕ уходит около 1,25 единицы инсулина.</li>
+          <li><strong>Ужин:</strong> чувствительность к инсулину возрастает. На 1 ХЕ требуется меньше всего — порядка 0,75 единицы инсулина.</li>
+        </ul>
+        <p>В калькуляторе по умолчанию: завтрак 2; обед 1,25; ужин 0,75; перекус 1. Коэффициенты можно изменить вручную, данные расчётов должны контролироваться и согласовываться с лечащим врачом.</p>
         <p><strong>Гликемический индекс:</strong> ГИ &lt;55 — низкий; 55–69 — средний; ≥70 — высокий.</p>
-        <p>Дневник и свои продукты хранятся локально в браузере (localStorage).</p>
+        <p><strong>Источники:</strong></p>
+        <ol>
+          <li>DAFNE Study Group. Training in flexible, intensive insulin management to enable dietary freedom in people with type 1 diabetes: dose adjustment for normal eating (DAFNE) randomised controlled trial. BMJ. 2002 Oct 5;325(7367):746. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/12364303/" target="_blank" rel="noopener noreferrer">12364303</a>. DOI: <a href="https://doi.org/10.1136/bmj.325.7367.746" target="_blank" rel="noopener noreferrer">10.1136/bmj.325.7367.746</a>.</li>
+          <li>American Diabetes Association Professional Practice Committee. 9. Pharmacologic Approaches to Glycemic Treatment: Standards of Care in Diabetes—2026. Diabetes Care. 2026 Jan;49(Suppl 1):S120–S142. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/41358900/" target="_blank" rel="noopener noreferrer">41358900</a>. DOI: <a href="https://doi.org/10.2337/dc26-S009" target="_blank" rel="noopener noreferrer">10.2337/dc26-S009</a>.</li>
+          <li>Dedov II, Shestakova MV, Sukhareva OY, et al. Standards of specialized diabetes care. 12th ed. Diabetes Mellitus. 2025;28(1S):1–182. DOI: <a href="https://doi.org/10.14341/DM13419" target="_blank" rel="noopener noreferrer">10.14341/DM13419</a>.</li>
+        </ol>
       </div>
     </details>
   </div>
@@ -1432,8 +1470,38 @@ const MEAL_OPTIONS = [
   { id: 'snack', label: 'Перекус' },
 ];
 
+/** Углеводный коэффициент (Ед на 1 ХЕ) по умолчанию. */
+const DEFAULT_MEAL_CARB_COEFFICIENTS = {
+  breakfast: 2,
+  lunch: 1.25,
+  dinner: 0.75,
+  snack: 1,
+};
+
 function emptyMealLog() {
   return { breakfast: [], lunch: [], dinner: [], snack: [] };
+}
+
+function emptyMealCoefficients() {
+  return { ...DEFAULT_MEAL_CARB_COEFFICIENTS };
+}
+
+/** Единицы инсулина = ХЕ × углеводный коэффициент. */
+function insulinUnitsFromHe(he, coefficient) {
+  const h = Number(he);
+  const c = Number(coefficient);
+  if (!Number.isFinite(h) || !Number.isFinite(c) || c < 0) return 0;
+  return Math.round(h * c * 10) / 10;
+}
+
+function parseStoredMealCoefficients(raw) {
+  const out = emptyMealCoefficients();
+  if (!raw || typeof raw !== 'object') return out;
+  for (const meal of MEAL_OPTIONS) {
+    const n = Number(raw[meal.id]);
+    if (Number.isFinite(n) && n >= 0) out[meal.id] = n;
+  }
+  return out;
 }
 
 function formatHe(value, digits = 1) {
@@ -1456,11 +1524,11 @@ function calculateHeFromCarbs(carbsPer100, portionG, standard = 12) {
   ) {
     throw new Error('Некорректные данные');
   }
-  if (!HE_STANDARDS.includes(standard)) {
+  if (!HE_STANDARDS.some((s) => Number(s) === Number(standard))) {
     throw new Error('Некорректный стандарт ХЕ');
   }
   const carbsInPortion = (carbsPer100 * portionG) / 100;
-  return { carbsInPortion, he: carbsInPortion / standard };
+  return { carbsInPortion, he: carbsInPortion / Number(standard) };
 }
 
 function parseNumber(value) {
@@ -1502,7 +1570,7 @@ function calculate(input) {
   if (portionG == null || portionG <= 0) {
     throw new Error('Укажите вес порции');
   }
-  if (!HE_STANDARDS.includes(standard)) {
+  if (!HE_STANDARDS.some((s) => Number(s) === Number(standard))) {
     throw new Error('Некорректный стандарт ХЕ');
   }
 
@@ -1738,10 +1806,45 @@ function mealTotalHe(items) {
   return (items || []).reduce((s, i) => s + (Number(i.he) || 0), 0);
 }
 
+function mealItemCarbsG(item) {
+  if (!item || typeof item !== 'object') return 0;
+  const carbsG = Number(item.carbsG);
+  if (Number.isFinite(carbsG) && carbsG >= 0) return carbsG;
+  return (Number(item.he) || 0) * LOOKUP_HE_STANDARD;
+}
+
+function heFromCarbsG(carbsG, standard = LOOKUP_HE_STANDARD) {
+  const carbs = Number(carbsG);
+  const std = Number(standard);
+  if (!Number.isFinite(carbs) || carbs < 0 || !Number.isFinite(std) || std <= 0) {
+    return 0;
+  }
+  return carbs / std;
+}
+
+/** Пересчёт ХЕ в дневнике при смене стандарта (углеводы порции неизменны). */
+function recalculateMealLogHe(log, standard = LOOKUP_HE_STANDARD) {
+  const std = Number(standard);
+  const next = emptyMealLog();
+  for (const meal of MEAL_OPTIONS) {
+    next[meal.id] = (log?.[meal.id] || []).map((item) => {
+      const carbsG = mealItemCarbsG(item);
+      const he = heFromCarbsG(carbsG, std);
+      return {
+        ...item,
+        carbsG,
+        he,
+        note: `${formatCarbs(carbsG)} г углеводов`,
+      };
+    });
+  }
+  return next;
+}
+
 function summarizeDay(log) {
   const all = Object.values(log || emptyMealLog()).flat();
   const totalHe = all.reduce((s, i) => s + (Number(i.he) || 0), 0);
-  const totalCarbsG = totalHe * LOOKUP_HE_STANDARD;
+  const totalCarbsG = all.reduce((s, i) => s + mealItemCarbsG(i), 0);
   const normPct = Math.min((totalHe / DAILY_NORM_HE) * 100, 100);
   let level = 'good';
   if (totalHe > DAILY_NORM_HE) level = 'bad';
@@ -1759,24 +1862,21 @@ function summarizeDay(log) {
   if (!root) return;
 
   var MEALS_KEY = 'fc:bread-units:meals';
-  var CUSTOM_KEY = 'fc:bread-units:custom-products';
+  var COEFF_KEY = 'fc:bread-units:meal-coefficients';
 
   var tabs = root.querySelectorAll('.fc-calc__tab[data-mode]');
   var panels = root.querySelectorAll('.fc-calc__tab-panel[data-mode]');
   var activeMode = 'main';
   var activeMeal = 'breakfast';
   var meals = emptyMealLog();
-  var customProducts = [];
+  var mealCoefficients = emptyMealCoefficients();
   var lastResult = null;
   var searchTimer = null;
   var refCat = ALL_PRODUCTS_CATEGORY;
   var refPage = 0;
 
-  var calcBtn = root.querySelector('#fc-calc-bread-units-btn');
   var addDiaryBtn = root.querySelector('#fc-calc-bread-units-add-diary');
-  var saveCustomBtn = root.querySelector('#fc-calc-bread-units-save-custom');
   var formError = root.querySelector('#fc-calc-bread-units-form-error');
-  var actionsRow = root.querySelector('#fc-calc-bread-units-actions');
   var resultWrap = root.querySelector('#fc-calc-bread-units-result');
   var resultNumber = root.querySelector('#fc-calc-bread-units-result-number');
   var resultDesc = root.querySelector('#fc-calc-bread-units-result-desc');
@@ -1793,16 +1893,13 @@ function summarizeDay(log) {
   var mealTabs = root.querySelector('#fc-calc-bread-units-meal-tabs');
   var logList = root.querySelector('#fc-calc-bread-units-log');
   var logEmpty = root.querySelector('#fc-calc-bread-units-log-empty');
-  var mealTotal = root.querySelector('#fc-calc-bread-units-meal-total');
-  var clearMealBtn = root.querySelector('#fc-calc-bread-units-clear-meal');
+  var mealTotals = root.querySelector('#fc-calc-bread-units-meal-totals');
   var clearDayBtn = root.querySelector('#fc-calc-bread-units-clear-day');
 
   var dayHe = root.querySelector('#fc-calc-bread-units-day-he');
   var dayCarbs = root.querySelector('#fc-calc-bread-units-day-carbs');
   var dayCount = root.querySelector('#fc-calc-bread-units-day-count');
-  var normLabel = root.querySelector('#fc-calc-bread-units-norm-label');
-  var normFill = root.querySelector('#fc-calc-bread-units-norm-fill');
-  var dbCount = root.querySelector('#fc-calc-bread-units-db-count');
+  var dayInsulinStat = root.querySelector('#fc-calc-bread-units-day-insulin-stat');
 
   var refCats = root.querySelector('#fc-calc-bread-units-ref-cats');
   var refFilter = root.querySelector('#fc-calc-bread-units-ref-filter');
@@ -1812,11 +1909,6 @@ function summarizeDay(log) {
   var refPagerLabel = root.querySelector('#fc-calc-bread-units-ref-pager-label');
   var refPrev = root.querySelector('#fc-calc-bread-units-ref-prev');
   var refNext = root.querySelector('#fc-calc-bread-units-ref-next');
-
-  var customForm = root.querySelector('#fc-calc-bread-units-form-custom');
-  var customError = root.querySelector('#fc-calc-bread-units-custom-error');
-  var customList = root.querySelector('#fc-calc-bread-units-custom-list');
-  var customEmpty = root.querySelector('#fc-calc-bread-units-custom-empty');
 
   function escapeHtml(text) {
     return String(text)
@@ -1840,11 +1932,8 @@ function summarizeDay(log) {
       panel.hidden = !active;
     });
     formError.textContent = '';
-    var onMain = mode === 'main';
-    if (actionsRow) actionsRow.hidden = !onMain;
-    if (!onMain) clearResult();
+    if (mode !== 'main') clearResult();
     if (mode === 'ref') renderRef();
-    if (mode === 'custom') renderCustomList();
     updateMainActions();
   }
 
@@ -1861,11 +1950,11 @@ function summarizeDay(log) {
       meals = emptyMealLog();
     }
     try {
-      customProducts = parseStoredCustomProducts(
-        JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]')
+      mealCoefficients = parseStoredMealCoefficients(
+        JSON.parse(localStorage.getItem(COEFF_KEY) || 'null')
       );
     } catch (e) {
-      customProducts = [];
+      mealCoefficients = emptyMealCoefficients();
     }
   }
 
@@ -1877,29 +1966,29 @@ function summarizeDay(log) {
     }
   }
 
-  function saveCustom() {
+  function saveCoefficients() {
     try {
-      localStorage.setItem(CUSTOM_KEY, JSON.stringify(customProducts));
+      localStorage.setItem(COEFF_KEY, JSON.stringify(mealCoefficients));
     } catch (e) {
       /* ignore */
     }
   }
 
+  function dayInsulinTotal() {
+    return MEAL_OPTIONS.reduce(function (sum, meal) {
+      return (
+        sum +
+        insulinUnitsFromHe(mealTotalHe(meals[meal.id]), mealCoefficients[meal.id])
+      );
+    }, 0);
+  }
+
   function renderDay() {
     var day = summarizeDay(meals);
     dayHe.textContent = formatHe(day.totalHe);
-    dayHe.className =
-      'fc-calc__bu-stat-value fc-calc__bu-stat-value--' + day.level;
     dayCarbs.textContent = String(Math.round(day.totalCarbsG));
     dayCount.textContent = String(day.itemCount);
-    normLabel.textContent =
-      'Норма: ' + formatHe(day.totalHe) + ' / ' + DAILY_NORM_HE + ' ХЕ';
-    normFill.style.width = day.normPct + '%';
-    normFill.className = 'fc-calc__bu-norm-fill fc-calc__bu-norm-fill--' + day.level;
-    dbCount.textContent =
-      BREAD_PRODUCTS.length +
-      ' в базе' +
-      (customProducts.length ? ' · ' + customProducts.length + ' своих' : '');
+    dayInsulinStat.textContent = formatHe(dayInsulinTotal());
     clearDayBtn.disabled = day.itemCount === 0;
   }
 
@@ -1961,8 +2050,101 @@ function summarizeDay(log) {
       li.appendChild(remove);
       logList.appendChild(li);
     });
-    mealTotal.textContent = formatHe(mealTotalHe(items)) + ' ХЕ';
-    clearMealBtn.disabled = items.length === 0;
+    renderMealTotals();
+  }
+
+  function renderMealTotals() {
+    var dayHe = 0;
+    var dayInsulin = 0;
+    var rows = MEAL_OPTIONS.map(function (meal) {
+      var he = mealTotalHe(meals[meal.id]);
+      var coeff = mealCoefficients[meal.id];
+      var insulin = insulinUnitsFromHe(he, coeff);
+      dayHe += he;
+      dayInsulin += insulin;
+      return (
+        '<tr class="' +
+        (meal.id === activeMeal ? 'fc-calc__bu-ins-row--active' : '') +
+        '" data-meal="' +
+        meal.id +
+        '">' +
+        '<td>' +
+        escapeHtml(meal.label) +
+        '</td>' +
+        '<td>' +
+        formatHe(he) +
+        '</td>' +
+        '<td><input class="fc-calc__bu-coeff-input" type="number" inputmode="decimal" min="0" step="any" data-meal-coeff="' +
+        meal.id +
+        '" value="' +
+        String(coeff) +
+        '" aria-label="Углеводный коэффициент: ' +
+        escapeHtml(meal.label) +
+        '" /></td>' +
+        '<td data-insulin-for="' +
+        meal.id +
+        '">' +
+        formatHe(insulin) +
+        '</td>' +
+        '</tr>'
+      );
+    }).join('');
+
+    mealTotals.innerHTML =
+      '<table class="fc-calc__bu-ins-table">' +
+      '<thead><tr>' +
+      '<th scope="col">Приём пищи</th>' +
+      '<th scope="col">ХЕ</th>' +
+      '<th scope="col">Углеводный коэффициент</th>' +
+      '<th scope="col">Инсулин короткого/ультракороткого действия, ЕД</th>' +
+      '</tr></thead><tbody>' +
+      rows +
+      '<tr class="fc-calc__bu-ins-row--day">' +
+      '<td>Итого рацион дня</td>' +
+      '<td id="fc-calc-bread-units-day-he-table">' +
+      formatHe(dayHe) +
+      '</td>' +
+      '<td></td>' +
+      '<td id="fc-calc-bread-units-day-insulin">' +
+      formatHe(dayInsulin) +
+      '</td>' +
+      '</tr></tbody></table>';
+
+    mealTotals.querySelectorAll('tr[data-meal]').forEach(function (tr) {
+      tr.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('input')) return;
+        activeMeal = tr.getAttribute('data-meal');
+        renderMealTabs();
+        renderLog();
+      });
+    });
+
+    mealTotals.querySelectorAll('input[data-meal-coeff]').forEach(function (input) {
+      input.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+      input.addEventListener('change', function () {
+        var mealId = input.getAttribute('data-meal-coeff');
+        var value = parseNumber(input.value);
+        if (value == null || value < 0) {
+          input.value = String(mealCoefficients[mealId]);
+          return;
+        }
+        mealCoefficients[mealId] = value;
+        saveCoefficients();
+        renderDay();
+        renderMealTotals();
+      });
+    });
+  }
+
+  function getActiveStandard() {
+    var s = Number(standardSelect.value || LOOKUP_HE_STANDARD);
+    return HE_STANDARDS.some(function (x) {
+      return Number(x) === s;
+    })
+      ? s
+      : LOOKUP_HE_STANDARD;
   }
 
   function buildManualInput() {
@@ -1970,7 +2152,7 @@ function summarizeDay(log) {
       mode: 'manual',
       carbsPer100: carbsInput.value,
       portionG: portionInput.value,
-      standard: Number(standardSelect.value || LOOKUP_HE_STANDARD),
+      standard: getActiveStandard(),
       productName: nameInput.value.trim(),
     };
   }
@@ -1981,14 +2163,28 @@ function summarizeDay(log) {
     return carbs != null && carbs >= 0 && portion != null && portion > 0;
   }
 
+  function refreshDiaryForStandard() {
+    meals = recalculateMealLogHe(meals, getActiveStandard());
+    saveMeals();
+    renderDay();
+    renderMealTabs();
+    renderLog();
+  }
+
   function updateMainActions() {
     var ok = canCalculate();
-    calcBtn.disabled = !ok;
-    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
     addDiaryBtn.disabled = !ok;
-    var name = nameInput.value.trim();
-    var carbs = parseNumber(carbsInput.value);
-    saveCustomBtn.disabled = !(name && carbs != null && carbs >= 0);
+    formError.textContent = '';
+    if (!ok) {
+      clearResult();
+      return;
+    }
+    try {
+      renderResult(calculate(buildManualInput()));
+    } catch (err) {
+      clearResult();
+      formError.textContent = err.message || 'Проверьте ввод';
+    }
   }
 
   function clearResult() {
@@ -2025,7 +2221,6 @@ function summarizeDay(log) {
     hitsList.hidden = true;
     searchEmpty.hidden = true;
     switchMode('main');
-    clearResult();
     updateMainActions();
   }
 
@@ -2072,12 +2267,10 @@ function summarizeDay(log) {
       searchEmpty.hidden = true;
       return;
     }
-    renderHits(searchProducts(BREAD_PRODUCTS, q, 30, customProducts));
+    renderHits(searchProducts(BREAD_PRODUCTS, q, 30));
   }
 
   nameInput.addEventListener('input', function () {
-    clearResult();
-    formError.textContent = '';
     updateMainActions();
     clearTimeout(searchTimer);
     searchTimer = setTimeout(runNameSearch, 160);
@@ -2093,37 +2286,28 @@ function summarizeDay(log) {
     hitsList.hidden = true;
   });
 
-  [carbsInput, portionInput, standardSelect].forEach(function (el) {
-    el.addEventListener('input', function () {
-      clearResult();
-      formError.textContent = '';
-      updateMainActions();
-    });
+  [carbsInput, portionInput].forEach(function (el) {
+    el.addEventListener('input', updateMainActions);
     el.addEventListener('change', updateMainActions);
   });
 
-  function onCalculate(e) {
-    if (e) e.preventDefault();
-    formError.textContent = '';
-    try {
-      renderResult(calculate(buildManualInput()));
-    } catch (err) {
-      clearResult();
-      formError.textContent = err.message || 'Проверьте ввод';
-    }
-  }
+  standardSelect.addEventListener('change', function () {
+    refreshDiaryForStandard();
+    updateMainActions();
+  });
 
   function onAddDiary(e) {
     if (e) e.preventDefault();
     formError.textContent = '';
     try {
-      var out = lastResult && canCalculate() ? lastResult : calculate(buildManualInput());
-      if (!lastResult) renderResult(out);
+      var out = calculate(buildManualInput());
+      renderResult(out);
       meals[activeMeal] = meals[activeMeal].concat([
         {
           id: createMealItemId(),
           name: (out.productName || nameInput.value.trim() || 'Продукт').slice(0, 120),
           he: out.he,
+          carbsG: out.carbsInPortion,
           gram: out.portionG,
           note: out.carbsLabel + ' г углеводов',
           meal: activeMeal,
@@ -2138,49 +2322,11 @@ function summarizeDay(log) {
     }
   }
 
-  function onSaveCustomFromMain(e) {
-    if (e) e.preventDefault();
-    formError.textContent = '';
-    try {
-      var carbs = parseNumber(carbsInput.value);
-      var portion = parseNumber(portionInput.value);
-      var product = createCustomProduct({
-        name: nameInput.value,
-        carbs: carbs,
-        portion:
-          portion != null && portion > 0
-            ? String(portionInput.value).trim() +
-              (/\s*г\s*$/i.test(portionInput.value) ? '' : ' г')
-            : '',
-      });
-      var dup = customProducts.some(function (p) {
-        return p.name.toLowerCase() === product.name.toLowerCase();
-      });
-      if (dup) {
-        formError.textContent = 'Продукт с таким названием уже есть';
-        return;
-      }
-      customProducts = [product].concat(customProducts);
-      saveCustom();
-      renderDay();
-      switchMode('custom');
-    } catch (err) {
-      formError.textContent = err.message || 'Не удалось сохранить';
-    }
-  }
-
-  manualForm.addEventListener('submit', onCalculate);
-  calcBtn.addEventListener('click', onCalculate);
-  addDiaryBtn.addEventListener('click', onAddDiary);
-  saveCustomBtn.addEventListener('click', onSaveCustomFromMain);
-
-  clearMealBtn.addEventListener('click', function () {
-    meals[activeMeal] = [];
-    saveMeals();
-    renderDay();
-    renderMealTabs();
-    renderLog();
+  manualForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!addDiaryBtn.disabled) onAddDiary();
   });
+  addDiaryBtn.addEventListener('click', onAddDiary);
 
   clearDayBtn.addEventListener('click', function () {
     meals = emptyMealLog();
@@ -2191,7 +2337,7 @@ function summarizeDay(log) {
   });
 
   function ensureRefCat() {
-    var cats = listProductCategories(BREAD_PRODUCTS, customProducts);
+    var cats = listProductCategories(BREAD_PRODUCTS);
     if (!cats.includes(refCat)) {
       refCat = ALL_PRODUCTS_CATEGORY;
       refPage = 0;
@@ -2230,12 +2376,7 @@ function summarizeDay(log) {
       refCats.appendChild(btn);
     });
 
-    var all = productsByCategory(
-      BREAD_PRODUCTS,
-      refCat,
-      refFilter.value,
-      customProducts
-    );
+    var all = productsByCategory(BREAD_PRODUCTS, refCat, refFilter.value);
     var pageCount = Math.max(1, Math.ceil(all.length / REF_PAGE_SIZE));
     if (refPage > pageCount - 1) refPage = pageCount - 1;
     var start = refPage * REF_PAGE_SIZE;
@@ -2244,10 +2385,7 @@ function summarizeDay(log) {
     refList.innerHTML = '';
     refEmpty.hidden = all.length > 0;
     if (all.length === 0) {
-      refEmpty.textContent =
-        refCat === CUSTOM_PRODUCT_CATEGORY
-          ? 'Своих продуктов пока нет — добавьте на вкладке «Свои продукты».'
-          : 'Нет продуктов в этой категории.';
+      refEmpty.textContent = 'Нет продуктов в этой категории.';
       refPager.hidden = true;
       return;
     }
@@ -2300,80 +2438,9 @@ function summarizeDay(log) {
     renderRef();
   });
 
-  function renderCustomList() {
-    customList.innerHTML = '';
-    customEmpty.hidden = customProducts.length > 0;
-    customProducts.forEach(function (p) {
-      var li = document.createElement('li');
-      li.className = 'fc-calc__bu-log-item';
-      var info = document.createElement('button');
-      info.type = 'button';
-      info.className = 'fc-calc__bu-hit';
-      info.style.padding = '0';
-      info.style.border = '0';
-      info.innerHTML =
-        '<span class="fc-calc__bu-log-name">' +
-        escapeHtml(p.name) +
-        '</span><span class="fc-calc__bu-log-meta">' +
-        p.carbs +
-        ' г/100 г · 1 ХЕ ≈ ' +
-        escapeHtml(gram1heLabel(p.gram1he)) +
-        (p.portion ? ' · ' + escapeHtml(p.portion) : '') +
-        '</span>';
-      info.addEventListener('click', function () {
-        applyProduct(p);
-      });
-      var he = document.createElement('span');
-      he.className = 'fc-calc__bu-log-he';
-      he.textContent = p.carbs + ' г';
-      var remove = document.createElement('button');
-      remove.type = 'button';
-      remove.className = 'fc-calc__bu-remove';
-      remove.setAttribute('aria-label', 'Удалить');
-      remove.textContent = '✕';
-      remove.addEventListener('click', function () {
-        customProducts = customProducts.filter(function (x) {
-          return x.id !== p.id;
-        });
-        saveCustom();
-        renderDay();
-        renderCustomList();
-      });
-      li.appendChild(info);
-      li.appendChild(he);
-      li.appendChild(remove);
-      customList.appendChild(li);
-    });
-  }
-
-  customForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    customError.textContent = '';
-    var fd = new FormData(customForm);
-    try {
-      var product = createCustomProduct({
-        name: fd.get('name'),
-        carbs: parseNumber(fd.get('carbs')),
-        portion: String(fd.get('portion') || ''),
-      });
-      var dup = customProducts.some(function (p) {
-        return p.name.toLowerCase() === product.name.toLowerCase();
-      });
-      if (dup) {
-        customError.textContent = 'Продукт с таким названием уже есть';
-        return;
-      }
-      customProducts = [product].concat(customProducts);
-      saveCustom();
-      customForm.reset();
-      renderDay();
-      renderCustomList();
-    } catch (err) {
-      customError.textContent = err.message || 'Не удалось добавить';
-    }
-  });
-
   loadStorage();
+  meals = recalculateMealLogHe(meals, getActiveStandard());
+  saveMeals();
   renderDay();
   renderMealTabs();
   renderLog();
