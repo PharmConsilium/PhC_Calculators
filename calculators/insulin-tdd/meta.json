@@ -1,0 +1,7 @@
+{
+  "slug": "insulin-tdd",
+  "title": "Калькулятор инсулина: суточная доза инсулина, коррекция гипергликемии и прандиальный болюс",
+  "sitePath": "/calculator/insulin-tdd",
+  "source": "Calculators_MobileApp insulin-tdd; TDD, ISF, ICR",
+  "complexity": "B"
+}

@@ -47,11 +47,32 @@ test('run calculator tests from cases.json when present', async () => {
     } catch {
       continue;
     }
-    const { calculate } = await import(pathToFileURL(calcPath).href);
+    const mod = await import(pathToFileURL(calcPath).href);
     for (const c of cases.cases || []) {
-      const out = calculate(c.input);
-      for (const [key, val] of Object.entries(c.expected || {})) {
-        const msg = `${slug}: ${c.name} — ${key}`;
+      const msgBase = `${slug}: ${c.name}`;
+      let out;
+      if (c.fn) {
+        assert.equal(typeof mod[c.fn], 'function', `${msgBase} — missing fn ${c.fn}`);
+        const args = Array.isArray(c.input) ? c.input : [c.input];
+        out = mod[c.fn](...args);
+      } else {
+        out = mod.calculate(c.input);
+      }
+      const expected = c.expected;
+      if (
+        expected === null ||
+        typeof expected !== 'object' ||
+        Array.isArray(expected)
+      ) {
+        if (Array.isArray(expected) || (expected !== null && typeof expected === 'object')) {
+          assert.deepEqual(out, expected, msgBase);
+        } else {
+          assert.equal(out, expected, msgBase);
+        }
+        continue;
+      }
+      for (const [key, val] of Object.entries(expected)) {
+        const msg = `${msgBase} — ${key}`;
         if (Array.isArray(val) || (val !== null && typeof val === 'object')) {
           assert.deepEqual(out[key], val, msg);
         } else {
