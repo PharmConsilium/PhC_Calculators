@@ -243,9 +243,16 @@ ${summaryPanel}
         <p><strong>Суточная доза инсулина</strong> = масса (кг) × коэффициент (Ед/кг). Типичные старты: чувствительные 0,3–0,4; стандарт СД2 0,5; резистентные 0,6–1,0; пубертат до 1,0–1,5 Ед/кг.</p>
         <p><strong>Базал / болюс:</strong> по умолчанию 50% / 50%; болюсная часть делится равномерно на 3 приёма пищи. Долю базального можно менять ползунком.</p>
         <p><strong>ISF (фактор чувствительности):</strong> быстрый инсулин — 100 ÷ суточная доза (ммоль/л на 1 Ед) или 1800 ÷ суточная доза (мг/дл); регулярный — 83 ÷ суточная доза / 1500 ÷ суточная доза. Коррекция = (Gтек − Gцель) / ISF.</p>
-        <p><strong>ICR (углеводный коэффициент):</strong> правило «500» ÷ суточная доза (г углеводов на 1 Ед). Варианты: 450/400 при высокой инсулинорезистентности или помпе; 300 у детей с низкой суточной дозой. Прандиальный болюс = углеводы / ICR.</p>
+        <p><strong>Углеводный коэффициент (ICR)</strong> — это количество граммов углеводов, которое утилизирует одна единица (ЕД) инсулина короткого или ультракороткого действия. Он необходим для расчёта прандиального болюса — дозы инсулина, вводимой непосредственно перед приёмом пищи для компенсации послепищевой гипергликемии.</p>
         <p><strong>Итоговый болюс</strong> = углеводы/ICR + (Gтек − Gцель)/ISF.</p>
         <p>Стартовые расчёты требуют клинической титрации, учёта гипогликемий, остаточного инсулина («стек») и индивидуальных факторов. Не заменяют решение врача.</p>
+        <p><strong>Источники:</strong></p>
+        <ol>
+          <li>Hirsch IB, Juneja R, Beals JM, et al. Insulin: Pharmacology, Therapeutic Regimens and Principles of Intensive Medical Management. In: Feingold KR, Anawalt B, Blackman MR, et al., editors. Endotext [Internet]. South Dartmouth (MA): MDText.com, Inc.; 2000–. [Updated 2023 Feb 15]. Available from: <a href="https://www.ncbi.nlm.nih.gov/books/NBK278938/" target="_blank" rel="noopener noreferrer">https://www.ncbi.nlm.nih.gov/books/NBK278938/</a>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/25905221/" target="_blank" rel="noopener noreferrer">25905221</a>.</li>
+          <li>Philip M, de Beaufort C, Campbell F, et al. ISPAD Clinical Practice Consensus Guidelines 2022: Insulin treatment in children and adolescents with diabetes. Pediatr Diabetes. 2022;23(8):1274–1296. DOI: <a href="https://doi.org/10.1111/pedi.13442" target="_blank" rel="noopener noreferrer">10.1111/pedi.13442</a>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/36537533/" target="_blank" rel="noopener noreferrer">36537533</a>.</li>
+          <li>American Diabetes Association Professional Practice Committee. 9. Pharmacologic Approaches to Glycemic Treatment: Standards of Care in Diabetes—2024. Diabetes Care. 2024;47(Suppl 1):S158–S178. DOI: <a href="https://doi.org/10.2337/dc24-S009" target="_blank" rel="noopener noreferrer">10.2337/dc24-S009</a>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/38078590/" target="_blank" rel="noopener noreferrer">38078590</a>.</li>
+          <li>King AB, Armstrong DU. Evaluation of the formulas for estimating the insulin-to-carbohydrate ratio and the insulin correction factor in persons with type 1 diabetes mellitus: a clinical research center study. Diabetes Technol Ther. 2007;9(2):142–149. DOI: <a href="https://doi.org/10.1089/dia.2006.0044" target="_blank" rel="noopener noreferrer">10.1089/dia.2006.0044</a>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/17425440/" target="_blank" rel="noopener noreferrer">17425440</a>.</li>
+        </ol>
       </div>
     </details>
   </div>
