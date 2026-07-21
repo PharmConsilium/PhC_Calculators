@@ -1,0 +1,62 @@
+{
+  "slug": "insulin-tdd",
+  "source": "TDD = weight × U/kg; ISF = rule/TDD; ICR = divisor/TDD; bolus = carbs/ICR + (Gcur−Gtgt)/ISF",
+  "cases": [
+    {
+      "name": "standard 70kg 0.5 U/kg basal 50%",
+      "input": {
+        "weightKg": "70",
+        "profile": "standard",
+        "unitsPerKg": "0,5",
+        "basalPct": 50,
+        "insulinKind": "rapid",
+        "icrRule": "500",
+        "glucoseCurrent": "",
+        "glucoseTarget": "6",
+        "carbsG": ""
+      },
+      "expected": {
+        "tdd": 35,
+        "basal": 17.5,
+        "bolusTotal": 17.5,
+        "mealBolus": 5.8
+      }
+    },
+    {
+      "name": "rapid ISF and ICR for TDD 35",
+      "input": {
+        "weightKg": "70",
+        "profile": "standard",
+        "unitsPerKg": "0,5",
+        "basalPct": 50,
+        "insulinKind": "rapid",
+        "icrRule": "500",
+        "glucoseCurrent": "12",
+        "glucoseTarget": "6",
+        "carbsG": "45"
+      },
+      "expected": {
+        "tdd": 35,
+        "totalBolus": 5.2
+      }
+    },
+    {
+      "name": "isf mmol for TDD 35 rapid",
+      "fn": "calculateIsf",
+      "input": [35, "rapid"],
+      "expected": { "ruleMmol": 100, "isfMmolL": 2.86, "isfMgDl": 51.4 }
+    },
+    {
+      "name": "icr 500 for TDD 35",
+      "fn": "calculateIcr",
+      "input": [35, "500"],
+      "expected": { "icr": 14.3, "divisor": 500 }
+    },
+    {
+      "name": "correction 12 to 6 with ISF 2.86",
+      "fn": "calculateCorrection",
+      "input": [12, 6, 2.86],
+      "expected": { "deltaMmol": 6, "correctionUnits": 2.1 }
+    }
+  ]
+}
