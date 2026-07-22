@@ -1,7 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название: Калькулятор инсулина: суточная доза, коррекция и прандиальный болюс
-  Сборка: 2026-07-21
+  Сборка: 2026-07-22
 -->
 <div class="fc-calc" data-calculator="insulin-tdd">
   <style>
@@ -910,12 +910,10 @@
   color: var(--fc-text);
 }
 
-.fc-calc[data-calculator="insulin-tdd"] .fc-calc__tabs {
-  flex-wrap: wrap;
-}
-
-.fc-calc[data-calculator="insulin-tdd"] .fc-calc__tab {
-  flex: 1 1 120px;
+.fc-calc[data-calculator="insulin-tdd"] .fc-calc__panel--summary {
+  border-width: 2px;
+  border-color: rgba(0, 94, 236, 0.28);
+  background: rgba(0, 94, 236, 0.03);
 }
   </style>
 
@@ -926,137 +924,49 @@
       </header>
 
       <div class="fc-calc__body">
-      <div class="fc-calc__tabs" role="tablist" aria-label="Калькулятор инсулина">
-        <button
-          type="button"
-          class="fc-calc__tab fc-calc__tab--active"
-          role="tab"
-          id="fc-calc-insulin-tdd-tab-tdd"
-          data-mode="tdd"
-          aria-selected="true"
-          aria-controls="fc-calc-insulin-tdd-panel-tdd"
-          tabindex="0"
-        >Суточная доза</button>
-        <button
-          type="button"
-          class="fc-calc__tab"
-          role="tab"
-          id="fc-calc-insulin-tdd-tab-correction"
-          data-mode="correction"
-          aria-selected="false"
-          aria-controls="fc-calc-insulin-tdd-panel-correction"
-          tabindex="-1"
-        >Коррекция</button>
-        <button
-          type="button"
-          class="fc-calc__tab"
-          role="tab"
-          id="fc-calc-insulin-tdd-tab-carbs"
-          data-mode="carbs"
-          aria-selected="false"
-          aria-controls="fc-calc-insulin-tdd-panel-carbs"
-          tabindex="-1"
-        >Углеводы</button>
-        <button
-          type="button"
-          class="fc-calc__tab"
-          role="tab"
-          id="fc-calc-insulin-tdd-tab-summary"
-          data-mode="summary"
-          aria-selected="false"
-          aria-controls="fc-calc-insulin-tdd-panel-summary"
-          tabindex="-1"
-        >Итого</button>
-      </div>
-        <div
-          class="fc-calc__tab-panel fc-calc__tab-panel--active"
-          data-mode="tdd"
-          role="tabpanel"
-          id="fc-calc-insulin-tdd-panel-tdd"
-          aria-labelledby="fc-calc-insulin-tdd-tab-tdd"
-        >
-          <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Суточная доза инсулина</h3>
-              <div class="fc-calc__ins-grid">
-                <div class="fc-calc__field">
-                  <label for="fc-calc-insulin-tdd-weight">Масса тела, кг</label>
-                  <input type="number" id="fc-calc-insulin-tdd-weight" inputmode="decimal" min="0" step="any" placeholder="напр. 70" />
+        <div class="fc-calc__panel-section">
+          <div class="fc-calc__panel">
+            <h3 class="fc-calc__panel-heading">Суточная доза инсулина</h3>
+            <div class="fc-calc__ins-grid">
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-weight">Масса тела, кг</label>
+                <input type="number" id="fc-calc-insulin-tdd-weight" inputmode="decimal" min="0" step="any" placeholder="напр. 70" />
+              </div>
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-profile">Клинический профиль</label>
+                <select id="fc-calc-insulin-tdd-profile">
+                  <option value="sensitive">Чувствительный (СД1) — 0,3–0,4 Ед/кг</option>
+                  <option value="standard" selected>Стандарт СД2 — 0,5 Ед/кг</option>
+                  <option value="resistant">Резистентный / ожирение — 0,6–1,0 Ед/кг</option>
+                  <option value="puberty">Дети / пубертат — 1,0–1,5 Ед/кг</option>
+                  <option value="custom">Свой коэффициент — укажите Ед/кг</option>
+                </select>
+              </div>
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-units">Коэффициент, Ед/кг</label>
+                <input type="text" id="fc-calc-insulin-tdd-units" inputmode="decimal" value="0,5" placeholder="напр. 0,5" />
+                <p class="fc-calc__ins-hint" id="fc-calc-insulin-tdd-profile-hint">0,5 Ед/кг</p>
+              </div>
+              <div class="fc-calc__ins-slider">
+                <div class="fc-calc__ins-slider-labels">
+                  <span id="fc-calc-insulin-tdd-basal-label">Базальный 50%</span>
+                  <span id="fc-calc-insulin-tdd-bolus-label">Болюсный 50%</span>
                 </div>
-                <fieldset class="fc-calc__ins-fieldset">
-                  <legend class="fc-calc__ins-fieldset-legend">Клинический профиль</legend>
-                  <div class="fc-calc__ins-options">
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-profile-sensitive">
-                    <input type="radio" id="fc-calc-insulin-tdd-profile-sensitive" name="fc-calc-insulin-tdd-profile" value="sensitive" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">Чувствительный (СД1)</span>
-                      <span class="fc-calc__ins-option-hint">0,3–0,4 Ед/кг</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-profile-standard">
-                    <input type="radio" id="fc-calc-insulin-tdd-profile-standard" name="fc-calc-insulin-tdd-profile" value="standard" checked />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">Стандарт СД2</span>
-                      <span class="fc-calc__ins-option-hint">0,5 Ед/кг</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-profile-resistant">
-                    <input type="radio" id="fc-calc-insulin-tdd-profile-resistant" name="fc-calc-insulin-tdd-profile" value="resistant" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">Резистентный / ожирение</span>
-                      <span class="fc-calc__ins-option-hint">0,6–1,0 Ед/кг</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-profile-puberty">
-                    <input type="radio" id="fc-calc-insulin-tdd-profile-puberty" name="fc-calc-insulin-tdd-profile" value="puberty" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">Дети / пубертат</span>
-                      <span class="fc-calc__ins-option-hint">1,0–1,5 Ед/кг</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-profile-custom">
-                    <input type="radio" id="fc-calc-insulin-tdd-profile-custom" name="fc-calc-insulin-tdd-profile" value="custom" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">Свой коэффициент</span>
-                      <span class="fc-calc__ins-option-hint">укажите Ед/кг</span>
-                    </span>
-                  </label>
-                  </div>
-                </fieldset>
-                <div class="fc-calc__field">
-                  <label for="fc-calc-insulin-tdd-units">Коэффициент, Ед/кг</label>
-                  <input type="text" id="fc-calc-insulin-tdd-units" inputmode="decimal" value="0,5" placeholder="напр. 0,5" />
-                  <p class="fc-calc__ins-hint" id="fc-calc-insulin-tdd-profile-hint">0,5 Ед/кг</p>
-                </div>
-                <div class="fc-calc__ins-slider">
-                  <div class="fc-calc__ins-slider-labels">
-                    <span id="fc-calc-insulin-tdd-basal-label">Базальный 50%</span>
-                    <span id="fc-calc-insulin-tdd-bolus-label">Болюсный 50%</span>
-                  </div>
-                  <input type="range" id="fc-calc-insulin-tdd-basal" min="0" max="100" step="5" value="50" aria-label="Доля базального инсулина" />
-                  <p class="fc-calc__ins-hint">Шаг 5%. По умолчанию 50 / 50.</p>
-                </div>
-                <div class="fc-calc__ins-result" id="fc-calc-insulin-tdd-result-tdd" hidden></div>
+                <input type="range" id="fc-calc-insulin-tdd-basal" min="0" max="100" step="5" value="50" aria-label="Доля базального инсулина" />
+                <p class="fc-calc__ins-hint">Шаг 5%. По умолчанию 50 / 50.</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="fc-calc__tab-panel"
-          data-mode="correction"
-          role="tabpanel"
-          id="fc-calc-insulin-tdd-panel-correction"
-          aria-labelledby="fc-calc-insulin-tdd-tab-correction"
-          hidden
-        >
-          <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Коррекция гипергликемии (ISF)</h3>
-              <p class="fc-calc__ins-hint" id="fc-calc-insulin-tdd-corr-need-tdd">Сначала укажите массу и коэффициент на вкладке «Суточная доза».</p>
-              <div class="fc-calc__ins-grid" style="margin-top:12px">
-                <fieldset class="fc-calc__ins-fieldset">
-                  <legend class="fc-calc__ins-fieldset-legend">Тип инсулина для ISF</legend>
-                  <div class="fc-calc__ins-options">
+
+        <div class="fc-calc__panel-section">
+          <div class="fc-calc__panel">
+            <h3 class="fc-calc__panel-heading">Коррекция гипергликемии (ISF)</h3>
+            <p class="fc-calc__ins-hint" id="fc-calc-insulin-tdd-corr-need-tdd">Сначала укажите массу и коэффициент в блоке «Суточная доза».</p>
+            <div class="fc-calc__ins-grid" style="margin-top:12px">
+              <fieldset class="fc-calc__ins-fieldset">
+                <legend class="fc-calc__ins-fieldset-legend">Тип инсулина для ISF</legend>
+                <div class="fc-calc__ins-options">
                   <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-kind-rapid">
                     <input type="radio" id="fc-calc-insulin-tdd-kind-rapid" name="fc-calc-insulin-tdd-kind" value="rapid" checked />
                     <span class="fc-calc__ins-option-text">
@@ -1071,87 +981,49 @@
                       <span class="fc-calc__ins-option-hint">83 ÷ суточная доза инсулина (ммоль/л)</span>
                     </span>
                   </label>
-                  </div>
-                </fieldset>
-                <div class="fc-calc__field">
-                  <label for="fc-calc-insulin-tdd-g-cur">Глюкоза текущая, ммоль/л</label>
-                  <input type="number" id="fc-calc-insulin-tdd-g-cur" inputmode="decimal" min="0" step="any" placeholder="напр. 12" />
                 </div>
-                <div class="fc-calc__field">
-                  <label for="fc-calc-insulin-tdd-g-tgt">Глюкоза целевая, ммоль/л</label>
-                  <input type="number" id="fc-calc-insulin-tdd-g-tgt" inputmode="decimal" min="0" step="any" value="6" placeholder="напр. 6" />
-                </div>
-                <div class="fc-calc__ins-result" id="fc-calc-insulin-tdd-result-corr" hidden></div>
+              </fieldset>
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-g-cur">Глюкоза текущая, ммоль/л</label>
+                <input type="number" id="fc-calc-insulin-tdd-g-cur" inputmode="decimal" min="0" step="any" placeholder="напр. 12" />
+              </div>
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-g-tgt">Глюкоза целевая, ммоль/л</label>
+                <input type="number" id="fc-calc-insulin-tdd-g-tgt" inputmode="decimal" min="0" step="any" value="6" placeholder="напр. 6" />
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="fc-calc__tab-panel"
-          data-mode="carbs"
-          role="tabpanel"
-          id="fc-calc-insulin-tdd-panel-carbs"
-          aria-labelledby="fc-calc-insulin-tdd-tab-carbs"
-          hidden
-        >
-          <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Углеводный коэффициент (ICR) и прандиальный болюс</h3>
-              <p class="fc-calc__ins-hint" id="fc-calc-insulin-tdd-carbs-need-tdd">Сначала укажите массу и коэффициент на вкладке «Суточная доза».</p>
-              <div class="fc-calc__ins-grid" style="margin-top:12px">
-                <fieldset class="fc-calc__ins-fieldset">
-                  <legend class="fc-calc__ins-fieldset-legend">Правило ICR</legend>
-                  <div class="fc-calc__ins-options">
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-icr-500">
-                    <input type="radio" id="fc-calc-insulin-tdd-icr-500" name="fc-calc-insulin-tdd-icr" value="500" checked />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">500 (взрослые)</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-icr-450">
-                    <input type="radio" id="fc-calc-insulin-tdd-icr-450" name="fc-calc-insulin-tdd-icr" value="450" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">450 (высокая инсулинорезистентность)</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-icr-400">
-                    <input type="radio" id="fc-calc-insulin-tdd-icr-400" name="fc-calc-insulin-tdd-icr" value="400" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">400 (помпа / инсулинорезистентность)</span>
-                    </span>
-                  </label>
-                  <label class="fc-calc__ins-option" for="fc-calc-insulin-tdd-icr-300">
-                    <input type="radio" id="fc-calc-insulin-tdd-icr-300" name="fc-calc-insulin-tdd-icr" value="300" />
-                    <span class="fc-calc__ins-option-text">
-                      <span class="fc-calc__ins-option-label">300 (дети, низкая суточная доза инсулина)</span>
-                    </span>
-                  </label>
-                  </div>
-                </fieldset>
-                <div class="fc-calc__field">
-                  <label for="fc-calc-insulin-tdd-carbs">Углеводы в порции, г</label>
-                  <input type="number" id="fc-calc-insulin-tdd-carbs" inputmode="decimal" min="0" step="any" placeholder="напр. 45" />
-                </div>
-                <div class="fc-calc__ins-result" id="fc-calc-insulin-tdd-result-carbs" hidden></div>
+
+        <div class="fc-calc__panel-section">
+          <div class="fc-calc__panel">
+            <h3 class="fc-calc__panel-heading">Углеводный коэффициент (ICR) и прандиальный болюс</h3>
+            <p class="fc-calc__ins-hint" id="fc-calc-insulin-tdd-carbs-need-tdd">Сначала укажите массу и коэффициент в блоке «Суточная доза».</p>
+            <div class="fc-calc__ins-grid" style="margin-top:12px">
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-icr">Правило ICR</label>
+                <select id="fc-calc-insulin-tdd-icr">
+                  <option value="500" selected>500 (взрослые)</option>
+                  <option value="450">450 (высокая инсулинорезистентность)</option>
+                  <option value="400">400 (помпа / инсулинорезистентность)</option>
+                  <option value="300">300 (дети, низкая суточная доза инсулина)</option>
+                </select>
+              </div>
+              <div class="fc-calc__field">
+                <label for="fc-calc-insulin-tdd-carbs">Углеводы в порции, г</label>
+                <input type="number" id="fc-calc-insulin-tdd-carbs" inputmode="decimal" min="0" step="any" placeholder="напр. 45" />
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="fc-calc__tab-panel"
-          data-mode="summary"
-          role="tabpanel"
-          id="fc-calc-insulin-tdd-panel-summary"
-          aria-labelledby="fc-calc-insulin-tdd-tab-summary"
-          hidden
-        >
-          <div class="fc-calc__panel-section">
-            <div class="fc-calc__panel">
-              <h3 class="fc-calc__panel-heading">Итоговый болюс</h3>
-              <div id="fc-calc-insulin-tdd-summary"></div>
-            </div>
+
+        <div class="fc-calc__panel-section">
+          <div class="fc-calc__panel fc-calc__panel--summary">
+            <h3 class="fc-calc__panel-heading">Итого</h3>
+            <div id="fc-calc-insulin-tdd-summary"></div>
           </div>
         </div>
+
         <span class="fc-calc__error" id="fc-calc-insulin-tdd-form-error" role="alert"></span>
       </div>
     </div>
@@ -1382,19 +1254,16 @@ function calculate(input) {
     var root = document.querySelector('.fc-calc[data-calculator="insulin-tdd"]');
   if (!root) return;
 
-  var tabs = root.querySelectorAll('.fc-calc__tab[data-mode]');
-  var panels = root.querySelectorAll('.fc-calc__tab-panel[data-mode]');
   var formError = root.querySelector('#fc-calc-insulin-tdd-form-error');
   var summaryBox = root.querySelector('#fc-calc-insulin-tdd-summary');
-  var resultTdd = root.querySelector('#fc-calc-insulin-tdd-result-tdd');
-  var resultCorr = root.querySelector('#fc-calc-insulin-tdd-result-corr');
-  var resultCarbs = root.querySelector('#fc-calc-insulin-tdd-result-carbs');
   var corrNeedHint = root.querySelector('#fc-calc-insulin-tdd-corr-need-tdd');
   var carbsNeedHint = root.querySelector('#fc-calc-insulin-tdd-carbs-need-tdd');
 
   var weightInput = root.querySelector('#fc-calc-insulin-tdd-weight');
   var unitsInput = root.querySelector('#fc-calc-insulin-tdd-units');
+  var profileSelect = root.querySelector('#fc-calc-insulin-tdd-profile');
   var profileHint = root.querySelector('#fc-calc-insulin-tdd-profile-hint');
+  var icrSelect = root.querySelector('#fc-calc-insulin-tdd-icr');
   var basalRange = root.querySelector('#fc-calc-insulin-tdd-basal');
   var basalLabel = root.querySelector('#fc-calc-insulin-tdd-basal-label');
   var bolusLabel = root.querySelector('#fc-calc-insulin-tdd-bolus-label');
@@ -1402,39 +1271,27 @@ function calculate(input) {
   var glucoseTarget = root.querySelector('#fc-calc-insulin-tdd-g-tgt');
   var carbsInput = root.querySelector('#fc-calc-insulin-tdd-carbs');
 
-  function switchMode(mode) {
-    tabs.forEach(function (tab) {
-      var active = tab.getAttribute('data-mode') === mode;
-      tab.classList.toggle('fc-calc__tab--active', active);
-      tab.setAttribute('aria-selected', active ? 'true' : 'false');
-      tab.tabIndex = active ? 0 : -1;
-    });
-    panels.forEach(function (panel) {
-      var active = panel.getAttribute('data-mode') === mode;
-      panel.classList.toggle('fc-calc__tab-panel--active', active);
-      panel.hidden = !active;
-    });
-  }
-
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      switchMode(tab.getAttribute('data-mode'));
-    });
-  });
-
   function selectedValue(name) {
     var el = root.querySelector('input[name="' + name + '"]:checked');
     return el ? el.value : '';
   }
 
+  function currentProfile() {
+    return (profileSelect && profileSelect.value) || 'standard';
+  }
+
+  function currentIcrRule() {
+    return (icrSelect && icrSelect.value) || '500';
+  }
+
   function buildInput() {
     return {
       weightKg: weightInput.value,
-      profile: selectedValue('fc-calc-insulin-tdd-profile') || 'standard',
+      profile: currentProfile(),
       unitsPerKg: unitsInput.value,
       basalPct: Number(basalRange.value),
       insulinKind: selectedValue('fc-calc-insulin-tdd-kind') || 'rapid',
-      icrRule: selectedValue('fc-calc-insulin-tdd-icr') || '500',
+      icrRule: currentIcrRule(),
       glucoseCurrent: glucoseCurrent.value,
       glucoseTarget: glucoseTarget.value,
       carbsG: carbsInput.value,
@@ -1448,7 +1305,7 @@ function calculate(input) {
   }
 
   function updateProfileHint() {
-    var profile = selectedValue('fc-calc-insulin-tdd-profile') || 'standard';
+    var profile = currentProfile();
     var opt = PROFILE_OPTIONS.find(function (p) {
       return p.value === profile;
     });
@@ -1456,7 +1313,7 @@ function calculate(input) {
   }
 
   function onProfileChange() {
-    var profile = selectedValue('fc-calc-insulin-tdd-profile') || 'standard';
+    var profile = currentProfile();
     unitsInput.value = profileDefaultUnits(profile);
     updateProfileHint();
     refresh();
@@ -1474,88 +1331,59 @@ function calculate(input) {
     );
   }
 
-  function setResultBox(el, html, show) {
-    if (!el) return;
-    if (!show) {
-      el.hidden = true;
-      el.innerHTML = '';
-      return;
-    }
-    el.innerHTML = '<ul class="fc-calc__ins-lines">' + html + '</ul>';
-    el.hidden = false;
-  }
-
-  function clearTabResults() {
-    setResultBox(resultTdd, '', false);
-    setResultBox(resultCorr, '', false);
-    setResultBox(resultCarbs, '', false);
+  function clearSummary() {
     if (corrNeedHint) corrNeedHint.hidden = false;
     if (carbsNeedHint) carbsNeedHint.hidden = false;
     summaryBox.innerHTML =
-      '<p class="fc-calc__ins-hint">Заполните массу тела на вкладке «Суточная доза».</p>';
+      '<p class="fc-calc__ins-hint">Заполните массу тела в блоке «Суточная доза».</p>';
   }
 
   function renderAll(out) {
     if (corrNeedHint) corrNeedHint.hidden = true;
     if (carbsNeedHint) carbsNeedHint.hidden = true;
 
-    setResultBox(
-      resultTdd,
-      lineHtml('Суточная доза инсулина', formatRu(out.tdd) + ' Ед/сут') +
-        lineHtml('Базальный', formatRu(out.basal) + ' Ед') +
-        lineHtml('Болюсный (сумма)', formatRu(out.bolusTotal) + ' Ед') +
-        lineHtml('На приём (завтрак / обед / ужин)', formatRu(out.mealBolus) + ' Ед'),
-      true
-    );
+    var kindOpt = INSULIN_KIND_OPTIONS.find(function (o) {
+      return o.value === out.isf.kind;
+    });
+    var isfLabel = kindOpt ? 'ISF ' + kindOpt.label : 'ISF';
 
-    var corrHtml =
+    var icrOpt = ICR_RULE_OPTIONS.find(function (o) {
+      return o.value === out.icr.rule;
+    });
+    var icrLabel = icrOpt ? 'ICR ' + icrOpt.label : 'ICR';
+
+    var lines =
+      lineHtml('Суточная доза инсулина', formatRu(out.tdd) + ' Ед/сут') +
+      lineHtml('Базальный', formatRu(out.basal) + ' Ед') +
+      lineHtml('Болюсный (сумма)', formatRu(out.bolusTotal) + ' Ед') +
       lineHtml(
-        'ISF',
+        'На приём (завтрак / обед / ужин)',
+        formatRu(out.mealBolus) + ' Ед'
+      ) +
+      lineHtml(
+        isfLabel,
         formatRu(out.isf.isfMmolL, 2) +
           ' ммоль/л на 1 Ед (' +
           formatRu(out.isf.isfMgDl) +
           ' мг/дл)'
-      );
-    if (out.correction) {
-      corrHtml += lineHtml(
+      ) +
+      lineHtml(
         'Коррекционная доза',
-        formatRu(out.correction.correctionUnits) + ' Ед'
-      );
-    } else {
-      corrHtml +=
-        '<li class="fc-calc__ins-hint" style="list-style:none">Укажите текущую глюкозу для расчёта коррекции.</li>';
-    }
-    setResultBox(resultCorr, corrHtml, true);
-
-    var carbsHtml = lineHtml(
-      'ICR',
-      formatRu(out.icr.icr) + ' г углеводов на 1 Ед'
-    );
-    if (out.prandial) {
-      carbsHtml += lineHtml(
+        out.correction
+          ? formatRu(out.correction.correctionUnits) + ' Ед'
+          : '—'
+      ) +
+      lineHtml(icrLabel, formatRu(out.icr.icr) + ' г углеводов на 1 Ед') +
+      lineHtml(
         'Прандиальный болюс',
-        formatRu(out.prandial.prandialUnits) + ' Ед'
+        out.prandial ? formatRu(out.prandial.prandialUnits) + ' Ед' : '—'
       );
-    } else {
-      carbsHtml +=
-        '<li class="fc-calc__ins-hint" style="list-style:none">Укажите углеводы в порции.</li>';
-    }
-    setResultBox(resultCarbs, carbsHtml, true);
 
     summaryBox.innerHTML =
       '<p class="fc-calc__ins-formula">Болюс = углеводы / ICR + (Gтек − Gцель) / ISF</p>' +
       '<div class="fc-calc__ins-result">' +
       '<ul class="fc-calc__ins-lines">' +
-      lineHtml('Суточная доза инсулина', formatRu(out.tdd) + ' Ед') +
-      lineHtml('Базальный', formatRu(out.basal) + ' Ед') +
-      lineHtml(
-        'Прандиальный',
-        out.prandial ? formatRu(out.prandial.prandialUnits) + ' Ед' : '—'
-      ) +
-      lineHtml(
-        'Коррекция',
-        out.correction ? formatRu(out.correction.correctionUnits) + ' Ед' : '—'
-      ) +
+      lines +
       '</ul>' +
       '<div class="fc-calc__ins-total">' +
       '<span class="fc-calc__ins-total-label">Итого к еде</span>' +
@@ -1568,20 +1396,20 @@ function calculate(input) {
     formError.textContent = '';
     var input = buildInput();
     if (!isTddReady(input)) {
-      clearTabResults();
+      clearSummary();
       return;
     }
     try {
       renderAll(calculate(input));
     } catch (err) {
-      clearTabResults();
+      clearSummary();
       formError.textContent = err.message || 'Проверьте ввод';
     }
   }
 
-  root.querySelectorAll('input[name="fc-calc-insulin-tdd-profile"]').forEach(function (el) {
-    el.addEventListener('change', onProfileChange);
-  });
+  if (profileSelect) {
+    profileSelect.addEventListener('change', onProfileChange);
+  }
 
   [
     weightInput,
@@ -1601,13 +1429,13 @@ function calculate(input) {
   root.querySelectorAll('input[name="fc-calc-insulin-tdd-kind"]').forEach(function (el) {
     el.addEventListener('change', refresh);
   });
-  root.querySelectorAll('input[name="fc-calc-insulin-tdd-icr"]').forEach(function (el) {
-    el.addEventListener('change', refresh);
-  });
+  if (icrSelect) {
+    icrSelect.addEventListener('change', refresh);
+  }
 
   updateBasalLabels();
   updateProfileHint();
-  clearTabResults();
+  clearSummary();
 
 })();
   </script>

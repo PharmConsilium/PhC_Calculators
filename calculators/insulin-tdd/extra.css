@@ -192,10 +192,8 @@
   color: var(--fc-text);
 }
 
-.fc-calc[data-calculator="insulin-tdd"] .fc-calc__tabs {
-  flex-wrap: wrap;
-}
-
-.fc-calc[data-calculator="insulin-tdd"] .fc-calc__tab {
-  flex: 1 1 120px;
+.fc-calc[data-calculator="insulin-tdd"] .fc-calc__panel--summary {
+  border-width: 2px;
+  border-color: rgba(0, 94, 236, 0.28);
+  background: rgba(0, 94, 236, 0.03);
 }
