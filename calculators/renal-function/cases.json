@@ -1,0 +1,51 @@
+{
+  "slug": "renal-function",
+  "source": "Calculators_MobileApp renal-function",
+  "cases": [
+    {
+      "name": "CKD-EPIcr 2021 adult male",
+      "fn": "calculateCkdEpi2021",
+      "input": {
+        "gender": "male",
+        "age": 45,
+        "creatinine": 90,
+        "creatinineUnit": "umol"
+      },
+      "expected": {
+        "formula": "ckd-epi",
+        "value": 93,
+        "unit": "мл/мин/1,73м²"
+      }
+    },
+    {
+      "name": "Cockcroft-Gault adult male",
+      "fn": "calculateCockcroftGault",
+      "input": {
+        "gender": "male",
+        "age": 45,
+        "creatinine": 90,
+        "creatinineUnit": "umol",
+        "weightKg": 70
+      },
+      "expected": {
+        "formula": "cockcroft",
+        "value": 90.72,
+        "unit": "мл/мин"
+      }
+    },
+    {
+      "name": "Schwartz child",
+      "fn": "calculateCkidSchwartz",
+      "input": {
+        "gender": "male",
+        "age": 10,
+        "heightCm": 140,
+        "creatinine": 50,
+        "creatinineUnit": "umol"
+      },
+      "expected": {
+        "formula": "ckid-schwartz"
+      }
+    }
+  ]
+}

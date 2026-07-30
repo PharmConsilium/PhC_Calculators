@@ -82,6 +82,7 @@ node scripts/sync-calculator-readme.mjs
 - **`potassium-deficit/`** — Дефицит калия
 - **`pregnancy-dating/`** — Определение срока беременности по последней менструации и ультразвуковой биометрии
 - **`quicki/`** — Калькулятор QUICKI
+- **`renal-function/`** — Калькулятор оценки функции почек: CKD-EPIcr 2021, CKD-EPIcr-cys 2021, eGFR(BSAadj), Cockcroft-Gault, KDIGO-матрица риска, BSA, BMI
 - **`serum-osmolality/`** — Расчёт осмоляльности сыворотки
 - **`sodium-deficit/`** — Дефицит натрия при гипонатриемии
 - **`sodium-hyperglycemia/`** — Коррекция натрия при гипергликемии

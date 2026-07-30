@@ -1,0 +1,274 @@
+/* renal-function */
+.fc-calc[data-calculator="renal-function"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__head,
+.fc-calc[data-calculator="renal-function"] .fc-calc__title {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__panel {
+  padding: 12px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__panel-heading {
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-grid .fc-calc__field {
+  margin-bottom: 0;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-fieldset-legend {
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: 15px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  user-select: none;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-option:has(input:checked) {
+  background: rgba(0, 94, 236, 0.06);
+  border-color: rgba(0, 94, 236, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(0, 94, 236, 0.25);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-input-row input {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-input-row select {
+  flex: 0 0 7rem;
+  width: 7rem;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__result-wrap {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-section-title {
+  margin: 12px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-metric {
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: 8px;
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-metric:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-row + .fc-calc__rf-row {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-row-label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--fc-muted, #5a6570);
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-row-value {
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-row-after {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-metric-details {
+  margin: 8px 0 0;
+  padding-left: 0;
+  list-style: none !important;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ul.fc-calc__rf-bullets,
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-metric-details {
+  list-style: none !important;
+  padding-left: 0;
+  margin: 8px 0 12px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-bullet-item {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 6px;
+  list-style: none !important;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-bullet {
+  flex: 0 0 auto;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-bullet-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body h4 {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body h4:first-child {
+  margin-top: 0;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ul,
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ol {
+  margin: 0 0 12px;
+  padding-left: 1.5rem;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ul:not(.fc-calc__rf-bullets) {
+  list-style: disc !important;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ul.fc-calc__rf-bullets {
+  list-style: none !important;
+  padding-left: 0;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ol,
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body ol.fc-calc__rf-sources {
+  list-style: none !important;
+  padding-left: 0;
+  counter-reset: none;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body li {
+  display: list-item;
+  margin-bottom: 8px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-sources > li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  list-style: none !important;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__rf-source-num {
+  flex: 0 0 auto;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  min-width: 1.5em;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 0 0 14px;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body .fc-calc__table th,
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body .fc-calc__table td {
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.fc-calc[data-calculator="renal-function"] .fc-calc__notes-body .fc-calc__table th {
+  background: rgba(0, 94, 236, 0.06);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
