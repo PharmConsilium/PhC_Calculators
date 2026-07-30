@@ -1,0 +1,8 @@
+{
+  "slug": "renal-function",
+  "title": "Калькулятор оценки функции почек: CKD-EPIcr 2021, CKD-EPIcr-cys 2021, eGFR(BSAadj), Cockcroft-Gault, KDIGO-матрица риска, BSA, BMI",
+  "sitePath": "/calculator/renal-function",
+  "description": "Расчёт СКФ и клиренса креатинина с корректировкой на BSA, ИМТ и оценкой риска по матрице KDIGO.",
+  "source": "Calculators_MobileApp / KDIGO / NKF CKD-EPI 2021",
+  "complexity": "B"
+}
