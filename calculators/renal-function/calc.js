@@ -9,7 +9,7 @@ const ML_MIN_TO_ML_S = 0.0167;
 export const FORMULAS = [
   { id: 'ckd-epi', label: 'CKD-EPIcr 2021' },
   { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys' },
-  { id: 'ckd-epi-cys-only', label: 'CKD-EPIcys 2012' },
+  { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021' },
   { id: 'cockcroft', label: 'Cockcroft-Gault' },
   { id: 'ckid-schwartz', label: 'CKiD (Schwartz)' },
   { id: 'ckid-u25', label: 'CKiD U25' },
@@ -254,11 +254,11 @@ export function calculateCkdEpiCrCys2021(input) {
   };
 }
 
-export function calculateCkdEpiCys2012(input) {
+export function calculateCkdEpiCys2021(input) {
   const cystatin = parsePositive(input.cystatin);
   const age = parseNonNegative(input.age);
   if (cystatin == null || age == null) throw new Error('Заполните цистатин C и возраст');
-  if (age < 18) throw new Error('CKD-EPI cys 2012 — для возраста ≥ 18 лет');
+  if (age < 18) throw new Error('CKD-EPI eGFRcys 2021 — для возраста ≥ 18 лет');
 
   const sexFactor = isFemale(input) ? 0.932 : 1;
   const egfr =
@@ -273,7 +273,7 @@ export function calculateCkdEpiCys2012(input) {
     formula: 'ckd-epi-cys-only',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPI 2012)\nцистатин C',
+    label: 'СКФ (CKD-EPI eGFRcys 2021)\nцистатин C',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
@@ -394,7 +394,7 @@ export function calculateAll(input) {
   const runners = [
     { id: 'ckd-epi', label: 'CKD-EPIcr 2021', run: () => calculateCkdEpi2021(input) },
     { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys', run: () => calculateCkdEpiCrCys2021(input) },
-    { id: 'ckd-epi-cys-only', label: 'CKD-EPIcys 2012', run: () => calculateCkdEpiCys2012(input) },
+    { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021', run: () => calculateCkdEpiCys2021(input) },
     { id: 'cockcroft', label: 'Cockcroft-Gault', run: () => calculateCockcroftGault(input) },
     { id: 'ckid-schwartz', label: 'CKiD (Schwartz)', run: () => calculateCkidSchwartz(input) },
     { id: 'ckid-u25', label: 'CKiD U25', run: () => calculateCkidU25(input) },
@@ -478,7 +478,7 @@ export function calculate(input) {
   if (formula === 'ckid' || formula === 'ckid-u25') return calculateCkidU25(input);
   if (formula === 'ckd-epi') return calculateCkdEpi2021(input);
   if (formula === 'ckd-epi-cys') return calculateCkdEpiCrCys2021(input);
-  if (formula === 'ckd-epi-cys-only') return calculateCkdEpiCys2012(input);
+  if (formula === 'ckd-epi-cys-only') return calculateCkdEpiCys2021(input);
   if (formula === 'schwartz' || formula === 'ckid-schwartz') return calculateCkidSchwartz(input);
   const all = calculateAll(input);
   return all.results[0];

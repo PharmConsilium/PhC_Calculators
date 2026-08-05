@@ -1,7 +1,7 @@
 <!--
   Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
   Название: Калькулятор оценки функции почек: CKD-EPIcr 2021, CKD-EPIcr-cys 2021, eGFR(BSAadj), Cockcroft-Gault, KDIGO-матрица риска, BSA, BMI
-  Сборка: 2026-07-30
+  Сборка: 2026-08-05
 -->
 <div class="fc-calc" data-calculator="renal-function">
   <style>
@@ -995,7 +995,7 @@
   <div class="fc-calc__card">
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
-        <h2 class="fc-calc__title">Расчёт СКФ и клиренса креатинина с корректировкой на BSA, ИМТ и оценкой риска по матрице KDIGO.</h2>
+        <h2 class="fc-calc__title">Калькулятор оценки функции почек: скорость клубочковой фильтрации по креатинину и цистатину C, скорректированная на площадь поверхности тела, стадии ХБП.</h2>
       </header>
 
       <div class="fc-calc__body">
@@ -1098,6 +1098,10 @@
         <h4>CKD-EPI eGFRcr-cys 2021 по полу, креатинину и цистатину C</h4><div class="fc-calc__table-wrap"><table class="fc-calc__table"><thead><tr><th>Пол</th><th>SCr (мг/дл)</th><th>Scys (мг/л)</th><th>Уравнение (возраст ≥ 18 лет)</th></tr></thead><tbody><tr><td>женский</td><td>≤ 0,7</td><td>≤ 0,8</td><td>СКФ = 135 × (SCr/0,7)^−0,219 × (Scys/0,8)^−0,323 × 0,9961^возраст × 0,963</td></tr><tr><td>женский</td><td>≤ 0,7</td><td>&gt; 0,8</td><td>СКФ = 135 × (SCr/0,7)^−0,219 × (Scys/0,8)^−0,778 × 0,9961^возраст × 0,963</td></tr><tr><td>женский</td><td>&gt; 0,7</td><td>≤ 0,8</td><td>СКФ = 135 × (SCr/0,7)^−0,544 × (Scys/0,8)^−0,323 × 0,9961^возраст × 0,963</td></tr><tr><td>женский</td><td>&gt; 0,7</td><td>&gt; 0,8</td><td>СКФ = 135 × (SCr/0,7)^−0,544 × (Scys/0,8)^−0,778 × 0,9961^возраст × 0,963</td></tr><tr><td>мужской</td><td>≤ 0,9</td><td>≤ 0,8</td><td>СКФ = 135 × (SCr/0,9)^−0,144 × (Scys/0,8)^−0,323 × 0,9961^возраст</td></tr><tr><td>мужской</td><td>≤ 0,9</td><td>&gt; 0,8</td><td>СКФ = 135 × (SCr/0,9)^−0,144 × (Scys/0,8)^−0,778 × 0,9961^возраст</td></tr><tr><td>мужской</td><td>&gt; 0,9</td><td>≤ 0,8</td><td>СКФ = 135 × (SCr/0,9)^−0,544 × (Scys/0,8)^−0,323 × 0,9961^возраст</td></tr><tr><td>мужской</td><td>&gt; 0,9</td><td>&gt; 0,8</td><td>СКФ = 135 × (SCr/0,9)^−0,544 × (Scys/0,8)^−0,778 × 0,9961^возраст</td></tr></tbody></table></div>
         <h4>Коэффициенты пересчёта СКФ</h4>
         <ul class="fc-calc__rf-bullets"><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text">СКФ мл/мин/1,73 м² → мл/с/1,73 м²: умножить на 0,0167</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text">Креатинин мкмоль/л → мг/дл: разделить на 88,4</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text">Цистатин C не требует пересчёта единиц измерения</span></li></ul>
+        <h4>СКФ цистатин C (CKD-EPI eGFRcys 2021)</h4>
+        <p>Уравнение CKD-EPI 2021 для eGFR по цистатину C:</p>
+        <p>eGFR_cys = 133 × min(Scys/0,8, 1)^−0,499 × max(Scys/0,8, 1)^−1,328 × 0,996^возраст × [0,932 для женщин].</p>
+        <ul class="fc-calc__rf-bullets"><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text"><strong>Scys</strong> — цистатин C, мг/л</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text"><strong>возраст</strong> — в годах (≥ 18)</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text">Если Scys ≤ 0,8, используется показатель −0,499; если Scys &gt; 0,8 — показатель −1,328</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text">Для мужчин множитель 0,932 не применяется</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text">Результат — мл/мин/1,73 м²</span></li></ul>
         <h4>СКФ CKiD (Schwartz), для детей 2–15 лет</h4>
         <p>Уравнение CKiD, разработанное для использования непосредственно у постели больного, было создано на основе данных, полученных в основном от детей в возрасте от 8 до 15 лет с хронической болезнью почек лёгкой и средней степени тяжести, и предназначено для быстрых и срочных оценок в ходе рутинного клинического обследования детей. Уравнение CKiD позволяет оценить скорость клубочковой фильтрации (СКФ) с использованием роста и уровня креатинина в сыворотке крови.</p>
         <ul class="fc-calc__rf-bullets"><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text"><strong>eGFR</strong> — расчётная СКФ, мл/мин/1,73 м²</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text"><strong>SCr</strong> — стандартизированный креатинин сыворотки, мг/дл</span></li><li class="fc-calc__rf-bullet-item"><span class="fc-calc__rf-bullet" aria-hidden="true">•</span><span class="fc-calc__rf-bullet-text"><strong>HT</strong> — рост в метрах</span></li></ul>
@@ -1150,7 +1154,7 @@ const ML_MIN_TO_ML_S = 0.0167;
 const FORMULAS = [
   { id: 'ckd-epi', label: 'CKD-EPIcr 2021' },
   { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys' },
-  { id: 'ckd-epi-cys-only', label: 'CKD-EPIcys 2012' },
+  { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021' },
   { id: 'cockcroft', label: 'Cockcroft-Gault' },
   { id: 'ckid-schwartz', label: 'CKiD (Schwartz)' },
   { id: 'ckid-u25', label: 'CKiD U25' },
@@ -1395,11 +1399,11 @@ function calculateCkdEpiCrCys2021(input) {
   };
 }
 
-function calculateCkdEpiCys2012(input) {
+function calculateCkdEpiCys2021(input) {
   const cystatin = parsePositive(input.cystatin);
   const age = parseNonNegative(input.age);
   if (cystatin == null || age == null) throw new Error('Заполните цистатин C и возраст');
-  if (age < 18) throw new Error('CKD-EPI cys 2012 — для возраста ≥ 18 лет');
+  if (age < 18) throw new Error('CKD-EPI eGFRcys 2021 — для возраста ≥ 18 лет');
 
   const sexFactor = isFemale(input) ? 0.932 : 1;
   const egfr =
@@ -1414,7 +1418,7 @@ function calculateCkdEpiCys2012(input) {
     formula: 'ckd-epi-cys-only',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPI 2012)\nцистатин C',
+    label: 'СКФ (CKD-EPI eGFRcys 2021)\nцистатин C',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
@@ -1535,7 +1539,7 @@ function calculateAll(input) {
   const runners = [
     { id: 'ckd-epi', label: 'CKD-EPIcr 2021', run: () => calculateCkdEpi2021(input) },
     { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys', run: () => calculateCkdEpiCrCys2021(input) },
-    { id: 'ckd-epi-cys-only', label: 'CKD-EPIcys 2012', run: () => calculateCkdEpiCys2012(input) },
+    { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021', run: () => calculateCkdEpiCys2021(input) },
     { id: 'cockcroft', label: 'Cockcroft-Gault', run: () => calculateCockcroftGault(input) },
     { id: 'ckid-schwartz', label: 'CKiD (Schwartz)', run: () => calculateCkidSchwartz(input) },
     { id: 'ckid-u25', label: 'CKiD U25', run: () => calculateCkidU25(input) },
@@ -1619,7 +1623,7 @@ function calculate(input) {
   if (formula === 'ckid' || formula === 'ckid-u25') return calculateCkidU25(input);
   if (formula === 'ckd-epi') return calculateCkdEpi2021(input);
   if (formula === 'ckd-epi-cys') return calculateCkdEpiCrCys2021(input);
-  if (formula === 'ckd-epi-cys-only') return calculateCkdEpiCys2012(input);
+  if (formula === 'ckd-epi-cys-only') return calculateCkdEpiCys2021(input);
   if (formula === 'schwartz' || formula === 'ckid-schwartz') return calculateCkidSchwartz(input);
   const all = calculateAll(input);
   return all.results[0];
