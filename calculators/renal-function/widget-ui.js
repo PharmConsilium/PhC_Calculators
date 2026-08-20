@@ -40,13 +40,17 @@
       .replace(/"/g, '&quot;');
   }
 
-  function rowHtml(label, value, afterValue) {
+  function rowHtml(label, value, afterValue, valueClass) {
     return (
       '<div class="fc-calc__rf-row">' +
-      '<span class="fc-calc__rf-row-label">' +
-      escapeHtml(label).replace(/\n/g, '<br>') +
-      '</span>' +
-      '<span class="fc-calc__rf-row-value">' +
+      (label
+        ? '<span class="fc-calc__rf-row-label">' +
+          escapeHtml(label).replace(/\n/g, '<br>') +
+          '</span>'
+        : '') +
+      '<span class="fc-calc__rf-row-value' +
+      (valueClass ? ' ' + valueClass : '') +
+      '">' +
       escapeHtml(value) +
       '</span>' +
       (afterValue
@@ -56,7 +60,7 @@
     );
   }
 
-  function blockHtml(rowsHtml, details) {
+  function blockHtml(title, rowsHtml, details) {
     var detailsHtml = (details || [])
       .filter(Boolean)
       .map(function (t) {
@@ -70,11 +74,26 @@
       })
       .join('');
     return (
+      (title
+        ? '<p class="fc-calc__rf-section-title">' +
+          escapeHtml(title).replace(/\n/g, '<br>') +
+          '</p>'
+        : '') +
       '<div class="fc-calc__rf-metric">' +
       rowsHtml +
       (detailsHtml
         ? '<ul class="fc-calc__rf-metric-details">' + detailsHtml + '</ul>'
         : '') +
+      '</div>'
+    );
+  }
+
+  function groupHtml(innerHtml, modifier) {
+    return (
+      '<div class="fc-calc__rf-group' +
+      (modifier ? ' ' + modifier : '') +
+      '">' +
+      innerHtml +
       '</div>'
     );
   }
@@ -96,54 +115,84 @@
         : null;
     var ureaLine =
       extras.ureaVdL != null
-        ? 'Объём распределения мочевины: ' + formatRu(extras.ureaVdL) + ' л'
+        ? 'Объём распределения мочевины (Формула Watson): ' + formatRu(extras.ureaVdL) + ' л'
         : null;
 
     all.results.forEach(function (out) {
       var stage =
         out.category != null ? formatGfrStageLabel(out.category) : null;
-      var rows = rowHtml(
-        out.label,
-        formatRu(out.value) + ' ' + out.unit,
-        stage
-      );
-      var details = [];
+      var group =
+        blockHtml(
+          out.label,
+          rowHtml(null, formatRu(out.value) + ' ' + out.unit, stage),
+          []
+        );
 
-      if (extras.bsaM2 != null && out.category) {
+      var isIndexedGfr = /1[,.]73/.test(String(out.unit || ''));
+      if (extras.bsaM2 != null && isIndexedGfr) {
         var abs = Math.round(absoluteGfr(out.value, extras.bsaM2));
-        rows += rowHtml(
-          'СКФ с корректировкой на площадь поверхности тела пациента (eGFR(BSAadj))',
-          formatRu(abs) + ' мл/мин/' + formatRu(extras.bsaM2) + 'м²'
-        );
-        details.push(
-          'Площадь поверхности тела ППТ (BSA): ' + formatRu(extras.bsaM2) + ' м²'
-        );
+        var baseTitle = String(out.label)
+          .split('\n')[0]
+          .replace(/\s+для\s+.+$/, '');
+        var details = [
+          'Площадь поверхности тела ППТ (BSA): ' + formatRu(extras.bsaM2) + ' м²',
+        ];
         if (bmiLine) details.push(bmiLine);
         if (ureaLine) details.push(ureaLine);
-        details.push('Стадия ХБП — по индексированной СКФ (мл/мин/1,73 м²).');
+
+        group += blockHtml(
+          baseTitle +
+            ' с корректировкой на площадь поверхности тела пациента (eGFR(BSAadj))',
+          rowHtml(
+            null,
+            formatRu(abs) + ' мл/мин/' + formatRu(extras.bsaM2) + 'м²'
+          ),
+          details
+        );
       }
 
-      html += blockHtml(rows, details);
+      html += groupHtml(
+        group,
+        out.formula === 'cockcroft' ? 'fc-calc__rf-group--aside' : ''
+      );
     });
 
     if (extras.kdigo) {
-      html +=
-        '<p class="fc-calc__rf-section-title">KDIGO-матрица риска</p>' +
-        blockHtml(rowHtml('Прогнозный риск', extras.kdigo.risk.label), [
-          formatGfrStageLabel(extras.kdigo.gCategory),
-          'Альбуминурия: ' +
-            extras.kdigo.aCategory.label +
-            ' — ' +
-            extras.kdigo.aCategory.detail,
-          'СКФ по формуле: ' + extras.kdigo.sourceLabel,
-        ]);
+      var riskClass =
+        extras.kdigo.risk.code === 'low'
+          ? 'fc-calc__rf-risk--low'
+          : extras.kdigo.risk.code === 'moderate'
+            ? 'fc-calc__rf-risk--moderate'
+            : 'fc-calc__rf-risk--high';
+      html += groupHtml(
+        blockHtml(
+          'KDIGO-матрица риска',
+          rowHtml(
+            'Прогнозный риск',
+            extras.kdigo.risk.label,
+            null,
+            riskClass
+          ),
+          [
+            formatGfrStageLabel(extras.kdigo.gCategory),
+            'Альбуминурия: ' +
+              extras.kdigo.aCategory.label +
+              ' — ' +
+              extras.kdigo.aCategory.detail,
+            'СКФ по формуле: ' + extras.kdigo.sourceLabel,
+          ]
+        ),
+        'fc-calc__rf-group--aside fc-calc__rf-group--kdigo'
+      );
     }
 
     if (all.skipped.length) {
-      html += '<p class="fc-calc__rf-section-title">Не рассчитано</p>';
+      var skippedInner =
+        '<p class="fc-calc__rf-section-title">Не рассчитано</p>';
       all.skipped.forEach(function (s) {
-        html += blockHtml(rowHtml(s.label, s.reason), []);
+        skippedInner += blockHtml(null, rowHtml(s.label, s.reason), []);
       });
+      html += groupHtml(skippedInner);
     }
 
     resultBody.innerHTML = html;

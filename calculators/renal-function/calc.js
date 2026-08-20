@@ -214,7 +214,7 @@ export function calculateCkdEpi2021(input) {
     formula: 'ckd-epi',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPIcr 2021)',
+    label: 'СКФ (CKD-EPIcr 2021) для стадирования ХБП у взрослых',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
@@ -248,7 +248,7 @@ export function calculateCkdEpiCrCys2021(input) {
     formula: 'ckd-epi-cys',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPIcr-cys 2021)',
+    label: 'СКФ (CKD-EPIcr-cys 2021) для уточнения функции почек по уровню креатинина и цистатина С',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
@@ -392,10 +392,10 @@ export function calculateAll(input) {
   const skipped = [];
 
   const runners = [
+    { id: 'cockcroft', label: 'Cockcroft-Gault', run: () => calculateCockcroftGault(input) },
     { id: 'ckd-epi', label: 'CKD-EPIcr 2021', run: () => calculateCkdEpi2021(input) },
     { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys', run: () => calculateCkdEpiCrCys2021(input) },
     { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021', run: () => calculateCkdEpiCys2021(input) },
-    { id: 'cockcroft', label: 'Cockcroft-Gault', run: () => calculateCockcroftGault(input) },
     { id: 'ckid-schwartz', label: 'CKiD (Schwartz)', run: () => calculateCkidSchwartz(input) },
     { id: 'ckid-u25', label: 'CKiD U25', run: () => calculateCkidU25(input) },
   ];
