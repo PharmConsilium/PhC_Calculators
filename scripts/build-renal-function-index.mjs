@@ -9,7 +9,7 @@ const TITLE =
   'Калькулятор оценки функции почек: CKD-EPIcr 2021, CKD-EPIcr-cys 2021, eGFR(BSAadj), Cockcroft-Gault, KDIGO-матрица риска, BSA, BMI';
 
 const HEADLINE =
-  'Расчёт СКФ и клиренса креатинина с корректировкой на BSA, ИМТ и оценкой риска по матрице KDIGO.';
+  'Калькулятор оценки функции почек: скорость клубочковой фильтрации по креатинину и цистатину C, скорректированная на площадь поверхности тела, стадии ХБП.';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const calcDir = join(root, 'calculators', 'renal-function');

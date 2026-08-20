@@ -10,7 +10,7 @@ const ML_MIN_TO_ML_S = 0.0167;
 const FORMULAS = [
   { id: 'ckd-epi', label: 'CKD-EPIcr 2021' },
   { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys' },
-  { id: 'ckd-epi-cys-only', label: 'CKD-EPIcys 2012' },
+  { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021' },
   { id: 'cockcroft', label: 'Cockcroft-Gault' },
   { id: 'ckid-schwartz', label: 'CKiD (Schwartz)' },
   { id: 'ckid-u25', label: 'CKiD U25' },
@@ -215,7 +215,7 @@ function calculateCkdEpi2021(input) {
     formula: 'ckd-epi',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPIcr 2021)',
+    label: 'СКФ (CKD-EPIcr 2021) для стадирования ХБП у взрослых',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
@@ -249,17 +249,17 @@ function calculateCkdEpiCrCys2021(input) {
     formula: 'ckd-epi-cys',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPIcr-cys 2021)',
+    label: 'СКФ (CKD-EPIcr-cys 2021) для уточнения функции почек по уровню креатинина и цистатина С',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
 }
 
-function calculateCkdEpiCys2012(input) {
+function calculateCkdEpiCys2021(input) {
   const cystatin = parsePositive(input.cystatin);
   const age = parseNonNegative(input.age);
   if (cystatin == null || age == null) throw new Error('Заполните цистатин C и возраст');
-  if (age < 18) throw new Error('CKD-EPI cys 2012 — для возраста ≥ 18 лет');
+  if (age < 18) throw new Error('CKD-EPI eGFRcys 2021 — для возраста ≥ 18 лет');
 
   const sexFactor = isFemale(input) ? 0.932 : 1;
   const egfr =
@@ -274,7 +274,7 @@ function calculateCkdEpiCys2012(input) {
     formula: 'ckd-epi-cys-only',
     value,
     unit: 'мл/мин/1,73м²',
-    label: 'СКФ (CKD-EPI 2012)\nцистатин C',
+    label: 'СКФ (CKD-EPI eGFRcys 2021)\nцистатин C',
     category: interpretGfrCategory(value),
     valueMlS: toMlPerSecond(value),
   };
@@ -393,10 +393,10 @@ function calculateAll(input) {
   const skipped = [];
 
   const runners = [
+    { id: 'cockcroft', label: 'Cockcroft-Gault', run: () => calculateCockcroftGault(input) },
     { id: 'ckd-epi', label: 'CKD-EPIcr 2021', run: () => calculateCkdEpi2021(input) },
     { id: 'ckd-epi-cys', label: 'CKD-EPIcr-cys', run: () => calculateCkdEpiCrCys2021(input) },
-    { id: 'ckd-epi-cys-only', label: 'CKD-EPIcys 2012', run: () => calculateCkdEpiCys2012(input) },
-    { id: 'cockcroft', label: 'Cockcroft-Gault', run: () => calculateCockcroftGault(input) },
+    { id: 'ckd-epi-cys-only', label: 'CKD-EPI eGFRcys 2021', run: () => calculateCkdEpiCys2021(input) },
     { id: 'ckid-schwartz', label: 'CKiD (Schwartz)', run: () => calculateCkidSchwartz(input) },
     { id: 'ckid-u25', label: 'CKiD U25', run: () => calculateCkidU25(input) },
   ];
@@ -479,7 +479,7 @@ function calculate(input) {
   if (formula === 'ckid' || formula === 'ckid-u25') return calculateCkidU25(input);
   if (formula === 'ckd-epi') return calculateCkdEpi2021(input);
   if (formula === 'ckd-epi-cys') return calculateCkdEpiCrCys2021(input);
-  if (formula === 'ckd-epi-cys-only') return calculateCkdEpiCys2012(input);
+  if (formula === 'ckd-epi-cys-only') return calculateCkdEpiCys2021(input);
   if (formula === 'schwartz' || formula === 'ckid-schwartz') return calculateCkidSchwartz(input);
   const all = calculateAll(input);
   return all.results[0];
@@ -527,13 +527,17 @@ function calculate(input) {
       .replace(/"/g, '&quot;');
   }
 
-  function rowHtml(label, value, afterValue) {
+  function rowHtml(label, value, afterValue, valueClass) {
     return (
       '<div class="fc-calc__rf-row">' +
-      '<span class="fc-calc__rf-row-label">' +
-      escapeHtml(label).replace(/\n/g, '<br>') +
-      '</span>' +
-      '<span class="fc-calc__rf-row-value">' +
+      (label
+        ? '<span class="fc-calc__rf-row-label">' +
+          escapeHtml(label).replace(/\n/g, '<br>') +
+          '</span>'
+        : '') +
+      '<span class="fc-calc__rf-row-value' +
+      (valueClass ? ' ' + valueClass : '') +
+      '">' +
       escapeHtml(value) +
       '</span>' +
       (afterValue
@@ -543,7 +547,7 @@ function calculate(input) {
     );
   }
 
-  function blockHtml(rowsHtml, details) {
+  function blockHtml(title, rowsHtml, details) {
     var detailsHtml = (details || [])
       .filter(Boolean)
       .map(function (t) {
@@ -557,11 +561,26 @@ function calculate(input) {
       })
       .join('');
     return (
+      (title
+        ? '<p class="fc-calc__rf-section-title">' +
+          escapeHtml(title).replace(/\n/g, '<br>') +
+          '</p>'
+        : '') +
       '<div class="fc-calc__rf-metric">' +
       rowsHtml +
       (detailsHtml
         ? '<ul class="fc-calc__rf-metric-details">' + detailsHtml + '</ul>'
         : '') +
+      '</div>'
+    );
+  }
+
+  function groupHtml(innerHtml, modifier) {
+    return (
+      '<div class="fc-calc__rf-group' +
+      (modifier ? ' ' + modifier : '') +
+      '">' +
+      innerHtml +
       '</div>'
     );
   }
@@ -583,54 +602,84 @@ function calculate(input) {
         : null;
     var ureaLine =
       extras.ureaVdL != null
-        ? 'Объём распределения мочевины: ' + formatRu(extras.ureaVdL) + ' л'
+        ? 'Объём распределения мочевины (Формула Watson): ' + formatRu(extras.ureaVdL) + ' л'
         : null;
 
     all.results.forEach(function (out) {
       var stage =
         out.category != null ? formatGfrStageLabel(out.category) : null;
-      var rows = rowHtml(
-        out.label,
-        formatRu(out.value) + ' ' + out.unit,
-        stage
-      );
-      var details = [];
+      var group =
+        blockHtml(
+          out.label,
+          rowHtml(null, formatRu(out.value) + ' ' + out.unit, stage),
+          []
+        );
 
-      if (extras.bsaM2 != null && out.category) {
+      var isIndexedGfr = /1[,.]73/.test(String(out.unit || ''));
+      if (extras.bsaM2 != null && isIndexedGfr) {
         var abs = Math.round(absoluteGfr(out.value, extras.bsaM2));
-        rows += rowHtml(
-          'СКФ с корректировкой на площадь поверхности тела пациента (eGFR(BSAadj))',
-          formatRu(abs) + ' мл/мин/' + formatRu(extras.bsaM2) + 'м²'
-        );
-        details.push(
-          'Площадь поверхности тела ППТ (BSA): ' + formatRu(extras.bsaM2) + ' м²'
-        );
+        var baseTitle = String(out.label)
+          .split('\n')[0]
+          .replace(/\s+для\s+.+$/, '');
+        var details = [
+          'Площадь поверхности тела ППТ (BSA): ' + formatRu(extras.bsaM2) + ' м²',
+        ];
         if (bmiLine) details.push(bmiLine);
         if (ureaLine) details.push(ureaLine);
-        details.push('Стадия ХБП — по индексированной СКФ (мл/мин/1,73 м²).');
+
+        group += blockHtml(
+          baseTitle +
+            ' с корректировкой на площадь поверхности тела пациента (eGFR(BSAadj))',
+          rowHtml(
+            null,
+            formatRu(abs) + ' мл/мин/' + formatRu(extras.bsaM2) + 'м²'
+          ),
+          details
+        );
       }
 
-      html += blockHtml(rows, details);
+      html += groupHtml(
+        group,
+        out.formula === 'cockcroft' ? 'fc-calc__rf-group--aside' : ''
+      );
     });
 
     if (extras.kdigo) {
-      html +=
-        '<p class="fc-calc__rf-section-title">KDIGO-матрица риска</p>' +
-        blockHtml(rowHtml('Прогнозный риск', extras.kdigo.risk.label), [
-          formatGfrStageLabel(extras.kdigo.gCategory),
-          'Альбуминурия: ' +
-            extras.kdigo.aCategory.label +
-            ' — ' +
-            extras.kdigo.aCategory.detail,
-          'СКФ по формуле: ' + extras.kdigo.sourceLabel,
-        ]);
+      var riskClass =
+        extras.kdigo.risk.code === 'low'
+          ? 'fc-calc__rf-risk--low'
+          : extras.kdigo.risk.code === 'moderate'
+            ? 'fc-calc__rf-risk--moderate'
+            : 'fc-calc__rf-risk--high';
+      html += groupHtml(
+        blockHtml(
+          'KDIGO-матрица риска',
+          rowHtml(
+            'Прогнозный риск',
+            extras.kdigo.risk.label,
+            null,
+            riskClass
+          ),
+          [
+            formatGfrStageLabel(extras.kdigo.gCategory),
+            'Альбуминурия: ' +
+              extras.kdigo.aCategory.label +
+              ' — ' +
+              extras.kdigo.aCategory.detail,
+            'СКФ по формуле: ' + extras.kdigo.sourceLabel,
+          ]
+        ),
+        'fc-calc__rf-group--aside fc-calc__rf-group--kdigo'
+      );
     }
 
     if (all.skipped.length) {
-      html += '<p class="fc-calc__rf-section-title">Не рассчитано</p>';
+      var skippedInner =
+        '<p class="fc-calc__rf-section-title">Не рассчитано</p>';
       all.skipped.forEach(function (s) {
-        html += blockHtml(rowHtml(s.label, s.reason), []);
+        skippedInner += blockHtml(null, rowHtml(s.label, s.reason), []);
       });
+      html += groupHtml(skippedInner);
     }
 
     resultBody.innerHTML = html;
