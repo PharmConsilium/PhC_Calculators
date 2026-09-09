@@ -1,0 +1,8 @@
+{
+  "slug": "child-pugh",
+  "title": "Чайлд-Пью и MELD",
+  "sitePath": "/calculator/child-pugh",
+  "description": "Онлайн-калькулятор шкалы Чайлд-Пью (Child-Pugh) и MELD: исходный MELD (до 2016), MELD-Na и MELD 3.0. Классификация тяжести цирроза печени, прогноз и оценка приоритета при трансплантации.",
+  "source": "Child-Pugh; OPTN/UNOS MELD, MELD-Na; Kim et al. Gastroenterology 2021 (MELD 3.0); MDCalc Combined MELD",
+  "complexity": "B"
+}

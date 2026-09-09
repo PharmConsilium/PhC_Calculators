@@ -1,0 +1,8 @@
+{
+  "slug": "dry-body-weight",
+  "title": "Калькулятор сухой вес тела",
+  "description": "Онлайн-калькулятор сухого веса тела (СМТ, lean body weight) по формуле Burton: расчёт безжировой массы по полу и росту для фармакокинетики и дозирования. Не заменяет клиническую оценку сухого веса при гемодиализе.",
+  "sitePath": "/calculator/dry-body-weight",
+  "source": "Calculators_MobileApp dry-body-weight; Burton lean body weight by height",
+  "complexity": "A"
+}

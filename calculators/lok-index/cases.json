@@ -1,0 +1,87 @@
+{
+  "slug": "lok-index",
+  "source": "https://www.msdmanuals.com/ru/professional/multimedia/clinical-calculator/вероятность-цирроза-при-гепатите-с",
+  "cases": [
+    {
+      "name": "high risk multi",
+      "input": {
+        "age": 50,
+        "plt": 150,
+        "ast": 80,
+        "alt": 40,
+        "ulnAst": 40,
+        "inr": 1.2
+      },
+      "expected": {
+        "status": "OK",
+        "cds": 8,
+        "lokIndex": 0.875,
+        "guci": 1.6,
+        "apri": 1.33,
+        "fib4": 4.22,
+        "lokCategory": "likely",
+        "apriCategory": "indeterminate",
+        "apriInterpretation": "Значительный фиброз более вероятен, цирроз неточный"
+      }
+    },
+    {
+      "name": "lower risk multi",
+      "input": {
+        "age": 40,
+        "plt": 250,
+        "ast": 40,
+        "alt": 40,
+        "ulnAst": 40,
+        "inr": 1.0
+      },
+      "expected": {
+        "status": "OK",
+        "cds": 4,
+        "lokIndex": 0.222,
+        "guci": 0.4,
+        "apri": 0.4,
+        "fib4": 1.01,
+        "lokCategory": "indeterminate",
+        "apriCategory": "unlikely",
+        "apriInterpretation": "Значительный фиброз или цирроз печени менее вероятен",
+        "fib4Category": "unlikely"
+      }
+    },
+    {
+      "name": "inr from percent equals ratio",
+      "input": {
+        "age": 50,
+        "plt": 150,
+        "ast": 80,
+        "alt": 40,
+        "ulnAst": 40,
+        "inr": 120,
+        "inrUnit": "percent"
+      },
+      "expected": {
+        "status": "OK",
+        "inr": 1.2,
+        "inrUnit": "percent",
+        "lokIndex": 0.875
+      }
+    },
+    {
+      "name": "inr from fraction equals ratio",
+      "input": {
+        "age": 50,
+        "plt": 150,
+        "ast": 80,
+        "alt": 40,
+        "ulnAst": 40,
+        "inr": 1.2,
+        "inrUnit": "fraction"
+      },
+      "expected": {
+        "status": "OK",
+        "inr": 1.2,
+        "inrUnit": "fraction",
+        "lokIndex": 0.875
+      }
+    }
+  ]
+}

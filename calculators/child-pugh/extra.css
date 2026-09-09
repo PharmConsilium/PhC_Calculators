@@ -1,0 +1,382 @@
+/* child-pugh — выбор как сегменты FarmConsilium + списки для длинных подписей */
+.fc-calc[data-calculator="child-pugh"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__tabs {
+  margin-top: 12px;
+  justify-content: stretch;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__tab {
+  flex: 1 1 calc(50% - 4px);
+  font-size: 15px;
+  padding: 10px 8px;
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__tab {
+    flex: 1 1 0;
+    font-size: 16px;
+  }
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mode-hint {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-field-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-field-head label {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-units {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-units .fc-calc__segment {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__panel .fc-calc__field > label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* hidden должен побеждать display:flex у .fc-calc__field */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__field[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-criteria {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-criterion {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-legend {
+  display: block;
+  margin: 0 0 10px;
+  padding: 0;
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+/* Короткие варианты — сегменты как пол М/Ж на сайте */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options {
+  display: flex;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 52px;
+  padding: 12px 8px;
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option:hover .fc-calc__cp-option-face {
+  background: rgba(0, 94, 236, 0.08);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-face {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-label,
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+  color: #fff !important;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option-label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: inherit;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.2;
+  opacity: 0.72;
+  color: inherit;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+  opacity: 0.9;
+}
+
+/* Длинные варианты — единый список как у Апгар */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack {
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option {
+  flex: none;
+  width: 100%;
+  border-bottom: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option-face {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 14px 16px;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:hover .fc-calc__cp-option-face {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-face {
+  background: var(--fc-blue);
+  color: #fff;
+  box-shadow: none;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-label,
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+  color: #fff !important;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option-label {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option-points {
+  flex: 0 0 auto;
+  opacity: 1;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number--A {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number--B {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number--C {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality {
+  margin: 14px 0 0;
+  padding: 16px 18px;
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-value {
+  margin: 0;
+  line-height: 1;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-num {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-pct {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-left: 2px;
+  vertical-align: super;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-label {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-meta {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-line {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-line + .fc-calc__cp-result-line {
+  margin-top: 8px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-line strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body p {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body ol,
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body ul {
+  margin: 8px 0 0;
+  padding-left: 1.25rem;
+  text-align: left;
+  list-style-position: outside;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body li {
+  margin: 0 0 10px;
+  padding-left: 0.25rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body li:last-child {
+  margin-bottom: 0;
+}
+
+/* Источники — обычные абзацы, без ol (стили сайта сдвигают списки) */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-sources {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-sources > p {
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  line-height: 1.45;
+}
+
+@media (max-width: 479px) {
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) {
+    flex-direction: column;
+  }
+
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option-face {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    min-height: 0;
+    padding: 12px 14px;
+  }
+
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-face,
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-label,
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+    color: #fff !important;
+  }
+}

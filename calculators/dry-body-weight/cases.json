@@ -1,0 +1,26 @@
+{
+  "slug": "dry-body-weight",
+  "source": "Burton ME et al. Clin Pharm. 1986;5(2):143-9 — lean body weight by height",
+  "cases": [
+    {
+      "name": "male 180 cm",
+      "input": { "sex": "male", "height": "180" },
+      "expected": { "smtKg": 71.98, "smtLabel": "71,98" }
+    },
+    {
+      "name": "female 165 cm",
+      "input": { "sex": "female", "height": "165" },
+      "expected": { "smtKg": 56.51, "smtLabel": "56,51" }
+    },
+    {
+      "name": "male 170 cm comma height",
+      "input": { "sex": "male", "height": "170,0" },
+      "expected": { "smtKg": 64.68 }
+    },
+    {
+      "name": "female 170 cm",
+      "input": { "sex": "female", "height": "170" },
+      "expected": { "smtKg": 59.76 }
+    }
+  ]
+}
