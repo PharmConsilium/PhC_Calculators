@@ -1,0 +1,194 @@
+{
+  "slug": "ganzoni-iron",
+  "source": "Ganzoni formula; Calc4Lab",
+  "cases": [
+    {
+      "name": "classic g/dL with +500 store",
+      "input": {
+        "weightKg": 70,
+        "currentHb": 8,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "fixed500",
+        "drug": "none"
+      },
+      "expected": {
+        "totalIronMg": 1340,
+        "ironForHbMg": 840,
+        "storeMg": 500,
+        "deltaHb": 5
+      }
+    },
+    {
+      "name": "same case in g/L",
+      "input": {
+        "weightKg": 70,
+        "currentHb": 80,
+        "targetHb": 130,
+        "hbUnit": "gl",
+        "storeMode": "fixed500",
+        "drug": "none"
+      },
+      "expected": {
+        "totalIronMg": 1340,
+        "ironForHbMg": 840,
+        "storeMg": 500
+      }
+    },
+    {
+      "name": "Calc4Lab round-to-10 (80 kg, Δ40 g/L)",
+      "input": {
+        "weightKg": 80,
+        "currentHb": 90,
+        "targetHb": 130,
+        "hbUnit": "gl",
+        "storeMode": "auto",
+        "drug": "isomaltoside"
+      },
+      "expected": {
+        "totalIronMg": 1270,
+        "ironForHbMg": 770,
+        "storeMg": 500,
+        "sessions": 1,
+        "maxPerSessionMg": 1600
+      }
+    },
+    {
+      "name": "mixed units normalize to g/L",
+      "input": {
+        "weightKg": 70,
+        "currentHb": 8,
+        "currentHbUnit": "gdl",
+        "targetHb": 130,
+        "targetHbUnit": "gl",
+        "storeMode": "fixed500",
+        "drug": "none"
+      },
+      "expected": {
+        "totalIronMg": 1340,
+        "deltaHb": 50,
+        "hbUnit": "gl"
+      }
+    },
+    {
+      "name": "Hb at/above target → only store",
+      "input": {
+        "weightKg": 80,
+        "currentHb": 13,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "fixed500",
+        "drug": "isomaltoside"
+      },
+      "expected": {
+        "totalIronMg": 500,
+        "ironForHbMg": 0,
+        "storeMg": 500,
+        "deltaHb": 0,
+        "sessions": 1,
+        "maxPerSessionMg": 1600
+      }
+    },
+    {
+      "name": "auto store under 35 kg",
+      "input": {
+        "weightKg": 30,
+        "currentHb": 9,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "auto",
+        "drug": "none"
+      },
+      "expected": {
+        "storeMg": 450,
+        "ironForHbMg": 290,
+        "totalIronMg": 740
+      }
+    },
+    {
+      "name": "auto store ≥35 kg",
+      "input": {
+        "weightKg": 35,
+        "currentHb": 10,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "auto",
+        "drug": "fcm"
+      },
+      "expected": {
+        "storeMg": 500,
+        "ironForHbMg": 250,
+        "totalIronMg": 750,
+        "sessions": 1,
+        "maxPerSessionMg": 1000
+      }
+    },
+    {
+      "name": "negative ΔHb clamped to 0",
+      "input": {
+        "weightKg": 80,
+        "currentHb": 14,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "fixed500",
+        "drug": "none"
+      },
+      "expected": {
+        "totalIronMg": 500,
+        "ironForHbMg": 0,
+        "deltaHb": 0
+      }
+    },
+    {
+      "name": "Monofer max = 20 mg/kg (120 kg extreme)",
+      "input": {
+        "weightKg": 120,
+        "currentHb": 1,
+        "targetHb": 1500,
+        "hbUnit": "gl",
+        "storeMode": "perKg15",
+        "drug": "isomaltoside"
+      },
+      "expected": {
+        "totalIronMg": 44970,
+        "storeMg": 1800,
+        "deltaHb": 1499,
+        "sessions": 19,
+        "maxPerSessionMg": 2400,
+        "perSessionMg": 2366
+      }
+    },
+    {
+      "name": "Ferinject multi-session",
+      "input": {
+        "weightKg": 70,
+        "currentHb": 7,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "fixed500",
+        "drug": "fcm"
+      },
+      "expected": {
+        "totalIronMg": 1510,
+        "sessions": 2,
+        "maxPerSessionMg": 1000
+      }
+    },
+    {
+      "name": "no store",
+      "input": {
+        "weightKg": 60,
+        "currentHb": 10,
+        "targetHb": 13,
+        "hbUnit": "gdl",
+        "storeMode": "none",
+        "drug": "none"
+      },
+      "expected": {
+        "storeMg": 0,
+        "ironForHbMg": 430,
+        "totalIronMg": 430
+      }
+    }
+  ]
+}

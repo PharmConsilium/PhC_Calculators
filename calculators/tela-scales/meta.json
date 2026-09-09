@@ -1,0 +1,8 @@
+{
+  "slug": "tela-scales",
+  "title": "Шкалы ТЭЛА и ВТЭО",
+  "sitePath": "/calculator/tela-scales",
+  "description": "Мульти-калькулятор шкал ТЭЛА и ВТЭО: YEARS, Geneva, Wells, PESI, Caprini и IMPROVE. Оценка вероятности ТЭЛА, прогноза летальности и риска тромбоэмболий.",
+  "source": "Агрегатор: years-pe, geneva-pe, wells-scale, pesi-pe, caprini-scale, improve-scale",
+  "complexity": "B"
+}

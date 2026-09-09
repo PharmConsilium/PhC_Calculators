@@ -1,0 +1,46 @@
+.fc-calc[data-calculator="urea-distribution-volume"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="urea-distribution-volume"] .fc-calc__udv-grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .fc-calc[data-calculator="urea-distribution-volume"] .fc-calc__udv-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.fc-calc[data-calculator="urea-distribution-volume"] .fc-calc__udv-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="urea-distribution-volume"] .fc-calc__udv-metric {
+  padding: 12px 14px;
+  border: 1px solid var(--fc-border, #e2e5ea);
+  border-radius: 8px;
+  background: rgba(0, 94, 236, 0.04);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="urea-distribution-volume"] .fc-calc__udv-metric-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--fc-muted, #6b7280);
+}
+
+.fc-calc[data-calculator="urea-distribution-volume"] .fc-calc__udv-metric-value {
+  display: block;
+  font-family: var(--fc-font-semibold);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--fc-text);
+}

@@ -1,0 +1,1396 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Расчёт дозы внутривенного железа (формула Ганзони)
+  Сборка: 2026-09-09
+-->
+<div class="fc-calc" data-calculator="ganzoni-iron">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+.fc-calc[data-calculator="ganzoni-iron"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] #fc-calc-ganzoni-iron-custom-store-wrap[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+  text-align: center;
+  align-items: start;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 2.6em;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #263048;
+  opacity: 0.85;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-label > span {
+  display: block;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-value {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  word-break: break-word;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--fc-border);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions-title {
+  margin: 0 0 4px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions-hint {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-session-line {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-session-line:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__notes-body p {
+  text-align: left;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Расчёт дозы внутривенного железа (формула Ганзони)</h2>
+        <p class="fc-calc__hint">Дефицит железа по массе тела, целевому и текущему Hb с добавкой запаса; опционально — планирование сеансов в/в препарата.</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-ganzoni-iron-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Данные пациента</h3>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-ganzoni-iron-weight">Масса тела, кг</label>
+                <input
+                  type="number"
+                  id="fc-calc-ganzoni-iron-weight"
+                  name="weightKg"
+                  inputmode="decimal"
+                  min="0"
+                  step="any"
+                  placeholder="напр. 70"
+                  required
+                />
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-ganzoni-iron-current-hb">Текущий Hb</label>
+                <div class="fc-calc__field-row">
+                  <input
+                    type="number"
+                    id="fc-calc-ganzoni-iron-current-hb"
+                    name="currentHb"
+                    inputmode="decimal"
+                    min="0"
+                    step="any"
+                    placeholder="напр. 80"
+                    required
+                  />
+                  <select id="fc-calc-ganzoni-iron-current-unit" name="hbUnitCurrent" aria-label="Единицы текущего Hb">
+                    <option value="gdl">г/дл</option>
+                    <option value="gl" selected>г/л</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-ganzoni-iron-target-hb">Целевой Hb</label>
+                <div class="fc-calc__field-row">
+                  <input
+                    type="number"
+                    id="fc-calc-ganzoni-iron-target-hb"
+                    name="targetHb"
+                    inputmode="decimal"
+                    min="0"
+                    step="any"
+                    placeholder="напр. 130"
+                    required
+                  />
+                  <select id="fc-calc-ganzoni-iron-target-unit" name="hbUnitTarget" aria-label="Единицы целевого Hb">
+                    <option value="gdl">г/дл</option>
+                    <option value="gl" selected>г/л</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-ganzoni-iron-target-preset">Быстрый выбор целевого Hb</label>
+                <select id="fc-calc-ganzoni-iron-target-preset" name="targetPreset">
+                  <option value="none" selected>Не выбрано</option>
+                  <option value="adult13" data-preset-gdl="13">Взрослый 130 г/л (консервативно)</option>
+                  <option value="classic15" data-preset-gdl="15">Классический 150 г/л (исторически)</option>
+                  <option value="ckd115" data-preset-gdl="11.5">ХБП ≈ 115 г/л</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Запас и препарат</h3>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-ganzoni-iron-store-mode">Запас железа (добавка)</label>
+                <select id="fc-calc-ganzoni-iron-store-mode" name="storeMode">
+                  <option value="auto" selected>Авто: ≥35 кг → +500 мг; &lt;35 кг → +15 мг/кг</option>
+                  <option value="fixed500">+500 мг</option>
+                  <option value="perKg15">+15 мг/кг</option>
+                  <option value="custom">Пользовательский (мг)</option>
+                  <option value="none">Нет</option>
+                </select>
+              </div>
+
+              <div class="fc-calc__field" id="fc-calc-ganzoni-iron-custom-store-wrap" hidden>
+                <label for="fc-calc-ganzoni-iron-custom-store">Пользовательский запас, мг</label>
+                <input
+                  type="number"
+                  id="fc-calc-ganzoni-iron-custom-store"
+                  name="customStoreMg"
+                  inputmode="decimal"
+                  min="0"
+                  step="any"
+                  placeholder="напр. 500"
+                />
+              </div>
+
+              <div class="fc-calc__field">
+                <label for="fc-calc-ganzoni-iron-drug">Препарат железа в/в (для планирования сеансов)</label>
+                <select id="fc-calc-ganzoni-iron-drug" name="drug">
+                  <option value="none" selected>Не выбран</option>
+                  <option value="fcm">Железа карбоксимальтозат (Ferinject®)</option>
+                  <option value="isomaltoside">Железа изомальтозид (Monofer®)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <p class="fc-calc__error" id="fc-calc-ganzoni-iron-form-error" role="alert"></p>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" class="fc-calc__btn" form="fc-calc-ganzoni-iron-form">Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-ganzoni-iron-result" aria-live="polite">
+        <p class="fc-calc__result-label">Результат</p>
+        <p class="fc-calc__result-number" id="fc-calc-ganzoni-iron-result-number">—</p>
+        <p class="fc-calc__result-desc" id="fc-calc-ganzoni-iron-result-desc"></p>
+        <div class="fc-calc__ganzoni-meta" id="fc-calc-ganzoni-iron-result-meta"></div>
+        <div class="fc-calc__ganzoni-sessions" id="fc-calc-ganzoni-iron-result-sessions" hidden></div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body" id="fc-calc-ganzoni-iron-notes">
+        <p><strong>Формула Ганзони:</strong> дефицит железа (мг) = масса (кг) × [Hb цель − Hb текущ.] × коэффициент + запас железа.</p>
+        <p>• Коэффициент 2,4 при Hb в г/дл; 0,24 при Hb в г/л. Компонент дозы на ΔHb округляется до 10 мг.</p>
+        <p>• Если ΔHb &lt; 0, её принимают равной 0 (отрицательной дозы нет).</p>
+        <p>• Авто-запас: ≥35 кг → +500 мг; &lt;35 кг → +15 мг/кг.</p>
+        <p>• Планирование сеансов информативное: Ferinject® — до 1000 мг/сеанс; Monofer® — до 20 мг/кг за сеанс. Следуйте инструкции препарата и локальным протоколам.</p>
+        <p><strong>Источники:</strong></p>
+        <p>1. Ganzoni AM. [Intravenous iron-dextran: therapeutic and experimental possibilities]. <em>Schweiz Med Wochenschr.</em> 1970;100(7):301-3.</p>
+        <p>2. Koch TA, Myers J, Goodnough LT. Intravenous Iron Therapy in Patients with Iron Deficiency Anemia: Dosing Considerations. <em>Anemia.</em> 2015;2015:763576.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  /**
+ * Формула Ганзони — расчёт дефицита / дозы в/в железа.
+ * Источник: Ganzoni AM. Schweiz Med Wochenschr. 1970; calc4lab.com/calculators/ganzoni
+ *
+ * Дефицит (mg) = масса(kg) × ΔHb(g/dL) × 2.4 + запас
+ * При Hb в g/L коэффициент 0.24 вместо 2.4.
+ * ΔHb < 0 → 0.
+ * Компонент на Hb округляется до ближайших 10 мг (как Calc4Lab).
+ * Авто-запас: ≥35 кг → +500 mg; <35 кг → +15 mg/kg.
+ * Сеансы: Ferinject — до 1000 мг; Monofer — до 20 мг/кг.
+ */
+
+const HB_UNITS = {
+  gdl: { label: 'г/дл', factor: 2.4, api: 'g/dL' },
+  gl: { label: 'г/л', factor: 0.24, api: 'g/L' },
+};
+
+/** Пресеты цели в г/дл (конвертируются при выборе единиц). */
+const TARGET_PRESETS = {
+  none: null,
+  adult13: 13,
+  classic15: 15,
+  ckd115: 11.5,
+};
+
+const STORE_MODES = {
+  auto: 'auto',
+  fixed500: 'fixed500',
+  perKg15: 'perKg15',
+  custom: 'custom',
+  none: 'none',
+};
+
+const DRUGS = {
+  none: { label: 'Не выбран', kind: 'none' },
+  fcm: {
+    label: 'Железа карбоксимальтозат (Ferinject®)',
+    kind: 'fcm',
+  },
+  isomaltoside: {
+    label: 'Железа изомальтозид (Monofer®)',
+    kind: 'isomaltoside',
+  },
+};
+
+function roundHalfUp(value, decimals = 0) {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor + Number.EPSILON) / factor;
+}
+
+/** Округление дозы железа до ближайших 10 мг (поведение Calc4Lab). */
+function roundIronMg(value) {
+  return Math.round(value / 10) * 10;
+}
+
+function parsePositive(raw) {
+  const s = String(raw ?? '')
+    .trim()
+    .replace(',', '.');
+  if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+  const n = Number(s);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function parseNonNegative(raw) {
+  const s = String(raw ?? '')
+    .trim()
+    .replace(',', '.');
+  if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+  const n = Number(s);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function normalizeHbUnit(unit) {
+  if (unit === 'gl' || unit === 'g/L' || unit === 'gL') return 'gl';
+  return 'gdl';
+}
+
+/** Конвертация Hb между г/дл и г/л. */
+function convertHb(value, fromUnit, toUnit) {
+  const from = normalizeHbUnit(fromUnit);
+  const to = normalizeHbUnit(toUnit);
+  if (from === to) return value;
+  if (from === 'gdl' && to === 'gl') return value * 10;
+  return value / 10;
+}
+
+/**
+ * Приводим текущий и целевой Hb к одной системе единиц.
+ * Если единицы разные — считаем в г/л (как Calc4Lab).
+ */
+function normalizeHbPair(currentHb, currentUnit, targetHb, targetUnit) {
+  const curU = normalizeHbUnit(currentUnit);
+  const tgtU = normalizeHbUnit(targetUnit);
+  if (curU === tgtU) {
+    return {
+      current: currentHb,
+      target: targetHb,
+      hbUnit: curU,
+    };
+  }
+  return {
+    current: convertHb(currentHb, curU, 'gl'),
+    target: convertHb(targetHb, tgtU, 'gl'),
+    hbUnit: 'gl',
+  };
+}
+
+function resolveIronStoreMg(weightKg, storeMode, customStoreMg) {
+  switch (storeMode) {
+    case STORE_MODES.none:
+      return 0;
+    case STORE_MODES.fixed500:
+      return 500;
+    case STORE_MODES.perKg15:
+      return roundHalfUp(15 * weightKg, 0);
+    case STORE_MODES.custom: {
+      const n = Number(customStoreMg);
+      if (!Number.isFinite(n) || n < 0) return null;
+      return roundHalfUp(n, 0);
+    }
+    case STORE_MODES.auto:
+    default:
+      return weightKg >= 35 ? 500 : roundHalfUp(15 * weightKg, 0);
+  }
+}
+
+/** Максимум за сеанс: FCM 1000 мг; Monofer 20 мг/кг. */
+function maxPerSessionMg(drugId, weightKg) {
+  if (drugId === 'fcm') return 1000;
+  if (drugId === 'isomaltoside') return roundHalfUp(20 * weightKg, 0);
+  return null;
+}
+
+function planSessions(totalIronMg, drugId, weightKg) {
+  const drug = DRUGS[drugId] || DRUGS.none;
+  const max = maxPerSessionMg(drugId, weightKg);
+  if (!max || totalIronMg <= 0) {
+    return {
+      drugId: drugId || 'none',
+      drugLabel: drug.label,
+      maxPerSessionMg: max,
+      sessions: null,
+      perSessionMg: null,
+    };
+  }
+  const sessions = Math.max(1, Math.ceil(totalIronMg / max));
+  const perSessionMg = Math.floor(totalIronMg / sessions);
+  return {
+    drugId,
+    drugLabel: drug.label,
+    maxPerSessionMg: max,
+    sessions,
+    perSessionMg,
+  };
+}
+
+/**
+ * @param {{
+ *   weightKg: number|string,
+ *   currentHb: number|string,
+ *   targetHb: number|string,
+ *   hbUnit?: 'gdl'|'gl',
+ *   currentHbUnit?: 'gdl'|'gl',
+ *   targetHbUnit?: 'gdl'|'gl',
+ *   storeMode?: string,
+ *   customStoreMg?: number|string,
+ *   drug?: string,
+ * }} input
+ */
+function calculate(input) {
+  const weightKg = parsePositive(input.weightKg);
+  const currentHbRaw = parseNonNegative(input.currentHb);
+  const targetHbRaw = parsePositive(input.targetHb);
+  const storeMode = input.storeMode || STORE_MODES.auto;
+  const drug = input.drug && DRUGS[input.drug] ? input.drug : 'none';
+
+  const currentUnit = normalizeHbUnit(
+    input.currentHbUnit || input.hbUnit || 'gdl'
+  );
+  const targetUnit = normalizeHbUnit(
+    input.targetHbUnit || input.hbUnit || 'gdl'
+  );
+
+  if (weightKg == null) throw new Error('Укажите массу тела');
+  if (weightKg > 300) throw new Error('Проверьте массу тела');
+  if (currentHbRaw == null) throw new Error('Укажите текущий Hb');
+  if (targetHbRaw == null) throw new Error('Укажите целевой Hb');
+
+  const pair = normalizeHbPair(currentHbRaw, currentUnit, targetHbRaw, targetUnit);
+  const hbUnit = pair.hbUnit;
+  const currentHb = pair.current;
+  const targetHb = pair.target;
+  const factor = HB_UNITS[hbUnit].factor;
+
+  const deltaHbRaw = targetHb - currentHb;
+  const deltaHb = Math.max(0, deltaHbRaw);
+  const storeMg = resolveIronStoreMg(weightKg, storeMode, input.customStoreMg);
+  if (storeMg == null) throw new Error('Укажите запас железа (мг)');
+
+  const ironForHbRaw = weightKg * deltaHb * factor;
+  const ironForHbMg = roundIronMg(ironForHbRaw);
+  const totalIronMg = ironForHbMg + storeMg;
+  const sessionPlan = planSessions(totalIronMg, drug, weightKg);
+
+  const unitLabel = HB_UNITS[hbUnit].label;
+  const deltaDecimals = hbUnit === 'gl' ? 1 : 2;
+  const interpretation =
+    deltaHbRaw < 0
+      ? 'Текущий Hb выше целевого: ΔHb принята равной 0, результат равен запасу железа.'
+      : deltaHbRaw === 0
+        ? 'Hb на целевом уровне: результат равен выбранному запасу железа.'
+        : 'Расчёт по формуле Ганзони с учётом выбранного запаса железа.';
+
+  return {
+    totalIronMg,
+    ironForHbMg,
+    storeMg,
+    deltaHb: roundHalfUp(deltaHb, deltaDecimals),
+    deltaHbRaw: roundHalfUp(deltaHbRaw, deltaDecimals),
+    weightKg,
+    currentHb,
+    targetHb,
+    hbUnit,
+    unitLabel,
+    factor,
+    storeMode,
+    sessions: sessionPlan.sessions,
+    perSessionMg: sessionPlan.perSessionMg,
+    maxPerSessionMg: sessionPlan.maxPerSessionMg,
+    drugId: sessionPlan.drugId,
+    drugLabel: sessionPlan.drugLabel,
+    interpretation,
+    formula: `Дефицит = round10(${weightKg} × ${deltaHb} × ${factor}) + ${storeMg} = ${totalIronMg} мг`,
+  };
+}
+
+    var root = document.querySelector('.fc-calc[data-calculator="ganzoni-iron"]');
+  if (!root) return;
+
+  var form = root.querySelector('#fc-calc-ganzoni-iron-form');
+  var weightInput = root.querySelector('#fc-calc-ganzoni-iron-weight');
+  var currentHbInput = root.querySelector('#fc-calc-ganzoni-iron-current-hb');
+  var targetHbInput = root.querySelector('#fc-calc-ganzoni-iron-target-hb');
+  var currentUnitSelect = root.querySelector('#fc-calc-ganzoni-iron-current-unit');
+  var targetUnitSelect = root.querySelector('#fc-calc-ganzoni-iron-target-unit');
+  var targetPreset = root.querySelector('#fc-calc-ganzoni-iron-target-preset');
+  var storeModeSelect = root.querySelector('#fc-calc-ganzoni-iron-store-mode');
+  var customStoreWrap = root.querySelector('#fc-calc-ganzoni-iron-custom-store-wrap');
+  var customStoreInput = root.querySelector('#fc-calc-ganzoni-iron-custom-store');
+  var drugSelect = root.querySelector('#fc-calc-ganzoni-iron-drug');
+  var formError = root.querySelector('#fc-calc-ganzoni-iron-form-error');
+  var resultWrap = root.querySelector('#fc-calc-ganzoni-iron-result');
+  var resultNumber = root.querySelector('#fc-calc-ganzoni-iron-result-number');
+  var resultDesc = root.querySelector('#fc-calc-ganzoni-iron-result-desc');
+  var resultMeta = root.querySelector('#fc-calc-ganzoni-iron-result-meta');
+  var resultSessions = root.querySelector('#fc-calc-ganzoni-iron-result-sessions');
+
+  function unitValue(selectEl) {
+    return selectEl.value === 'gl' ? 'gl' : 'gdl';
+  }
+
+  function buildInput() {
+    return {
+      weightKg: weightInput.value,
+      currentHb: currentHbInput.value,
+      targetHb: targetHbInput.value,
+      currentHbUnit: unitValue(currentUnitSelect),
+      targetHbUnit: unitValue(targetUnitSelect),
+      storeMode: storeModeSelect.value,
+      customStoreMg: customStoreInput.value,
+      drug: drugSelect.value,
+    };
+  }
+
+  function clearResult() {
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+    resultNumber.textContent = '—';
+    resultDesc.textContent = '';
+    resultMeta.textContent = '';
+    resultSessions.innerHTML = '';
+    resultSessions.hidden = true;
+  }
+
+  function formatNum(n) {
+    return String(n).replace('.', ',');
+  }
+
+  function updatePresetLabels() {
+    var unit = unitValue(targetUnitSelect);
+    var unitLabel = unit === 'gl' ? 'г/л' : 'г/дл';
+    Array.prototype.forEach.call(targetPreset.options, function (opt) {
+      if (opt.value === 'none') {
+        opt.textContent = 'Не выбрано';
+        return;
+      }
+      var gdl = TARGET_PRESETS[opt.value];
+      if (gdl == null) return;
+      var value = convertHb(gdl, 'gdl', unit);
+      var valueLabel = formatNum(value);
+      if (opt.value === 'adult13') {
+        opt.textContent = 'Взрослый ' + valueLabel + ' ' + unitLabel + ' (консервативно)';
+      } else if (opt.value === 'classic15') {
+        opt.textContent = 'Классический ' + valueLabel + ' ' + unitLabel + ' (исторически)';
+      } else if (opt.value === 'ckd115') {
+        opt.textContent = 'ХБП ≈ ' + valueLabel + ' ' + unitLabel;
+      }
+    });
+  }
+
+  function renderResult(out) {
+    resultNumber.textContent = formatNum(out.totalIronMg) + ' мг';
+    resultDesc.textContent = out.interpretation;
+    resultMeta.innerHTML =
+      '<div class="fc-calc__ganzoni-meta-item">' +
+      '<span class="fc-calc__ganzoni-meta-label"><span>Использованная</span><span>ΔHb</span></span>' +
+      '<span class="fc-calc__ganzoni-meta-value">' +
+      formatNum(out.deltaHb) +
+      ' ' +
+      out.unitLabel +
+      '</span></div>' +
+      '<div class="fc-calc__ganzoni-meta-item">' +
+      '<span class="fc-calc__ganzoni-meta-label"><span>Добавленный</span><span>запас</span></span>' +
+      '<span class="fc-calc__ganzoni-meta-value">' +
+      formatNum(out.storeMg) +
+      ' мг</span></div>' +
+      '<div class="fc-calc__ganzoni-meta-item">' +
+      '<span class="fc-calc__ganzoni-meta-label"><span>Общее</span><span>железо</span></span>' +
+      '<span class="fc-calc__ganzoni-meta-value">' +
+      formatNum(out.totalIronMg) +
+      ' мг</span></div>';
+
+    if (out.sessions != null && out.maxPerSessionMg != null) {
+      resultSessions.hidden = false;
+      resultSessions.innerHTML =
+        '<p class="fc-calc__ganzoni-sessions-title">Планирование сеансов (инф.)</p>' +
+        '<p class="fc-calc__ganzoni-sessions-hint">Не превышайте максимум на сеанс для выбранного препарата.</p>' +
+        '<p class="fc-calc__ganzoni-session-line">• Число сеансов: ' +
+        formatNum(out.sessions) +
+        '</p>' +
+        '<p class="fc-calc__ganzoni-session-line">• Максимум за сеанс: ' +
+        formatNum(out.maxPerSessionMg) +
+        ' мг</p>';
+    } else {
+      resultSessions.hidden = true;
+      resultSessions.innerHTML = '';
+    }
+
+    resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+  }
+
+  function updateCustomStoreVisibility() {
+    var show = storeModeSelect.value === 'custom';
+    customStoreWrap.hidden = !show;
+    customStoreInput.required = show;
+    if (!show) customStoreInput.value = '';
+  }
+
+  function applyTargetPreset() {
+    var key = targetPreset.value;
+    var gdl = TARGET_PRESETS[key];
+    if (gdl == null) return;
+    var unit = unitValue(targetUnitSelect);
+    var value = convertHb(gdl, 'gdl', unit);
+    targetHbInput.value = String(value);
+  }
+
+  function update() {
+    formError.textContent = '';
+    updateCustomStoreVisibility();
+    try {
+      renderResult(calculate(buildInput()));
+    } catch (err) {
+      clearResult();
+      if (
+        weightInput.value ||
+        currentHbInput.value ||
+        targetHbInput.value ||
+        (storeModeSelect.value === 'custom' && customStoreInput.value)
+      ) {
+        formError.textContent = err.message || 'Проверьте ввод';
+      }
+    }
+  }
+
+  targetPreset.addEventListener('change', function () {
+    applyTargetPreset();
+    update();
+  });
+
+  storeModeSelect.addEventListener('change', update);
+  drugSelect.addEventListener('change', update);
+  currentUnitSelect.addEventListener('change', update);
+  targetUnitSelect.addEventListener('change', function () {
+    updatePresetLabels();
+    if (targetPreset.value !== 'none') applyTargetPreset();
+    update();
+  });
+
+  [weightInput, currentHbInput, targetHbInput, customStoreInput].forEach(function (el) {
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    update();
+  });
+
+  updatePresetLabels();
+  updateCustomStoreVisibility();
+  clearResult();
+
+})();
+  </script>
+</div>

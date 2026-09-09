@@ -1,0 +1,8 @@
+{
+  "slug": "ganzoni-iron",
+  "title": "Расчёт дозы внутривенного железа (формула Ганзони)",
+  "sitePath": "/calculator/ganzoni-iron",
+  "description": "Расчёт дозы внутривенного железа по формуле Ганзони: дефицит железа, целевой Hb, запас и сеансы (Ferinject, Monofer). Доза железа Ганзони расчёт онлайн.",
+  "source": "Ganzoni AM. Schweiz Med Wochenschr. 1970; Koch TA et al. Anemia. 2015",
+  "complexity": "A"
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "urea-distribution-volume",
+  "source": "Watson PE et al. Am J Clin Nutr. 1980;33(1):27-39 — TBW / urea distribution volume",
+  "cases": [
+    {
+      "name": "adult 40y 180cm 70kg",
+      "input": { "age": "40", "height": "180", "weight": "70" },
+      "expected": { "maleL": 41.51, "femaleL": 34.41 }
+    },
+    {
+      "name": "comma decimals",
+      "input": { "age": "35", "height": "165,5", "weight": "62,5" },
+      "expected": { "maleL": 37.9, "femaleL": 31.01 }
+    }
+  ]
+}

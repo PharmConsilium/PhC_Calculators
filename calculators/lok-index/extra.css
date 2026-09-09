@@ -1,0 +1,151 @@
+/* lok-index — вероятность цирроза при гепатите C (multi) */
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field input {
+  width: 100%;
+  max-width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-field--full,
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-field--inr {
+  grid-column: 1 / -1;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-inr-row {
+  display: flex !important;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-inr-row input {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-inr-row select {
+  flex: 0 0 6.25rem !important;
+  width: 6.25rem !important;
+  min-width: 6.25rem !important;
+  max-width: 6.25rem !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  box-sizing: border-box !important;
+  font-size: 13px !important;
+  padding: 0 1.5rem 0 0.5rem !important;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field .fc-calc__error {
+  min-height: 1.125rem;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-scores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+
+@media (min-width: 720px) {
+  .fc-calc[data-calculator="lok-index"] .fc-calc__lok-scores {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score {
+  padding: 14px 14px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-name {
+  margin: 0 0 6px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value {
+  margin: 0 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.15;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value--unlikely {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value--indeterminate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value--likely {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body td,
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}
+
+@media (max-width: 640px) {
+  .fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid,
+  .fc-calc[data-calculator="lok-index"] .fc-calc__lok-scores {
+    grid-template-columns: 1fr;
+  }
+}

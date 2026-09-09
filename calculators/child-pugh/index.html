@@ -1,0 +1,2276 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Чайлд-Пью и MELD
+  Сборка: 2026-09-08
+-->
+<div class="fc-calc" data-calculator="child-pugh">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* child-pugh — выбор как сегменты FarmConsilium + списки для длинных подписей */
+.fc-calc[data-calculator="child-pugh"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__tabs {
+  margin-top: 12px;
+  justify-content: stretch;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__tab {
+  flex: 1 1 calc(50% - 4px);
+  font-size: 15px;
+  padding: 10px 8px;
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__tab {
+    flex: 1 1 0;
+    font-size: 16px;
+  }
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mode-hint {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-field-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-field-head label {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-units {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-units .fc-calc__segment {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__panel .fc-calc__field > label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* hidden должен побеждать display:flex у .fc-calc__field */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__field[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-criteria {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-criterion {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+  background: transparent;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-legend {
+  display: block;
+  margin: 0 0 10px;
+  padding: 0;
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+/* Короткие варианты — сегменты как пол М/Ж на сайте */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options {
+  display: flex;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 52px;
+  padding: 12px 8px;
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option:hover .fc-calc__cp-option-face {
+  background: rgba(0, 94, 236, 0.08);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-face {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-label,
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+  color: #fff !important;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option-label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: inherit;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.2;
+  opacity: 0.72;
+  color: inherit;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+  opacity: 0.9;
+}
+
+/* Длинные варианты — единый список как у Апгар */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack {
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option {
+  flex: none;
+  width: 100%;
+  border-bottom: 1px solid var(--fc-border);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option-face {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 14px 16px;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:hover .fc-calc__cp-option-face {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-face {
+  background: var(--fc-blue);
+  color: #fff;
+  box-shadow: none;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-label,
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+  color: #fff !important;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option-label {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options--stack .fc-calc__cp-option-points {
+  flex: 0 0 auto;
+  opacity: 1;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-wrap {
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number--A {
+  color: #15803d;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number--B {
+  color: #b45309;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__result-number--C {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality {
+  margin: 14px 0 0;
+  padding: 16px 18px;
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  color: var(--fc-text);
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-value {
+  margin: 0;
+  line-height: 1;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-num {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-pct {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-left: 2px;
+  vertical-align: super;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-mortality-label {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-meta {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-line {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-line + .fc-calc__cp-result-line {
+  margin-top: 8px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-result-line strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body p {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body table {
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body ol,
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body ul {
+  margin: 8px 0 0;
+  padding-left: 1.25rem;
+  text-align: left;
+  list-style-position: outside;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body li {
+  margin: 0 0 10px;
+  padding-left: 0.25rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__notes-body li:last-child {
+  margin-bottom: 0;
+}
+
+/* Источники — обычные абзацы, без ol (стили сайта сдвигают списки) */
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-sources {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="child-pugh"] .fc-calc__cp-sources > p {
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  line-height: 1.45;
+}
+
+@media (max-width: 479px) {
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) {
+    flex-direction: column;
+  }
+
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option-face {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    min-height: 0;
+    padding: 12px 14px;
+  }
+
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-face,
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-label,
+  .fc-calc[data-calculator="child-pugh"] .fc-calc__cp-options:not(.fc-calc__cp-options--stack) .fc-calc__cp-option:has(input:checked) .fc-calc__cp-option-points {
+    color: #fff !important;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Чайлд-Пью и MELD</h2>
+        <p class="fc-calc__hint">Классификация тяжести цирроза печени: Child-Pugh, MELD (до 2016), MELD-Na и MELD 3.0.</p>
+        <div class="fc-calc__tabs" role="tablist" aria-label="Шкала">
+          <button type="button" class="fc-calc__tab fc-calc__tab--active" role="tab" aria-selected="true" data-mode-tab="childPugh">Чайлд-Пью</button>
+          <button type="button" class="fc-calc__tab" role="tab" aria-selected="false" data-mode-tab="meld">MELD</button>
+          <button type="button" class="fc-calc__tab" role="tab" aria-selected="false" data-mode-tab="meldNa">MELD-Na</button>
+          <button type="button" class="fc-calc__tab" role="tab" aria-selected="false" data-mode-tab="meld30">MELD 3.0</button>
+        </div>
+        <p class="fc-calc__hint fc-calc__cp-mode-hint" id="fc-calc-child-pugh-mode-hint">Классификация тяжести цирроза по пяти клинико-лабораторным критериям (Child-Pugh).</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-child-pugh-form" novalidate>
+          <div class="fc-calc__tab-panel fc-calc__tab-panel--active" data-mode-panel="childPugh">
+            <div class="fc-calc__cp-criteria">
+            <fieldset class="fc-calc__cp-criterion">
+              <legend class="fc-calc__cp-legend">Билирубин (общий), мкмоль/л</legend>
+              <div class="fc-calc__cp-options">
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-bilirubin-lt34">
+                    <input type="radio" id="fc-calc-child-pugh-bilirubin-lt34" name="fc-calc-child-pugh-bilirubin" value="lt34" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label"><34,2</span>
+                      <span class="fc-calc__cp-option-points">1</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-bilirubin-34_51">
+                    <input type="radio" id="fc-calc-child-pugh-bilirubin-34_51" name="fc-calc-child-pugh-bilirubin" value="34_51" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">34,2–51,3</span>
+                      <span class="fc-calc__cp-option-points">2</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-bilirubin-gt51">
+                    <input type="radio" id="fc-calc-child-pugh-bilirubin-gt51" name="fc-calc-child-pugh-bilirubin" value="gt51" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">>51,3</span>
+                      <span class="fc-calc__cp-option-points">3</span>
+                    </span>
+                  </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__cp-criterion">
+              <legend class="fc-calc__cp-legend">Альбумин, г/л</legend>
+              <div class="fc-calc__cp-options">
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-albumin-gt35">
+                    <input type="radio" id="fc-calc-child-pugh-albumin-gt35" name="fc-calc-child-pugh-albumin" value="gt35" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">>35</span>
+                      <span class="fc-calc__cp-option-points">1</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-albumin-28_35">
+                    <input type="radio" id="fc-calc-child-pugh-albumin-28_35" name="fc-calc-child-pugh-albumin" value="28_35" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">28–35</span>
+                      <span class="fc-calc__cp-option-points">2</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-albumin-lt28">
+                    <input type="radio" id="fc-calc-child-pugh-albumin-lt28" name="fc-calc-child-pugh-albumin" value="lt28" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label"><28</span>
+                      <span class="fc-calc__cp-option-points">3</span>
+                    </span>
+                  </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__cp-criterion">
+              <legend class="fc-calc__cp-legend">МНО</legend>
+              <div class="fc-calc__cp-options">
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-inr-lt17">
+                    <input type="radio" id="fc-calc-child-pugh-inr-lt17" name="fc-calc-child-pugh-inr" value="lt17" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label"><1,7</span>
+                      <span class="fc-calc__cp-option-points">1</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-inr-17_22">
+                    <input type="radio" id="fc-calc-child-pugh-inr-17_22" name="fc-calc-child-pugh-inr" value="17_22" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">1,7–2,2</span>
+                      <span class="fc-calc__cp-option-points">2</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-inr-gt22">
+                    <input type="radio" id="fc-calc-child-pugh-inr-gt22" name="fc-calc-child-pugh-inr" value="gt22" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">>2,2</span>
+                      <span class="fc-calc__cp-option-points">3</span>
+                    </span>
+                  </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__cp-criterion">
+              <legend class="fc-calc__cp-legend">Асцит</legend>
+              <div class="fc-calc__cp-options fc-calc__cp-options--stack">
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-ascites-none">
+                    <input type="radio" id="fc-calc-child-pugh-ascites-none" name="fc-calc-child-pugh-ascites" value="none" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">Нет</span>
+                      <span class="fc-calc__cp-option-points">1 балл</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-ascites-mild">
+                    <input type="radio" id="fc-calc-child-pugh-ascites-mild" name="fc-calc-child-pugh-ascites" value="mild" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">Лёгкий</span>
+                      <span class="fc-calc__cp-option-points">2 балла</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-ascites-mod_severe">
+                    <input type="radio" id="fc-calc-child-pugh-ascites-mod_severe" name="fc-calc-child-pugh-ascites" value="mod_severe" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">Средний или тяжёлый</span>
+                      <span class="fc-calc__cp-option-points">3 балла</span>
+                    </span>
+                  </label>
+              </div>
+            </fieldset>
+            <fieldset class="fc-calc__cp-criterion">
+              <legend class="fc-calc__cp-legend">Энцефалопатия</legend>
+              <div class="fc-calc__cp-options fc-calc__cp-options--stack">
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-encephalopathy-none">
+                    <input type="radio" id="fc-calc-child-pugh-encephalopathy-none" name="fc-calc-child-pugh-encephalopathy" value="none" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">Нет</span>
+                      <span class="fc-calc__cp-option-points">1 балл</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-encephalopathy-grade12">
+                    <input type="radio" id="fc-calc-child-pugh-encephalopathy-grade12" name="fc-calc-child-pugh-encephalopathy" value="grade12" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">1–2 степень</span>
+                      <span class="fc-calc__cp-option-points">2 балла</span>
+                    </span>
+                  </label>
+                  <label class="fc-calc__cp-option" for="fc-calc-child-pugh-encephalopathy-grade34">
+                    <input type="radio" id="fc-calc-child-pugh-encephalopathy-grade34" name="fc-calc-child-pugh-encephalopathy" value="grade34" />
+                    <span class="fc-calc__cp-option-face">
+                      <span class="fc-calc__cp-option-label">3–4 степень</span>
+                      <span class="fc-calc__cp-option-points">3 балла</span>
+                    </span>
+                  </label>
+              </div>
+            </fieldset>
+            </div>
+          </div>
+          <div class="fc-calc__tab-panel" data-mode-panel="meld" hidden>
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Лабораторные данные</h3>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meld-bili">Билирубин общий</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meld-bili" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="umol">мкмоль/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="mgdl">мг/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meld-bili" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meld-creat">Креатинин</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meld-creat" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="umol">мкмоль/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="mgdl">мг/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meld-creat" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <label for="fc-calc-child-pugh-meld-inr">МНО</label>
+              <input type="number" id="fc-calc-child-pugh-meld-inr" inputmode="decimal" step="any" min="0" />
+            </div>
+
+            <div class="fc-calc__field">
+              <label>Диализ ≥ 2 раз за последнюю неделю</label>
+              <div class="fc-calc__segmented" data-dialysis-group="meld" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-dialysis="no">Нет</button>
+                <button type="button" class="fc-calc__segment" data-dialysis="yes">Да</button>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__tab-panel" data-mode-panel="meldNa" hidden>
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Лабораторные данные</h3>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meldna-bili">Билирубин общий</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meldna-bili" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="umol">мкмоль/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="mgdl">мг/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meldna-bili" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meldna-creat">Креатинин</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meldna-creat" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="umol">мкмоль/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="mgdl">мг/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meldna-creat" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <label for="fc-calc-child-pugh-meldna-inr">МНО</label>
+              <input type="number" id="fc-calc-child-pugh-meldna-inr" inputmode="decimal" step="any" min="0" />
+            </div>
+            <div class="fc-calc__field">
+              <label for="fc-calc-child-pugh-meldna-na">Натрий сыворотки, ммоль/л</label>
+              <input type="number" id="fc-calc-child-pugh-meldna-na" inputmode="decimal" step="any" />
+            </div>
+            <div class="fc-calc__field">
+              <label>Диализ ≥ 2 раз за последнюю неделю</label>
+              <div class="fc-calc__segmented" data-dialysis-group="meldna" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-dialysis="no">Нет</button>
+                <button type="button" class="fc-calc__segment" data-dialysis="yes">Да</button>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+          <div class="fc-calc__tab-panel" data-mode-panel="meld30" hidden>
+            <div class="fc-calc__panel-section">
+              <div class="fc-calc__panel">
+                <h3 class="fc-calc__panel-heading">Лабораторные данные</h3>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meld30-bili">Билирубин общий</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meld30-bili" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="umol">мкмоль/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="mgdl">мг/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meld30-bili" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meld30-creat">Креатинин</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meld30-creat" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="umol">мкмоль/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="mgdl">мг/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meld30-creat" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <label for="fc-calc-child-pugh-meld30-inr">МНО</label>
+              <input type="number" id="fc-calc-child-pugh-meld30-inr" inputmode="decimal" step="any" min="0" />
+            </div>
+            <div class="fc-calc__field">
+              <label>Возраст</label>
+              <div class="fc-calc__segmented" data-age-group="meld30" role="group" aria-label="Возраст">
+                <button type="button" class="fc-calc__segment" data-age="lt18">&lt;18</button>
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-age="ge18">≥18</button>
+              </div>
+            </div>
+            <div class="fc-calc__field" id="fc-calc-child-pugh-meld30-sex-field">
+              <label>Пол</label>
+              <div class="fc-calc__segmented" data-sex-group="meld30" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-sex="female">Женский</button>
+                <button type="button" class="fc-calc__segment" data-sex="male">Мужской</button>
+              </div>
+            </div>
+            <div class="fc-calc__field">
+              <label for="fc-calc-child-pugh-meld30-na">Натрий сыворотки, ммоль/л</label>
+              <input type="number" id="fc-calc-child-pugh-meld30-na" inputmode="decimal" step="any" />
+            </div>
+            <div class="fc-calc__field">
+              <div class="fc-calc__cp-field-head">
+                <label for="fc-calc-child-pugh-meld30-alb">Альбумин</label>
+                <div class="fc-calc__segmented fc-calc__cp-units" data-unit-group="meld30-alb" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-unit="gl">г/л</button>
+                <button type="button" class="fc-calc__segment" data-unit="gdl">г/дл</button>
+                </div>
+              </div>
+              <input type="number" id="fc-calc-child-pugh-meld30-alb" inputmode="decimal" step="any" min="0"  />
+            </div>
+            <div class="fc-calc__field">
+              <label>Диализ ≥ 2 раз за последнюю неделю</label>
+              <div class="fc-calc__segmented" data-dialysis-group="meld30" role="group">
+                <button type="button" class="fc-calc__segment fc-calc__segment--active" data-dialysis="no">Нет</button>
+                <button type="button" class="fc-calc__segment" data-dialysis="yes">Да</button>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+          <span class="fc-calc__error" id="fc-calc-child-pugh-form-error" role="alert"></span>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-child-pugh-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-child-pugh-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-child-pugh-result" aria-live="polite">
+        <p class="fc-calc__result-label" id="fc-calc-child-pugh-result-label">Результат</p>
+        <p class="fc-calc__result-number" id="fc-calc-child-pugh-result-number">—</p>
+        <p class="fc-calc__result-desc" id="fc-calc-child-pugh-result-desc"></p>
+        <div id="fc-calc-child-pugh-result-extra"></div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p><strong>Чайлд-Пью (Child-Pugh)</strong> — сумма баллов по пяти критериям.</p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Критерий</th>
+                <th>1 балл</th>
+                <th>2 балла</th>
+                <th>3 балла</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Общий билирубин, мкмоль/л</td>
+                <td>&lt;34,2</td>
+                <td>34,2–51,3</td>
+                <td>&gt;51,3</td>
+              </tr>
+              <tr>
+                <td>Альбумин сыворотки, г/л</td>
+                <td>&gt;35</td>
+                <td>28–35</td>
+                <td>&lt;28</td>
+              </tr>
+              <tr>
+                <td>МНО</td>
+                <td>&lt;1,7</td>
+                <td>1,7–2,2</td>
+                <td>&gt;2,2</td>
+              </tr>
+              <tr>
+                <td>Асцит</td>
+                <td>Нет</td>
+                <td>Лёгкий</td>
+                <td>Средний или тяжёлый</td>
+              </tr>
+              <tr>
+                <td>Степень энцефалопатии</td>
+                <td>0</td>
+                <td>1–2</td>
+                <td>3–4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>&lt;7 — класс A; 7–9 — класс B; ≥10 — класс C.</p>
+
+        <p><strong>MELD (до 2016)</strong></p>
+        <p>MELD = 3,78×ln(билирубин) + 11,2×ln(МНО) + 9,57×ln(креатинин) + 6,43. Билирубин, МНО и креатинин в мг/дл; значения &lt;1 принимаются за 1; креатинин ограничен сверху 4 мг/дл (при диализе = 4). Результат округляется, диапазон 6–40.</p>
+        <p><strong>Предполагаемая смертность за 3 месяца</strong> (Wiesner et al., 2003): ≤9 → 1,9%; 10–19 → 6%; 20–29 → 19,6%; 30–39 → 52,6%; ≥40 → 71,3%.</p>
+
+        <p><strong>MELD-Na</strong></p>
+        <p>При исходном MELD &gt; 11: MELD-Na = MELD + 1,32×(137−Na) − 0,033×MELD×(137−Na). Натрий ограничивается диапазоном 125–137 ммоль/л.</p>
+
+        <p><strong>MELD 3.0</strong> (Kim et al., 2021; текущий стандарт OPTN)</p>
+        <p>Учитывает билирубин, МНО, креатинин (потолок 3 мг/дл), натрий и альбумин (1,5–3,5 г/дл), включая взаимодействия Na–билирубин и альбумин–креатинин. С 18 лет добавляется пол (+1,33 для женщин, константа 6); до 18 лет пол не используется (константа 7,33). Результат 6–40.</p>
+        <p>Предполагаемая выживаемость за 90 дней: 0,946<sup>exp(0,17698×MELD − 3,56)</sup>×100 (Kim et al., 2021).</p>
+        <p>Для прогноза и приоритета трансплантации предпочтительнее актуальный MELD 3.0; Child-Pugh остаётся полезным клиническим дополнением.</p>
+        <p><strong>Источники:</strong></p>
+        <div class="fc-calc__cp-sources">
+          <p>1. Child CG, Turcotte JG. Surgery and portal hypertension. In: The liver and portal hypertension. Edited by CG Child. Philadelphia: Saunders 1964:50-64.</p>
+          <p>2. Pugh RN, Murray-Lyon IM, Dawson JL, Pietroni MC, Williams R (1973). Transection of the oesophagus for bleeding oesophageal varices. <em>The British journal of surgery</em> 60 (8).</p>
+          <p>3. Kamath PS, Wiesner RH, Malinchoc M, Kremers W, Therneau TM, Kosberg CL, D'Amico G, Dickson ER, Kim WR. A model to predict survival in patients with end-stage liver disease. <em>Hepatology.</em> 2001 Feb;33(2):464-70.</p>
+          <p>4. Kim WR, Mannalithara A, Heimbach JK, et al. MELD 3.0: the model for end-stage liver disease updated for the modern era. <em>Gastroenterology.</em> 2021;161(6):1887-1895.e4.</p>
+          <p>5. Wiesner R, United Network for Organ Sharing Liver Disease Severity Score Committee, et al. Model for end-stage liver disease (MELD) and allocation of donor livers. <em>Gastroenterology.</em> 2003 Jan;124(1):91-6.</p>
+          <p>6. Kremers WK, van IJperen M, Kim WR, Freeman RB, Harper AM, Kamath PS, Wiesner RH. MELD score as a predictor of pretransplant and posttransplant survival in OPTN/UNOS status 1 patients. <em>Hepatology.</em> 2004 Mar;39(3):764-9.</p>
+          <p>7. Kamath PS, Kim WR; Advanced Liver Disease Study Group. The model for end-stage liver disease (MELD). <em>Hepatology.</em> 2007 Mar;45(3):797-805.</p>
+          <p>8. OPTN 2016 MELD Policy Changes.</p>
+          <p>9. Freeman RB Jr, Gish RG, Harper A, Davis GL, Vierling J, Lieblein L, Klintmalm G, Blazek J, Hunter R, Punch J. Model for end-stage liver disease (MELD) exception guidelines: results and recommendations from the MELD Exception Study Group and Conference (MESSAGE) for the approval of patients who need liver transplantation with diseases not considered by the standard MELD formula. <em>Liver Transpl.</em> 2006;12(12 Suppl 3):S128.</p>
+          <p>10. Trivedi HD. The evolution of the MELD score and its implications in liver transplant allocation: a beginner’s guide for trainees. <em>ACG Case Rep J.</em> 2022;9(5):e00763.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  /**
+ * Чайлд-Пью и MELD (оригинал до 2016, MELD-Na, MELD 3.0).
+ * Child-Pugh: medicalc.pro/childpew
+ * MELD: OPTN/UNOS; MDCalc Combined MELD; Kim et al. Gastroenterology 2021 (MELD 3.0)
+ */
+
+const CRITERIA = [
+  {
+    id: 'bilirubin',
+    label: 'Билирубин (общий), мкмоль/л',
+    options: [
+      { value: 'lt34', label: '<34,2', points: 1 },
+      { value: '34_51', label: '34,2–51,3', points: 2 },
+      { value: 'gt51', label: '>51,3', points: 3 },
+    ],
+  },
+  {
+    id: 'albumin',
+    label: 'Альбумин, г/л',
+    options: [
+      { value: 'gt35', label: '>35', points: 1 },
+      { value: '28_35', label: '28–35', points: 2 },
+      { value: 'lt28', label: '<28', points: 3 },
+    ],
+  },
+  {
+    id: 'inr',
+    label: 'МНО',
+    options: [
+      { value: 'lt17', label: '<1,7', points: 1 },
+      { value: '17_22', label: '1,7–2,2', points: 2 },
+      { value: 'gt22', label: '>2,2', points: 3 },
+    ],
+  },
+  {
+    id: 'ascites',
+    label: 'Асцит',
+    options: [
+      { value: 'none', label: 'Нет', points: 1 },
+      { value: 'mild', label: 'Лёгкий', points: 2 },
+      { value: 'mod_severe', label: 'Средний или тяжёлый', points: 3 },
+    ],
+  },
+  {
+    id: 'encephalopathy',
+    label: 'Энцефалопатия',
+    options: [
+      { value: 'none', label: 'Нет', points: 1 },
+      { value: 'grade12', label: '1–2 степень', points: 2 },
+      { value: 'grade34', label: '3–4 степень', points: 3 },
+    ],
+  },
+];
+
+/** µmol/L → mg/dL */
+const BILI_UMOL_PER_MGDL = 17.1;
+/** µmol/L → mg/dL */
+const CR_UMOL_PER_MGDL = 88.4;
+
+function formatPoints(points) {
+  return String(points);
+}
+
+function scoreWord(total) {
+  const abs = Math.abs(total);
+  const mod10 = abs % 10;
+  const mod100 = abs % 100;
+  if (mod100 >= 11 && mod100 <= 14) return 'баллов';
+  if (mod10 === 1) return 'балл';
+  if (mod10 >= 2 && mod10 <= 4) return 'балла';
+  return 'баллов';
+}
+
+function pluralBalls(total) {
+  return `${total} ${scoreWord(total)}`;
+}
+
+/** Класс A: <7; B: 7–9; C: ≥10. */
+function interpretChildPugh(total) {
+  if (total < 7) {
+    return {
+      childClass: 'A',
+      category: 'A',
+      interpretation:
+        'Класс A. Продолжительность жизни: 15–20 лет. Периоперационная летальность при абдоминальных операциях: 10%.',
+      lifeExpectancy: '15–20 лет',
+      periopMortality: '10%',
+    };
+  }
+  if (total < 10) {
+    return {
+      childClass: 'B',
+      category: 'B',
+      interpretation:
+        'Класс B. Значительное функциональное ухудшение. Периоперационная летальность при абдоминальных операциях: 30%.',
+      lifeExpectancy: null,
+      periopMortality: '30%',
+    };
+  }
+  return {
+    childClass: 'C',
+    category: 'C',
+    interpretation:
+      'Класс C. Продолжительность жизни: 1–3 года. Периоперационная летальность при абдоминальных операциях: 82%.',
+    lifeExpectancy: '1–3 года',
+    periopMortality: '82%',
+  };
+}
+
+function isChildPughReady(input) {
+  return CRITERIA.every((c) => {
+    const v = input[c.id];
+    return v != null && String(v).trim() !== '';
+  });
+}
+
+function calculateChildPugh(input) {
+  if (!isChildPughReady(input || {})) {
+    throw new Error('Заполните все поля');
+  }
+
+  const scores = {};
+  let total = 0;
+  for (const criterion of CRITERIA) {
+    const selected = criterion.options.find((o) => o.value === input[criterion.id]);
+    if (!selected) throw new Error('Заполните все поля');
+    scores[criterion.id] = selected.points;
+    total += selected.points;
+  }
+
+  const info = interpretChildPugh(total);
+  return {
+    mode: 'childPugh',
+    total,
+    score: total,
+    value: total,
+    scores,
+    childClass: info.childClass,
+    category: info.category,
+    interpretation: info.interpretation,
+    lifeExpectancy: info.lifeExpectancy,
+    periopMortality: info.periopMortality,
+  };
+}
+
+function requireFinite(n, label) {
+  if (!Number.isFinite(n)) throw new Error(label || 'Проверьте введённые данные');
+  return n;
+}
+
+function clamp(n, min, max) {
+  return Math.min(max, Math.max(min, n));
+}
+
+function roundMeld(n) {
+  return Math.round(n);
+}
+
+function boundMeldScore(n) {
+  return clamp(roundMeld(n), 6, 40);
+}
+
+function toBilirubinMgDl(value, unit) {
+  const n = Number(value);
+  requireFinite(n, 'Укажите билирубин');
+  if (n < 0) throw new Error('Билирубин не может быть отрицательным');
+  return unit === 'mgdl' ? n : n / BILI_UMOL_PER_MGDL;
+}
+
+function toCreatinineMgDl(value, unit) {
+  const n = Number(value);
+  requireFinite(n, 'Укажите креатинин');
+  if (n < 0) throw new Error('Креатинин не может быть отрицательным');
+  return unit === 'mgdl' ? n : n / CR_UMOL_PER_MGDL;
+}
+
+function toAlbuminGdl(value, unit) {
+  const n = Number(value);
+  requireFinite(n, 'Укажите альбумин');
+  if (n < 0) throw new Error('Альбумин не может быть отрицательным');
+  return unit === 'gdl' ? n : n / 10;
+}
+
+function prepareLabs(input, { creatCap, needNa, needAlb, needSex }) {
+  const biliUnit = input.bilirubinUnit === 'mgdl' ? 'mgdl' : 'umol';
+  const creatUnit = input.creatinineUnit === 'mgdl' ? 'mgdl' : 'umol';
+  let bili = toBilirubinMgDl(input.bilirubin, biliUnit);
+  let creat = toCreatinineMgDl(input.creatinine, creatUnit);
+  const inr = Number(input.inr);
+  requireFinite(inr, 'Укажите МНО');
+  if (inr <= 0) throw new Error('МНО должно быть больше 0');
+
+  const dialysis = Boolean(input.dialysis);
+  if (dialysis) creat = creatCap;
+
+  bili = Math.max(bili, 1);
+  creat = clamp(Math.max(creat, 1), 1, creatCap);
+  const inrUsed = Math.max(inr, 1);
+
+  let sodium = null;
+  if (needNa) {
+    sodium = Number(input.sodium);
+    requireFinite(sodium, 'Укажите натрий');
+    sodium = clamp(sodium, 125, 137);
+  }
+
+  let albumin = null;
+  if (needAlb) {
+    const albUnit = input.albuminUnit === 'gdl' ? 'gdl' : 'gl';
+    albumin = toAlbuminGdl(input.albumin, albUnit);
+    albumin = clamp(albumin, 1.5, 3.5);
+  }
+
+  let female = false;
+  if (needSex) {
+    const sex = String(input.sex || '').toLowerCase();
+    if (sex !== 'male' && sex !== 'female') throw new Error('Укажите пол');
+    female = sex === 'female';
+  }
+
+  return { bili, creat, inr: inrUsed, sodium, albumin, female, dialysis };
+}
+
+/** Взрослая ветка MELD 3.0 (OPTN): пол учитывается с 18 лет. */
+function isMeld30Adult(inputOrAge) {
+  if (inputOrAge != null && typeof inputOrAge === 'object') {
+    if (inputOrAge.ageGroup === 'ge18') return true;
+    if (inputOrAge.ageGroup === 'lt18') return false;
+    return isMeld30Adult(inputOrAge.ageYears);
+  }
+  if (inputOrAge === 'ge18') return true;
+  if (inputOrAge === 'lt18') return false;
+  const age = Number(inputOrAge);
+  return Number.isFinite(age) && age >= 18;
+}
+
+/** Original MELD (pre-2016 / без натрия). */
+function calcMeldOriginal(input) {
+  const { bili, creat, inr, dialysis } = prepareLabs(input, {
+    creatCap: 4,
+    needNa: false,
+    needAlb: false,
+    needSex: false,
+  });
+  const raw = 3.78 * Math.log(bili) + 11.2 * Math.log(inr) + 9.57 * Math.log(creat) + 6.43;
+  const score = boundMeldScore(raw);
+  return {
+    mode: 'meld',
+    score,
+    total: score,
+    value: score,
+    raw,
+    dialysis,
+    labsUsed: { bilirubinMgDl: bili, creatinineMgDl: creat, inr },
+    interpretation: meldInterpretation(score, 'MELD (до 2016)'),
+    threeMonthMortality: meldThreeMonthMortality(score),
+  };
+}
+
+/** MELD-Na (UNOS/OPTN до внедрения MELD 3.0). */
+function calcMeldNa(input) {
+  const { bili, creat, inr, sodium, dialysis } = prepareLabs(input, {
+    creatCap: 4,
+    needNa: true,
+    needAlb: false,
+    needSex: false,
+  });
+  const rawMeld =
+    3.78 * Math.log(bili) + 11.2 * Math.log(inr) + 9.57 * Math.log(creat) + 6.43;
+  const meld = boundMeldScore(rawMeld);
+  let raw = meld;
+  let sodiumApplied = false;
+  if (meld > 11) {
+    const dNa = 137 - sodium;
+    raw = meld + 1.32 * dNa - 0.033 * meld * dNa;
+    sodiumApplied = true;
+  }
+  const score = boundMeldScore(raw);
+  return {
+    mode: 'meldNa',
+    score,
+    total: score,
+    value: score,
+    meldBase: meld,
+    raw,
+    sodiumApplied,
+    sodiumUsed: sodium,
+    dialysis,
+    labsUsed: { bilirubinMgDl: bili, creatinineMgDl: creat, inr, sodium },
+    interpretation: meldInterpretation(score, 'MELD-Na'),
+    threeMonthMortality: meldThreeMonthMortality(score),
+  };
+}
+
+/** MELD 3.0 (Kim 2021; текущий OPTN). С 18 лет — пол; младше — ветка без пола (+7,33). */
+function calcMeld30(input) {
+  const ageGroup =
+    input.ageGroup === 'lt18' || input.ageGroup === 'ge18'
+      ? input.ageGroup
+      : isMeld30Adult(input.ageYears)
+        ? 'ge18'
+        : input.ageYears != null && String(input.ageYears).trim() !== ''
+          ? 'lt18'
+          : null;
+  if (!ageGroup) throw new Error('Укажите возраст');
+  const adult = ageGroup === 'ge18';
+
+  const { bili, creat, inr, sodium, albumin, female, dialysis } = prepareLabs(input, {
+    creatCap: 3,
+    needNa: true,
+    needAlb: true,
+    needSex: adult,
+  });
+  const lnB = Math.log(bili);
+  const lnC = Math.log(creat);
+  const lnI = Math.log(inr);
+  const dNa = 137 - sodium;
+  const dAlb = 3.5 - albumin;
+  const intercept = adult ? 6 : 7.33;
+  const sexTerm = adult && female ? 1.33 : 0;
+  const raw =
+    sexTerm +
+    4.56 * lnB +
+    0.82 * dNa -
+    0.24 * dNa * lnB +
+    9.09 * lnI +
+    11.14 * lnC +
+    1.85 * dAlb -
+    1.83 * dAlb * lnC +
+    intercept;
+  const score = boundMeldScore(raw);
+  return {
+    mode: 'meld30',
+    score,
+    total: score,
+    value: score,
+    raw,
+    ageGroup,
+    adult,
+    female: adult ? female : null,
+    sodiumUsed: sodium,
+    albuminUsed: albumin,
+    dialysis,
+    labsUsed: {
+      bilirubinMgDl: bili,
+      creatinineMgDl: creat,
+      inr,
+      sodium,
+      albuminGdl: albumin,
+    },
+    interpretation: meldInterpretation(score, 'MELD 3.0'),
+    mortalityBand: meld30MortalityBand(score),
+    ninetyDaySurvival: meld30NinetyDaySurvival(score),
+  };
+}
+
+function meld30MortalityBand(score) {
+  if (score < 10) return { band: '<10', approx90d: '~1,5%' };
+  if (score < 20) return { band: '10–19', approx90d: '~5,5%' };
+  if (score < 30) return { band: '20–29', approx90d: '~18%' };
+  if (score < 40) return { band: '30–39', approx90d: '~50%' };
+  return { band: '≥40', approx90d: '~70%' };
+}
+
+/**
+ * Предполагаемая 3-месячная смертность (Wiesner et al., Gastroenterology 2003).
+ * Для исходного MELD / MELD-Na.
+ */
+function meldThreeMonthMortality(score) {
+  const s = Number(score);
+  if (!Number.isFinite(s)) return null;
+  if (s <= 9) return { percent: 1.9, display: '1,9' };
+  if (s <= 19) return { percent: 6, display: '6' };
+  if (s <= 29) return { percent: 19.6, display: '19,6' };
+  if (s <= 39) return { percent: 52.6, display: '52,6' };
+  return { percent: 71.3, display: '71,3' };
+}
+
+function formatPct1(n) {
+  const r = Math.round(n * 10) / 10;
+  return String(r).replace(/\.0$/, '').replace('.', ',');
+}
+
+/**
+ * Оценка 90-дневной выживаемости по MELD 3.0 (Kim et al., 2021; как на MDCalc / UW).
+ * survival = 0.946 ^ exp(0.17698 × MELD − 3.56) × 100
+ */
+function meld30NinetyDaySurvival(score) {
+  const s = Number(score);
+  if (!Number.isFinite(s)) return null;
+  const survivalPercent = Math.pow(0.946, Math.exp(0.17698 * s - 3.56)) * 100;
+  const mortalityPercent = Math.max(0, 100 - survivalPercent);
+  return {
+    survivalPercent,
+    mortalityPercent,
+    survivalDisplay: formatPct1(survivalPercent),
+    mortalityDisplay: formatPct1(mortalityPercent),
+  };
+}
+
+function meldInterpretation(score, label) {
+  return `${label}: ${score} ${scoreWord(score)}. Чем выше балл, тем выше риск и приоритет при трансплантации (макс. 40 по OPTN).`;
+}
+
+function isReady(input) {
+  const mode = (input && input.mode) || 'childPugh';
+  if (mode === 'childPugh') return isChildPughReady(input);
+  if (mode === 'meld') {
+    return (
+      input.bilirubin != null &&
+      String(input.bilirubin).trim() !== '' &&
+      input.creatinine != null &&
+      String(input.creatinine).trim() !== '' &&
+      input.inr != null &&
+      String(input.inr).trim() !== ''
+    );
+  }
+  if (mode === 'meldNa') {
+    return (
+      isReady({ ...input, mode: 'meld' }) &&
+      input.sodium != null &&
+      String(input.sodium).trim() !== ''
+    );
+  }
+  if (mode === 'meld30') {
+    if (input.ageGroup !== 'lt18' && input.ageGroup !== 'ge18') return false;
+    if (
+      !isReady({ ...input, mode: 'meldNa' }) ||
+      input.albumin == null ||
+      String(input.albumin).trim() === ''
+    ) {
+      return false;
+    }
+    if (isMeld30Adult(input)) {
+      return input.sex === 'male' || input.sex === 'female';
+    }
+    return true;
+  }
+  return false;
+}
+
+function calculate(input) {
+  const mode = (input && input.mode) || 'childPugh';
+  if (mode === 'childPugh') return calculateChildPugh(input);
+  if (mode === 'meld') return calcMeldOriginal(input);
+  if (mode === 'meldNa') return calcMeldNa(input);
+  if (mode === 'meld30') return calcMeld30(input);
+  throw new Error('Неизвестный режим');
+}
+
+    var root = document.querySelector('.fc-calc[data-calculator="child-pugh"]');
+  if (!root) return;
+
+  var form = root.querySelector('#fc-calc-child-pugh-form');
+  var calcBtn = root.querySelector('#fc-calc-child-pugh-btn');
+  var formError = root.querySelector('#fc-calc-child-pugh-form-error');
+  var resultWrap = root.querySelector('#fc-calc-child-pugh-result');
+  var resultLabel = root.querySelector('#fc-calc-child-pugh-result-label');
+  var resultNumber = root.querySelector('#fc-calc-child-pugh-result-number');
+  var resultDesc = root.querySelector('#fc-calc-child-pugh-result-desc');
+  var resultExtra = root.querySelector('#fc-calc-child-pugh-result-extra');
+  var modeHint = root.querySelector('#fc-calc-child-pugh-mode-hint');
+  var tabs = root.querySelectorAll('[data-mode-tab]');
+  var panels = root.querySelectorAll('[data-mode-panel]');
+
+  var MODE_HINTS = {
+    childPugh:
+      'Классификация тяжести цирроза по пяти клинико-лабораторным критериям (Child-Pugh).',
+    meld: 'MELD до 2016 года: билирубин, МНО и креатинин (без натрия).',
+    meldNa: 'MELD-Na: исходный MELD с коррекцией по натрию (стандарт UNOS/OPTN до MELD 3.0).',
+    meld30:
+      'MELD 3.0 (рекомендуется OPTN): возраст (<18 / ≥18), лаборатории; пол — только с 18 лет.',
+  };
+
+  var RESULT_LABELS = {
+    childPugh: 'Результат Child-Pugh',
+    meld: 'MELD (до 2016)',
+    meldNa: 'MELD-Na',
+    meld30: 'MELD 3.0',
+  };
+
+  var currentMode = 'childPugh';
+
+  function getAgeGroup(group) {
+    var seg = root.querySelector('[data-age-group="' + group + '"]');
+    if (!seg) return 'ge18';
+    var active = seg.querySelector('.fc-calc__segment--active');
+    return active ? active.getAttribute('data-age') : 'ge18';
+  }
+
+  function getSex(group) {
+    var seg = root.querySelector('[data-sex-group="' + group + '"]');
+    if (!seg) return 'female';
+    var active = seg.querySelector('.fc-calc__segment--active');
+    return active ? active.getAttribute('data-sex') : 'female';
+  }
+
+  function getUnit(group) {
+    var seg = root.querySelector('[data-unit-group="' + group + '"]');
+    if (!seg) return null;
+    var active = seg.querySelector('.fc-calc__segment--active');
+    return active ? active.getAttribute('data-unit') : null;
+  }
+
+  function getDialysis(group) {
+    var seg = root.querySelector('[data-dialysis-group="' + group + '"]');
+    if (!seg) return false;
+    var active = seg.querySelector('.fc-calc__segment--active');
+    return active ? active.getAttribute('data-dialysis') === 'yes' : false;
+  }
+
+  function num(id) {
+    var el = root.querySelector(id);
+    if (!el) return null;
+    var s = String(el.value || '').trim().replace(',', '.');
+    if (!s) return null;
+    var n = Number(s);
+    return Number.isFinite(n) ? n : { error: true };
+  }
+
+  function buildChildPughInput() {
+    var input = { mode: 'childPugh' };
+    CRITERIA.forEach(function (criterion) {
+      var checked = form.querySelector(
+        'input[name="fc-calc-child-pugh-' + criterion.id + '"]:checked'
+      );
+      input[criterion.id] = checked ? checked.value : '';
+    });
+    return input;
+  }
+
+  function buildMeldInput(mode, prefix) {
+    var bili = num('#fc-calc-child-pugh-' + prefix + '-bili');
+    var creat = num('#fc-calc-child-pugh-' + prefix + '-creat');
+    var inr = num('#fc-calc-child-pugh-' + prefix + '-inr');
+    if (bili == null || bili.error || creat == null || creat.error || inr == null || inr.error) {
+      return { mode: mode };
+    }
+    var input = {
+      mode: mode,
+      bilirubin: bili,
+      bilirubinUnit: getUnit(prefix + '-bili') || 'umol',
+      creatinine: creat,
+      creatinineUnit: getUnit(prefix + '-creat') || 'umol',
+      inr: inr,
+      dialysis: getDialysis(prefix),
+    };
+    if (mode === 'meldNa' || mode === 'meld30') {
+      var na = num('#fc-calc-child-pugh-' + prefix + '-na');
+      if (na == null || na.error) return { mode: mode };
+      input.sodium = na;
+    }
+    if (mode === 'meld30') {
+      input.ageGroup = getAgeGroup(prefix);
+      var alb = num('#fc-calc-child-pugh-' + prefix + '-alb');
+      if (alb == null || alb.error) return { mode: mode };
+      input.albumin = alb;
+      input.albuminUnit = getUnit(prefix + '-alb') || 'gl';
+      if (isMeld30Adult(input)) {
+        input.sex = getSex(prefix);
+      }
+    }
+    return input;
+  }
+
+  function updateMeld30SexVisibility() {
+    var sexField = root.querySelector('#fc-calc-child-pugh-meld30-sex-field');
+    if (!sexField) return;
+    var show = isMeld30Adult({ ageGroup: getAgeGroup('meld30') });
+    if (show) sexField.removeAttribute('hidden');
+    else sexField.setAttribute('hidden', '');
+  }
+
+  function buildInput() {
+    if (currentMode === 'childPugh') return buildChildPughInput();
+    if (currentMode === 'meld') return buildMeldInput('meld', 'meld');
+    if (currentMode === 'meldNa') return buildMeldInput('meldNa', 'meldna');
+    if (currentMode === 'meld30') return buildMeldInput('meld30', 'meld30');
+    return { mode: currentMode };
+  }
+
+  function canCalculate() {
+    try {
+      return isReady(buildInput());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function updateBtn() {
+    updateMeld30SexVisibility();
+    var ok = canCalculate();
+    calcBtn.disabled = !ok;
+    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+  }
+
+  function clearResult() {
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    tabs.forEach(function (tab) {
+      var active = tab.getAttribute('data-mode-tab') === mode;
+      tab.classList.toggle('fc-calc__tab--active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    panels.forEach(function (panel) {
+      var active = panel.getAttribute('data-mode-panel') === mode;
+      panel.classList.toggle('fc-calc__tab-panel--active', active);
+      panel.hidden = !active;
+    });
+    if (modeHint && MODE_HINTS[mode]) modeHint.textContent = MODE_HINTS[mode];
+    formError.textContent = '';
+    clearResult();
+    updateBtn();
+  }
+
+  function renderChildPugh(out) {
+    resultLabel.textContent = RESULT_LABELS.childPugh;
+    resultNumber.textContent = 'Класс ' + out.childClass;
+    resultNumber.className =
+      'fc-calc__result-number fc-calc__result-number--' + out.childClass;
+    resultDesc.textContent = pluralBalls(out.total);
+    var lines = [];
+    if (out.lifeExpectancy) {
+      lines.push(
+        '<p class="fc-calc__cp-result-line"><strong>Продолжительность жизни:</strong> ' +
+          out.lifeExpectancy +
+          '</p>'
+      );
+    } else if (out.childClass === 'B') {
+      lines.push(
+        '<p class="fc-calc__cp-result-line">Значительное функциональное ухудшение.</p>'
+      );
+    }
+    if (out.periopMortality) {
+      lines.push(
+        '<p class="fc-calc__cp-result-line"><strong>Периоперационная летальность при абдоминальных операциях:</strong> ' +
+          out.periopMortality +
+          '</p>'
+      );
+    }
+    resultExtra.innerHTML = lines.length
+      ? '<div class="fc-calc__cp-result-meta">' + lines.join('') + '</div>'
+      : '';
+  }
+
+  function mortalityBadgeHtml(mort) {
+    if (!mort) return '';
+    return (
+      '<div class="fc-calc__cp-mortality">' +
+      '<p class="fc-calc__cp-mortality-value">' +
+      '<span class="fc-calc__cp-mortality-num">' +
+      mort.display +
+      '</span><span class="fc-calc__cp-mortality-pct">%</span>' +
+      '</p>' +
+      '<p class="fc-calc__cp-mortality-label">Предполагаемая смертность за 3 месяца</p>' +
+      '</div>'
+    );
+  }
+
+  function survivalBadgeHtml(surv) {
+    if (!surv) return '';
+    return (
+      '<div class="fc-calc__cp-mortality">' +
+      '<p class="fc-calc__cp-mortality-value">' +
+      '<span class="fc-calc__cp-mortality-num">' +
+      surv.survivalDisplay +
+      '</span><span class="fc-calc__cp-mortality-pct">%</span>' +
+      '</p>' +
+      '<p class="fc-calc__cp-mortality-label">Предполагаемая выживаемость за 90 дней</p>' +
+      '</div>'
+    );
+  }
+
+  function renderMeld(out) {
+    resultLabel.textContent = RESULT_LABELS[out.mode] || 'MELD';
+    resultNumber.textContent = String(out.score);
+    resultNumber.className = 'fc-calc__result-number';
+    resultDesc.textContent = pluralBalls(out.score);
+    var lines = [];
+    if (out.mode === 'meldNa' && out.meldBase != null) {
+      lines.push(
+        '<p class="fc-calc__cp-result-line"><strong>Исходный MELD:</strong> ' +
+          out.meldBase +
+          (out.sodiumApplied
+            ? ' (применена коррекция по Na)'
+            : ' (коррекция по Na не применяется при MELD ≤ 11)') +
+          '</p>'
+      );
+    }
+    if (out.mode === 'meld30') {
+      lines.push(
+        '<p class="fc-calc__cp-result-line"><strong>Ветка:</strong> ' +
+          (out.adult
+            ? 'взрослая (≥18 лет' +
+              (out.female ? ', женский пол +1,33' : ', мужской пол') +
+              ')'
+            : 'до 18 лет (пол не учитывается)') +
+          '</p>'
+      );
+    }
+    if (out.dialysis) {
+      lines.push(
+        '<p class="fc-calc__cp-result-line">Учтён диализ: креатинин принят равным максимуму для формулы.</p>'
+      );
+    }
+    lines.push(
+      '<p class="fc-calc__cp-result-line">Балл ограничен диапазоном 6–40 (OPTN).</p>'
+    );
+    var badge =
+      out.mode === 'meld30'
+        ? survivalBadgeHtml(out.ninetyDaySurvival)
+        : mortalityBadgeHtml(out.threeMonthMortality);
+    resultExtra.innerHTML =
+      badge + '<div class="fc-calc__cp-result-meta">' + lines.join('') + '</div>';
+  }
+
+  function renderResult(out) {
+    if (out.mode === 'childPugh') renderChildPugh(out);
+    else renderMeld(out);
+    resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      setMode(tab.getAttribute('data-mode-tab'));
+    });
+  });
+
+  root.querySelectorAll('.fc-calc__segmented').forEach(function (seg) {
+    seg.querySelectorAll('.fc-calc__segment').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        seg.querySelectorAll('.fc-calc__segment').forEach(function (b) {
+          b.classList.remove('fc-calc__segment--active');
+        });
+        btn.classList.add('fc-calc__segment--active');
+        clearResult();
+        updateBtn();
+      });
+    });
+  });
+
+  form.querySelectorAll('input').forEach(function (el) {
+    el.addEventListener('input', function () {
+      clearResult();
+      updateBtn();
+    });
+    el.addEventListener('change', function () {
+      clearResult();
+      updateBtn();
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.textContent = '';
+    try {
+      var out = calculate(buildInput());
+      renderResult(out);
+    } catch (err) {
+      clearResult();
+      formError.textContent = err.message || 'Проверьте введённые данные';
+    }
+  });
+
+  setMode('childPugh');
+
+})();
+  </script>
+</div>

@@ -1,0 +1,183 @@
+{
+  "slug": "child-pugh",
+  "source": "Child-Pugh; OPTN/UNOS MELD, MELD-Na, MELD 3.0 (Kim 2021); MDCalc Combined MELD",
+  "cases": [
+    {
+      "name": "child-pugh class A all 1",
+      "input": {
+        "mode": "childPugh",
+        "bilirubin": "lt34",
+        "albumin": "gt35",
+        "inr": "lt17",
+        "ascites": "none",
+        "encephalopathy": "none"
+      },
+      "expected": {
+        "total": 5,
+        "childClass": "A",
+        "mode": "childPugh"
+      }
+    },
+    {
+      "name": "child-pugh class C max",
+      "input": {
+        "mode": "childPugh",
+        "bilirubin": "gt51",
+        "albumin": "lt28",
+        "inr": "gt22",
+        "ascites": "mod_severe",
+        "encephalopathy": "grade34"
+      },
+      "expected": {
+        "total": 15,
+        "childClass": "C"
+      }
+    },
+    {
+      "name": "meld original MetricGate example = 20",
+      "input": {
+        "mode": "meld",
+        "bilirubin": 2.5,
+        "bilirubinUnit": "mgdl",
+        "creatinine": 1.4,
+        "creatinineUnit": "mgdl",
+        "inr": 1.8,
+        "dialysis": false
+      },
+      "expected": {
+        "score": 20,
+        "mode": "meld",
+        "threeMonthMortality": { "percent": 19.6, "display": "19,6" }
+      }
+    },
+    {
+      "name": "meld-na MetricGate example = 25",
+      "input": {
+        "mode": "meldNa",
+        "bilirubin": 2.5,
+        "bilirubinUnit": "mgdl",
+        "creatinine": 1.4,
+        "creatinineUnit": "mgdl",
+        "inr": 1.8,
+        "sodium": 130,
+        "dialysis": false
+      },
+      "expected": {
+        "score": 25,
+        "meldBase": 20,
+        "sodiumApplied": true,
+        "mode": "meldNa",
+        "threeMonthMortality": { "percent": 19.6, "display": "19,6" }
+      }
+    },
+    {
+      "name": "meld 3.0 MetricGate female example = 26",
+      "input": {
+        "mode": "meld30",
+        "ageGroup": "ge18",
+        "bilirubin": 2.5,
+        "bilirubinUnit": "mgdl",
+        "creatinine": 1.4,
+        "creatinineUnit": "mgdl",
+        "inr": 1.8,
+        "sodium": 130,
+        "albumin": 2.8,
+        "albuminUnit": "gdl",
+        "sex": "female",
+        "dialysis": false
+      },
+      "expected": {
+        "score": 26,
+        "mode": "meld30",
+        "female": true,
+        "adult": true
+      }
+    },
+    {
+      "name": "meld 3.0 90-day survival at score 18 = 96.3%",
+      "fn": "meld30NinetyDaySurvival",
+      "input": [18],
+      "expected": {
+        "survivalDisplay": "96,3",
+        "mortalityDisplay": "3,7"
+      }
+    },
+    {
+      "name": "meld 3.0 same labs male lower than female",
+      "input": {
+        "mode": "meld30",
+        "ageGroup": "ge18",
+        "bilirubin": 2.5,
+        "bilirubinUnit": "mgdl",
+        "creatinine": 1.4,
+        "creatinineUnit": "mgdl",
+        "inr": 1.8,
+        "sodium": 130,
+        "albumin": 2.8,
+        "albuminUnit": "gdl",
+        "sex": "male",
+        "dialysis": false
+      },
+      "expected": {
+        "score": 24,
+        "female": false,
+        "adult": true
+      }
+    },
+    {
+      "name": "meld 3.0 under 18 no sex term",
+      "input": {
+        "mode": "meld30",
+        "ageGroup": "lt18",
+        "bilirubin": 2.5,
+        "bilirubinUnit": "mgdl",
+        "creatinine": 1.4,
+        "creatinineUnit": "mgdl",
+        "inr": 1.8,
+        "sodium": 130,
+        "albumin": 2.8,
+        "albuminUnit": "gdl",
+        "dialysis": false
+      },
+      "expected": {
+        "score": 26,
+        "adult": false,
+        "female": null
+      }
+    },
+    {
+      "name": "meld SI units match mg/dl",
+      "input": {
+        "mode": "meld",
+        "bilirubin": 42.75,
+        "bilirubinUnit": "umol",
+        "creatinine": 123.76,
+        "creatinineUnit": "umol",
+        "inr": 1.8,
+        "dialysis": false
+      },
+      "expected": {
+        "score": 20
+      }
+    },
+    {
+      "name": "meld-na no sodium adjust when meld <= 11",
+      "input": {
+        "mode": "meldNa",
+        "bilirubin": 1.0,
+        "bilirubinUnit": "mgdl",
+        "creatinine": 1.0,
+        "creatinineUnit": "mgdl",
+        "inr": 1.0,
+        "sodium": 125,
+        "dialysis": false
+      },
+      "expected": {
+        "score": 6,
+        "meldBase": 6,
+        "sodiumApplied": false,
+        "threeMonthMortality": { "percent": 1.9, "display": "1,9" }
+      }
+    }
+  ]
+}
