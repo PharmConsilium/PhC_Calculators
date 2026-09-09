@@ -1,0 +1,43 @@
+{
+  "slug": "tela-scales",
+  "source": "Aggregator of PE/VTE scales",
+  "cases": [
+    {
+      "name": "years pe excluded",
+      "input": {
+        "mode": "years-pe",
+        "pregnant": "no",
+        "clinicalSignsDvt": "no",
+        "hemoptysis": "no",
+        "peMostLikely": "no",
+        "dDimerAtOrAboveThreshold": "no"
+      },
+      "expected": {
+        "mode": "years-pe",
+        "peExcluded": true,
+        "route": "years-excluded"
+      }
+    },
+    {
+      "name": "wells low",
+      "input": {
+        "mode": "wells-scale"
+      },
+      "expected": {
+        "mode": "wells-scale",
+        "total": 0
+      }
+    },
+    {
+      "name": "improve low",
+      "input": {
+        "mode": "improve-scale"
+      },
+      "expected": {
+        "mode": "improve-scale",
+        "total": 0,
+        "category": "low"
+      }
+    }
+  ]
+}

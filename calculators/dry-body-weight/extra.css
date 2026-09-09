@@ -1,0 +1,67 @@
+.fc-calc[data-calculator="dry-body-weight"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1.5px solid var(--fc-border, #e2e5ea);
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--fc-surface, #fff);
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-option:hover {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-option:has(input:checked) {
+  border-color: var(--fc-primary, #005eec);
+  background: rgba(0, 94, 236, 0.08);
+  box-shadow: inset 0 0 0 1px var(--fc-primary, #005eec);
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-option-label {
+  font-size: 14px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="dry-body-weight"] fieldset.fc-calc__dbw-fieldset {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="dry-body-weight"] .fc-calc__dbw-fieldset-legend {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 15px;
+  color: var(--fc-text);
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "urea-distribution-volume",
+  "title": "Расчёт объёма распределения мочевины",
+  "description": "Онлайн-калькулятор объёма распределения мочевины (ОРМ) по формуле Watson: оценка объёма общей воды организма (ОВО/TBW) для мужчин и женщин по возрасту, росту и массе. Применяется при оценке дозы диализа (Kt/V).",
+  "sitePath": "/calculator/urea-distribution-volume",
+  "source": "Calculators_MobileApp urea-distribution-volume; Watson TBW 1980",
+  "complexity": "A"
+}

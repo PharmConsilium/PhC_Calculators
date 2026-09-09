@@ -1,0 +1,99 @@
+.fc-calc[data-calculator="ganzoni-iron"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] #fc-calc-ganzoni-iron-custom-store-wrap[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+  text-align: center;
+  align-items: start;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 2.6em;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #263048;
+  opacity: 0.85;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-label > span {
+  display: block;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-meta-value {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  word-break: break-word;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--fc-border);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions-title {
+  margin: 0 0 4px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-sessions-hint {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-session-line {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__ganzoni-session-line:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="ganzoni-iron"] .fc-calc__notes-body p {
+  text-align: left;
+}
