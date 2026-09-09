@@ -1,0 +1,140 @@
+/* greene-climacteric */
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-section + .fc-calc__greene-section {
+  margin-top: 28px;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-section-title {
+  margin: 0 0 14px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-legend {
+  margin: 0 0 10px;
+  padding: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-option:has(input:checked) {
+  border-color: var(--fc-accent);
+  background: #f0f6ff;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-option-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-points {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fc-accent);
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-results {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-result-item {
+  padding: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-result-item .fc-calc__result-label {
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__greene-result-item .fc-calc__result-number {
+  font-size: 22px;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__result-desc {
+  color: #000;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__result-number--none {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__result-number--mild {
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__result-number--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__result-number--severe {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__notes-body td,
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="greene-climacteric"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}

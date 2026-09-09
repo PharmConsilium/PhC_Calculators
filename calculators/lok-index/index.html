@@ -1,0 +1,1395 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Вероятность цирроза при гепатите C
+-->
+<div class="fc-calc" data-calculator="lok-index">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* lok-index — вероятность цирроза при гепатите C (multi) */
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field input {
+  width: 100%;
+  max-width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-field--full,
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-field--inr {
+  grid-column: 1 / -1;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-inr-row {
+  display: flex !important;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-inr-row input {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-inr-row select {
+  flex: 0 0 6.25rem !important;
+  width: 6.25rem !important;
+  min-width: 6.25rem !important;
+  max-width: 6.25rem !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  box-sizing: border-box !important;
+  font-size: 13px !important;
+  padding: 0 1.5rem 0 0.5rem !important;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid .fc-calc__field .fc-calc__error {
+  min-height: 1.125rem;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-scores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+
+@media (min-width: 720px) {
+  .fc-calc[data-calculator="lok-index"] .fc-calc__lok-scores {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score {
+  padding: 14px 14px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-name {
+  margin: 0 0 6px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value {
+  margin: 0 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.15;
+  color: var(--fc-accent);
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value--unlikely {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value--indeterminate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-value--likely {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__lok-score-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body td,
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="lok-index"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}
+
+@media (max-width: 640px) {
+  .fc-calc[data-calculator="lok-index"] .fc-calc__lok-grid,
+  .fc-calc[data-calculator="lok-index"] .fc-calc__lok-scores {
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Вероятность цирроза при гепатите C</h2>
+        <p class="fc-calc__hint">Мультикалькулятор: CDS (Bonacini), индекс Лока, GUCI, APRI и FIB-4</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-lok-index-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Исходные данные</h3>
+
+              <div class="fc-calc__lok-grid">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-lok-index-age">Возраст, лет</label>
+                  <input type="number" id="fc-calc-lok-index-age" name="age" inputmode="numeric" min="18" max="100" step="1" placeholder="напр. 50" required />
+                  <span class="fc-calc__error" id="fc-calc-lok-index-age-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-lok-index-plt">Тромбоциты (PLT), ×10⁹/л</label>
+                  <input type="number" id="fc-calc-lok-index-plt" name="plt" inputmode="decimal" min="1" max="1000" step="any" placeholder="напр. 180" required />
+                  <span class="fc-calc__error" id="fc-calc-lok-index-plt-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-lok-index-ast">АСТ, Ед/л</label>
+                  <input type="number" id="fc-calc-lok-index-ast" name="ast" inputmode="decimal" min="1" max="2000" step="any" placeholder="напр. 60" required />
+                  <span class="fc-calc__error" id="fc-calc-lok-index-ast-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field">
+                  <label for="fc-calc-lok-index-alt">АЛТ, Ед/л</label>
+                  <input type="number" id="fc-calc-lok-index-alt" name="alt" inputmode="decimal" min="1" max="2000" step="any" placeholder="напр. 50" required />
+                  <span class="fc-calc__error" id="fc-calc-lok-index-alt-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field fc-calc__lok-field--full">
+                  <label for="fc-calc-lok-index-uln">Верхняя граница нормы АСТ (ВГН), Ед/л</label>
+                  <input type="number" id="fc-calc-lok-index-uln" name="ulnAst" inputmode="decimal" min="1" max="200" step="any" placeholder="напр. 40" value="40" required />
+                  <span class="fc-calc__error" id="fc-calc-lok-index-uln-error" role="alert"></span>
+                </div>
+
+                <div class="fc-calc__field fc-calc__lok-field--inr">
+                  <label for="fc-calc-lok-index-inr">МНО</label>
+                  <div class="fc-calc__field-row fc-calc__lok-inr-row">
+                    <input type="number" id="fc-calc-lok-index-inr" name="inr" inputmode="decimal" min="0.01" max="10" step="any" placeholder="напр. 1,1" required />
+                    <select id="fc-calc-lok-index-inr-unit" name="inrUnit" aria-label="Единицы МНО">
+                      <option value="percent">%</option>
+                      <option value="fraction">fraction</option>
+                      <option value="ratio" selected>ratio</option>
+                    </select>
+                  </div>
+                  <span class="fc-calc__error" id="fc-calc-lok-index-inr-error" role="alert"></span>
+                </div>
+              </div>
+
+              <span class="fc-calc__error" id="fc-calc-lok-index-form-error" role="alert"></span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-lok-index-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-lok-index-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-lok-index-result" aria-live="polite">
+        <p class="fc-calc__result-label">Результаты индексов</p>
+        <div class="fc-calc__lok-scores">
+          <div class="fc-calc__lok-score">
+            <p class="fc-calc__lok-score-name">CDS (Bonacini)</p>
+            <p class="fc-calc__lok-score-value" id="fc-calc-lok-index-cds-value">—</p>
+            <p class="fc-calc__lok-score-desc" id="fc-calc-lok-index-cds-desc"></p>
+          </div>
+          <div class="fc-calc__lok-score">
+            <p class="fc-calc__lok-score-name">Индекс Лока</p>
+            <p class="fc-calc__lok-score-value" id="fc-calc-lok-index-lok-value">—</p>
+            <p class="fc-calc__lok-score-desc" id="fc-calc-lok-index-lok-desc"></p>
+          </div>
+          <div class="fc-calc__lok-score">
+            <p class="fc-calc__lok-score-name">GUCI</p>
+            <p class="fc-calc__lok-score-value" id="fc-calc-lok-index-guci-value">—</p>
+            <p class="fc-calc__lok-score-desc" id="fc-calc-lok-index-guci-desc"></p>
+          </div>
+          <div class="fc-calc__lok-score">
+            <p class="fc-calc__lok-score-name">APRI</p>
+            <p class="fc-calc__lok-score-value" id="fc-calc-lok-index-apri-value">—</p>
+            <p class="fc-calc__lok-score-desc" id="fc-calc-lok-index-apri-desc"></p>
+          </div>
+          <div class="fc-calc__lok-score">
+            <p class="fc-calc__lok-score-name">FIB-4</p>
+            <p class="fc-calc__lok-score-value" id="fc-calc-lok-index-fib4-value">—</p>
+            <p class="fc-calc__lok-score-desc" id="fc-calc-lok-index-fib4-desc"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор по типу MSD / EBMcalc MultiCalc оценивает вероятность цирроза при хроническом гепатите C сразу несколькими неинвазивными индексами по одним и тем же лабораторным данным.</p>
+        <p><strong>Формулы:</strong></p>
+        <ul>
+          <li><strong>CDS (Bonacini)</strong> — сумма баллов за тромбоциты, отношение ALT/AST и МНО (0–11);</li>
+          <li><strong>Индекс Лока</strong>: x = −5,56 − 0,0089×PLT + 1,26×(AST/ALT) + 5,27×INR; Lok = eˣ/(1+eˣ);</li>
+          <li><strong>GUCI</strong> = (AST/ВГН АСТ) × INR × 100 / PLT;</li>
+          <li><strong>APRI</strong> = (AST/ВГН АСТ) / PLT × 100;</li>
+          <li><strong>FIB-4</strong> = (возраст × AST) / (PLT × √ALT).</li>
+        </ul>
+        <p><strong>МНО:</strong> единицы как в MSD — <em>ratio</em> и <em>fraction</em> (значение МНО как есть), <em>%</em> (МНО × 100, например 110% = 1,10).</p>
+        <p><strong>Ориентиры интерпретации:</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>Индекс</th>
+                <th>Пороги</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Lok</td>
+                <td>&lt;0,2 / 0,2–0,5 / ≥0,5</td>
+              </tr>
+              <tr>
+                <td>CDS</td>
+                <td>≥8 — высокая вероятность выраженного фиброза / цирроза</td>
+              </tr>
+              <tr>
+                <td>GUCI</td>
+                <td>&lt;1 / ≥1</td>
+              </tr>
+              <tr>
+                <td>APRI</td>
+                <td>≤0,5 / 0,5–1 / 1–1,5 / 1,5–2 / &gt;2</td>
+              </tr>
+              <tr>
+                <td>FIB-4</td>
+                <td>&lt;1,45 / 1,45–3,25 / &gt;3,25</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Источники:</strong></p>
+        <p>1. Udell JA, Wang CS, Tinmouth J, et al. Does this patient with liver disease have cirrhosis? <em>JAMA.</em> 2012;307(8):832-842. PMID: 22357834.</p>
+        <p>2. Bonacini M, et al. Utility of a discriminant score for diagnosing advanced fibrosis or cirrhosis in patients with chronic hepatitis C virus infection. <em>Am J Gastroenterol.</em> 1997;92(8):1302-1304.</p>
+        <p>3. Lok AS, et al. Predicting cirrhosis in patients with hepatitis C based on standard laboratory tests: results of the HALT-C cohort. <em>Hepatology.</em> 2005;42(2):282-292. PMID: 15986415.</p>
+        <p>4. Islam S, et al. Cirrhosis in hepatitis C virus-infected patients can be excluded using an index of standard biochemical serum markers (GUCI). <em>Scand J Gastroenterol.</em> 2005;40(7):867-872.</p>
+        <p>5. Wai CT, et al. A simple noninvasive index can predict both significant fibrosis and cirrhosis in patients with chronic hepatitis C (APRI). <em>Hepatology.</em> 2003;38(2):518-526.</p>
+        <p>6. Vallet-Pichard A, et al. FIB-4: an inexpensive and accurate marker of fibrosis in HCV infection. <em>Hepatology.</em> 2007;46(1):32-36.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  var root = document.querySelector('.fc-calc[data-calculator="lok-index"]');
+  if (!root) return;
+
+  var LIMITS = {
+    age: { min: 18, max: 100 },
+    plt: { min: 1, max: 1000 },
+    ast: { min: 1, max: 2000 },
+    alt: { min: 1, max: 2000 },
+    ulnAst: { min: 1, max: 200 }
+  };
+  var INR_UNIT_LIMITS = {
+    ratio: { min: 0.01, max: 10 },
+    percent: { min: 1, max: 1000 },
+    fraction: { min: 0.01, max: 10 }
+  };
+  var INR_PLACEHOLDERS = {
+    ratio: 'напр. 1,1',
+    percent: 'напр. 110',
+    fraction: 'напр. 1,1'
+  };
+
+  var form = root.querySelector('#fc-calc-lok-index-form');
+  var calcBtn = root.querySelector('#fc-calc-lok-index-btn');
+  var formError = root.querySelector('#fc-calc-lok-index-form-error');
+  var resultWrap = root.querySelector('#fc-calc-lok-index-result');
+  var inrInput = root.querySelector('#fc-calc-lok-index-inr');
+  var inrUnitSelect = root.querySelector('#fc-calc-lok-index-inr-unit');
+  var inrError = root.querySelector('#fc-calc-lok-index-inr-error');
+
+  function getInrUnit() {
+    var unit = inrUnitSelect && inrUnitSelect.value;
+    if (unit === 'percent' || unit === 'fraction') return unit;
+    return 'ratio';
+  }
+
+  function getInrLimits() {
+    return INR_UNIT_LIMITS[getInrUnit()] || INR_UNIT_LIMITS.ratio;
+  }
+
+  function inrFromUnit(value, unit) {
+    if (unit === 'percent') return value / 100;
+    return value;
+  }
+
+  var FIELDS = [
+    {
+      input: root.querySelector('#fc-calc-lok-index-age'),
+      error: root.querySelector('#fc-calc-lok-index-age-error'),
+      getLimits: function () {
+        return LIMITS.age;
+      },
+      emptyMsg: 'Укажите возраст'
+    },
+    {
+      input: root.querySelector('#fc-calc-lok-index-plt'),
+      error: root.querySelector('#fc-calc-lok-index-plt-error'),
+      getLimits: function () {
+        return LIMITS.plt;
+      },
+      emptyMsg: 'Укажите тромбоциты'
+    },
+    {
+      input: root.querySelector('#fc-calc-lok-index-ast'),
+      error: root.querySelector('#fc-calc-lok-index-ast-error'),
+      getLimits: function () {
+        return LIMITS.ast;
+      },
+      emptyMsg: 'Укажите АСТ'
+    },
+    {
+      input: root.querySelector('#fc-calc-lok-index-alt'),
+      error: root.querySelector('#fc-calc-lok-index-alt-error'),
+      getLimits: function () {
+        return LIMITS.alt;
+      },
+      emptyMsg: 'Укажите АЛТ'
+    },
+    {
+      input: root.querySelector('#fc-calc-lok-index-uln'),
+      error: root.querySelector('#fc-calc-lok-index-uln-error'),
+      getLimits: function () {
+        return LIMITS.ulnAst;
+      },
+      emptyMsg: 'Укажите ВГН АСТ'
+    },
+    {
+      input: inrInput,
+      error: inrError,
+      getLimits: getInrLimits,
+      emptyMsg: 'Укажите МНО'
+    }
+  ];
+
+  function roundHalfUp(value, decimals) {
+    var factor = Math.pow(10, decimals);
+    return Math.round(value * factor + Number.EPSILON) / factor;
+  }
+
+  function parsePositive(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+
+  function hasInput(value) {
+    return String(value || '').trim() !== '';
+  }
+
+  function rangeError(limits) {
+    return 'Число не в корректном интервале ' + limits.min + ' - ' + limits.max;
+  }
+
+  function isFieldValid(field) {
+    var value = parsePositive(field.input.value);
+    if (value == null) return false;
+    var limits = field.getLimits();
+    return value >= limits.min && value <= limits.max;
+  }
+
+  function updateFieldError(field, showEmptyError) {
+    var limits = field.getLimits();
+    if (!hasInput(field.input.value)) {
+      field.error.textContent = showEmptyError ? field.emptyMsg : '';
+      return;
+    }
+    var value = parsePositive(field.input.value);
+    if (value == null) {
+      field.error.textContent = showEmptyError ? field.emptyMsg : '';
+      return;
+    }
+    if (value < limits.min || value > limits.max) {
+      field.error.textContent = rangeError(limits);
+      return;
+    }
+    field.error.textContent = '';
+  }
+
+  function formatNum(n) {
+    return String(n).replace('.', ',');
+  }
+
+  function hideResult() {
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+  }
+
+  function isReady() {
+    return FIELDS.every(isFieldValid);
+  }
+
+  function updateButton() {
+    var ok = isReady();
+    calcBtn.disabled = !ok;
+    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+  }
+
+  function cdsPlateletPoints(plt) {
+    if (plt > 340) return 0;
+    if (plt >= 280) return 1;
+    if (plt >= 220) return 2;
+    if (plt >= 160) return 3;
+    if (plt >= 100) return 4;
+    if (plt >= 40) return 5;
+    return 6;
+  }
+
+  function cdsAltAstPoints(altAst) {
+    if (altAst > 1.7) return 0;
+    if (altAst >= 1.2) return 1;
+    if (altAst >= 0.6) return 2;
+    return 3;
+  }
+
+  function cdsInrPoints(inr) {
+    if (inr < 1.1) return 0;
+    if (inr <= 1.4) return 1;
+    return 2;
+  }
+
+  function classifyLok(index) {
+    if (index < 0.2) {
+      return { category: 'unlikely', text: 'Цирроз маловероятен (Lok < 0,2)' };
+    }
+    if (index < 0.5) {
+      return { category: 'indeterminate', text: 'Неопределённый результат (Lok 0,2–0,5)' };
+    }
+    return { category: 'likely', text: 'Цирроз вероятен (Lok ≥ 0,5)' };
+  }
+
+  function classifyCds(score) {
+    if (score >= 8) {
+      return {
+        category: 'likely',
+        text: 'CDS ≥ 8 — высокая вероятность выраженного фиброза / цирроза'
+      };
+    }
+    return {
+      category: 'unlikely',
+      text: 'CDS < 8 — цирроз менее вероятен (низкая чувствительность порога)'
+    };
+  }
+
+  function classifyGuci(guci) {
+    if (guci < 1) {
+      return { category: 'unlikely', text: 'GUCI < 1 — цирроз маловероятен (высокий NPV)' };
+    }
+    return { category: 'likely', text: 'GUCI ≥ 1 — повышенная вероятность цирроза' };
+  }
+
+  function classifyApri(apri) {
+    if (apri <= 0.5) {
+      return {
+        category: 'unlikely',
+        text: 'Значительный фиброз или цирроз печени менее вероятен'
+      };
+    }
+    if (apri <= 1) {
+      return {
+        category: 'unlikely',
+        text: 'Значительный фиброз неточный, цирроз печени менее вероятен'
+      };
+    }
+    if (apri <= 1.5) {
+      return {
+        category: 'indeterminate',
+        text: 'Значительный фиброз более вероятен, цирроз неточный'
+      };
+    }
+    if (apri <= 2) {
+      return {
+        category: 'indeterminate',
+        text: 'Значительный фиброз более вероятен, но цирроз неточный'
+      };
+    }
+    return {
+      category: 'likely',
+      text: 'Значительный фиброз и цирроз печени более вероятен'
+    };
+  }
+
+  function classifyFib4(fib4) {
+    if (fib4 < 1.45) {
+      return {
+        category: 'unlikely',
+        text: 'Цирроз печени менее вероятен'
+      };
+    }
+    if (fib4 <= 3.25) {
+      return { category: 'indeterminate', text: 'Неточный' };
+    }
+    return {
+      category: 'likely',
+      text: 'Цирроз печени более вероятен'
+    };
+  }
+
+  function calculate() {
+    var age = parsePositive(FIELDS[0].input.value);
+    var plt = parsePositive(FIELDS[1].input.value);
+    var ast = parsePositive(FIELDS[2].input.value);
+    var alt = parsePositive(FIELDS[3].input.value);
+    var ulnAst = parsePositive(FIELDS[4].input.value);
+    var inrRaw = parsePositive(FIELDS[5].input.value);
+    var unit = getInrUnit();
+    var inr = roundHalfUp(inrFromUnit(inrRaw, unit), 3);
+
+    var cds =
+      cdsPlateletPoints(plt) + cdsAltAstPoints(alt / ast) + cdsInrPoints(inr);
+    var lokX = -5.56 - 0.0089 * plt + 1.26 * (ast / alt) + 5.27 * inr;
+    var lokIndex = roundHalfUp(Math.exp(lokX) / (1 + Math.exp(lokX)), 3);
+    var guci = roundHalfUp(((ast / ulnAst) * inr * 100) / plt, 2);
+    var apri = roundHalfUp((ast / ulnAst / plt) * 100, 2);
+    var fib4 = roundHalfUp((age * ast) / (plt * Math.sqrt(alt)), 2);
+
+    return {
+      cds: cds,
+      cdsInterp: classifyCds(cds),
+      lokIndex: lokIndex,
+      lokInterp: classifyLok(lokIndex),
+      guci: guci,
+      guciInterp: classifyGuci(guci),
+      apri: apri,
+      apriInterp: classifyApri(apri),
+      fib4: fib4,
+      fib4Interp: classifyFib4(fib4)
+    };
+  }
+
+  function setScore(id, value, category, text) {
+    var valueEl = root.querySelector('#fc-calc-lok-index-' + id + '-value');
+    var descEl = root.querySelector('#fc-calc-lok-index-' + id + '-desc');
+    valueEl.textContent = formatNum(value);
+    valueEl.className =
+      'fc-calc__lok-score-value fc-calc__lok-score-value--' + category;
+    descEl.textContent = text;
+  }
+
+  function renderResult(out) {
+    setScore('cds', out.cds, out.cdsInterp.category, out.cdsInterp.text);
+    setScore('lok', out.lokIndex, out.lokInterp.category, out.lokInterp.text);
+    setScore('guci', out.guci, out.guciInterp.category, out.guciInterp.text);
+    setScore('apri', out.apri, out.apriInterp.category, out.apriInterp.text);
+    setScore('fib4', out.fib4, out.fib4Interp.category, out.fib4Interp.text);
+  }
+
+  function syncInrUnitUi() {
+    var unit = getInrUnit();
+    var limits = getInrLimits();
+    inrInput.min = String(limits.min);
+    inrInput.max = String(limits.max);
+    inrInput.placeholder = INR_PLACEHOLDERS[unit] || INR_PLACEHOLDERS.ratio;
+  }
+
+  function refreshFields(showEmptyError) {
+    syncInrUnitUi();
+    FIELDS.forEach(function (field) {
+      updateFieldError(field, showEmptyError);
+    });
+    updateButton();
+  }
+
+  form.addEventListener('change', function () {
+    hideResult();
+    refreshFields(false);
+  });
+
+  form.addEventListener('input', function () {
+    hideResult();
+    refreshFields(false);
+  });
+
+  if (inrUnitSelect) {
+    inrUnitSelect.addEventListener('change', function () {
+      hideResult();
+      refreshFields(false);
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.textContent = '';
+    hideResult();
+    refreshFields(true);
+    if (!isReady()) return;
+    try {
+      renderResult(calculate());
+      resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+    } catch (err) {
+      formError.textContent = err.message || 'Ошибка расчёта';
+    }
+  });
+
+  syncInrUnitUi();
+  updateButton();
+})();
+  </script>
+</div>
