@@ -1,0 +1,47 @@
+{
+  "slug": "lab-units",
+  "source": "SI conventional conversion factors",
+  "cases": [
+    {
+      "name": "glucose 5 mmol to mg/dl",
+      "input": { "analyteId": "glucose", "value": 5, "from": "A" },
+      "expected": { "status": "OK", "result": 90.091, "toUnit": "мг/дл" }
+    },
+    {
+      "name": "glucose reverse",
+      "input": { "analyteId": "glucose", "value": 90.091, "from": "B" },
+      "expected": { "status": "OK", "fromUnit": "мг/дл", "toUnit": "ммоль/л" }
+    },
+    {
+      "name": "cholesterol 5 mmol to mg/dl",
+      "input": { "analyteId": "chol-total", "value": 5, "from": "A" },
+      "expected": { "status": "OK", "result": 193.35, "toUnit": "мг/дл" }
+    },
+    {
+      "name": "psa 1:1",
+      "input": { "analyteId": "psa-total", "value": 4.2, "from": "A" },
+      "expected": { "status": "OK", "result": 4.2, "toUnit": "нг/мл" }
+    },
+    {
+      "name": "albumin g/l to g/dl",
+      "input": { "analyteId": "albumin", "value": 42, "from": "A" },
+      "expected": { "status": "OK", "result": 4.2, "toUnit": "г/дл" }
+    },
+    {
+      "name": "vitamin D 50 nmol to ng/ml",
+      "input": { "analyteId": "vitamin-d-total", "value": 50, "from": "A" },
+      "expected": { "status": "OK", "result": 20.032, "toUnit": "нг/мл" }
+    },
+    {
+      "name": "insulin 100 pmol to mcIU/ml",
+      "input": { "analyteId": "insulin-pmol", "value": 100, "from": "A" },
+      "expected": { "status": "OK", "result": 14.389, "toUnit": "мкМЕ/мл" }
+    },
+    {
+      "fn": "convert",
+      "name": "invalid analyte",
+      "input": { "analyteId": "nope", "value": 1, "from": "A" },
+      "expected": { "status": "INVALID" }
+    }
+  ]
+}

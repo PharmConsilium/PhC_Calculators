@@ -115,6 +115,13 @@
   color: var(--fc-text);
 }
 
+.fc-calc[data-calculator="martin-ldl"] #fc-calc-martin-ldl-aip-risk {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
 .fc-calc[data-calculator="martin-ldl"] #fc-calc-martin-ldl-warning {
   margin: 14px 0 0;
   font-size: 14px;

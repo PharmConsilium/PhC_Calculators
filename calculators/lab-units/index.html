@@ -1,0 +1,2032 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Пересчёт единиц лабораторных показателей
+  Сборка: 2026-09-10
+-->
+<div class="fc-calc" data-calculator="lab-units">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-panel {
+  padding: 16px 18px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-panel .fc-calc__panel-heading {
+  margin-bottom: 14px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-field {
+  margin-bottom: 14px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-field:last-of-type {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-input,
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--fc-text);
+  background: var(--fc-bg-input, #f8f8f9);
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-input:focus,
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-select:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 2px rgba(0, 94, 236, 0.15);
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-pair {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-filter {
+  margin-bottom: 8px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-unit {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-unit input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-unit span {
+  display: block;
+  min-height: 44px;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.3;
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-input, #f8f8f9);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-unit input:checked + span {
+  border-color: var(--fc-blue);
+  background: rgba(0, 94, 236, 0.08);
+  color: var(--fc-blue);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-result-value {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--fc-blue);
+  background: rgba(0, 94, 236, 0.05);
+  border: 1px solid rgba(0, 94, 236, 0.28);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__lu-result-unit {
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__result-wrap {
+  margin-top: 16px;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="lab-units"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Пересчёт единиц лабораторных показателей</h2>
+        <p class="fc-calc__hint">Пересчёт значений анализов между SI и альтернативными единицами измерения</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-lab-units-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel fc-calc__lu-panel">
+              <h3 class="fc-calc__panel-heading">Введите данные</h3>
+
+              <div class="fc-calc__lu-field">
+                <label class="fc-calc__lu-label" for="fc-calc-lab-units-filter">Поиск исследования</label>
+                <input type="search" class="fc-calc__lu-input fc-calc__lu-filter" id="fc-calc-lab-units-filter" name="filter" placeholder="Например: глюкоза, ТТГ, холестерин" autocomplete="off" />
+              </div>
+
+              <div class="fc-calc__lu-field">
+                <label class="fc-calc__lu-label" for="fc-calc-lab-units-analyte">Исследование</label>
+                <select class="fc-calc__lu-select" id="fc-calc-lab-units-analyte" name="analyteId" required>
+                  <option value="">Выберите исследование</option>
+                </select>
+                <p class="fc-calc__lu-pair" id="fc-calc-lab-units-pair">Выберите исследование, чтобы увидеть пару единиц</p>
+              </div>
+
+              <div class="fc-calc__lu-field">
+                <label class="fc-calc__lu-label" for="fc-calc-lab-units-value">Значение</label>
+                <input type="number" class="fc-calc__lu-input" id="fc-calc-lab-units-value" name="value" inputmode="decimal" min="0" step="any" placeholder="0" required />
+              </div>
+
+              <div class="fc-calc__lu-field">
+                <p class="fc-calc__lu-label" id="fc-calc-lab-units-from-legend">Единица ввода</p>
+                <div class="fc-calc__lu-units" role="radiogroup" aria-labelledby="fc-calc-lab-units-from-legend">
+                  <label class="fc-calc__lu-unit">
+                    <input type="radio" name="from" id="fc-calc-lab-units-from-a" value="A" checked />
+                    <span id="fc-calc-lab-units-unit-a-label">Единица A</span>
+                  </label>
+                  <label class="fc-calc__lu-unit">
+                    <input type="radio" name="from" id="fc-calc-lab-units-from-b" value="B" />
+                    <span id="fc-calc-lab-units-unit-b-label">Единица B</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-lab-units-result" aria-live="polite">
+            <div class="fc-calc__panel fc-calc__lu-panel">
+              <h3 class="fc-calc__panel-heading">Результат</h3>
+              <div class="fc-calc__lu-result-value" id="fc-calc-lab-units-result-value">—</div>
+              <p class="fc-calc__lu-result-unit" id="fc-calc-lab-units-result-unit"></p>
+              <p class="fc-calc__result-desc" id="fc-calc-lab-units-result-desc"></p>
+            </div>
+          </div>
+
+          <span class="fc-calc__error" id="fc-calc-lab-units-form-error" role="alert"></span>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-lab-units-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-lab-units-form" disabled>Рассчитать</button>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Калькулятор переводит значение лабораторного показателя между парой единиц: базовой (часто SI) и альтернативной (условной / conventional).</p>
+        <p><strong>Принцип:</strong> value<sub>B</sub> = value<sub>A</sub> × коэффициент; обратный пересчёт — деление на тот же коэффициент.</p>
+        <ul>
+          <li>Для многих маркеров (мкг/л ↔ нг/мл, кЕд/л ↔ Ед/мл, МЕ/л ↔ мМЕ/мл) коэффициент равен 1.</li>
+          <li>Для массовой концентрации г/л ↔ г/дл и мг/л ↔ мг/дл используется коэффициент 0,1.</li>
+          <li>Молярные пересчёты (глюкоза, креатинин, липиды, гормоны и др.) основаны на стандартных клинических коэффициентах SI ↔ conventional.</li>
+        </ul>
+        <p>Коэффициенты ориентировочные; для отдельных иммунохимических методик (ФСГ, свободный β-ХГЧ и др.) лаборатории могут использовать собственные факторы. Не заменяет референсные интервалы конкретной лаборатории.</p>
+        <p><strong>Источники коэффициентов:</strong> таблица <a href="https://www.mayocliniclabs.com/order-tests/si-unit-conversion.html" target="_blank" rel="noopener noreferrer">International System of Units (SI) Conversion — Mayo Clinic Laboratories</a>; также Labcorp и учебные справочники клинической химии.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+      var root = document.querySelector('.fc-calc[data-calculator="lab-units"]');
+      if (!root) return;
+
+      var ANALYTES = [
+  {
+    "id": "ohp17",
+    "name": "17-гидроксипрогестерон",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 3.026
+  },
+  {
+    "id": "c3",
+    "name": "C3 — компонент комплемента",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "c4",
+    "name": "C4 — компонент комплемента",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "ca125",
+    "name": "CA 125",
+    "unitA": "кЕд/л",
+    "unitB": "Ед/мл",
+    "factor": 1
+  },
+  {
+    "id": "ca19-9",
+    "name": "CA 19-9",
+    "unitA": "кЕд/л",
+    "unitB": "Ед/мл",
+    "factor": 1
+  },
+  {
+    "id": "ca72-4",
+    "name": "CA 72-4",
+    "unitA": "кЕд/л",
+    "unitB": "Ед/мл",
+    "factor": 1
+  },
+  {
+    "id": "cyfra21-1",
+    "name": "Cyfra-21-1",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "c-peptide",
+    "name": "C-пептид",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 3.02
+  },
+  {
+    "id": "crp",
+    "name": "C-реактивный протеин",
+    "unitA": "мг/л",
+    "unitB": "мг/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "dheas",
+    "name": "DHEA-S",
+    "unitA": "мг/л",
+    "unitB": "мкмоль/л",
+    "factor": 2.714
+  },
+  {
+    "id": "nse",
+    "name": "NSE",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "p1np",
+    "name": "P1NP",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "ubc",
+    "name": "UBC",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "b-cross-laps",
+    "name": "B-Cross laps",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "adrenaline-u",
+    "name": "Адреналин в моче",
+    "unitA": "мкг/24 ч",
+    "unitB": "нмоль/сут",
+    "factor": 5.458
+  },
+  {
+    "id": "acth",
+    "name": "АКТГ",
+    "unitA": "нг/л",
+    "unitB": "пмоль/л",
+    "factor": 0.22
+  },
+  {
+    "id": "albumin",
+    "name": "Альбумин",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "aldosterone",
+    "name": "Альдостерон",
+    "unitA": "нг/л",
+    "unitB": "пмоль/л",
+    "factor": 2.774
+  },
+  {
+    "id": "orosomucoid",
+    "name": "Альфа-1-кислый гликопротеин",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "androstenedione",
+    "name": "Андростендион",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 3.49
+  },
+  {
+    "id": "apo-a",
+    "name": "Аполипопротеин A",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "apo-b",
+    "name": "Аполипопротеин В",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "papp-a",
+    "name": "Ассоциированный с беременностью плазменный белок А",
+    "unitA": "МЕ/л",
+    "unitB": "мМЕ/мл",
+    "factor": 1
+  },
+  {
+    "id": "afp",
+    "name": "АФП",
+    "unitA": "кЕд/л",
+    "unitB": "Ед/мл",
+    "factor": 1
+  },
+  {
+    "id": "s100",
+    "name": "Белок S100",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "b2m",
+    "name": "Бета-2-микроглобулин",
+    "unitA": "мг/л",
+    "unitB": "мкг/мл",
+    "factor": 1
+  },
+  {
+    "id": "bili-indirect",
+    "name": "Билирубин непрямой",
+    "unitA": "мкмоль/л",
+    "unitB": "мг/дл",
+    "factor": 0.05848
+  },
+  {
+    "id": "bili-total",
+    "name": "Билирубин общий",
+    "unitA": "мкмоль/л",
+    "unitB": "мг/дл",
+    "factor": 0.05848
+  },
+  {
+    "id": "bili-direct",
+    "name": "Билирубин прямой",
+    "unitA": "мкмоль/л",
+    "unitB": "мг/дл",
+    "factor": 0.05848
+  },
+  {
+    "id": "vma-u",
+    "name": "Ванилилминдальная кислота в моче",
+    "unitA": "мг/24 ч",
+    "unitB": "мкмоль/сут",
+    "factor": 5.046
+  },
+  {
+    "id": "b12",
+    "name": "Витамин В12",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 1.355
+  },
+  {
+    "id": "haptoglobin",
+    "name": "Гаптоглобин",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "glucose",
+    "name": "Глюкоза",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 18.0182
+  },
+  {
+    "id": "homocysteine",
+    "name": "Гомоцистеин",
+    "unitA": "мкмоль/л",
+    "unitB": "мкг/мл",
+    "factor": 0.1352
+  },
+  {
+    "id": "dpd-u",
+    "name": "Дезоксипиридинолин в моче",
+    "unitA": "нмоль ДПД/ммоль Кр",
+    "unitB": "мкг ДПД/г Кр",
+    "factor": 0.35
+  },
+  {
+    "id": "dht",
+    "name": "Дигидротестостерон",
+    "unitA": "нг/л",
+    "unitB": "нмоль/л",
+    "factor": 0.003443
+  },
+  {
+    "id": "dopamine-u",
+    "name": "Дофамин в моче",
+    "unitA": "мкг/24 ч",
+    "unitB": "нмоль/сут",
+    "factor": 6.528
+  },
+  {
+    "id": "iron",
+    "name": "Железо",
+    "unitA": "мкмоль/л",
+    "unitB": "мкг/дл",
+    "factor": 5.585
+  },
+  {
+    "id": "iga",
+    "name": "Иммуноглобулин A",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "igg",
+    "name": "Иммуноглобулин G",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "igm",
+    "name": "Иммуноглобулин M",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "ige",
+    "name": "Иммуноглобулин Е",
+    "unitA": "кЕд/л",
+    "unitB": "Ед/мл",
+    "factor": 1
+  },
+  {
+    "id": "insulin",
+    "name": "Инсулин",
+    "unitA": "мМЕ/л",
+    "unitB": "мкМЕ/мл",
+    "factor": 1
+  },
+  {
+    "id": "iodine",
+    "name": "Йод",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "igf1",
+    "name": "ИПФР-1 (Соматомедин С)",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 0.1307
+  },
+  {
+    "id": "potassium",
+    "name": "Калий",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 3.91
+  },
+  {
+    "id": "ca-ion",
+    "name": "Кальций ионизированный",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 4.008
+  },
+  {
+    "id": "ca-total",
+    "name": "Кальций общий",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 4.008
+  },
+  {
+    "id": "calcitonin",
+    "name": "Кальцитонин",
+    "unitA": "нг/л",
+    "unitB": "пмоль/л",
+    "factor": 0.281
+  },
+  {
+    "id": "ecp",
+    "name": "Катионный протеин эозинофилов",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "cortisol",
+    "name": "Кортизол",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 2.76
+  },
+  {
+    "id": "creatinine",
+    "name": "Креатинин",
+    "unitA": "мкмоль/л",
+    "unitB": "мг/дл",
+    "factor": 0.01131
+  },
+  {
+    "id": "lactate",
+    "name": "Лактат",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 9.008
+  },
+  {
+    "id": "lh",
+    "name": "ЛГ",
+    "unitA": "МЕ/л",
+    "unitB": "мМЕ/мл",
+    "factor": 1
+  },
+  {
+    "id": "lpa",
+    "name": "Липопротеин (а)",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "magnesium",
+    "name": "Магний",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 2.431
+  },
+  {
+    "id": "copper",
+    "name": "Медь",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "myoglobin",
+    "name": "Миоглобин",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "uric-acid",
+    "name": "Мочевая кислота",
+    "unitA": "мкмоль/л",
+    "unitB": "мг/дл",
+    "factor": 0.01681
+  },
+  {
+    "id": "urea",
+    "name": "Мочевина",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 6.006
+  },
+  {
+    "id": "sodium",
+    "name": "Натрий",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 2.3
+  },
+  {
+    "id": "noradrenaline-u",
+    "name": "Норадреналин в моче",
+    "unitA": "мкг/24 ч",
+    "unitB": "нмоль/сут",
+    "factor": 5.911
+  },
+  {
+    "id": "osteocalcin",
+    "name": "Остеокальцин",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "bap",
+    "name": "Остаза",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "pth",
+    "name": "Паратгормон",
+    "unitA": "нг/л",
+    "unitB": "пмоль/л",
+    "factor": 0.106
+  },
+  {
+    "id": "hpl",
+    "name": "Плацентарный лактоген",
+    "unitA": "мг/л",
+    "unitB": "мкг/мл",
+    "factor": 1
+  },
+  {
+    "id": "progesterone",
+    "name": "Прогестерон",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 3.18
+  },
+  {
+    "id": "prolactin",
+    "name": "Пролактин",
+    "unitA": "мкг/л",
+    "unitB": "мМЕ/л",
+    "factor": 21.2
+  },
+  {
+    "id": "pap",
+    "name": "Простатическая кислая фосфатаза (PAP)",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "psa-total",
+    "name": "ПСА общий",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "psa-free",
+    "name": "ПСА свободный",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "stfr",
+    "name": "Растворимые рецепторы трансферрина",
+    "unitA": "мг/л",
+    "unitB": "мкг/мл",
+    "factor": 1
+  },
+  {
+    "id": "renin",
+    "name": "Ренин прямой",
+    "unitA": "нг/л",
+    "unitB": "пг/мл",
+    "factor": 1
+  },
+  {
+    "id": "cea",
+    "name": "РЭА",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "ca15-3",
+    "name": "СА 15-3",
+    "unitA": "кЕд/л",
+    "unitB": "Ед/мл",
+    "factor": 1
+  },
+  {
+    "id": "free-bhcg",
+    "name": "Свободная B-субъединица ХГЧ",
+    "unitA": "МЕ/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "selenium",
+    "name": "Селен",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "gh",
+    "name": "СТГ",
+    "unitA": "мкг/л",
+    "unitB": "мМЕ/л",
+    "factor": 3
+  },
+  {
+    "id": "t3-total",
+    "name": "Т3 общий",
+    "unitA": "нмоль/л",
+    "unitB": "нг/дл",
+    "factor": 65.1
+  },
+  {
+    "id": "t3-free",
+    "name": "Т3 свободный",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 0.651
+  },
+  {
+    "id": "t4-total",
+    "name": "Т4 общий",
+    "unitA": "нмоль/л",
+    "unitB": "мкг/дл",
+    "factor": 0.0777
+  },
+  {
+    "id": "t4-free",
+    "name": "Т4 свободный",
+    "unitA": "пмоль/л",
+    "unitB": "нг/дл",
+    "factor": 0.0777
+  },
+  {
+    "id": "thyroglobulin",
+    "name": "ТГ (тиреоглобулин)",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "testosterone-free",
+    "name": "Тестостерон свободный",
+    "unitA": "нг/л",
+    "unitB": "пмоль/л",
+    "factor": 3.47
+  },
+  {
+    "id": "testosterone",
+    "name": "Тестостерон",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 3.47
+  },
+  {
+    "id": "tbg",
+    "name": "Тироксинсвязывающий глобулин",
+    "unitA": "мг/л",
+    "unitB": "нмоль/л",
+    "factor": 18.5
+  },
+  {
+    "id": "transferrin",
+    "name": "Трансферрин",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "triglycerides",
+    "name": "Триглицериды",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 88.57
+  },
+  {
+    "id": "troponin-i",
+    "name": "Тропонин I",
+    "unitA": "мкг/л",
+    "unitB": "нг/мл",
+    "factor": 1
+  },
+  {
+    "id": "tsh",
+    "name": "ТТГ",
+    "unitA": "мМЕ/л",
+    "unitB": "мкМЕ/мл",
+    "factor": 1
+  },
+  {
+    "id": "ferritin",
+    "name": "Ферритин",
+    "unitA": "мкг/л",
+    "unitB": "пмоль/л",
+    "factor": 2.247
+  },
+  {
+    "id": "folate",
+    "name": "Фолиевая кислота",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 0.441
+  },
+  {
+    "id": "phosphorus",
+    "name": "Фосфор неорганический",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 3.097
+  },
+  {
+    "id": "fsh",
+    "name": "ФСГ",
+    "unitA": "МЕ/л",
+    "unitB": "нг/мл",
+    "factor": 0.14
+  },
+  {
+    "id": "hcg",
+    "name": "ХГЧ",
+    "unitA": "МЕ/л",
+    "unitB": "мМЕ/мл",
+    "factor": 1
+  },
+  {
+    "id": "chloride",
+    "name": "Хлориды",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 3.545
+  },
+  {
+    "id": "chol-total",
+    "name": "Холестерин общий",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 38.67
+  },
+  {
+    "id": "chol-hdl",
+    "name": "Холестерин-ЛПВП",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 38.67
+  },
+  {
+    "id": "chol-ldl",
+    "name": "Холестерин-ЛПНП",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 38.67
+  },
+  {
+    "id": "chol-vldl",
+    "name": "Холестерин-ЛПОНП",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 38.67
+  },
+  {
+    "id": "ceruloplasmin",
+    "name": "Церулоплазмин",
+    "unitA": "г/л",
+    "unitB": "г/дл",
+    "factor": 0.1
+  },
+  {
+    "id": "zinc",
+    "name": "Цинк",
+    "unitA": "мкмоль/л",
+    "unitB": "мкг/дл",
+    "factor": 6.538
+  },
+  {
+    "id": "epo",
+    "name": "Эритропоэтин",
+    "unitA": "МЕ/л",
+    "unitB": "мМЕ/мл",
+    "factor": 1
+  },
+  {
+    "id": "estradiol",
+    "name": "Эстрадиол",
+    "unitA": "нг/л",
+    "unitB": "пмоль/л",
+    "factor": 3.671
+  },
+  {
+    "id": "estriol-free",
+    "name": "Эстриол свободный",
+    "unitA": "мкг/л",
+    "unitB": "нмоль/л",
+    "factor": 3.467
+  },
+  {
+    "id": "vitamin-d-total",
+    "name": "25-OH витамин D (общий)",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 0.400641
+  },
+  {
+    "id": "vitamin-d2",
+    "name": "25-OH витамин D2",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 0.412711
+  },
+  {
+    "id": "vitamin-d3",
+    "name": "25-OH витамин D3",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 0.400641
+  },
+  {
+    "id": "vitamin-d-125",
+    "name": "1,25-(OH)₂ витамин D",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 0.416667
+  },
+  {
+    "id": "methoxytyramine-u",
+    "name": "3-Метокситирамин в моче",
+    "unitA": "нмоль/сут",
+    "unitB": "мкг/24 ч",
+    "factor": 0.167196
+  },
+  {
+    "id": "ace",
+    "name": "АПФ (ангиотензинпревращающий фермент)",
+    "unitA": "мкКат/л",
+    "unitB": "Ед/л",
+    "factor": 58.8235
+  },
+  {
+    "id": "aluminum",
+    "name": "Алюминий",
+    "unitA": "мкмоль/л",
+    "unitB": "нг/мл",
+    "factor": 26.9542
+  },
+  {
+    "id": "aldosterone-u",
+    "name": "Альдостерон в моче",
+    "unitA": "нмоль/сут",
+    "unitB": "мкг/24 ч",
+    "factor": 0.36049
+  },
+  {
+    "id": "gastrin",
+    "name": "Гастрин",
+    "unitA": "нг/л",
+    "unitB": "пг/мл",
+    "factor": 1
+  },
+  {
+    "id": "glucagon",
+    "name": "Глюкагон",
+    "unitA": "нг/л",
+    "unitB": "пг/мл",
+    "factor": 1
+  },
+  {
+    "id": "glucose-csf",
+    "name": "Глюкоза (ликвор / ЦСЖ)",
+    "unitA": "ммоль/л",
+    "unitB": "мг/дл",
+    "factor": 18.0182
+  },
+  {
+    "id": "dhea",
+    "name": "ДГЭА (дегидроэпиандростерон)",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 0.288433
+  },
+  {
+    "id": "deoxycortisol-11",
+    "name": "11-Дезоксикортизол",
+    "unitA": "нмоль/л",
+    "unitB": "нг/дл",
+    "factor": 34.6021
+  },
+  {
+    "id": "insulin-pmol",
+    "name": "Инсулин (пмоль/л)",
+    "unitA": "пмоль/л",
+    "unitB": "мкМЕ/мл",
+    "factor": 0.143885
+  },
+  {
+    "id": "adrenaline-p",
+    "name": "Адреналин (плазма)",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 0.183218
+  },
+  {
+    "id": "noradrenaline-p",
+    "name": "Норадреналин (плазма)",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 0.169177
+  },
+  {
+    "id": "dopamine-p",
+    "name": "Дофамин (плазма)",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 0.153186
+  },
+  {
+    "id": "cortisol-u",
+    "name": "Кортизол в моче",
+    "unitA": "нмоль/сут",
+    "unitB": "мкг/24 ч",
+    "factor": 0.362319
+  },
+  {
+    "id": "creatinine-u-24h",
+    "name": "Креатинин в моче (сутки)",
+    "unitA": "ммоль/сут",
+    "unitB": "мг/24 ч",
+    "factor": 113.122
+  },
+  {
+    "id": "metanephrine-u",
+    "name": "Метанефрин в моче",
+    "unitA": "нмоль/сут",
+    "unitB": "мкг/24 ч",
+    "factor": 0.197239
+  },
+  {
+    "id": "normetanephrine-u",
+    "name": "Норметанефрин в моче",
+    "unitA": "нмоль/сут",
+    "unitB": "мкг/24 ч",
+    "factor": 0.183218
+  },
+  {
+    "id": "metanephrines-total-u",
+    "name": "Метанефрины суммарно (моча)",
+    "unitA": "нмоль/сут",
+    "unitB": "мкг/24 ч",
+    "factor": 0.18997
+  },
+  {
+    "id": "osmolality",
+    "name": "Осмоляльность сыворотки",
+    "unitA": "ммоль/кг",
+    "unitB": "мОсм/кг",
+    "factor": 1
+  },
+  {
+    "id": "serotonin",
+    "name": "Серотонин",
+    "unitA": "нмоль/л",
+    "unitB": "нг/мл",
+    "factor": 0.176211
+  },
+  {
+    "id": "estrone",
+    "name": "Эстрон",
+    "unitA": "пмоль/л",
+    "unitB": "пг/мл",
+    "factor": 0.270343
+  }
+];
+
+      var form = root.querySelector('#fc-calc-lab-units-form');
+      var filterInput = root.querySelector('#fc-calc-lab-units-filter');
+      var select = root.querySelector('#fc-calc-lab-units-analyte');
+      var pairHint = root.querySelector('#fc-calc-lab-units-pair');
+      var valueInput = root.querySelector('#fc-calc-lab-units-value');
+      var fromA = root.querySelector('#fc-calc-lab-units-from-a');
+      var fromB = root.querySelector('#fc-calc-lab-units-from-b');
+      var unitALabel = root.querySelector('#fc-calc-lab-units-unit-a-label');
+      var unitBLabel = root.querySelector('#fc-calc-lab-units-unit-b-label');
+      var calcBtn = root.querySelector('#fc-calc-lab-units-btn');
+      var formError = root.querySelector('#fc-calc-lab-units-form-error');
+      var resultWrap = root.querySelector('#fc-calc-lab-units-result');
+      var resultValue = root.querySelector('#fc-calc-lab-units-result-value');
+      var resultUnit = root.querySelector('#fc-calc-lab-units-result-unit');
+      var resultDesc = root.querySelector('#fc-calc-lab-units-result-desc');
+
+      var byId = {};
+      for (var i = 0; i < ANALYTES.length; i++) {
+        byId[ANALYTES[i].id] = ANALYTES[i];
+      }
+
+      function roundResult(value) {
+        if (!Number.isFinite(value)) return value;
+        var abs = Math.abs(value);
+        if (abs === 0) return 0;
+        if (abs >= 100) return Math.round(value * 100) / 100;
+        if (abs >= 1) return Math.round(value * 1000) / 1000;
+        return Math.round(value * 10000) / 10000;
+      }
+
+      function parseNonNegative(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+        var n = Number(s);
+        return Number.isFinite(n) && n >= 0 ? n : null;
+      }
+
+      function formatNum(n) {
+        if (!Number.isFinite(n)) return '—';
+        var rounded = roundResult(n);
+        var s = String(rounded);
+        if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) {
+          s = rounded.toFixed(4);
+        }
+        return s.replace('.', ',');
+      }
+
+      function currentAnalyte() {
+        return byId[select.value] || null;
+      }
+
+      function fillSelect(filterText) {
+        var q = String(filterText || '')
+          .trim()
+          .toLowerCase()
+          .replace(/ё/g, 'е');
+        var prev = select.value;
+        select.innerHTML = '';
+        var placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Выберите исследование';
+        select.appendChild(placeholder);
+
+        var firstMatch = null;
+        for (var i = 0; i < ANALYTES.length; i++) {
+          var a = ANALYTES[i];
+          var name = a.name.toLowerCase().replace(/ё/g, 'е');
+          if (q && name.indexOf(q) < 0) continue;
+          var opt = document.createElement('option');
+          opt.value = a.id;
+          opt.textContent = a.name;
+          select.appendChild(opt);
+          if (!firstMatch) firstMatch = a.id;
+        }
+
+        if (prev && byId[prev] && (!q || byId[prev].name.toLowerCase().replace(/ё/g, 'е').indexOf(q) >= 0)) {
+          select.value = prev;
+        } else if (q && firstMatch) {
+          select.value = firstMatch;
+        } else {
+          select.value = '';
+        }
+        updateUnitsUi();
+      }
+
+      function updateUnitsUi() {
+        var a = currentAnalyte();
+        if (!a) {
+          pairHint.textContent = 'Выберите исследование, чтобы увидеть пару единиц';
+          unitALabel.textContent = 'Единица A';
+          unitBLabel.textContent = 'Единица B';
+          return;
+        }
+        pairHint.textContent = a.unitA + ' ↔ ' + a.unitB;
+        unitALabel.textContent = a.unitA;
+        unitBLabel.textContent = a.unitB;
+      }
+
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        formError.textContent = '';
+      }
+
+      function isReady() {
+        return !!currentAnalyte() && parseNonNegative(valueInput.value) != null;
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      function convert() {
+        var a = currentAnalyte();
+        var value = parseNonNegative(valueInput.value);
+        if (!a || value == null) throw new Error('Заполните поля');
+        var from = fromB.checked ? 'B' : 'A';
+        var resultRaw = from === 'A' ? value * a.factor : value / a.factor;
+        var result = roundResult(resultRaw);
+        var fromUnit = from === 'A' ? a.unitA : a.unitB;
+        var toUnit = from === 'A' ? a.unitB : a.unitA;
+        return {
+          name: a.name,
+          value: value,
+          fromUnit: fromUnit,
+          result: result,
+          toUnit: toUnit,
+        };
+      }
+
+      filterInput.addEventListener('input', function () {
+        fillSelect(filterInput.value);
+        hideResult();
+        updateButton();
+      });
+
+      select.addEventListener('change', function () {
+        updateUnitsUi();
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hideResult();
+        if (!isReady()) {
+          formError.textContent = 'Выберите исследование и укажите значение';
+          return;
+        }
+        try {
+          var out = convert();
+          resultValue.textContent = formatNum(out.result);
+          resultUnit.textContent = out.toUnit;
+          resultDesc.textContent =
+            out.name + ': ' + formatNum(out.value) + ' ' + out.fromUnit + ' → ' + formatNum(out.result) + ' ' + out.toUnit;
+          resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+        } catch (err) {
+          formError.textContent = err.message || 'Ошибка пересчёта';
+        }
+      });
+
+      fillSelect('');
+      updateButton();
+    })();
+  </script>
+</div>

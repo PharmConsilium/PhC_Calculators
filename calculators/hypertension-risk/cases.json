@@ -1,0 +1,204 @@
+{
+  "slug": "hypertension-risk",
+  "source": "Клинический протокол МЗ РБ по артериальной гипертензии, приложения 1, 3, 4",
+  "cases": [
+    {
+      "name": "optimal 115/75",
+      "input": { "sbp": 115, "dbp": 75 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": "optimal",
+        "ahPresent": false,
+        "riskApplicable": false,
+        "stage": null
+      }
+    },
+    {
+      "name": "normal 125/82",
+      "input": { "sbp": 125, "dbp": 82 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": "normal",
+        "ahPresent": false,
+        "riskApplicable": false
+      }
+    },
+    {
+      "name": "high-normal no FR — no risk",
+      "input": { "sbp": 135, "dbp": 85 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": "highNormal",
+        "riskKey": "none",
+        "ahPresent": false,
+        "stage": null
+      }
+    },
+    {
+      "name": "high-normal 1–2 FR — low",
+      "input": {
+        "sbp": 135,
+        "dbp": 85,
+        "riskFactors": ["smoking", "dyslipidemia"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "low"
+      }
+    },
+    {
+      "name": "degree1 no FR — low",
+      "input": { "sbp": 150, "dbp": 95 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": 1,
+        "stage": 1,
+        "riskKey": "low"
+      }
+    },
+    {
+      "name": "degree1 with 2 FR — middle",
+      "input": {
+        "sbp": 150,
+        "dbp": 95,
+        "riskFactors": ["smoking", "obesity"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "middle",
+        "stage": 1
+      }
+    },
+    {
+      "name": "degree1 ≥3 FR — high",
+      "input": {
+        "sbp": 150,
+        "dbp": 95,
+        "riskFactors": ["smoking", "obesity", "maleSex", "age"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "high"
+      }
+    },
+    {
+      "name": "degree2 no FR — middle",
+      "input": { "sbp": 160, "dbp": 100 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": 2,
+        "riskKey": "middle"
+      }
+    },
+    {
+      "name": "degree3 no FR — high",
+      "input": { "sbp": 185, "dbp": 110 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": 3,
+        "riskKey": "high"
+      }
+    },
+    {
+      "name": "degree3 ≥3 FR — very high",
+      "input": {
+        "sbp": 185,
+        "dbp": 110,
+        "riskFactors": ["smoking", "obesity", "dyslipidemia"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "veryHigh"
+      }
+    },
+    {
+      "name": "POM at degree1 — high, stage2",
+      "input": {
+        "sbp": 150,
+        "dbp": 95,
+        "pom": ["ecgLvh"]
+      },
+      "expected": {
+        "status": "OK",
+        "stage": 2,
+        "riskKey": "high"
+      }
+    },
+    {
+      "name": "POM at degree3 — very high",
+      "input": {
+        "sbp": 185,
+        "dbp": 110,
+        "pom": ["ckd3"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "veryHigh",
+        "stage": 2
+      }
+    },
+    {
+      "name": "diabetes — very high all grades, stage2",
+      "input": {
+        "sbp": 150,
+        "dbp": 95,
+        "diabetes": ["dmFasting"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "veryHigh",
+        "stage": 2
+      }
+    },
+    {
+      "name": "AKS — very high, stage3",
+      "input": {
+        "sbp": 150,
+        "dbp": 95,
+        "aks": ["chd"]
+      },
+      "expected": {
+        "status": "OK",
+        "riskKey": "veryHigh",
+        "stage": 3
+      }
+    },
+    {
+      "name": "ISAH grade III",
+      "input": { "sbp": 185, "dbp": 70 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": "isolate.3",
+        "isolate": "isolate",
+        "riskKey": "high",
+        "stage": 1
+      }
+    },
+    {
+      "name": "IDAH grade I",
+      "input": { "sbp": 130, "dbp": 95 },
+      "expected": {
+        "status": "OK",
+        "degreeKey": "dadIsolate.1",
+        "isolate": "dadIsolate",
+        "riskKey": "low"
+      }
+    },
+    {
+      "name": "conclusion template degree2 with 2 FR",
+      "input": {
+        "sbp": 168,
+        "dbp": 104,
+        "riskFactors": ["smoking", "dyslipidemia"]
+      },
+      "expected": {
+        "status": "OK",
+        "degreeKey": 2,
+        "riskKey": "high",
+        "riskRow": "fr12",
+        "conclusionHeadline": "АГ II степени, высокий риск",
+        "conclusion": "168/104 мм рт.ст. Общий ССР: (по Прил. 4: 1–2 ФР + степень II (n=2)). ФР: Курение; Дислипидемия."
+      }
+    }
+  ]
+}

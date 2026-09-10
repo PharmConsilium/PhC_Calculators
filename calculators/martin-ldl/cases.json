@@ -10,7 +10,9 @@
       "expected": {
         "martinLdl": 2.44,
         "sampsonLdl": 2.52,
-        "friedewaldLdl": 2.18
+        "friedewaldLdl": 2.18,
+        "aip": 0.12,
+        "aipCategory": "medium"
       }
     },
     {
@@ -23,7 +25,9 @@
       "expected": {
         "martinLdl": 3.2,
         "sampsonLdl": 3.19,
-        "friedewaldLdl": 3.11
+        "friedewaldLdl": 3.11,
+        "aip": 0.11,
+        "aipCategory": "medium"
       }
     },
     {
@@ -36,7 +40,9 @@
       "expected": {
         "martinLdl": 2.93,
         "sampsonLdl": 2.94,
-        "friedewaldLdl": 2.88
+        "friedewaldLdl": 2.88,
+        "aip": 0.06,
+        "aipCategory": "low"
       }
     },
     {
@@ -49,7 +55,9 @@
       "expected": {
         "martinLdl": 3.67,
         "sampsonLdl": 3.67,
-        "friedewaldLdl": 3.53
+        "friedewaldLdl": 3.53,
+        "aip": 0.17,
+        "aipCategory": "medium"
       }
     },
     {
@@ -62,7 +70,9 @@
       "expected": {
         "martinLdl": 5.77,
         "sampsonLdl": 5.63,
-        "friedewaldLdl": 5.63
+        "friedewaldLdl": 5.63,
+        "aip": 0.17,
+        "aipCategory": "medium"
       }
     }
   ]

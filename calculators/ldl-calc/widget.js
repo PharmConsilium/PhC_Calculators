@@ -1,5 +1,5 @@
-    (function () {
-      var root = document.querySelector('.fc-calc[data-calculator="martin-ldl"]');
+(function () {
+      var root = document.querySelector('[data-mode-panel="martin-ldl"]') || document.querySelector('.fc-calc[data-calculator="martin-ldl"]');
       if (!root) return;
 
       var TG_MMOL_MAX_MARTIN = 4.5;
@@ -243,3 +243,118 @@
 
       updateButton();
     })();
+
+(function () {
+      var root = document.querySelector('[data-mode-panel="ldl-lpa-corr"]') || document.querySelector('.fc-calc[data-calculator="ldl-lpa-corr"]');
+      if (!root) return;
+
+      var LPA_CORRECTION_FACTOR = 0.3;
+      var LPA_DIVISOR = 38.7;
+
+      var form = root.querySelector('#fc-calc-ldl-lpa-corr-form');
+      var calcBtn = root.querySelector('#fc-calc-ldl-lpa-corr-btn');
+      var ldlInput = root.querySelector('#fc-calc-ldl-lpa-corr-ldl');
+      var lpaInput = root.querySelector('#fc-calc-ldl-lpa-corr-lpa');
+      var formError = root.querySelector('#fc-calc-ldl-lpa-corr-form-error');
+      var resultWrap = root.querySelector('#fc-calc-ldl-lpa-corr-result');
+      var resultOut = root.querySelector('#fc-calc-ldl-lpa-corr-value');
+
+      function parseNonNegative(value) {
+        var s = String(value || '').trim().replace(',', '.');
+        if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+        var n = Number(s);
+        return Number.isFinite(n) && n >= 0 ? n : null;
+      }
+
+      function correctedCents(ldlMmol, lpaMgDl) {
+        return Math.trunc((ldlMmol - (LPA_CORRECTION_FACTOR * lpaMgDl) / LPA_DIVISOR) * 100);
+      }
+
+      function formatCents(centsTotal) {
+        var whole = Math.trunc(centsTotal / 100);
+        var frac = Math.abs(centsTotal % 100);
+        return whole + ',' + String(frac).padStart(2, '0');
+      }
+
+      function hideResult() {
+        resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        formError.textContent = '';
+      }
+
+      function isReady() {
+        return parseNonNegative(ldlInput.value) != null && parseNonNegative(lpaInput.value) != null;
+      }
+
+      function updateButton() {
+        var ok = isReady();
+        calcBtn.disabled = !ok;
+        calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+      }
+
+      form.addEventListener('input', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('change', function () {
+        hideResult();
+        updateButton();
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hideResult();
+
+        var ldlMmol = parseNonNegative(ldlInput.value);
+        var lpaMgDl = parseNonNegative(lpaInput.value);
+
+        if (ldlMmol == null || lpaMgDl == null) {
+          formError.textContent = 'Заполните ХС ЛНП и липопротеид(а)';
+          return;
+        }
+
+        resultOut.textContent = formatCents(correctedCents(ldlMmol, lpaMgDl));
+        resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+      });
+
+      updateButton();
+    })();
+(function () {
+  var root = document.querySelector('.fc-calc[data-calculator="ldl-calc"]');
+  if (!root) return;
+  var tabs = root.querySelectorAll('[data-mode-tab]');
+  var panels = root.querySelectorAll('[data-mode-panel]');
+  var notesPanels = root.querySelectorAll('[data-mode-notes]');
+  var modeHint = root.querySelector('#fc-calc-ldl-calc-mode-hint');
+  var HINTS = {
+  "martin-ldl": "Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP)",
+  "ldl-lpa-corr": "Корригированный ХС ЛНП с учётом холестерина в составе липопротеида(а)"
+};
+
+  function setMode(mode) {
+    tabs.forEach(function (tab) {
+      var on = tab.getAttribute('data-mode-tab') === mode;
+      tab.classList.toggle('fc-calc__tab--active', on);
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function (panel) {
+      var on = panel.getAttribute('data-mode-panel') === mode;
+      panel.classList.toggle('fc-calc__tab-panel--active', on);
+      panel.hidden = !on;
+    });
+    notesPanels.forEach(function (panel) {
+      var on = panel.getAttribute('data-mode-notes') === mode;
+      panel.classList.toggle('fc-calc__ldl-notes-mode--active', on);
+      panel.hidden = !on;
+    });
+    if (modeHint && HINTS[mode]) modeHint.textContent = HINTS[mode];
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      setMode(tab.getAttribute('data-mode-tab'));
+    });
+  });
+
+  setMode('martin-ldl');
+})();

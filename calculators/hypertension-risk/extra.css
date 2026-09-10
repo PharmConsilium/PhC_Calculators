@@ -1,0 +1,268 @@
+/* hypertension-risk */
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid .fc-calc__field input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-degree-preview {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-degree-preview[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section {
+  margin-top: 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-count {
+  flex: 0 0 auto;
+  min-width: 1.5em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 94, 236, 0.12);
+  color: var(--fc-blue);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-count[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-chevron {
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+  opacity: 0.55;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section[open] .fc-calc__htn-section-chevron {
+  transform: rotate(225deg);
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-body {
+  padding: 0 14px 14px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-hint {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #263048;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--fc-border);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row:hover {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row:has(input:checked) {
+  background: rgba(0, 94, 236, 0.08);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row input {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--fc-blue);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row-label {
+  display: block;
+  font-weight: 500;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-desc {
+  color: #000;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-result-block {
+  margin-top: 10px;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-result-label {
+  margin: 0 0 2px;
+  font-size: 13px;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-conclusion-head {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--fc-blue, #005eec);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-conclusion {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-result-value {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #000;
+}
+
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--none,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--noneHigh,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--low {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--middle {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--high,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--veryHigh {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}
+
+@media (max-width: 640px) {
+  .fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid {
+    grid-template-columns: 1fr;
+  }
+}

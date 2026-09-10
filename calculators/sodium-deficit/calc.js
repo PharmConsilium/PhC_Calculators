@@ -29,6 +29,7 @@ export const INFUSION_SOLUTIONS = [
   { id: 'nacl045', label: 'NaCl 0.45%', naMmolL: 76.95 },
   { id: 'nacl09', label: 'NaCl 0.9%', naMmolL: 153.9 },
   { id: 'nacl3', label: 'NaCl 3%', naMmolL: 513 },
+  { id: 'nacl10', label: 'NaCl 10%', naMmolL: 1710 },
 ];
 
 export function roundHalfUp(value, decimals) {

@@ -15,6 +15,7 @@
         { label: 'NaCl 0.45%', naMmolL: 76.95 },
         { label: 'NaCl 0.9%', naMmolL: 153.9 },
         { label: 'NaCl 3%', naMmolL: 513 },
+        { label: 'NaCl 10%', naMmolL: 1710 },
       ];
 
       var form = root.querySelector('#fc-calc-sodium-deficit-form');

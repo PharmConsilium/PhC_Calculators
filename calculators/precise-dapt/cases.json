@@ -1,0 +1,93 @@
+{
+  "slug": "precise-dapt",
+  "source": "https://medsoftpro.ru/kalkulyatory/precise-dapt",
+  "cases": [
+    {
+      "name": "minimal score zero",
+      "input": {
+        "hemoglobinGl": 120,
+        "wbc": 5,
+        "age": 50,
+        "crCl": 100,
+        "priorBleeding": false
+      },
+      "expected": {
+        "status": "OK",
+        "total": 0,
+        "category": "very-low",
+        "parts": {
+          "hemoglobin": 0,
+          "wbc": 0,
+          "age": 0,
+          "crCl": 0,
+          "priorBleeding": 0
+        }
+      }
+    },
+    {
+      "name": "prior bleed alone high risk",
+      "input": {
+        "hemoglobinGl": 130,
+        "wbc": 6,
+        "age": 55,
+        "crCl": 90,
+        "priorBleeding": true
+      },
+      "expected": {
+        "status": "OK",
+        "total": 32,
+        "category": "high"
+      }
+    },
+    {
+      "name": "mid high without prior bleed",
+      "input": {
+        "hemoglobinGl": 110,
+        "wbc": 10,
+        "age": 70,
+        "crCl": 60,
+        "priorBleeding": false
+      },
+      "expected": {
+        "status": "OK",
+        "total": 32,
+        "category": "high"
+      }
+    },
+    {
+      "name": "low-moderate band",
+      "input": {
+        "hemoglobinGl": 120,
+        "wbc": 8,
+        "age": 65,
+        "crCl": 80,
+        "priorBleeding": false
+      },
+      "expected": {
+        "status": "OK",
+        "total": 15,
+        "category": "low"
+      }
+    },
+    {
+      "name": "cockcroft-gault male 45y 70kg Cr 90 umol",
+      "input": {
+        "hemoglobinGl": 130,
+        "wbc": 7,
+        "age": 45,
+        "crClMode": "calc",
+        "sex": "male",
+        "weightKg": 70,
+        "creatinine": 90,
+        "creatinineUnit": "umol",
+        "priorBleeding": false
+      },
+      "expected": {
+        "status": "OK",
+        "crCl": 90.72,
+        "crClSource": "cockcroft-gault",
+        "category": "very-low"
+      }
+    }
+  ]
+}

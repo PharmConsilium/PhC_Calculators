@@ -105,6 +105,34 @@ export function friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol) {
   return tcMmol - hdlMmol - tgMmol / 2.2;
 }
 
+/** AIP = log₁₀(ТГ / ЛПВП), ммоль/л */
+export function aipIndex(tgMmol, hdlMmol) {
+  return Math.log10(tgMmol / hdlMmol);
+}
+
+/** Низкий: &lt; 0,1; средний: 0,1–0,24; высокий: &gt; 0,24 */
+export function aipRisk(aip) {
+  if (aip < 0.1) {
+    return {
+      category: 'low',
+      label: 'Низкий риск',
+      text: 'Низкий риск (AIP от −0,3 до 0,1): благоприятный липидный профиль.',
+    };
+  }
+  if (aip <= 0.24) {
+    return {
+      category: 'medium',
+      label: 'Средний риск',
+      text: 'Средний риск (AIP от 0,1 до 0,24): умеренный риск сердечно-сосудистых заболеваний.',
+    };
+  }
+  return {
+    category: 'high',
+    label: 'Высокий риск',
+    text: 'Высокий риск (AIP выше 0,24): повышенный риск атеросклероза и связанных осложнений.',
+  };
+}
+
 export function ldlFormulas(input) {
   const tcMmol = parsePositive(input.totalChol);
   const hdlMmol = parsePositive(input.hdl);
@@ -125,11 +153,18 @@ export function ldlFormulas(input) {
     warnings.push('При триглицеридах > 9 ммоль/л формула Сэмпсона не применима');
   }
 
+  const aip = truncTo2(aipIndex(tgMmol, hdlMmol));
+  const risk = aipRisk(aip);
+
   return {
     status: 'OK',
     martinLdl: truncTo2(martinLdlMmol(tcMmol, hdlMmol, tgMmol)),
     sampsonLdl: truncTo2(sampsonLdlMmol(tcMmol, hdlMmol, tgMmol)),
     friedewaldLdl: truncTo2(friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol)),
+    aip,
+    aipCategory: risk.category,
+    aipLabel: risk.label,
+    aipInterpretation: risk.text,
     warnings,
   };
 }

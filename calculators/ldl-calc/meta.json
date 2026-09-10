@@ -1,0 +1,8 @@
+{
+  "slug": "ldl-calc",
+  "title": "Расчёт ХС ЛНП",
+  "sitePath": "/calculator/ldl-calc",
+  "description": "Формулы Мартина-Хопкинса, Сэмпсона и Фридвальда; корригированный ХС ЛНП с учётом липопротеида(а). Отдельные виджеты сохранены.",
+  "source": "Агрегатор: martin-ldl, ldl-lpa-corr",
+  "complexity": "B"
+}

@@ -1,0 +1,1788 @@
+<!--
+  Публикация: скопировать ВЕСЬ файл в админку FarmConsilium → «HTML-код (виджет, калькулятор)».
+  Название: Степень и стадия артериальной гипертензии КП МЗ РБ № 38
+-->
+<div class="fc-calc" data-calculator="hypertension-risk">
+  <style>
+/* Единый вид всех калькуляторов. Только внутри .fc-calc */
+
+.fc-calc {
+  --fc-font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-semibold: 'SF Pro Semibold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-font-bold: 'SF Pro Bold', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  --fc-title-size: 36px;
+  --fc-text: #10384f;
+  --fc-muted: #10384f;
+  --fc-border: #d1d5db;
+  --fc-border-table: #d1d5db;
+  --fc-bg-page: #eff0f2;
+  --fc-bg-surface: #ffffff;
+  --fc-bg-card: #eff0f2;
+  --fc-bg-input: #f8f8f9;
+  --fc-muted-text: #b4b5c0;
+  --fc-blue: #005eec;
+  --fc-blue-hover: #0047c4;
+  --fc-error: #dc2626;
+  --fc-radius: 10px;
+  --fc-radius-card: 10px;
+  --fc-shadow: 0 5px 15px 0 rgba(47, 78, 155, 0.15);
+
+  font-family: var(--fc-font-sans);
+  color: var(--fc-text);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  background: transparent;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (font: -apple-system-body) {
+  .fc-calc {
+    font-family: var(--fc-font-sans), inherit;
+  }
+}
+
+.fc-calc *,
+.fc-calc *::before,
+.fc-calc *::after {
+  box-sizing: border-box;
+}
+
+.fc-calc .fc-calc__card {
+  background: var(--fc-bg-surface);
+  border-radius: var(--fc-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--fc-shadow);
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__card {
+    padding: 2rem;
+  }
+}
+
+.fc-calc .fc-calc__layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-calc .fc-calc__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fc-calc .fc-calc__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-card);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__tab {
+    font-size: 16px;
+  }
+}
+
+.fc-calc .fc-calc__tab:hover:not(.fc-calc__tab--active) {
+  border-color: var(--fc-border);
+  opacity: 0.85;
+}
+
+.fc-calc .fc-calc__tab--active {
+  color: #fff;
+  background: var(--fc-blue);
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__tab-panel {
+  display: none;
+}
+
+.fc-calc .fc-calc__tab-panel--active {
+  display: block;
+}
+
+.fc-calc .fc-calc__head {
+  flex: 0 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__title {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: oklch(0.278 0.033 256.848);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .fc-calc .fc-calc__title {
+    font-size: var(--fc-title-size);
+  }
+}
+
+.fc-calc .fc-calc__notes-body strong,
+.fc-calc .fc-calc__formula strong {
+  font-family: var(--fc-font-bold);
+  font-weight: 700;
+}
+
+.fc-calc .fc-calc__head .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #263048;
+  opacity: 1;
+  margin: 0 auto;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #263048;
+  opacity: 1;
+}
+
+.fc-calc .fc-calc__formula {
+  margin: 12px 0 0;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+
+.fc-calc .fc-calc__body {
+  flex: 1 1 auto;
+}
+
+.fc-calc .fc-calc__actions {
+  flex: 0 0 auto;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__result-wrap {
+  flex: 0 0 auto;
+  min-height: 88px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--fc-bg-page);
+  border-radius: var(--fc-radius);
+  border: 1px solid var(--fc-border);
+  text-align: center;
+}
+
+.fc-calc .fc-calc__result-wrap.fc-calc__result-wrap--hidden {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-label {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--fc-text);
+  margin: 0 0 8px;
+}
+
+.fc-calc .fc-calc__result-sublabel {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fc-text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fc-calc .fc-calc__result-number {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--fc-blue);
+  margin: 0;
+}
+
+.fc-calc .fc-calc__result-desc {
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.fc-calc .fc-calc__result--empty .fc-calc__result-number {
+  color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__result-placeholder {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.fc-calc .fc-calc__result:not(.fc-calc__result--empty) .fc-calc__result-placeholder {
+  display: none;
+}
+
+.fc-calc .fc-calc__result-value {
+  display: block;
+}
+
+.fc-calc .fc-calc__notes {
+  margin-top: 16px;
+  background: var(--fc-bg-page);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 1rem;
+}
+
+.fc-calc .fc-calc__notes-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fc-calc .fc-calc__notes-title {
+  font-family: var(--fc-font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fc-text);
+  line-height: 1.25;
+}
+
+.fc-calc .fc-calc__notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc .fc-calc__notes-chevron {
+  width: 8px;
+  height: 8px;
+  margin-right: 2px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  opacity: 0.5;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.fc-calc .fc-calc__notes[open] .fc-calc__notes-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.fc-calc .fc-calc__notes-body {
+  padding: 0 0 1rem;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__notes-body > :first-child {
+  margin-top: 0;
+}
+
+.fc-calc .fc-calc__notes-body p {
+  margin: 8px 0 0;
+}
+
+.fc-calc .fc-calc__foot {
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__disclaimer {
+  margin: 0;
+  font-size: 16px;
+  color: var(--fc-muted-text);
+  line-height: 1.45;
+}
+
+.fc-calc .fc-calc__segmented {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fc-calc .fc-calc__segment {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  text-align: center;
+  color: var(--fc-text);
+  background: var(--fc-bg-page);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__segment--active {
+  color: #fff;
+  background: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__section {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.fc-calc .fc-calc__field label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input,
+.fc-calc .fc-calc__field select,
+.fc-calc .fc-calc__field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0.75rem 1rem;
+  color: var(--fc-text);
+  caret-color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__field input::placeholder {
+  color: var(--fc-text);
+  opacity: 0.55;
+}
+
+.fc-calc .fc-calc__field input::-webkit-outer-spin-button,
+.fc-calc .fc-calc__field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fc-calc .fc-calc__field input:focus,
+.fc-calc .fc-calc__field select:focus,
+.fc-calc .fc-calc__field textarea:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: none;
+}
+
+.fc-calc .fc-calc__field-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.fc-calc .fc-calc__field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc .fc-calc__units {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__unit {
+  padding: 12px 10px;
+  font-size: 16px;
+  background: var(--fc-bg-card);
+  border: none;
+  color: var(--fc-text);
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__unit--active {
+  color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+  background: var(--fc-bg-card);
+}
+
+.fc-calc .fc-calc__choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--fc-text);
+}
+
+.fc-calc .fc-calc__choice input {
+  margin-top: 3px;
+  accent-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__error {
+  font-size: 16px;
+  color: var(--fc-error);
+  min-height: 1.25em;
+}
+
+.fc-calc .fc-calc__btn {
+  display: block;
+  width: 100%;
+  padding: 14px 40px;
+  font-family: var(--fc-font-semibold);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+  background: var(--fc-blue);
+  border: none;
+  border-radius: var(--fc-radius);
+  cursor: pointer;
+  text-align: center;
+}
+
+.fc-calc .fc-calc__btn:hover:not(:disabled) {
+  background: var(--fc-blue-hover);
+}
+
+.fc-calc .fc-calc__btn:disabled,
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive {
+  opacity: 0.55;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  cursor: not-allowed;
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--inactive:hover {
+  background: var(--fc-bg-input);
+  transform: none;
+}
+
+/* Вторичная (светлая) кнопка, например "Очистить" */
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary {
+  font-family: var(--fc-font-sans);
+  font-weight: 400;
+  background: var(--fc-bg-page);
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+}
+
+.fc-calc .fc-calc__btn.fc-calc__btn--secondary:hover:not(:disabled) {
+  background: var(--fc-bg-input);
+}
+
+.fc-calc .fc-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.fc-calc .fc-calc__table th,
+.fc-calc .fc-calc__table td {
+  border: 1px solid var(--fc-border-table);
+  padding: 8px;
+  text-align: left;
+}
+
+/* Календарь (для date-diff и других календарных калькуляторов) */
+.fc-calc .fc-calc__calendar {
+  margin-top: 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 10px;
+}
+
+.fc-calc .fc-calc__calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.fc-calc .fc-calc__calendar-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fc-calc .fc-calc__calendar-nav:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-month {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fc-text);
+  text-align: center;
+  flex: 1;
+}
+
+.fc-calc .fc-calc__calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.fc-calc .fc-calc__calendar-dow {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  color: #263048;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.fc-calc .fc-calc__calendar-day {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--fc-radius);
+  background: #fff;
+  color: var(--fc-text);
+  font-family: var(--fc-font-sans);
+  font-size: 16px;
+  line-height: 1;
+  height: 36px;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__calendar-day:hover {
+  border-color: var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fc-calc .fc-calc__calendar-day[aria-disabled="true"]:hover {
+  border-color: transparent;
+}
+
+.fc-calc .fc-calc__calendar-day--today {
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+.fc-calc .fc-calc__calendar-day--in-range {
+  background: rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__calendar-day--selected {
+  background: var(--fc-blue);
+  color: #fff;
+}
+
+.fc-calc .fc-calc__date-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 0 12px;
+  background: var(--fc-bg-input);
+  color: var(--fc-text);
+  font-size: 16px;
+  width: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.fc-calc .fc-calc__date-pill--active {
+  border-color: var(--fc-blue);
+  box-shadow: inset 0 0 0 2px var(--fc-blue);
+}
+
+/* Секции-панели формы (эталон: hydro-balance, pregnancy-dating) */
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select,
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field textarea {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field input:focus,
+.fc-calc .fc-calc__panel .fc-calc__field select:focus,
+.fc-calc .fc-calc__panel .fc-calc__field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+
+.fc-calc .fc-calc__panel .fc-calc__field-row select {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  font-size: 14px;
+}
+
+@media (max-width: 479px) {
+  .fc-calc .fc-calc__panel {
+    padding: 14px;
+  }
+}
+/* hypertension-risk */
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid .fc-calc__field input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-degree-preview {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-degree-preview[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section {
+  margin-top: 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-summary::-webkit-details-marker {
+  display: none;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-count {
+  flex: 0 0 auto;
+  min-width: 1.5em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 94, 236, 0.12);
+  color: var(--fc-blue);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-count[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-chevron {
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--fc-text);
+  border-bottom: 2px solid var(--fc-text);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+  opacity: 0.55;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section[open] .fc-calc__htn-section-chevron {
+  transform: rotate(225deg);
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-body {
+  padding: 0 14px 14px;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-section-hint {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #263048;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  background: var(--fc-bg-surface);
+  overflow: hidden;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--fc-border);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row:last-child {
+  border-bottom: none;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row:hover {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row:has(input:checked) {
+  background: rgba(0, 94, 236, 0.08);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row input {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--fc-blue);
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row-label {
+  display: block;
+  font-weight: 500;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-row-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-desc {
+  color: #000;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-result-block {
+  margin-top: 10px;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-result-label {
+  margin: 0 0 2px;
+  font-size: 13px;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-conclusion-head {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--fc-blue, #005eec);
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-conclusion {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #000;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-result-value {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #000;
+}
+
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--none,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--noneHigh,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--low {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--middle {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--high,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__result-number--veryHigh {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="hypertension-risk"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}
+
+@media (max-width: 640px) {
+  .fc-calc[data-calculator="hypertension-risk"] .fc-calc__htn-bp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+
+  <div class="fc-calc__card">
+    <div class="fc-calc__layout">
+      <header class="fc-calc__head">
+        <h2 class="fc-calc__title">Степень и стадия артериальной гипертензии КП МЗ РБ № 38</h2>
+        <p class="fc-calc__hint">Стратификация общего сердечно-сосудистого риска по клиническому протоколу МЗ РБ (приложения 1, 3, 4)</p>
+      </header>
+
+      <div class="fc-calc__body">
+        <form class="fc-calc__form" id="fc-calc-hypertension-risk-form" novalidate>
+          <div class="fc-calc__panel-section">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Артериальное давление</h3>
+              <div class="fc-calc__htn-bp-grid">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hypertension-risk-sbp">САД, мм рт.ст.</label>
+                  <input type="number" id="fc-calc-hypertension-risk-sbp" name="sbp" inputmode="numeric" min="40" max="310" step="1" placeholder="напр. 150" required />
+                  <span class="fc-calc__error" id="fc-calc-hypertension-risk-sbp-error" role="alert"></span>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-hypertension-risk-dbp">ДАД, мм рт.ст.</label>
+                  <input type="number" id="fc-calc-hypertension-risk-dbp" name="dbp" inputmode="numeric" min="40" max="310" step="1" placeholder="напр. 95" required />
+                  <span class="fc-calc__error" id="fc-calc-hypertension-risk-dbp-error" role="alert"></span>
+                </div>
+              </div>
+              <p class="fc-calc__htn-degree-preview" id="fc-calc-hypertension-risk-degree-preview" hidden></p>
+
+              <details class="fc-calc__htn-section" data-htn-clinical hidden>
+                <summary class="fc-calc__htn-section-summary">
+                  <span class="fc-calc__htn-section-title">1. Факторы риска (ФР)</span>
+                  <span class="fc-calc__htn-section-count" data-htn-count="riskFactors" hidden></span>
+                  <span class="fc-calc__htn-section-chevron" aria-hidden="true"></span>
+                </summary>
+                <div class="fc-calc__htn-section-body">
+                  <p class="fc-calc__htn-section-hint">Отметьте критерии приложения 3</p>
+                  <div class="fc-calc__htn-options">
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-maleSex">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-maleSex" name="riskFactors" value="maleSex" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Мужской пол</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-age">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-age" name="riskFactors" value="age" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Возраст</span>
+                  <span class="fc-calc__htn-row-hint">Мужчины ≥ 55 лет; женщины ≥ 65 лет</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-smoking">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-smoking" name="riskFactors" value="smoking" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Курение</span>
+                  <span class="fc-calc__htn-row-hint">В настоящем или в прошлом</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-dyslipidemia">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-dyslipidemia" name="riskFactors" value="dyslipidemia" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Дислипидемия</span>
+                  <span class="fc-calc__htn-row-hint">Общий холестерин &gt; 4,9 ммоль/л<br>и (или)<br>ХС ЛПНП &gt; 3,0 ммоль/л<br>и (или)<br>ХС ЛПВП &lt; 1,0 у мужчин / &lt; 1,2 у женщин<br>и (или)<br>ТГ &gt; 1,7 ммоль/л</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-fastingGlucose">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-fastingGlucose" name="riskFactors" value="fastingGlucose" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Глюкоза крови натощак</span>
+                  <span class="fc-calc__htn-row-hint">5,6–6,9 ммоль/л<br>или<br>5,6–6,0 ммоль/л капиллярной крови</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-postprandialGlucose">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-postprandialGlucose" name="riskFactors" value="postprandialGlucose" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Постпрандиальная глюкоза (после еды или после нагрузки)</span>
+                  <span class="fc-calc__htn-row-hint">≥ 7,8<br>и<br>&lt; 11,1 ммоль/л</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-obesity">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-obesity" name="riskFactors" value="obesity" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Ожирение</span>
+                  <span class="fc-calc__htn-row-hint">ИМТ ≥ 30 кг/м²</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-abdominalObesity">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-abdominalObesity" name="riskFactors" value="abdominalObesity" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Абдоминальное ожирение</span>
+                  <span class="fc-calc__htn-row-hint">ОТ &gt; 102 см у мужчин;<br>&gt; 88 см у женщин</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-uricAcid">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-uricAcid" name="riskFactors" value="uricAcid" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Мочевая кислота</span>
+                  <span class="fc-calc__htn-row-hint">≥ 360 мкмоль/л</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-familyHistory">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-familyHistory" name="riskFactors" value="familyHistory" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Семейный анамнез ранних ССЗ</span>
+                  <span class="fc-calc__htn-row-hint">У мужчин &lt; 55 лет;<br>у женщин &lt; 65 лет</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-earlyMenopause">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-earlyMenopause" name="riskFactors" value="earlyMenopause" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Ранняя менопауза</span>
+                  <span class="fc-calc__htn-row-hint">До 45 лет</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-riskFactors-tachycardia">
+                <input type="checkbox" id="fc-calc-hypertension-risk-riskFactors-tachycardia" name="riskFactors" value="tachycardia" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">ЧСС в покое &gt; 80 уд/мин</span>
+                </span>
+              </label>
+                  </div>
+                </div>
+              </details>
+
+              <details class="fc-calc__htn-section" data-htn-clinical hidden>
+                <summary class="fc-calc__htn-section-summary">
+                  <span class="fc-calc__htn-section-title">2. Бессимптомное поражение органов-мишеней (ПОМ)</span>
+                  <span class="fc-calc__htn-section-count" data-htn-count="pom" hidden></span>
+                  <span class="fc-calc__htn-section-chevron" aria-hidden="true"></span>
+                </summary>
+                <div class="fc-calc__htn-section-body">
+                  <div class="fc-calc__htn-options">
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-arterialStiffness">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-arterialStiffness" name="pom" value="arterialStiffness" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Артериальная жесткость</span>
+                  <span class="fc-calc__htn-row-hint">Пульсовое давление ≥ 60 мм рт.ст.<br>и (или)<br>скорость распространения пульсовой волны (каротидно-феморальная) &gt; 10 м/с</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-ecgLvh">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-ecgLvh" name="pom" value="ecgLvh" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">ГЛЖ по ЭКГ критериям</span>
+                  <span class="fc-calc__htn-row-hint">Соколов–Лайон &gt; 35 мм;<br>RaVL &gt; 11 мм;<br>Корнеллское произведение &gt; 2440 мм×мс;<br>Корнелл &gt; 28 мм у мужчин / &gt; 20 мм у женщин</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-echoLvh">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-echoLvh" name="pom" value="echoLvh" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">ГЛЖ по ЭхоКГ критериям</span>
+                  <span class="fc-calc__htn-row-hint">Индекс массы миокарда левого желудочка (далее ИММЛЖ⁵) &gt; 50 г/м²·⁷ у мужчин, &gt; 47 у женщин<br>или<br>ИММЛЖ⁶ у мужчин &gt; 115 г/м², у женщин &gt; 95 г/м²</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-atherosclerosisMild">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-atherosclerosisMild" name="pom" value="atherosclerosisMild" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Наличие атеросклеротических бляшек при визуализации</span>
+                  <span class="fc-calc__htn-row-hint">&lt; 50 %</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-ckd3">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-ckd3" name="pom" value="ckd3" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">ХБП 3 стадии</span>
+                  <span class="fc-calc__htn-row-hint">СКФ⁷ 30–59 мл/мин/1,73 м²</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-albuminuria">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-albuminuria" name="pom" value="albuminuria" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Альбуминурия</span>
+                  <span class="fc-calc__htn-row-hint">30–300 мг/сут<br>или<br>отношение альбумин/креатинин 30–300 мг/г предпочтительно разовой утренней порции мочи или при невозможности оценки альбуминурии качественная оценка протеинурии</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-pom-retinopathy">
+                <input type="checkbox" id="fc-calc-hypertension-risk-pom-retinopathy" name="pom" value="retinopathy" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Тяжелая ретинопатия</span>
+                  <span class="fc-calc__htn-row-hint">Кровоизлияния или экссудаты сетчатки, отёк диска зрительного нерва</span>
+                </span>
+              </label>
+                  </div>
+                </div>
+              </details>
+
+              <details class="fc-calc__htn-section" data-htn-clinical hidden>
+                <summary class="fc-calc__htn-section-summary">
+                  <span class="fc-calc__htn-section-title">3. Ассоциированные клинические состояния (АКС)</span>
+                  <span class="fc-calc__htn-section-count" data-htn-count="aks" hidden></span>
+                  <span class="fc-calc__htn-section-chevron" aria-hidden="true"></span>
+                </summary>
+                <div class="fc-calc__htn-section-body">
+                  <div class="fc-calc__htn-options">
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-aks-cerebrovascular">
+                <input type="checkbox" id="fc-calc-hypertension-risk-aks-cerebrovascular" name="aks" value="cerebrovascular" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Цереброваскулярная болезнь (ЦВБ)</span>
+                  <span class="fc-calc__htn-row-hint">транзиторная ишемическая атака, ишемический инсульт, церебральное кровоизлияние</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-aks-chd">
+                <input type="checkbox" id="fc-calc-hypertension-risk-aks-chd" name="aks" value="chd" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Ишемическая болезнь сердца (ИБС)</span>
+                  <span class="fc-calc__htn-row-hint">Инфаркт миокарда, стенокардия, состояние после реваскуляризации миокарда (чрескожное коронарное вмешательство, аортокоронарное шунтирование)</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-aks-af">
+                <input type="checkbox" id="fc-calc-hypertension-risk-aks-af" name="aks" value="af" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Фибрилляция предсердий</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-aks-hf">
+                <input type="checkbox" id="fc-calc-hypertension-risk-aks-hf" name="aks" value="hf" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Хроническая сердечная недостаточность</span>
+                  <span class="fc-calc__htn-row-hint">IIА и выше, в том числе с сохранённой фракцией выброса левого желудочка</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-aks-atherosclerosisSevere">
+                <input type="checkbox" id="fc-calc-hypertension-risk-aks-atherosclerosisSevere" name="aks" value="atherosclerosisSevere" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Наличие атеросклеротических бляшек при визуализации</span>
+                  <span class="fc-calc__htn-row-hint">≥ 50 %</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-aks-ckd45">
+                <input type="checkbox" id="fc-calc-hypertension-risk-aks-ckd45" name="aks" value="ckd45" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">ХБП, стадии 4–5</span>
+                  <span class="fc-calc__htn-row-hint">СКФ &lt; 30 мл/мин/1,73 м²</span>
+                </span>
+              </label>
+                  </div>
+                </div>
+              </details>
+
+              <details class="fc-calc__htn-section" data-htn-clinical hidden>
+                <summary class="fc-calc__htn-section-summary">
+                  <span class="fc-calc__htn-section-title">4. Сахарный диабет (СД)</span>
+                  <span class="fc-calc__htn-section-count" data-htn-count="diabetes" hidden></span>
+                  <span class="fc-calc__htn-section-chevron" aria-hidden="true"></span>
+                </summary>
+                <div class="fc-calc__htn-section-body">
+                  <div class="fc-calc__htn-options">
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-diabetes-dmFasting">
+                <input type="checkbox" id="fc-calc-hypertension-risk-diabetes-dmFasting" name="diabetes" value="dmFasting" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Глюкоза крови натощак ≥ 7,0 ммоль/л (≥ 6,1 ммоль/л в капиллярной крови) при двух повторных измерениях</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-diabetes-dmHba1c">
+                <input type="checkbox" id="fc-calc-hypertension-risk-diabetes-dmHba1c" name="diabetes" value="dmHba1c" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Гликированный гемоглобин HbA1c ≥ 6,5 %</span>
+                </span>
+              </label>
+              <label class="fc-calc__htn-row" for="fc-calc-hypertension-risk-diabetes-dmRandom">
+                <input type="checkbox" id="fc-calc-hypertension-risk-diabetes-dmRandom" name="diabetes" value="dmRandom" />
+                <span class="fc-calc__htn-row-body">
+                  <span class="fc-calc__htn-row-label">Глюкоза в любое время суток (случайная гликемия) ≥ 11,1 ммоль/л при двух повторных измерениях</span>
+                </span>
+              </label>
+                  </div>
+                </div>
+              </details>
+
+              <span class="fc-calc__error" id="fc-calc-hypertension-risk-form-error" role="alert"></span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="fc-calc__actions">
+        <button type="submit" id="fc-calc-hypertension-risk-btn" class="fc-calc__btn fc-calc__btn--inactive" form="fc-calc-hypertension-risk-form" disabled>Рассчитать</button>
+      </div>
+
+      <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-hypertension-risk-result" aria-live="polite">
+        <p class="fc-calc__result-label">Заключение</p>
+        <p class="fc-calc__htn-conclusion-head" id="fc-calc-hypertension-risk-result-headline"></p>
+        <p class="fc-calc__htn-result-value fc-calc__htn-conclusion" id="fc-calc-hypertension-risk-result-conclusion"></p>
+
+        <div class="fc-calc__htn-result-block">
+          <p class="fc-calc__htn-result-label">Степень АГ (Прил. 1)</p>
+          <p class="fc-calc__htn-result-value" id="fc-calc-hypertension-risk-result-degree"></p>
+        </div>
+
+        <div class="fc-calc__htn-result-block">
+          <p class="fc-calc__htn-result-label">Общий ССР (Прил. 4)</p>
+          <p class="fc-calc__htn-result-value" id="fc-calc-hypertension-risk-result-risk"></p>
+        </div>
+
+        <div class="fc-calc__htn-result-block" id="fc-calc-hypertension-risk-result-basis-wrap" hidden>
+          <p class="fc-calc__htn-result-label">Основание</p>
+          <p class="fc-calc__htn-result-value" id="fc-calc-hypertension-risk-result-basis"></p>
+        </div>
+
+        <div class="fc-calc__htn-result-block">
+          <p class="fc-calc__htn-result-label">Рекомендации</p>
+          <p class="fc-calc__result-desc" id="fc-calc-hypertension-risk-result-rec"></p>
+        </div>
+      </div>
+    </div>
+
+    <details class="fc-calc__notes">
+      <summary class="fc-calc__notes-summary">
+        <span class="fc-calc__notes-title">Примечание</span>
+        <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fc-calc__notes-body">
+        <p>Расчёт выполнен по клиническому протоколу МЗ РБ «Диагностика и лечение пациентов (взрослое население) с артериальной гипертензией»: категории офисного АД (приложение 1), критерии стратификации (приложение 3), матрица общего ССР (приложение 4).</p>
+        <p><strong>Категории АД:</strong> оптимальное (&lt;120/&lt;80), нормальное (120–129 и/или 80–84), высокое нормальное (130–139 и/или 85–89), АГ I–III степени; ИСАГ (САД ≥140 и ДАД &lt;90) и ИДАГ (САД &lt;140 и ДАД ≥90) с градуировкой по САД или ДАД.</p>
+        <p><strong>Стадия ГБ</strong> (при АГ I–III / ИСАГ / ИДАГ): 1 — без ПОМ, СД и АКС; 2 — бессимптомное ПОМ и/или СД; 3 — АКС (включая ХБП ≥4 ст.).</p>
+        <p><strong>Матрица риска (приложение 4):</strong></p>
+        <div class="fc-calc__table-wrap">
+          <table class="fc-calc__table">
+            <thead>
+              <tr>
+                <th>ФР / ПОМ / заболевания</th>
+                <th>Выс. норм.</th>
+                <th>I ст.</th>
+                <th>II ст.</th>
+                <th>III ст.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Нет других ФР</td><td>Нет риска</td><td>Низкий</td><td>Средний</td><td>Высокий</td></tr>
+              <tr><td>1–2 ФР</td><td>Низкий</td><td>Средний</td><td>Высокий</td><td>Высокий</td></tr>
+              <tr><td>≥ 3 ФР</td><td>Средний</td><td>Высокий</td><td>Высокий</td><td>Очень высокий</td></tr>
+              <tr><td>Бессимптомное ПОМ, ХБП 3 ст.</td><td>Высокий</td><td>Высокий</td><td>Высокий</td><td>Очень высокий</td></tr>
+              <tr><td>АКС, ХБП ≥4 ст., СД</td><td colspan="4">Очень высокий</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Оформление заключения по протоколу РБ: (1) степень АГ по Приложению 1; (2) категория общего ССР по матрице Приложения 4 с указанием основания (число ФР и/или бессимптомное ПОМ / ХБП 3 ст. / АКС / ХБП ≥4 / СД). ФР считаются по количеству (0; 1–2; ≥3); ПОМ и АКС/СД — отдельные строки матрицы, а не «ещё один ФР».</p>
+        <p><strong>Источники:</strong></p>
+        <p>1. Клинический протокол МЗ РБ «Диагностика и лечение пациентов (взрослое население) с артериальной гипертензией», приложения 1, 3, 4 (Национальный правовой Интернет-портал Республики Беларусь, 11.08.2026, 11-3/45133).</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="fc-calc__foot">
+    <p class="fc-calc__disclaimer">
+      Справочно-информационный характер. Не заменяет консультацию врача и не служит основанием для самостоятельного назначения лечения.
+    </p>
+  </footer>
+
+  <script>
+(function () {
+  var root = document.querySelector('.fc-calc[data-calculator="hypertension-risk"]');
+  if (!root) return;
+
+  var LIMITS = { sbp: { min: 40, max: 310 }, dbp: { min: 40, max: 310 } };
+  var CATEGORY_RANK = {
+    optimal: 0,
+    normal: 1,
+    highNormal: 2,
+    1: 3,
+    2: 4,
+    3: 5
+  };
+  var RISK_MATRIX = {
+    noFr: ['none', 'low', 'middle', 'high'],
+    fr12: ['low', 'middle', 'high', 'high'],
+    fr3: ['middle', 'high', 'high', 'veryHigh'],
+    pom: ['high', 'high', 'high', 'veryHigh'],
+    aks: ['veryHigh', 'veryHigh', 'veryHigh', 'veryHigh']
+  };
+  var RISK_META = {
+    none: {
+      label: 'нет риска',
+      recommendation: 'Изменение образа жизни.'
+    },
+    low: {
+      label: 'низкий риск',
+      recommendation:
+        'Изменение образа жизни в течение нескольких месяцев. При сохранении артериальной гипертензии — медикаментозная терапия (монотерапия).'
+    },
+    middle: {
+      label: 'средний риск',
+      recommendation:
+        'Изменение образа жизни в течение нескольких недель. При сохранении артериальной гипертензии — медикаментозная терапия (монотерапия).'
+    },
+    high: {
+      label: 'высокий риск',
+      recommendation:
+        'Изменение образа жизни и медикаментозная терапия (комбинированная терапия).'
+    },
+    veryHigh: {
+      label: 'очень высокий риск',
+      recommendation:
+        'Изменение образа жизни и медикаментозная терапия (комбинированная терапия).'
+    }
+  };
+  var DEGREE_LABELS = {
+    optimal: 'Оптимальное АД',
+    normal: 'Нормальное АД',
+    highNormal: 'Высокое нормальное АД',
+    1: 'Артериальная гипертензия I степени',
+    2: 'Артериальная гипертензия II степени',
+    3: 'Артериальная гипертензия III степени'
+  };
+
+  var form = root.querySelector('#fc-calc-hypertension-risk-form');
+  var calcBtn = root.querySelector('#fc-calc-hypertension-risk-btn');
+  var formError = root.querySelector('#fc-calc-hypertension-risk-form-error');
+  var resultWrap = root.querySelector('#fc-calc-hypertension-risk-result');
+  var resultConclusion = root.querySelector('#fc-calc-hypertension-risk-result-conclusion');
+  var resultHeadline = root.querySelector('#fc-calc-hypertension-risk-result-headline');
+  var resultDegree = root.querySelector('#fc-calc-hypertension-risk-result-degree');
+  var resultRisk = root.querySelector('#fc-calc-hypertension-risk-result-risk');
+  var resultBasis = root.querySelector('#fc-calc-hypertension-risk-result-basis');
+  var resultBasisWrap = root.querySelector('#fc-calc-hypertension-risk-result-basis-wrap');
+  var resultRec = root.querySelector('#fc-calc-hypertension-risk-result-rec');
+  var degreePreview = root.querySelector('#fc-calc-hypertension-risk-degree-preview');
+  var clinicalSections = root.querySelectorAll('[data-htn-clinical]');
+  var sbpInput = root.querySelector('#fc-calc-hypertension-risk-sbp');
+  var dbpInput = root.querySelector('#fc-calc-hypertension-risk-dbp');
+  var sbpError = root.querySelector('#fc-calc-hypertension-risk-sbp-error');
+  var dbpError = root.querySelector('#fc-calc-hypertension-risk-dbp-error');
+
+  function parsePressure(value) {
+    var s = String(value || '').trim().replace(',', '.');
+    if (!s || !/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = Number(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function hasInput(value) {
+    return String(value || '').trim() !== '';
+  }
+
+  function rangeError(limits) {
+    return 'Число не в корректном интервале ' + limits.min + ' - ' + limits.max;
+  }
+
+  function categoryBySbp(sbp) {
+    if (sbp < 120) return 'optimal';
+    if (sbp <= 129) return 'normal';
+    if (sbp <= 139) return 'highNormal';
+    if (sbp <= 159) return 1;
+    if (sbp <= 179) return 2;
+    return 3;
+  }
+
+  function categoryByDbp(dbp) {
+    if (dbp < 80) return 'optimal';
+    if (dbp <= 84) return 'normal';
+    if (dbp <= 89) return 'highNormal';
+    if (dbp <= 99) return 1;
+    if (dbp <= 109) return 2;
+    return 3;
+  }
+
+  function maxCategory(a, b) {
+    return CATEGORY_RANK[a] >= CATEGORY_RANK[b] ? a : b;
+  }
+
+  function gradeFromSbp(sbp) {
+    if (sbp >= 180) return 3;
+    if (sbp >= 160) return 2;
+    if (sbp >= 140) return 1;
+    return null;
+  }
+
+  function gradeFromDbp(dbp) {
+    if (dbp >= 110) return 3;
+    if (dbp >= 100) return 2;
+    if (dbp >= 90) return 1;
+    return null;
+  }
+
+  function classifyBloodPressure(sbp, dbp) {
+    if (sbp >= 140 && dbp < 90) {
+      var g1 = gradeFromSbp(sbp);
+      return {
+        key: 'isolate.' + g1,
+        bpColumn: g1,
+        ahPresent: true,
+        riskApplicable: true
+      };
+    }
+    if (sbp < 140 && dbp >= 90) {
+      var g2 = gradeFromDbp(dbp);
+      return {
+        key: 'dadIsolate.' + g2,
+        bpColumn: g2,
+        ahPresent: true,
+        riskApplicable: true
+      };
+    }
+    var cat = maxCategory(categoryBySbp(sbp), categoryByDbp(dbp));
+    var ahPresent = cat === 1 || cat === 2 || cat === 3;
+    var riskApplicable = cat === 'highNormal' || ahPresent;
+    var bpColumn = null;
+    if (cat === 'highNormal') bpColumn = 0;
+    else if (cat === 1 || cat === 2 || cat === 3) bpColumn = cat;
+    return {
+      key: cat,
+      bpColumn: bpColumn,
+      ahPresent: ahPresent,
+      riskApplicable: riskApplicable
+    };
+  }
+
+  function degreeLabel(degreeKey) {
+    if (typeof degreeKey === 'string' && degreeKey.indexOf('.') !== -1) {
+      var parts = degreeKey.split('.');
+      var kind = parts[0];
+      var n = parts[1];
+      var base =
+        kind === 'isolate'
+          ? 'Изолированная систолическая АГ (ИСАГ)'
+          : 'Изолированная диастолическая АГ (ИДАГ)';
+      var roman = { 1: 'I', 2: 'II', 3: 'III' }[n] || n;
+      return base + ' ' + roman + ' степени';
+    }
+    return DEGREE_LABELS[degreeKey] || String(degreeKey);
+  }
+
+  function resolveRiskRow(frCount, hasPom, hasAksOrDm) {
+    if (hasAksOrDm) return 'aks';
+    if (hasPom) return 'pom';
+    if (frCount >= 3) return 'fr3';
+    if (frCount >= 1) return 'fr12';
+    return 'noFr';
+  }
+
+  function resolveRiskKey(bpColumn, frCount, hasPom, hasAksOrDm) {
+    if (bpColumn == null) return null;
+    return RISK_MATRIX[resolveRiskRow(frCount, hasPom, hasAksOrDm)][bpColumn];
+  }
+
+  function romanDegree(n) {
+    return { 1: 'I', 2: 'II', 3: 'III' }[n] || String(n);
+  }
+
+  function degreeShort(degreeKey) {
+    if (typeof degreeKey === 'string' && degreeKey.indexOf('.') !== -1) {
+      var parts = degreeKey.split('.');
+      var prefix =
+        parts[0] === 'isolate'
+          ? 'Изолированная систолическая АГ'
+          : 'Изолированная диастолическая АГ';
+      return prefix + ' ' + romanDegree(Number(parts[1])) + ' степени';
+    }
+    if (degreeKey === 'highNormal') return 'высокое нормальное АД';
+    if (degreeKey === 1 || degreeKey === 2 || degreeKey === 3) {
+      return 'АГ ' + romanDegree(degreeKey) + ' степени';
+    }
+    return degreeLabel(degreeKey);
+  }
+
+  function checkedLabels(name) {
+    var nodes = form.querySelectorAll('input[type="checkbox"][name="' + name + '"]:checked');
+    var out = [];
+    for (var i = 0; i < nodes.length; i++) {
+      var label = nodes[i].closest('label');
+      var title = label ? label.querySelector('.fc-calc__htn-row-label') : null;
+      out.push(title ? title.textContent.trim() : nodes[i].value);
+    }
+    return out;
+  }
+
+  function buildRiskBasis(riskRow, frCount, bpColumn, pomLabels, aksLabels, hasDm) {
+    if (riskRow === 'aks') {
+      var parts = [];
+      if (hasDm) parts.push('СД');
+      if (aksLabels.length) {
+        parts.push('ассоциированные клинические состояния (' + aksLabels.join(', ') + ')');
+      } else if (!hasDm) {
+        parts.push('ассоциированные клинические состояния / ХБП ≥ 4 ст. / СД');
+      }
+      return parts.join('; ');
+    }
+    if (riskRow === 'pom') {
+      return pomLabels.length
+        ? 'бессимптомное ПОМ / ХБП 3 ст. (' + pomLabels.join(', ') + ')'
+        : 'бессимптомное ПОМ / ХБП 3 ст.';
+    }
+    var col =
+      bpColumn === 0
+        ? 'высокое нормальное АД'
+        : bpColumn
+          ? 'степень ' + romanDegree(bpColumn)
+          : '';
+    if (riskRow === 'fr3') return '≥ 3 ФР' + (col ? ' + ' + col : '') + ' (n=' + frCount + ')';
+    if (riskRow === 'fr12') return '1–2 ФР' + (col ? ' + ' + col : '') + ' (n=' + frCount + ')';
+    return col ? 'нет других ФР + ' + col : 'нет других ФР';
+  }
+
+  function collectChecked(name) {
+    var nodes = form.querySelectorAll('input[type="checkbox"][name="' + name + '"]:checked');
+    var out = [];
+    for (var i = 0; i < nodes.length; i++) out.push(nodes[i].value);
+    return out;
+  }
+
+  function updateFieldError(input, errorEl, limits, emptyMsg, showEmpty) {
+    if (!hasInput(input.value)) {
+      errorEl.textContent = showEmpty ? emptyMsg : '';
+      return false;
+    }
+    var value = parsePressure(input.value);
+    if (value == null) {
+      errorEl.textContent = showEmpty ? emptyMsg : '';
+      return false;
+    }
+    if (value < limits.min || value > limits.max) {
+      errorEl.textContent = rangeError(limits);
+      return false;
+    }
+    errorEl.textContent = '';
+    return true;
+  }
+
+  function isBpReady() {
+    var sbp = parsePressure(sbpInput.value);
+    var dbp = parsePressure(dbpInput.value);
+    return (
+      sbp != null &&
+      dbp != null &&
+      sbp >= LIMITS.sbp.min &&
+      sbp <= LIMITS.sbp.max &&
+      dbp >= LIMITS.dbp.min &&
+      dbp <= LIMITS.dbp.max
+    );
+  }
+
+  function updateSectionCounts() {
+    var groups = ['riskFactors', 'pom', 'aks', 'diabetes'];
+    for (var i = 0; i < groups.length; i++) {
+      var name = groups[i];
+      var badge = root.querySelector('[data-htn-count="' + name + '"]');
+      if (!badge) continue;
+      var n = form.querySelectorAll('input[type="checkbox"][name="' + name + '"]:checked').length;
+      if (n > 0) {
+        badge.textContent = String(n);
+        badge.hidden = false;
+      } else {
+        badge.textContent = '';
+        badge.hidden = true;
+      }
+    }
+  }
+
+  function updateClinicalVisibility() {
+    var show = false;
+    if (isBpReady()) {
+      var c = classifyBloodPressure(parsePressure(sbpInput.value), parsePressure(dbpInput.value));
+      show = c.riskApplicable;
+      degreePreview.textContent = degreeLabel(c.key);
+      degreePreview.hidden = false;
+    } else {
+      degreePreview.hidden = true;
+    }
+    for (var i = 0; i < clinicalSections.length; i++) {
+      clinicalSections[i].hidden = !show;
+      if (!show) clinicalSections[i].open = false;
+    }
+    updateSectionCounts();
+  }
+
+  function hideResult() {
+    resultWrap.classList.add('fc-calc__result-wrap--hidden');
+  }
+
+  function updateButton() {
+    var ok = isBpReady();
+    calcBtn.disabled = !ok;
+    calcBtn.classList.toggle('fc-calc__btn--inactive', !ok);
+  }
+
+  function refresh(showEmpty) {
+    updateFieldError(sbpInput, sbpError, LIMITS.sbp, 'Укажите САД', showEmpty);
+    updateFieldError(dbpInput, dbpError, LIMITS.dbp, 'Укажите ДАД', showEmpty);
+    updateClinicalVisibility();
+    updateButton();
+  }
+
+  function calculate() {
+    var sbp = parsePressure(sbpInput.value);
+    var dbp = parsePressure(dbpInput.value);
+    var classified = classifyBloodPressure(sbp, dbp);
+    var degreeKey = classified.key;
+    var riskFactors = classified.riskApplicable ? collectChecked('riskFactors') : [];
+    var pom = classified.riskApplicable ? collectChecked('pom') : [];
+    var aks = classified.riskApplicable ? collectChecked('aks') : [];
+    var diabetes = classified.riskApplicable ? collectChecked('diabetes') : [];
+    var frCount = riskFactors.length;
+    var hasPom = pom.length > 0;
+    var hasAks = aks.length > 0;
+    var hasDm = diabetes.length > 0;
+    var riskRow = resolveRiskRow(frCount, hasPom, hasAks || hasDm);
+    var frLabels = classified.riskApplicable ? checkedLabels('riskFactors') : [];
+    var pomLabels = classified.riskApplicable ? checkedLabels('pom') : [];
+    var aksLabels = classified.riskApplicable ? checkedLabels('aks') : [];
+
+    var stageLabel = null;
+    if (classified.ahPresent) {
+      if (hasAks) stageLabel = '3 стадия гипертонической болезни';
+      else if (hasPom || hasDm) stageLabel = '2 стадия гипертонической болезни';
+      else stageLabel = '1 стадия гипертонической болезни';
+    }
+
+    var riskKey;
+    var riskLabel;
+    var recommendation;
+    var riskBasis = null;
+    var conclusion;
+    var conclusionHeadline;
+
+    if (classified.riskApplicable) {
+      riskKey = resolveRiskKey(classified.bpColumn, frCount, hasPom, hasAks || hasDm);
+      var risk = RISK_META[riskKey] || RISK_META.none;
+      riskLabel = risk.label;
+      recommendation = risk.recommendation;
+      riskBasis = buildRiskBasis(
+        riskRow,
+        frCount,
+        classified.bpColumn,
+        pomLabels,
+        aksLabels,
+        hasDm
+      );
+      var short = degreeShort(degreeKey);
+      var bp = sbp + '/' + dbp + ' мм рт.ст.';
+      var headline = short + ', ' + riskLabel;
+      var detail = bp + ' Общий ССР: (по Прил. 4: ' + riskBasis + ').';
+      if (frLabels.length) detail += ' ФР: ' + frLabels.join('; ') + '.';
+      conclusionHeadline = headline;
+      conclusion = detail;
+    } else {
+      riskKey = 'none';
+      riskLabel =
+        degreeKey === 'optimal' || degreeKey === 'normal'
+          ? 'артериальная гипертензия исключена'
+          : RISK_META.none.label;
+      recommendation = 'Изменение образа жизни при наличии факторов риска.';
+      conclusionHeadline = degreeLabel(degreeKey);
+      conclusion =
+        sbp +
+        '/' +
+        dbp +
+        ' мм рт.ст. Стратификация общего ССР по Прил. 4 не применяется.';
+    }
+
+    return {
+      degreeLabel: degreeLabel(degreeKey),
+      stageLabel: stageLabel,
+      riskKey: riskKey,
+      riskLabel: riskLabel,
+      riskBasis: riskBasis,
+      conclusionHeadline: conclusionHeadline,
+      conclusion: conclusion,
+      recommendation: recommendation,
+      sbp: sbp,
+      dbp: dbp
+    };
+  }
+
+  form.addEventListener('input', function () {
+    hideResult();
+    formError.textContent = '';
+    refresh(false);
+  });
+  form.addEventListener('change', function () {
+    hideResult();
+    formError.textContent = '';
+    refresh(false);
+    updateSectionCounts();
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.textContent = '';
+    hideResult();
+    refresh(true);
+    if (!isBpReady()) return;
+    try {
+      var out = calculate();
+      resultHeadline.textContent = out.conclusionHeadline || '';
+      resultConclusion.textContent = out.conclusion;
+      resultDegree.textContent = out.degreeLabel;
+      resultRisk.textContent = out.riskLabel;
+      if (out.riskBasis) {
+        resultBasis.textContent = out.riskBasis;
+        resultBasisWrap.hidden = false;
+      } else {
+        resultBasis.textContent = '';
+        resultBasisWrap.hidden = true;
+      }
+      resultRec.textContent = out.recommendation;
+      resultWrap.classList.remove('fc-calc__result-wrap--hidden');
+    } catch (err) {
+      formError.textContent = err.message || 'Ошибка расчёта';
+    }
+  });
+
+  refresh(false);
+})();
+  </script>
+</div>

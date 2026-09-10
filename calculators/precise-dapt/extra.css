@@ -1,0 +1,252 @@
+/* precise-dapt */
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-grid .fc-calc__field input,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-bleed .fc-calc__segmented,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-block .fc-calc__segmented {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-grid .fc-calc__field input,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-input-row select {
+  height: 44px;
+  min-height: 44px;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-bleed,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-block {
+  grid-column: 1 / -1;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-bleed .fc-calc__segmented {
+  margin-bottom: 0;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-panel[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-sublabel {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #263048;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-nested {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-nested > label {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-cg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-input-row input {
+  flex: 1 1 0%;
+  width: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-input-row select {
+  flex: 0 0 7.5rem;
+  width: 7.5rem;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-preview {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-crcl-preview[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__result-desc {
+  color: #000;
+  opacity: 1;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__result-number--very-low,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__result-number--low {
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__result-number--moderate {
+  color: #e65100;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__result-number--high {
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__notes-body p,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__notes-body td,
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__notes-body li {
+  color: #000;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-nomogram {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  background: #fff;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-nomogram-open {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-nomogram-open:focus-visible {
+  outline: 2px solid var(--fc-accent);
+  outline-offset: 2px;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-nomogram img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-lightbox[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: zoom-out;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-lightbox-dialog {
+  position: relative;
+  z-index: 1;
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: var(--fc-radius);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-lightbox-close {
+  position: sticky;
+  top: 8px;
+  float: right;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  margin: 8px 8px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-lightbox-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc !important;
+  list-style-position: outside !important;
+}
+
+.fc-calc[data-calculator="precise-dapt"] .fc-calc__notes-body li {
+  display: list-item !important;
+  list-style: disc !important;
+  margin: 0 0 6px;
+}
+
+@media (max-width: 640px) {
+  .fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-grid,
+  .fc-calc[data-calculator="precise-dapt"] .fc-calc__pd-cg-grid {
+    grid-template-columns: 1fr;
+  }
+}

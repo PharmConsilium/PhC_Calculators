@@ -207,6 +207,7 @@ const CLINICAL_PARAGRAPHS = [
   '6. Delgado C, Baweja M, Crews DC, et al. A unifying approach for GFR estimation: Recommendations of the NKF-ASN Task Force on Reassessing the Inclusion of Race in Diagnosing Kidney Disease. Am J Kidney Dis. 2021;78(1):103-115.',
   '7. Kramer HJ, Jaar BG, Choi MJ, et al.; National Kidney Foundation Kidney Disease Outcomes Quality Initiative. An Endorsement of the Removal of Race From GFR Estimation Equations: A Position Statement From the National Kidney Foundation Kidney Disease Outcomes Quality Initiative. Am J Kidney Dis. 2022;80(6):691-696.',
   '8. Watson PE, Watson ID, Batt RD. Total body water volumes for adult males and females estimated from simple anthropometric measurements. Am J Clin Nutr. 1980;33(1):27-39.',
+  '9. Cockcroft DW, Gault MH. Prediction of creatinine clearance from serum creatinine. Nephron. 1976;16(1):31-41. doi: 10.1159/000180580. PMID: 1244564.',
 ];
 
 function clinicalToHtml(paragraphs) {

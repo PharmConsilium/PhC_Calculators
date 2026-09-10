@@ -43,7 +43,7 @@ ${extra.trim()}
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
         <h2 class="fc-calc__title">Расчёт ХС ЛПНП</h2>
-        <p class="fc-calc__hint">Формулы Мартина-Хопкинса, Сэмпсона и Фридвальда (ммоль/л)</p>
+        <p class="fc-calc__hint">Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP)</p>
       </header>
 
       <div class="fc-calc__body">
@@ -63,6 +63,13 @@ ${renderLipidField('tg', 'Триглицериды')}
 ${renderLdlResult('1', 'martin', 'Формула Мартина-Хопкинса')}
 ${renderLdlResult('2', 'sampson', 'Формула Сэмпсона')}
 ${renderLdlResult('3', 'friedewald', 'Формула Фридвальда')}
+              <div class="fc-calc__noa-ldl">
+                <p class="fc-calc__noa-ldl-title">Атерогенный индекс плазмы (AIP)</p>
+                <div class="fc-calc__noa-ldl-value-row">
+                  <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-aip">—</span>
+                </div>
+                <p class="fc-calc__result-desc" id="fc-calc-martin-ldl-aip-risk"></p>
+              </div>
               <p class="fc-calc__result-desc" id="fc-calc-martin-ldl-warning"></p>
             </div>
           </div>
@@ -89,8 +96,11 @@ ${renderLdlResult('3', 'friedewald', 'Формула Фридвальда')}
         <p>Формула Сэмпсона может быть использована для расчёта ХС ЛПНП как при нормальном, так и при повышенном уровне триглицеридов.</p>
         <p><strong>Формула Фридвальда:</strong> ХС ЛПНП = ОХС − ЛПВП − ТГ / 2,2.</p>
         <p>Формула Фридвальда позволяет получить значения ХС ЛПНП, сопоставимые с прямым измерением, при уровне триглицеридов до 4,5 ммоль/л.</p>
+        <p><strong>Атерогенный индекс плазмы (AIP):</strong> AIP = log<sub>10</sub>(ТГ / ЛПВП), где ТГ и ЛПВП в ммоль/л. Отражает баланс между триглицеридами и ХС ЛПВП.</p>
+        <p>Интерпретация риска: низкий — AIP от −0,3 до 0,1; средний — от 0,1 до 0,24; высокий — выше 0,24.</p>
         <p>Результаты выводятся с точностью до 2 знаков после запятой (без округления в большую сторону).</p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
+        <p><strong>Источники:</strong></p>
+        <p>1. Dobiásová M, Frohlich J. The plasma parameter log (TG/HDL-C) as an atherogenic index: correlation with lipoprotein particle size and esterification rate in apoB-lipoprotein-depleted plasma (FER(HDL)). Clin Biochem. 2001 Oct;34(7):583-8. doi: 10.1016/s0009-9120(01)00263-6. PMID: 11738396.</p>
       </div>
     </details>
   </div>

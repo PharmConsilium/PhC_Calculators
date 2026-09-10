@@ -1,0 +1,34 @@
+{
+  "slug": "ldl-calc",
+  "source": "Aggregator of martin-ldl and ldl-lpa-corr",
+  "cases": [
+    {
+      "name": "formulas NOA 7/3/4",
+      "input": {
+        "mode": "martin-ldl",
+        "totalChol": 7,
+        "hdl": 3,
+        "triglycerides": 4
+      },
+      "expected": {
+        "mode": "martin-ldl",
+        "martinLdl": 2.44,
+        "sampsonLdl": 2.52,
+        "friedewaldLdl": 2.18
+      }
+    },
+    {
+      "name": "lpa correction typical",
+      "input": {
+        "mode": "ldl-lpa-corr",
+        "ldl": 2.5,
+        "lpa": 50
+      },
+      "expected": {
+        "mode": "ldl-lpa-corr",
+        "correctedLdl": 2.11,
+        "correction": 0.38
+      }
+    }
+  ]
+}
