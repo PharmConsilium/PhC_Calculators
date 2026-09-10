@@ -62,11 +62,11 @@ ${extra.trim()}
                 <div class="fc-calc__lu-units" role="radiogroup" aria-labelledby="fc-calc-lab-units-from-legend">
                   <label class="fc-calc__lu-unit">
                     <input type="radio" name="from" id="fc-calc-lab-units-from-a" value="A" checked />
-                    <span id="fc-calc-lab-units-unit-a-label">Единица A</span>
+                    <span id="fc-calc-lab-units-unit-a-label">Система SI</span>
                   </label>
                   <label class="fc-calc__lu-unit">
                     <input type="radio" name="from" id="fc-calc-lab-units-from-b" value="B" />
-                    <span id="fc-calc-lab-units-unit-b-label">Единица B</span>
+                    <span id="fc-calc-lab-units-unit-b-label">Альтернативная система</span>
                   </label>
                 </div>
               </div>

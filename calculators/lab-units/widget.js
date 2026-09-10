@@ -93,8 +93,8 @@
         var a = currentAnalyte();
         if (!a) {
           pairHint.textContent = 'Выберите исследование, чтобы увидеть пару единиц';
-          unitALabel.textContent = 'Единица A';
-          unitBLabel.textContent = 'Единица B';
+          unitALabel.textContent = 'Система SI';
+          unitBLabel.textContent = 'Альтернативная система';
           return;
         }
         pairHint.textContent = a.unitA + ' ↔ ' + a.unitB;
