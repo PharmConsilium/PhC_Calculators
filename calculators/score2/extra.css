@@ -1,0 +1,385 @@
+/* score2 */
+.fc-calc[data-calculator="score2"] .fc-calc__score2-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-grid .fc-calc__field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-grid .fc-calc__field > label {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-grid .fc-calc__field input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-full {
+  grid-column: 1 / -1;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-nonhdl-calc {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  grid-column: 1 / -1;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-nonhdl-calc[hidden],
+.fc-calc[data-calculator="score2"] .fc-calc__score2-nonhdl-direct[hidden] {
+  display: none;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-preview {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-field-hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--fc-text-muted, #555);
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__result-number {
+  font-size: 40px;
+  line-height: 1.15;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-result-meta {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text-muted, #555);
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-result-category {
+  margin: 8px 0 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__result-number.fc-calc__score2-tone--green,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-result-category.fc-calc__score2-tone--green {
+  background: none;
+  color: #2e7d32;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__result-number.fc-calc__score2-tone--orange,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-result-category.fc-calc__score2-tone--orange {
+  background: none;
+  color: #ef6c00;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__result-number.fc-calc__score2-tone--red,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-result-category.fc-calc__score2-tone--red {
+  background: none;
+  color: #c62828;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-block {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--fc-border);
+  text-align: left;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-block-title {
+  margin: 0 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #000;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-targets {
+  display: grid;
+  gap: 10px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-targets .fc-calc__score2-block-title {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-targets-source {
+  margin: -4px 0 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #000;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table {
+  width: 100%;
+  margin: 0;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table th,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table td {
+  padding: 9px 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  vertical-align: middle;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table thead th {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table tbody th {
+  font-weight: 400;
+  text-align: left;
+  color: var(--fc-text);
+  width: 38%;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table td {
+  text-align: left;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table td strong {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-blue);
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-table td strong sup {
+  font-size: 10px;
+  line-height: 0;
+  color: inherit;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-targets .fc-calc__score2-target-note {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--fc-blue);
+  background: #f3f7ff;
+  border-radius: 0 var(--fc-radius) var(--fc-radius) 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--fc-text-muted, #555);
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-target-note,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-strategy-detail,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-strategy-hint {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fc-text-muted, #555);
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-strategy-label {
+  margin: 8px 0 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  color: #000;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-strategy-ldl {
+  margin: 10px 0 0;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-strategy-ldl input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-notes-table-title {
+  margin: 16px 0 8px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-caption {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-snip {
+  font-size: 13px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-snip th,
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-snip td {
+  text-align: center;
+  padding: 6px 4px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-cell--green {
+  background: #c8e6c9;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-cell--orange {
+  background: #ffe0b2;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-cell--red {
+  background: #ef9a9a;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-cell--active {
+  outline: 2px solid #005eec;
+  outline-offset: -2px;
+  font-weight: 700;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-cell--neighbor {
+  outline: 2px dashed #005eec;
+  outline-offset: -2px;
+  font-weight: 600;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-figure {
+  margin: 12px 0 20px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-open {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-open:focus-visible {
+  outline: 2px solid var(--fc-blue);
+  outline-offset: 2px;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-chart-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-lightbox[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: zoom-out;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-lightbox-dialog {
+  position: relative;
+  z-index: 1;
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: var(--fc-radius);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-lightbox-close {
+  position: sticky;
+  top: 8px;
+  float: right;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  margin: 8px 8px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-lightbox-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__score2-legend {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__notes-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.25rem;
+  list-style: disc outside;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__notes-body ul li {
+  margin: 0 0 6px;
+  padding-left: 0.15rem;
+  list-style: disc outside;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__notes-body ul.fc-calc__score2-abbr-list {
+  margin: 8px 0 12px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.fc-calc[data-calculator="score2"] .fc-calc__notes-body ul.fc-calc__score2-abbr-list li {
+  margin: 0 0 4px;
+  padding-left: 0;
+  list-style: none;
+}
+
+  @media (max-width: 560px) {
+  .fc-calc[data-calculator="score2"] .fc-calc__score2-grid,
+  .fc-calc[data-calculator="score2"] .fc-calc__score2-nonhdl-calc {
+    grid-template-columns: 1fr;
+  }
+}

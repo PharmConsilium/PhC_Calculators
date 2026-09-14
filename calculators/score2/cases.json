@@ -1,0 +1,243 @@
+{
+  "slug": "score2",
+  "source": "ESC SCORE2 / SCORE2-OP charts (very high CVD risk); Eur Heart J 2021",
+  "cases": [
+    {
+      "name": "chart male 50 smoker SBP140 nonHDL4.2",
+      "input": {
+        "sex": "male",
+        "age": 50,
+        "sbp": 140,
+        "totalChol": 5.5,
+        "hdl": 1.3,
+        "smoking": "yes"
+      },
+      "expected": {
+        "status": "OK",
+        "model": "score2",
+        "riskPercent": 19,
+        "riskDisplay": "17–19",
+        "riskMode": "between",
+        "nonHdl": 4.2,
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "name": "direct nonHdl input male 60 nonsmoker → 18%",
+      "input": {
+        "sex": "male",
+        "age": 60,
+        "sbp": 125,
+        "nonHdl": 6,
+        "smoking": "no"
+      },
+      "expected": {
+        "status": "OK",
+        "riskPercent": 18,
+        "nonHdl": 6
+      }
+    },
+    {
+      "name": "FCS male 60 nonsmoker → 18%",
+      "input": {
+        "sex": "male",
+        "age": 60,
+        "sbp": 125,
+        "totalChol": 7,
+        "hdl": 1,
+        "smoking": "no"
+      },
+      "expected": {
+        "status": "OK",
+        "riskPercent": 18,
+        "riskDisplay": "18",
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "name": "between chol edge → display range, category by max",
+      "input": {
+        "sex": "male",
+        "age": 60,
+        "sbp": 125,
+        "totalChol": 7.2,
+        "hdl": 1,
+        "smoking": 0
+      },
+      "expected": {
+        "status": "OK",
+        "riskMode": "between",
+        "riskMin": 17,
+        "riskMax": 18,
+        "riskPercent": 18,
+        "riskDisplay": "17–18"
+      }
+    },
+    {
+      "name": "very high + LDL 2.0 → immediate LP",
+      "input": {
+        "sex": "male",
+        "age": 50,
+        "sbp": 140,
+        "totalChol": 5.5,
+        "hdl": 1.3,
+        "smoking": "yes",
+        "ldl": 2.0
+      },
+      "expected": {
+        "status": "OK",
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "fn": "interventionStrategyKey",
+      "name": "very high primary LDL 2.0 → immediate LP",
+      "input": ["veryHighPrimary", 2.0],
+      "expected": "immediateLp"
+    },
+    {
+      "fn": "interventionStrategyKey",
+      "name": "high risk LDL 2.0 → consider LP",
+      "input": ["high", 2.0],
+      "expected": "mozConsiderLp"
+    },
+    {
+      "fn": "interventionStrategyKey",
+      "name": "very high secondary always immediate",
+      "input": ["veryHighSecondary", 1.0],
+      "expected": "immediateLp"
+    },
+    {
+      "fn": "lipidTargetsForCategory",
+      "name": "very high lipid LDL target",
+      "input": ["veryHigh", "male"],
+      "expected": {
+        "key": "veryHigh",
+        "ldl": "< 1,4",
+        "nonHdl": "< 2,2",
+        "label": "очень высокий риск",
+        "ldlNote": "и снижение ХС ЛНП на 50% и более от исходного уровня",
+        "hdl": "1,0–2,0",
+        "tg": "< 1,7",
+        "lpa": "< 30 мг/дл (62 нмоль/л)",
+        "rows": [
+          {
+            "key": "veryHigh",
+            "label": "очень высокий риск",
+            "ldl": "< 1,4",
+            "ldlNote": "и снижение ХС ЛНП на 50% и более от исходного уровня",
+            "nonHdl": "< 2,2",
+            "hdlMale": "1,0–2,0",
+            "hdlFemale": "1,2–2,2",
+            "tg": "< 1,7",
+            "lpa": "< 30 мг/дл (62 нмоль/л)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "chart female 50 smoker",
+      "input": {
+        "sex": "female",
+        "age": 50,
+        "sbp": 140,
+        "totalChol": 5.5,
+        "hdl": 1.3,
+        "smoking": 1
+      },
+      "expected": {
+        "status": "OK",
+        "model": "score2",
+        "riskPercent": 18,
+        "riskDisplay": "16–18",
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "name": "non-smoker male mid chart cell",
+      "input": {
+        "sex": "male",
+        "age": 55,
+        "sbp": 130,
+        "totalChol": 5,
+        "hdl": 1.3,
+        "smoking": "no"
+      },
+      "expected": {
+        "status": "OK",
+        "model": "score2",
+        "nonHdl": 3.7,
+        "riskPercent": 10,
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "name": "SCORE2-OP male 75 from chart",
+      "input": {
+        "sex": "male",
+        "age": 75,
+        "sbp": 150,
+        "totalChol": 6,
+        "hdl": 1.4,
+        "smoking": 0
+      },
+      "expected": {
+        "status": "OK",
+        "model": "score2Op",
+        "modelLabel": "SCORE2-OP",
+        "riskPercent": 39,
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "fn": "lookupChart",
+      "name": "FCS chart male 60 nonsmoker SBP125 nonHDL6 → nearest 18%",
+      "input": [{ "sex": "male", "age": 60, "sbp": 125, "nonHdl": 6, "smoking": 0 }],
+      "expected": { "status": "OK", "mode": "nearest", "riskPercent": 18, "ageBand": "60-64" }
+    },
+    {
+      "fn": "lookupChart",
+      "name": "near chol edge → between cells",
+      "input": [{ "sex": "male", "age": 60, "sbp": 125, "nonHdl": 6.2, "smoking": 0 }],
+      "expected": { "status": "OK", "mode": "between", "riskMin": 17, "riskMax": 18 }
+    },
+    {
+      "fn": "lookupChart",
+      "name": "near SBP upper edge → between 120–139 and 140–159",
+      "input": [{ "sex": "male", "age": 60, "sbp": 136, "nonHdl": 6, "smoking": 0 }],
+      "expected": { "status": "OK", "mode": "between", "riskMin": 18, "riskMax": 22 }
+    },
+    {
+      "fn": "score2Risk",
+      "name": "nonHDL above chart → clamp to 6.0–6.9",
+      "input": {
+        "sex": "male",
+        "age": 55,
+        "sbp": 140,
+        "totalChol": 8,
+        "hdl": 1,
+        "smoking": "yes"
+      },
+      "expected": {
+        "status": "OK",
+        "nonHdl": 7,
+        "riskCategory": "veryHigh"
+      }
+    },
+    {
+      "fn": "score2Risk",
+      "name": "age too young",
+      "input": {
+        "sex": "male",
+        "age": 35,
+        "sbp": 130,
+        "totalChol": 5,
+        "hdl": 1.2,
+        "smoking": 0
+      },
+      "expected": {
+        "status": "INVALID"
+      }
+    }
+  ]
+}

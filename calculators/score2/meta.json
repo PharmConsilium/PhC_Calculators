@@ -1,0 +1,8 @@
+{
+  "slug": "score2",
+  "title": "SCORE2 / SCORE2-OP — оценка сердечно-сосудистого риска",
+  "sitePath": "/calculator/score2",
+  "description": "Онлайн-калькулятор SCORE2 и SCORE2-OP: 10-летний риск фатальных и нефатальных сердечно-сосудистых событий для региона очень высокого риска (ESC 2021).",
+  "source": "МЗ РБ № 1048 от 09.09.2026; ESC CVD Prevention Toolbox — SCORE2 / SCORE2-OP",
+  "complexity": "B"
+}
