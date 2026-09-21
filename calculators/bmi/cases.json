@@ -1,26 +1,151 @@
 {
   "slug": "bmi",
-  "source": "ВОЗ — классификация ИМТ для взрослых",
+  "source": "ВОЗ — классификация ИМТ; антропометрические критерии при ИМТ ≥ 25",
   "cases": [
     {
       "name": "норма 70 кг / 175 см",
       "input": { "weightKg": 70, "heightCm": 175 },
-      "expected": { "value": 22.86, "category": "normal" }
+      "expected": {
+        "value": 22.86,
+        "category": "normal",
+        "needsAnthropometry": true,
+        "anthropometry": null,
+        "recommendations": null,
+        "bsaM2": 1.85,
+        "bsaLabel": "1,85"
+      }
+    },
+    {
+      "name": "ровно 25.0 — как на FC: Норма, но антропометрия уже нужна",
+      "input": { "weightKg": 76.5625, "heightCm": 175 },
+      "expected": {
+        "value": 25,
+        "category": "normal",
+        "interpretation": "Норма",
+        "needsAnthropometry": true,
+        "anthropometry": null,
+        "recommendations": null
+      }
+    },
+    {
+      "name": "чуть выше 25 — предожирение",
+      "input": { "weightKg": 77, "heightCm": 175 },
+      "expected": {
+        "category": "overweight",
+        "interpretation": "Избыточная масса тела (предожирение)",
+        "needsAnthropometry": true
+      }
     },
     {
       "name": "недостаточная масса 50 кг / 170 см",
       "input": { "weightKg": 50, "heightCm": 170 },
-      "expected": { "value": 17.3, "category": "underweight" }
+      "expected": { "value": 17.3, "category": "underweight", "needsAnthropometry": true }
     },
     {
       "name": "ожирение I 95 кг / 170 см",
       "input": { "weightKg": 95, "heightCm": 170 },
-      "expected": { "value": 32.87, "category": "obese" }
+      "expected": { "value": 32.87, "category": "obese", "needsAnthropometry": true }
     },
     {
       "name": "предожирение 80 кг / 175 см",
       "input": { "weightKg": 80, "heightCm": 175 },
-      "expected": { "value": 26.12, "category": "overweight" }
+      "expected": { "value": 26.12, "category": "overweight", "needsAnthropometry": true }
+    },
+    {
+      "name": "buildRecommendations: целевая потеря 5–10% от 80 кг",
+      "fn": "buildRecommendations",
+      "input": [80, 26.12],
+      "expected": {
+        "loss5Kg": 4,
+        "loss10Kg": 8,
+        "targetWeightLowKg": 72,
+        "targetWeightHighKg": 76
+      }
+    },
+    {
+      "name": "buildRecommendations: при норме — null",
+      "fn": "buildRecommendations",
+      "input": [70, 22.86],
+      "expected": null
+    },
+    {
+      "name": "антропометрия: мужчина, все критерии положительные",
+      "input": {
+        "weightKg": 90,
+        "heightCm": 170,
+        "sex": "male",
+        "waistCm": 110,
+        "hipCm": 100
+      },
+      "expected": {
+        "needsAnthropometry": true,
+        "anthropometry": {
+          "sex": "male",
+          "waistCm": 110,
+          "hipCm": 100,
+          "heightCm": 170,
+          "waistLimit": 102,
+          "whr": 1.1,
+          "whrLimit": 0.9,
+          "whtr": 0.647,
+          "whtrLimit": 0.5,
+          "waistElevated": true,
+          "whrElevated": true,
+          "whtrElevated": true,
+          "confirmed": true,
+          "summary": "Избыточное накопление жировой ткани подтверждено (≥1 критерий)"
+        }
+      }
+    },
+    {
+      "name": "антропометрия: женщина, критерии не выполнены",
+      "input": {
+        "weightKg": 70,
+        "heightCm": 160,
+        "sex": "female",
+        "waistCm": 80,
+        "hipCm": 100
+      },
+      "expected": {
+        "needsAnthropometry": true,
+        "anthropometry": {
+          "sex": "female",
+          "waistCm": 80,
+          "hipCm": 100,
+          "heightCm": 160,
+          "waistLimit": 88,
+          "whr": 0.8,
+          "whrLimit": 0.85,
+          "whtr": 0.5,
+          "whtrLimit": 0.5,
+          "waistElevated": false,
+          "whrElevated": false,
+          "whtrElevated": false,
+          "confirmed": false,
+          "summary": "Критерии избыточного накопления жировой ткани не выполнены"
+        }
+      }
+    },
+    {
+      "name": "evaluateAnthropometry: ОТ ≥ 102 у мужчин",
+      "fn": "evaluateAnthropometry",
+      "input": { "sex": "male", "waistCm": 102, "hipCm": 120, "heightCm": 180 },
+      "expected": {
+        "sex": "male",
+        "waistCm": 102,
+        "hipCm": 120,
+        "heightCm": 180,
+        "waistLimit": 102,
+        "whr": 0.85,
+        "whrLimit": 0.9,
+        "whtr": 0.567,
+        "whtrLimit": 0.5,
+        "waistElevated": true,
+        "whrElevated": false,
+        "whtrElevated": true,
+        "confirmed": true,
+        "summary": "Избыточное накопление жировой ткани подтверждено (≥1 критерий)"
+      }
     }
   ]
 }

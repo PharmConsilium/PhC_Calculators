@@ -1,0 +1,47 @@
+Источник пересборки: DOCX (тоже OCR-качество, не «чистый» Word).
+Новообразования 7–42, часть пневмоний/J47/I10 и критичные строки — из ранее выверенных/ручных правок.
+G40/G40.0/G43: сроки очищены как неразборчивые (1/51 были артефактами).
+I171/I172: разделены вручную (ИМ vs ТЭЛА) — в DOCX колонки были склеены.
+Много названий в DOCX с пропущенными буквами; где возможно подтянуты прежние имена.
+
+Issues: 82
+{"n":46,"issue":"missing-in-docx-kept-prev"}
+{"n":50,"issue":"docx-no-days-kept-prev"}
+{"n":52,"issue":"docx-no-days-kept-prev"}
+{"n":72,"issue":"docx-no-days-kept-prev"}
+{"n":75,"issue":"docx-no-days-kept-prev"}
+{"n":78,"issue":"docx-no-days-kept-prev"}
+{"n":79,"issue":"docx-no-days-kept-prev"}
+{"n":81,"issue":"docx-no-days-kept-prev"}
+{"n":85,"issue":"docx-no-days-kept-prev"}
+{"n":102,"issue":"docx-no-days-kept-prev"}
+{"n":105,"issue":"docx-no-days-kept-prev"}
+{"n":111,"issue":"docx-no-days-kept-prev"}
+{"n":112,"issue":"docx-no-days-kept-prev"}
+{"n":121,"issue":"docx-no-days-kept-prev"}
+{"n":123,"issue":"docx-no-days-kept-prev"}
+{"n":125,"issue":"docx-no-days-kept-prev"}
+{"n":127,"issue":"docx-no-days-kept-prev"}
+{"n":129,"issue":"docx-no-days-kept-prev"}
+{"n":131,"issue":"docx-no-days-kept-prev"}
+{"n":134,"issue":"docx-no-days-kept-prev"}
+{"n":135,"issue":"docx-no-days-kept-prev"}
+{"n":136,"issue":"docx-no-days-kept-prev"}
+{"n":138,"issue":"docx-no-days-kept-prev"}
+{"n":139,"issue":"docx-no-days-kept-prev"}
+{"n":140,"issue":"docx-no-days-kept-prev"}
+{"n":155,"issue":"docx-no-days-kept-prev"}
+{"n":163,"issue":"docx-no-days-kept-prev"}
+{"n":181,"issue":"missing-in-docx-kept-prev"}
+{"n":213,"issue":"docx-no-days-kept-prev"}
+{"n":231,"issue":"docx-no-days-kept-prev"}
+{"n":233,"issue":"docx-no-days-kept-prev"}
+{"n":234,"issue":"docx-no-days-kept-prev"}
+{"n":240,"issue":"missing-in-docx-kept-prev"}
+{"n":244,"issue":"missing-in-docx-kept-prev"}
+{"n":247,"issue":"docx-no-days-kept-prev"}
+{"n":248,"issue":"docx-no-days-kept-prev"}
+{"n":253,"issue":"docx-no-days-kept-prev"}
+{"n":258,"issue":"docx-no-days-kept-prev"}
+{"n":261,"issue":"docx-no-days-kept-prev"}
+{"n":269,"issue":"docx-no-days-kept-prev"}

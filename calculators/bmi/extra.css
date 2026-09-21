@@ -1,0 +1,393 @@
+.fc-calc[data-calculator="bmi"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1.5px solid var(--fc-border, #e2e5ea);
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--fc-surface, #fff);
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-option:hover {
+  background: rgba(0, 94, 236, 0.04);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-option:has(input:checked) {
+  border-color: var(--fc-primary, #005eec);
+  background: rgba(0, 94, 236, 0.08);
+  box-shadow: inset 0 0 0 1px var(--fc-primary, #005eec);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-option-label {
+  font-size: 14px;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] fieldset.fc-calc__bmi-fieldset {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-fieldset-legend {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 15px;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro {
+  margin-top: 8px;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro-hint {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  opacity: 0.8;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro-result {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--fc-border, #d1d5db);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro-result[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criteria {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criterion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--fc-border, #d1d5db);
+  background: var(--fc-bg-input, #f8f8f9);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criterion-name {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  color: var(--fc-text);
+  flex: 1 1 12rem;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criterion-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criterion-flag {
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criterion--yes .fc-calc__bmi-criterion-flag {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-criterion--no .fc-calc__bmi-criterion-flag {
+  color: #059669;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro-summary {
+  margin: 0.75rem 0 0;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro-summary--yes {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-anthro-summary--no {
+  color: #059669;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-recommendations {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--fc-border, #d1d5db);
+  text-align: left;
+  width: 100%;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-recommendations[hidden] {
+  display: none !important;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-recommendations-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-recommendations-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-recommendations-list li::marker {
+  color: var(--fc-blue, #005eec);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-number.fc-calc__bmi-result-number--normal {
+  color: var(--fc-blue, #005eec);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-number.fc-calc__bmi-result-number--overweight {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-number.fc-calc__bmi-result-number--obese {
+  color: var(--fc-error, #dc2626);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-number.fc-calc__bmi-result-number--underweight {
+  color: var(--fc-error, #dc2626);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-desc.fc-calc__bmi-result-desc--normal {
+  color: var(--fc-blue, #005eec);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-desc.fc-calc__bmi-result-desc--overweight {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-desc.fc-calc__bmi-result-desc--obese {
+  color: var(--fc-error, #dc2626);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__result-desc.fc-calc__bmi-result-desc--underweight {
+  color: var(--fc-error, #dc2626);
+}
+
+.fc-calc[data-calculator="bmi"] #fc-calc-bmi-result.fc-calc__result-wrap {
+  text-align: center;
+  background-image: none !important;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-main {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  align-items: stretch;
+  text-align: left;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-bmi,
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-bsa {
+  margin: 0;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius, 10px);
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(16, 56, 79, 0.06);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-bmi {
+  text-align: center;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-bsa {
+  text-align: center;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-bmi .fc-calc__result-label,
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-bsa .fc-calc__result-label {
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-bmi .fc-calc__result-number,
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-bsa .fc-calc__result-number {
+  margin: 0;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-bsa .fc-calc__result-number {
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--fc-border, #d1d5db);
+  border-radius: var(--fc-radius, 10px);
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(16, 56, 79, 0.06);
+  font-family: var(--fc-font-semibold, inherit);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--fc-text);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-status.fc-calc__bmi-result-desc--normal {
+  color: var(--fc-blue, #005eec);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-status.fc-calc__bmi-result-desc--overweight {
+  color: #c2410c;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-status.fc-calc__bmi-result-desc--obese,
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-result-status.fc-calc__bmi-result-desc--underweight {
+  color: var(--fc-error, #dc2626);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-figure {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 0;
+  pointer-events: none;
+  width: 100%;
+  max-width: 320px;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-figure-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-fig-tag {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.6rem;
+  margin: 0;
+  padding: 3px 7px;
+  border: 1.5px solid #005eec;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 3px rgba(16, 56, 79, 0.12);
+  font-family: var(--fc-font-semibold, inherit);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.15;
+  color: #005eec;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Над головой — вес */
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-fig-tag--weight {
+  left: 50%;
+  top: 4%;
+  transform: translateX(-50%);
+}
+
+/* Правая вертикальная стрелка — рост */
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-fig-tag--height {
+  right: 0.5%;
+  top: 48%;
+  transform: translateY(-50%);
+}
+
+/* Левая верхняя — талия */
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-fig-tag--waist {
+  left: 2%;
+  top: 46%;
+  transform: translateY(-50%);
+}
+
+/* Левая нижняя — бедро */
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-fig-tag--hip {
+  left: 2%;
+  top: 58%;
+  transform: translateY(-50%);
+}
+
+.fc-calc[data-calculator="bmi"] .fc-calc__bmi-recommendations {
+  text-align: left;
+}

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "count": 14907,
+  "count": 14910,
   "withInfo": 5728,
-  "gzipBytes": 514324,
-  "source": "D:/Download/mkb10-standalone/mkb10-standalone/data/mkb10s.json",
-  "generatedAt": "2026-09-15T07:16:04.755Z"
+  "gzipBytes": 514384,
+  "note": "patched I84 / I84.1",
+  "generatedAt": "2026-09-18T08:49:24.799Z"
 }

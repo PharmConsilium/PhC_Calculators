@@ -273,9 +273,19 @@
 }
 
 .fc-calc[data-calculator="mkb10"] .fc-calc__mkb-card-name {
-  margin: 0 0 14px;
-  font-size: 16px;
-  line-height: 1.45;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 2px solid var(--fc-blue, #005eec);
+  box-shadow:
+    0 1px 2px rgba(16, 56, 79, 0.04),
+    0 8px 20px rgba(0, 94, 236, 0.08);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--fc-text, #10384f);
 }
 
 .fc-calc[data-calculator="mkb10"] .fc-calc__mkb-section-label {
