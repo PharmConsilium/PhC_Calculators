@@ -188,6 +188,7 @@
           sampsonLdl: truncTo2(sampsonLdlMmol(tcMmol, hdlMmol, tgMmol)),
           friedewaldLdl: truncTo2(friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol)),
           aip: aip,
+          aipCategory: risk.category,
           aipLabel: risk.label,
           aipInterpretation: risk.text,
           warnings: warnings,
@@ -230,7 +231,11 @@
           martinOut.textContent = formatNum(out.martinLdl);
           sampsonOut.textContent = formatNum(out.sampsonLdl);
           friedewaldOut.textContent = formatNum(out.friedewaldLdl);
-          if (aipOut) aipOut.textContent = formatNum(out.aip);
+          if (aipOut) {
+            aipOut.textContent = formatNum(out.aip);
+            aipOut.classList.toggle('fc-calc__noa-ldl-value--high', out.aipCategory === 'high');
+            aipOut.classList.toggle('fc-calc__noa-ldl-value--medium', out.aipCategory === 'medium');
+          }
           if (aipRiskOut) aipRiskOut.textContent = out.aipInterpretation;
           if (warningOut) {
             warningOut.textContent = out.warnings.join(' ');
@@ -325,11 +330,6 @@
   var tabs = root.querySelectorAll('[data-mode-tab]');
   var panels = root.querySelectorAll('[data-mode-panel]');
   var notesPanels = root.querySelectorAll('[data-mode-notes]');
-  var modeHint = root.querySelector('#fc-calc-ldl-calc-mode-hint');
-  var HINTS = {
-  "martin-ldl": "Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP)",
-  "ldl-lpa-corr": "Корригированный ХС ЛНП с учётом холестерина в составе липопротеида(а)"
-};
 
   function setMode(mode) {
     tabs.forEach(function (tab) {
@@ -347,7 +347,6 @@
       panel.classList.toggle('fc-calc__ldl-notes-mode--active', on);
       panel.hidden = !on;
     });
-    if (modeHint && HINTS[mode]) modeHint.textContent = HINTS[mode];
   }
 
   tabs.forEach(function (tab) {

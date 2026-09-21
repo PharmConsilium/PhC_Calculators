@@ -13,11 +13,13 @@
         "edd": "2027-03-01",
         "lmp": "2026-05-25",
         "gestationDays": 15,
-        "gestationObstetricMonths": 0.54,
-        "gestationMilestone13": "2026-08-24",
-        "firstTrimesterWindowFrom": "2026-09-28",
-        "firstTrimesterWindowTo": "2026-10-12",
-        "plannedUltrasound": "2026-12-07",
+        "gestationWeeks": 2,
+        "gestationDaysRemainder": 0,
+        "trimester": 1,
+        "screening1": { "from": "2026-08-10", "to": "2026-08-30" },
+        "screening2": { "from": "2026-09-28", "to": "2026-10-25" },
+        "screening3": { "from": "2027-01-04", "to": "2027-01-31" },
+        "maternityLeave": "2026-12-21",
         "eddCi90": { "from": "2027-02-16", "to": "2027-03-07" },
         "eddCi21": { "from": "2027-02-25", "to": "2027-03-04" }
       }
@@ -32,8 +34,96 @@
       "expected": {
         "edd": "2027-03-01",
         "gestationDays": 15,
-        "gestationMilestone13": "2026-08-24"
+        "gestationWeeks": 2,
+        "gestationDaysRemainder": 0,
+        "trimester": 1,
+        "maternityLeave": "2026-12-21"
       }
+    },
+    {
+      "name": "48 calendar days = 6w5d",
+      "input": {
+        "mode": "lmp",
+        "eventDate": "2026-01-01",
+        "currentDate": "2026-02-17"
+      },
+      "expected": {
+        "gestationDays": 48,
+        "gestationWeeks": 6,
+        "gestationDaysRemainder": 5,
+        "trimester": 1
+      }
+    },
+    {
+      "name": "lmp cycle 30 shifts EDD +2",
+      "input": {
+        "mode": "lmp",
+        "eventDate": "2026-05-25",
+        "currentDate": "2026-06-08",
+        "cycleDays": 30
+      },
+      "expected": {
+        "cycleDays": 30,
+        "edd": "2027-03-03",
+        "gestationDays": 15
+      }
+    },
+    {
+      "name": "baby blood A+ × A+ (kukuzya)",
+      "fn": "babyBloodType",
+      "input": ["A+", "A+"],
+      "expected": {
+        "abo": { "A": 0.5, "B": 0, "AB": 0, "O": 0.5 },
+        "rh": { "+": 0.75, "-": 0.25 },
+        "rhConflict": false
+      }
+    },
+    {
+      "name": "baby blood A- × B+ rh conflict",
+      "fn": "babyBloodType",
+      "input": ["A-", "B+"],
+      "expected": {
+        "abo": { "O": 0.25, "A": 0.25, "B": 0.25, "AB": 0.25 },
+        "rh": { "+": 0.5, "-": 0.5 },
+        "rhConflict": true
+      }
+    },
+    {
+      "name": "weight gain normal BMI HiPP/IOM",
+      "fn": "pregnancyWeightGain",
+      "input": [{ "heightCm": 165, "weightKg": 60, "gestationWeeks": 20 }],
+      "expected": {
+        "bmi": 22,
+        "categoryId": "normal",
+        "totalGainMin": 11.5,
+        "totalGainMax": 16,
+        "targetWeightMin": 71.5,
+        "targetWeightMax": 76
+      }
+    },
+    {
+      "name": "weekly weight compare within range",
+      "fn": "compareWeeklyWeightGain",
+      "input": [
+        {
+          "weightKg": 60,
+          "totalGainMin": 11.5,
+          "totalGainMax": 16,
+          "rateMin": 0.35,
+          "rateMax": 0.5
+        },
+        [{ "week": 20, "weightKg": 65 }]
+      ],
+      "expected": [
+        {
+          "week": 20,
+          "weightKg": 65,
+          "actualGain": 5,
+          "recommendedGainMin": 4.5,
+          "recommendedGainMax": 6,
+          "status": "ok"
+        }
+      ]
     }
   ]
 }

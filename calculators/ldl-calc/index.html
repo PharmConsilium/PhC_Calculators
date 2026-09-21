@@ -724,24 +724,25 @@
 .fc-calc[data-calculator="ldl-calc"] .fc-calc__tabs {
   margin-top: 12px;
   justify-content: stretch;
+  gap: 10px;
 }
 .fc-calc[data-calculator="ldl-calc"] .fc-calc__tab {
   flex: 1 1 100%;
-  font-size: 13px;
-  line-height: 1.3;
-  padding: 10px 10px;
-  text-align: left;
+  min-height: 56px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  padding: 14px 16px;
+  text-align: center;
   white-space: normal;
 }
 @media (min-width: 640px) {
   .fc-calc[data-calculator="ldl-calc"] .fc-calc__tab {
-    flex: 1 1 calc(50% - 4px);
-    font-size: 14px;
+    flex: 1 1 calc(50% - 5px);
+    font-size: 17px;
+    min-height: 64px;
+    padding: 16px 18px;
   }
-}
-.fc-calc[data-calculator="ldl-calc"] .fc-calc__ldl-mode-hint {
-  margin-top: 12px;
-  margin-bottom: 0;
 }
 .fc-calc[data-calculator="ldl-calc"] .fc-calc__tab-panel .fc-calc__actions {
   margin-top: 16px;
@@ -757,10 +758,21 @@
   list-style: disc !important;
   list-style-position: outside !important;
 }
+.fc-calc[data-calculator="ldl-calc"] .fc-calc__notes-body ol {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: decimal !important;
+  list-style-position: outside !important;
+}
 .fc-calc[data-calculator="ldl-calc"] .fc-calc__notes-body li {
   display: list-item !important;
-  list-style: disc !important;
   margin: 0 0 6px;
+}
+.fc-calc[data-calculator="ldl-calc"] .fc-calc__notes-body ul > li {
+  list-style: disc !important;
+}
+.fc-calc[data-calculator="ldl-calc"] .fc-calc__notes-body ol > li {
+  list-style: decimal !important;
 }
 .fc-calc[data-calculator="ldl-calc"] .fc-calc__ldl-notes-common {
   margin-bottom: 16px;
@@ -785,73 +797,101 @@
 .fc-calc[data-calculator="ldl-calc"] .fc-calc__ldl-notes-mode[hidden] {
   display: none !important;
 }
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-panel {
+.fc-calc[data-calculator="ldl-calc"] .fc-calc__ldl-formula-line {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #000;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__panel-section > .fc-calc__noa-panel {
   padding: 16px 18px;
 }
-
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-panel .fc-calc__panel-heading {
-  margin-bottom: 14px;
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__panel-section > .fc-calc__noa-panel .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
 }
-
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field {
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-fields {
   display: grid;
-  grid-template-columns: minmax(8rem, 10rem) 1fr;
-  gap: 10px 14px;
-  align-items: center;
-  margin-bottom: 12px;
+  gap: 10px;
 }
-
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field:last-of-type {
-  margin-bottom: 0;
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 12px;
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  box-sizing: border-box;
 }
-
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field-label {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.25;
+  color: var(--fc-text);
+  text-align: center;
 }
-
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field-input {
   width: 100%;
+  height: 44px;
   min-height: 44px;
-  padding: 10px 14px;
+  margin: 0;
+  padding: 0 12px;
   font-size: 16px;
   font-family: inherit;
+  line-height: 1.25;
   color: var(--fc-text);
   background: var(--fc-bg-input, #f8f8f9);
   border: 1px solid var(--fc-border, #d1d5db);
   border-radius: var(--fc-radius);
   box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field-input:focus {
   outline: none;
   border-color: var(--fc-blue);
-  box-shadow: 0 0 0 2px rgba(0, 94, 236, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
 }
-
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field-input::-webkit-outer-spin-button,
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__head .fc-calc__hint {
-  color: var(--fc-text);
-}
-
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field-input::placeholder {
   color: var(--fc-text);
-  opacity: 1;
+  opacity: 0.4;
+}
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field .fc-calc__error {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.3;
 }
 
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field .fc-calc__error {
-  grid-column: 1 / -1;
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__result-wrap .fc-calc__noa-panel {
+  padding: 16px 18px;
+  text-align: center;
+}
+
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__result-wrap .fc-calc__noa-panel .fc-calc__panel-heading {
+  margin-bottom: 14px;
+  text-align: center;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl {
   margin-bottom: 16px;
+  text-align: center;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl:last-of-type {
@@ -863,36 +903,71 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 1.25;
+  text-align: center;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value-row {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 6px 8px;
   align-items: baseline;
-}
-
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value {
-  flex: 1 1 auto;
-  min-width: 0;
+  justify-content: center;
+  min-width: min(100%, 12rem);
+  width: 100%;
+  max-width: 100%;
   min-height: 44px;
-  padding: 10px 12px;
-  display: block;
-  font-size: 18px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.3;
-  word-break: break-all;
-  overflow-wrap: anywhere;
+  padding: 10px 14px;
+  box-sizing: border-box;
   color: var(--fc-blue);
   background: rgba(0, 94, 236, 0.05);
   border: 1px solid rgba(0, 94, 236, 0.28);
   border-radius: var(--fc-radius);
 }
 
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value-row:has(.fc-calc__noa-ldl-value--high) {
+  color: #c62828;
+  background: rgba(198, 40, 40, 0.06);
+  border-color: rgba(198, 40, 40, 0.35);
+}
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value-row:has(.fc-calc__noa-ldl-value--medium) {
+  color: #b45309;
+  background: rgba(234, 179, 8, 0.14);
+  border-color: rgba(202, 138, 4, 0.45);
+}
+
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value--high {
+  color: inherit;
+  background: none;
+  border: none;
+}
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-value--medium {
+  color: inherit;
+  background: none;
+  border: none;
+}
+
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-unit {
   font-size: 14px;
-  color: var(--fc-text);
+  font-weight: 500;
+  line-height: 1.3;
+  color: inherit;
+  opacity: 0.85;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-ldl-formula {
@@ -906,7 +981,9 @@
   margin: 8px 0 0;
   font-size: 14px;
   line-height: 1.35;
-  color: var(--fc-text);
+  color: #000;
+  opacity: 1;
+  text-align: center;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] #fc-calc-martin-ldl-warning {
@@ -914,17 +991,11 @@
   font-size: 14px;
   line-height: 1.35;
   color: var(--fc-error, #dc2626);
+  text-align: center;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__result-wrap {
   margin-top: 16px;
-}
-
-@media (max-width: 480px) {
-  .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="martin-ldl"] .fc-calc__noa-field {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
 }
 
 /* ldl-lpa-corr — NOA layout (as martin-ldl) */
@@ -979,39 +1050,66 @@
   opacity: 0.55;
 }
 
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__result-wrap .fc-calc__noa-panel {
+  text-align: center;
+}
+
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__result-wrap .fc-calc__noa-panel .fc-calc__panel-heading {
+  text-align: center;
+}
+
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__noa-ldl {
+  text-align: center;
+}
+
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__noa-ldl-title {
   margin: 0 0 8px;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.25;
+  text-align: center;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__noa-ldl-value-row {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 6px 8px;
   align-items: baseline;
-}
-
-.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__noa-ldl-value {
-  flex: 1 1 auto;
-  min-width: 0;
+  justify-content: center;
+  min-width: min(100%, 12rem);
+  width: 100%;
+  max-width: 100%;
   min-height: 44px;
-  padding: 10px 12px;
-  display: block;
-  font-size: 18px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.3;
+  padding: 10px 14px;
+  box-sizing: border-box;
   color: var(--fc-blue);
   background: rgba(0, 94, 236, 0.05);
   border: 1px solid rgba(0, 94, 236, 0.28);
   border-radius: var(--fc-radius);
 }
 
+.fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__noa-ldl-value {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__noa-ldl-unit {
   font-size: 14px;
-  color: var(--fc-text);
+  font-weight: 500;
+  line-height: 1.3;
+  color: inherit;
+  opacity: 0.85;
 }
 
 .fc-calc[data-calculator="ldl-calc"] [data-mode-panel="ldl-lpa-corr"] .fc-calc__result-wrap {
@@ -1030,12 +1128,10 @@
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
         <h2 class="fc-calc__title">Расчёт ХС ЛНП</h2>
-        <p class="fc-calc__hint">Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и коррекция по липопротеиду(а) — в одном калькуляторе. Отдельные виджеты сохранены.</p>
         <div class="fc-calc__tabs" role="tablist" aria-label="Режим расчёта ХС ЛНП">
           <button type="button" class="fc-calc__tab fc-calc__tab--active" role="tab" aria-selected="true" data-mode-tab="martin-ldl">Формулы расчёта ХС ЛНП: Мартина-Хопкинса, Сэмпсона, Фридвальда</button>
           <button type="button" class="fc-calc__tab" role="tab" aria-selected="false" data-mode-tab="ldl-lpa-corr">Расчёт корригированного ХС ЛНП, с учётом холестерина в составе липопротеида(а)</button>
         </div>
-        <p class="fc-calc__hint fc-calc__ldl-mode-hint" id="fc-calc-ldl-calc-mode-hint">Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP)</p>
       </header>
 
       <div class="fc-calc__body">
@@ -1044,6 +1140,7 @@
           <div class="fc-calc__panel-section">
             <div class="fc-calc__panel fc-calc__noa-panel">
               <h3 class="fc-calc__panel-heading">Введите данные:</h3>
+              <div class="fc-calc__noa-fields">
               <div class="fc-calc__noa-field">
                 <label class="fc-calc__noa-field-label" for="fc-calc-martin-ldl-total">Холестерин</label>
                 <input type="number" class="fc-calc__noa-field-input" id="fc-calc-martin-ldl-total" name="total" inputmode="decimal" min="0" step="any" placeholder="ммоль/л" required />
@@ -1059,35 +1156,33 @@
                 <input type="number" class="fc-calc__noa-field-input" id="fc-calc-martin-ldl-tg" name="tg" inputmode="decimal" min="0" step="any" placeholder="ммоль/л" required />
                 <span class="fc-calc__error" id="fc-calc-martin-ldl-tg-error" role="alert"></span>
               </div>
+              </div>
             </div>
           </div>
 
           <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-martin-ldl-result" aria-live="polite">
             <div class="fc-calc__panel fc-calc__noa-panel">
-              <h3 class="fc-calc__panel-heading">Результат:</h3>
+              <h3 class="fc-calc__panel-heading">Результат ХС ЛПНП:</h3>
           <div class="fc-calc__noa-ldl">
-            <p class="fc-calc__noa-ldl-title">ХС ЛПНП (1)</p>
+            <p class="fc-calc__noa-ldl-title">Формула Мартина-Хопкинса</p>
             <div class="fc-calc__noa-ldl-value-row">
               <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-martin">—</span>
               <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
             </div>
-            <p class="fc-calc__noa-ldl-formula">Формула Мартина-Хопкинса</p>
           </div>
           <div class="fc-calc__noa-ldl">
-            <p class="fc-calc__noa-ldl-title">ХС ЛПНП (2)</p>
+            <p class="fc-calc__noa-ldl-title">Формула Сэмпсона</p>
             <div class="fc-calc__noa-ldl-value-row">
               <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-sampson">—</span>
               <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
             </div>
-            <p class="fc-calc__noa-ldl-formula">Формула Сэмпсона</p>
           </div>
           <div class="fc-calc__noa-ldl">
-            <p class="fc-calc__noa-ldl-title">ХС ЛПНП (3)</p>
+            <p class="fc-calc__noa-ldl-title">Формула Фридвальда</p>
             <div class="fc-calc__noa-ldl-value-row">
               <span class="fc-calc__noa-ldl-value" id="fc-calc-martin-ldl-friedewald">—</span>
               <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
             </div>
-            <p class="fc-calc__noa-ldl-formula">Формула Фридвальда</p>
           </div>
               <div class="fc-calc__noa-ldl">
                 <p class="fc-calc__noa-ldl-title">Атерогенный индекс плазмы (AIP)</p>
@@ -1125,9 +1220,8 @@
 
           <div class="fc-calc__result-wrap fc-calc__result-wrap--hidden" id="fc-calc-ldl-lpa-corr-result" aria-live="polite">
             <div class="fc-calc__panel fc-calc__noa-panel">
-              <h3 class="fc-calc__panel-heading">Результат:</h3>
+              <h3 class="fc-calc__panel-heading">Результат ХС ЛНП<sub>корр</sub>:</h3>
               <div class="fc-calc__noa-ldl">
-                <p class="fc-calc__noa-ldl-title">ХС ЛНП<sub>корр</sub></p>
                 <div class="fc-calc__noa-ldl-value-row">
                   <span class="fc-calc__noa-ldl-value" id="fc-calc-ldl-lpa-corr-value">—</span>
                   <span class="fc-calc__noa-ldl-unit">ммоль/л</span>
@@ -1156,30 +1250,32 @@
           <p><strong>Общее</strong></p>
           <p>Мульти-калькулятор объединяет расчёт ХС ЛНП по формулам и коррекцию с учётом липопротеида(а). Выберите вкладку и заполните поля. Ниже — примечание к активному режиму.</p>
           <ul class="fc-calc__ldl-links">
-          <li><strong>Формулы расчёта ХС ЛНП: Мартина-Хопкинса, Сэмпсона, Фридвальда</strong> — Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP).</li>
-          <li><strong>Расчёт корригированного ХС ЛНП, с учётом холестерина в составе липопротеида(а)</strong> — Корригированный ХС ЛНП с учётом холестерина в составе липопротеида(а).</li>
+          <li><strong>Формулы расчёта ХС ЛНП: Мартина-Хопкинса, Сэмпсона, Фридвальда.</strong></li>
+          <li><strong>Расчёт корригированного ХС ЛНП, с учётом холестерина в составе липопротеида(а).</strong></li>
           </ul>
         </div>
         <div class="fc-calc__ldl-notes-mode fc-calc__ldl-notes-mode--active" data-mode-notes="martin-ldl">
-          <p class="fc-calc__ldl-notes-mode-title"><strong>Формулы расчёта ХС ЛНП: Мартина-Хопкинса, Сэмпсона, Фридвальда</strong> — Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP)</p>
+          <p class="fc-calc__ldl-notes-mode-title"><strong>Формулы расчёта ХС ЛНП: Мартина-Хопкинса, Сэмпсона, Фридвальда атерогенный индекс плазмы (AIP).</strong></p>
 <p>Все значения вводятся и рассчитываются в ммоль/л.</p>
-        <p><strong>Формула Мартина-Хопкинса (NOA):</strong> ХС ЛПНП = неЛПВП − ТГ / (K × 0,43658), неЛПВП = ОХ − ЛПВП. K — из таблицы по триглицеридам (мг/дл).</p>
-        <p>Формула Мартина-Хопкинса повышает точность определения уровня ХС ЛПНП при его низкой концентрации, но не может быть применима при концентрации триглицеридов ≥4,5 ммоль/л.</p>
-        <p><strong>Формула Сэмпсона (NOA):</strong> ХС ЛПНП = ОХ / 0,948 − ЛПВП / 0,971 − (ТГ / 3,74 + ТГ × неЛПВП / 24,16 − ТГ² / 79,36) − 0,244 (ммоль/л).</p>
-        <p>Формула Сэмпсона может быть использована для расчёта ХС ЛПНП как при нормальном, так и при повышенном уровне триглицеридов.</p>
-        <p><strong>Формула Фридвальда:</strong> ХС ЛПНП = ОХС − ЛПВП − ТГ / 2,2.</p>
-        <p>Формула Фридвальда позволяет получить значения ХС ЛПНП, сопоставимые с прямым измерением, при уровне триглицеридов до 4,5 ммоль/л.</p>
-        <p><strong>Атерогенный индекс плазмы (AIP):</strong> AIP = log<sub>10</sub>(ТГ / ЛПВП), где ТГ и ЛПВП в ммоль/л. Отражает баланс между триглицеридами и ХС ЛПВП.</p>
+        <p><strong>Формула Мартина-Хопкинса (NOA):</strong><br>Повышает точность определения уровня ХС ЛПНП при его низкой концентрации, но не может быть применима при концентрации триглицеридов ≥4,5 ммоль/л.<br><span class="fc-calc__ldl-formula-line">ХС ЛПНП = неЛПВП − ТГ / (K × 0,43658)</span><br>НеЛПВП = ОХ − ЛПВП. K — из таблицы по триглицеридам (мг/дл).</p>
+        <p><strong>Формула Сэмпсона (NOA):</strong><br>Может быть использована для расчёта ХС ЛПНП как при нормальном, так и при повышенном уровне триглицеридов.<br><span class="fc-calc__ldl-formula-line">ХС ЛПНП = ОХ / 0,948 − ЛПВП / 0,971 − (ТГ / 3,74 + ТГ × неЛПВП / 24,16 − ТГ² / 79,36) − 0,244 (ммоль/л).</span></p>
+        <p><strong>Формула Фридвальда:</strong><br>Позволяет получить значения ХС ЛПНП, сопоставимые с прямым измерением, при уровне триглицеридов до 4,5 ммоль/л.<br><span class="fc-calc__ldl-formula-line">ХС ЛПНП = ОХС − ЛПВП − ТГ / 2,2.</span></p>
+        <p><strong>Атерогенный индекс плазмы (AIP):</strong><br>Отражает баланс между триглицеридами и ХС ЛПВП.<br><span class="fc-calc__ldl-formula-line">AIP = log<sub>10</sub>(ТГ / ЛПВП), где ТГ и ЛПВП в ммоль/л.</span></p>
         <p>Интерпретация риска: низкий — AIP от −0,3 до 0,1; средний — от 0,1 до 0,24; высокий — выше 0,24.</p>
         <p>Результаты выводятся с точностью до 2 знаков после запятой (без округления в большую сторону).</p>
         <p><strong>Источники:</strong></p>
-        <p>1. Dobiásová M, Frohlich J. The plasma parameter log (TG/HDL-C) as an atherogenic index: correlation with lipoprotein particle size and esterification rate in apoB-lipoprotein-depleted plasma (FER(HDL)). Clin Biochem. 2001 Oct;34(7):583-8. doi: 10.1016/s0009-9120(01)00263-6. PMID: 11738396.</p>
+        <ol>
+          <li>Park J, Fan L, Marzinke MA, Sokoll LJ, Muthukumar A, Murphy SA, Sabatine MS, Gurudu R, Meeusen JW, Martin SS. Development and Validation of a Simplified Martin-Hopkins LDL-C Equation Using Machine Learning. <em>JAMA Cardiol.</em> 2026 Sep 1;11(9):847-856. doi: 10.1001/jamacardio.2026.2314. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/42455545/" target="_blank" rel="noopener noreferrer">42455545</a>; PMCID: PMC13373734.</li>
+          <li>Sampson M, Ling C, Sun Q, Harb R, Ashmaig M, Warnick R, Sethi A, Fleming JK, Otvos JD, Meeusen JW, Delaney SR, Jaffe AS, Shamburek R, Amar M, Remaley AT. A New Equation for Calculation of Low-Density Lipoprotein Cholesterol in Patients With Normolipidemia and/or Hypertriglyceridemia. <em>JAMA Cardiol.</em> 2020 May 1;5(5):540-548. doi: 10.1001/jamacardio.2020.0013. Erratum in: <em>JAMA Cardiol.</em> 2020 May 1;5(5):613. doi: 10.1001/jamacardio.2020.0526. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/32101259/" target="_blank" rel="noopener noreferrer">32101259</a>; PMCID: PMC7240357.</li>
+          <li>Knopfholz J, Disserol CC, Pierin AJ, Schirr FL, Streisky L, Takito LL, Massucheto Ledesma P, Faria-Neto JR, Olandoski M, da Cunha CL, Bandeira AM. Validation of the friedewald formula in patients with metabolic syndrome. <em>Cholesterol.</em> 2014;2014:261878. doi: 10.1155/2014/261878. Epub 2014 Feb 6. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/24672715/" target="_blank" rel="noopener noreferrer">24672715</a>; PMCID: PMC3941209.</li>
+          <li>Dobiásová M, Frohlich J. The plasma parameter log (TG/HDL-C) as an atherogenic index: correlation with lipoprotein particle size and esterification rate in apoB-lipoprotein-depleted plasma (FER(HDL)). <em>Clin Biochem.</em> 2001 Oct;34(7):583-8. doi: 10.1016/s0009-9120(01)00263-6. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/11738396/" target="_blank" rel="noopener noreferrer">11738396</a>.</li>
+        </ol>
         </div>
         <div class="fc-calc__ldl-notes-mode" data-mode-notes="ldl-lpa-corr" hidden>
-          <p class="fc-calc__ldl-notes-mode-title"><strong>Расчёт корригированного ХС ЛНП, с учётом холестерина в составе липопротеида(а)</strong> — Корригированный ХС ЛНП с учётом холестерина в составе липопротеида(а)</p>
+          <p class="fc-calc__ldl-notes-mode-title"><strong>Расчёт корригированного ХС ЛНП, с учётом холестерина в составе липопротеида(а).</strong></p>
 <p>Концентрация корригированного ХС ЛНП по уровню липопротеида(а) [ХС ЛНП<sub>корр</sub> Лп(а)] учитывает холестерин, входящий в состав липопротеида(а).</p>
         <p>Рассчитывается ХС ЛНП<sub>корр</sub> Лп(а) по модифицированной формуле Фридвальда:</p>
-        <p><strong>ХС ЛНП<sub>корр</sub> Лп(а)</strong> (ммоль/л) = ХС ЛНП − 0,3 × Лп(а) (мг/дл) / 38,7</p>
+        <p><span class="fc-calc__ldl-formula-line"><strong>ХС ЛНП<sub>корр</sub> Лп(а)</strong> (ммоль/л) = ХС ЛНП − 0,3 × Лп(а) (мг/дл) / 38,7</span></p>
         <p>ХС ЛНП вводится в ммоль/л, липопротеид(а) — в мг/дл. Результат — в ммоль/л (точность до 2 знаков после запятой, без округления в большую сторону).</p>
         </div>
       </div>
@@ -1383,6 +1479,7 @@
           sampsonLdl: truncTo2(sampsonLdlMmol(tcMmol, hdlMmol, tgMmol)),
           friedewaldLdl: truncTo2(friedewaldLdlMmol(tcMmol, hdlMmol, tgMmol)),
           aip: aip,
+          aipCategory: risk.category,
           aipLabel: risk.label,
           aipInterpretation: risk.text,
           warnings: warnings,
@@ -1425,7 +1522,11 @@
           martinOut.textContent = formatNum(out.martinLdl);
           sampsonOut.textContent = formatNum(out.sampsonLdl);
           friedewaldOut.textContent = formatNum(out.friedewaldLdl);
-          if (aipOut) aipOut.textContent = formatNum(out.aip);
+          if (aipOut) {
+            aipOut.textContent = formatNum(out.aip);
+            aipOut.classList.toggle('fc-calc__noa-ldl-value--high', out.aipCategory === 'high');
+            aipOut.classList.toggle('fc-calc__noa-ldl-value--medium', out.aipCategory === 'medium');
+          }
           if (aipRiskOut) aipRiskOut.textContent = out.aipInterpretation;
           if (warningOut) {
             warningOut.textContent = out.warnings.join(' ');
@@ -1520,11 +1621,6 @@
   var tabs = root.querySelectorAll('[data-mode-tab]');
   var panels = root.querySelectorAll('[data-mode-panel]');
   var notesPanels = root.querySelectorAll('[data-mode-notes]');
-  var modeHint = root.querySelector('#fc-calc-ldl-calc-mode-hint');
-  var HINTS = {
-  "martin-ldl": "Формулы Мартина-Хопкинса, Сэмпсона, Фридвальда и атерогенный индекс плазмы (AIP)",
-  "ldl-lpa-corr": "Корригированный ХС ЛНП с учётом холестерина в составе липопротеида(а)"
-};
 
   function setMode(mode) {
     tabs.forEach(function (tab) {
@@ -1542,7 +1638,6 @@
       panel.classList.toggle('fc-calc__ldl-notes-mode--active', on);
       panel.hidden = !on;
     });
-    if (modeHint && HINTS[mode]) modeHint.textContent = HINTS[mode];
   }
 
   tabs.forEach(function (tab) {

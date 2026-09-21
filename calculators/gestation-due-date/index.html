@@ -363,7 +363,8 @@
   margin-bottom: 1rem;
 }
 
-.fc-calc .fc-calc__field label {
+.fc-calc .fc-calc__field label,
+.fc-calc .fc-calc__field-label {
   font-family: var(--fc-font-sans), inherit;
   font-size: 20px;
   font-weight: 400;
@@ -672,6 +673,432 @@
   margin: 6px 0 0;
   font-size: 14px;
   line-height: 1.35;
+  color: #000;
+  opacity: 1;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-result-item .fc-calc__result-desc + .fc-calc__result-desc {
+  margin-top: 8px;
+}
+.fc-calc .fc-calc__panel-section {
+  margin-bottom: 14px;
+}
+.fc-calc .fc-calc__panel {
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  padding: 16px;
+}
+.fc-calc .fc-calc__panel-heading {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--fc-border);
+  font-family: var(--fc-font-semibold);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--fc-text);
+  text-align: left;
+}
+.fc-calc .fc-calc__panel .fc-calc__field {
+  margin-bottom: 14px;
+}
+.fc-calc .fc-calc__panel .fc-calc__field:last-child {
+  margin-bottom: 0;
+}
+.fc-calc .fc-calc__panel .fc-calc__field label {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+.fc-calc .fc-calc__panel .fc-calc__field input,
+.fc-calc .fc-calc__panel .fc-calc__field select {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  background: var(--fc-bg-surface);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-extra-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-extra-grid .fc-calc__field--cycle {
+  grid-column: 1 / -1;
+}
+@media (min-width: 640px) {
+  .fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-extra-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__body,
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__form,
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__field {
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy > .fc-calc__panel-heading {
+  margin: 0 0 2px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields {
+  display: grid;
+  grid-template-columns: minmax(4.25rem, 0.7fr) minmax(7.5rem, 1.45fr) minmax(5rem, 1fr);
+  column-gap: 10px;
+  row-gap: 8px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields > .fc-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+  min-width: 0;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields > .fc-calc__field label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fc-text);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields > .fc-calc__field input,
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields > .fc-calc__field select {
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2310384f' fill-opacity='0.55' d='M1.1 1.2L6 6.1l4.9-4.9 1.1 1.1L6 8.3.0 2.3z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 7px;
+  padding-right: 26px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields > .fc-calc__field input:focus,
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-dmy-fields > .fc-calc__field select:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-blood--hidden {
+  display: none;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-block--hidden {
+  display: none;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'lh lw'
+    'ih iw';
+  column-gap: 12px;
+  row-gap: 8px;
+  margin: 12px 0 0;
+  padding: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  align-items: stretch;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs label[for$='-height'] {
+  grid-area: lh;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs label[for$='-weight'] {
+  grid-area: lw;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs #fc-calc-gestation-due-date-height {
+  grid-area: ih;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs #fc-calc-gestation-due-date-weight {
+  grid-area: iw;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs label {
+  font-family: var(--fc-font-sans), inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+  text-align: left;
+  color: var(--fc-text);
+  align-self: end;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs input {
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs input:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+@media (max-width: 479px) {
+  .fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-inputs {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'lh'
+      'ih'
+      'lw'
+      'iw';
+  }
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-out--empty .fc-calc__result-number,
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-out--empty .fc-calc__result-desc {
+  display: none;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-track {
+  display: none;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--fc-border);
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-track--visible {
+  display: block;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-track-lead {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.45;
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-weight-track-hint {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--fc-text);
+  opacity: 0.85;
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-rows {
+  display: grid;
+  gap: 10px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 0.85fr) minmax(7rem, 1.15fr);
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  padding-top: 28px;
+  background: var(--fc-bg-input);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  box-sizing: border-box;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fc-text);
+  opacity: 0.45;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-remove:hover {
+  opacity: 0.9;
+  background: rgba(16, 56, 79, 0.08);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-row:only-child .fc-calc__gdd-week-remove {
+  display: none;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-row label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--fc-text);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-row input {
+  width: 100%;
+  margin: 0;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-row input:focus {
+  outline: none;
+  border-color: var(--fc-blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 236, 0.12);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--fc-blue);
+  font-family: var(--fc-font-sans);
+  font-size: 14px;
+  line-height: 1.3;
+  cursor: pointer;
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-add:hover {
+  opacity: 0.85;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-add-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--fc-blue);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-show {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--fc-radius);
+  background: var(--fc-blue);
+  color: #fff;
+  font-family: var(--fc-font-semibold);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-show:hover {
+  background: var(--fc-blue-hover);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-result {
+  margin-top: 12px;
+  text-align: left;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-result-item {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  font-size: 14px;
+  line-height: 1.4;
+  background: var(--fc-bg-input);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-result-item--ok {
+  border-color: #86efac;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-result-item--low,
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-week-result-item--high {
+  border-color: #fca5a5;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-blood-row {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 1fr) auto;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-blood-row select {
+  width: 100%;
+  min-width: 8.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-rh {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: var(--fc-radius);
+  overflow: hidden;
+  border: 1px solid var(--fc-border);
+  background: var(--fc-bg-surface);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-rh-btn {
+  min-width: 3.25rem;
+  padding: 0 12px;
+  height: 44px;
+  font-family: var(--fc-font-sans);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--fc-text);
+  background: var(--fc-bg-surface);
+  border: none;
+  cursor: pointer;
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-rh-btn + .fc-calc__gdd-rh-btn {
+  border-left: 1px solid var(--fc-border);
+}
+.fc-calc[data-calculator="gestation-due-date"] .fc-calc__gdd-rh-btn--active {
+  color: #fff;
+  background: var(--fc-blue);
 }
   </style>
 
@@ -679,30 +1106,155 @@
     <div class="fc-calc__layout">
       <header class="fc-calc__head">
         <h2 class="fc-calc__title">Определение срока беременности и даты родов</h2>
-        <p class="fc-calc__hint">По дате последней менструации, зачатия, овуляции или искусственного осеменения</p>
-        <p class="fc-calc__formula"><strong>ПДПМ:</strong> +280 дн. &nbsp;|&nbsp; <strong>Зачатие / овуляция / ИО:</strong> +266 дн.</p>
+        <p class="fc-calc__hint">Первый день последней менструации (ПДПМ), зачатия, овуляции или искусственного оплодотворения</p>
       </header>
 
       <div class="fc-calc__body">
         <form class="fc-calc__form" id="fc-calc-gestation-due-date-form" novalidate>
           <div class="fc-calc__field">
-            <label for="fc-calc-gestation-due-date-current">Текущая дата</label>
-            <input type="date" id="fc-calc-gestation-due-date-current" name="currentDate" required />
+            <div class="fc-calc__gdd-dmy" role="group" aria-labelledby="fc-calc-gestation-due-date-current-label">
+              <h3 class="fc-calc__panel-heading" id="fc-calc-gestation-due-date-current-label">Текущая дата</h3>
+              <div class="fc-calc__gdd-dmy-fields">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-current-day">День</label>
+                  <select id="fc-calc-gestation-due-date-current-day" name="currentDay" required>
+                    <option value="">—</option>
+                  </select>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-current-month">Месяц</label>
+                  <select id="fc-calc-gestation-due-date-current-month" name="currentMonth" required>
+                    <option value="">—</option>
+                    <option value="1">январь</option>
+                    <option value="2">февраль</option>
+                    <option value="3">март</option>
+                    <option value="4">апрель</option>
+                    <option value="5">май</option>
+                    <option value="6">июнь</option>
+                    <option value="7">июль</option>
+                    <option value="8">август</option>
+                    <option value="9">сентябрь</option>
+                    <option value="10">октябрь</option>
+                    <option value="11">ноябрь</option>
+                    <option value="12">декабрь</option>
+                  </select>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-current-year">Год</label>
+                  <select id="fc-calc-gestation-due-date-current-year" name="currentYear" required>
+                    <option value="">—</option>
+                  </select>
+                </div>
+              </div>
+            </div>
             <span class="fc-calc__error" id="fc-calc-gestation-due-date-current-error" role="alert"></span>
           </div>
 
           <p class="fc-calc__hint">Режим</p>
           <div class="fc-calc__segmented" role="group" aria-label="Режим расчёта">
-            <button type="button" class="fc-calc__segment" data-mode="lmp">ПДПМ</button>
-            <button type="button" class="fc-calc__segment fc-calc__segment--active" data-mode="conception">Зачатие</button>
+            <button type="button" class="fc-calc__segment fc-calc__segment--active" data-mode="lmp">ПДПМ</button>
+            <button type="button" class="fc-calc__segment" data-mode="conception">Зачатие</button>
             <button type="button" class="fc-calc__segment" data-mode="ovulation">Овуляция</button>
             <button type="button" class="fc-calc__segment" data-mode="insemination">Искусственное оплодотворение</button>
           </div>
 
           <div class="fc-calc__field">
-            <label for="fc-calc-gestation-due-date-event" id="fc-calc-gestation-due-date-event-label">Дата зачатия</label>
-            <input type="date" id="fc-calc-gestation-due-date-event" name="eventDate" required />
+            <div class="fc-calc__gdd-dmy" role="group" aria-labelledby="fc-calc-gestation-due-date-event-label">
+              <h3 class="fc-calc__panel-heading" id="fc-calc-gestation-due-date-event-label">Первый день последней менструации</h3>
+              <div class="fc-calc__gdd-dmy-fields">
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-event-day">День</label>
+                  <select id="fc-calc-gestation-due-date-event-day" name="eventDay" required>
+                    <option value="">—</option>
+                  </select>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-event-month">Месяц</label>
+                  <select id="fc-calc-gestation-due-date-event-month" name="eventMonth" required>
+                    <option value="">—</option>
+                    <option value="1">январь</option>
+                    <option value="2">февраль</option>
+                    <option value="3">март</option>
+                    <option value="4">апрель</option>
+                    <option value="5">май</option>
+                    <option value="6">июнь</option>
+                    <option value="7">июль</option>
+                    <option value="8">август</option>
+                    <option value="9">сентябрь</option>
+                    <option value="10">октябрь</option>
+                    <option value="11">ноябрь</option>
+                    <option value="12">декабрь</option>
+                  </select>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-event-year">Год</label>
+                  <select id="fc-calc-gestation-due-date-event-year" name="eventYear" required>
+                    <option value="">—</option>
+                  </select>
+                </div>
+              </div>
+            </div>
             <span class="fc-calc__error" id="fc-calc-gestation-due-date-event-error" role="alert"></span>
+          </div>
+
+          <div class="fc-calc__panel-section" id="fc-calc-gestation-due-date-extra">
+            <div class="fc-calc__panel">
+              <h3 class="fc-calc__panel-heading">Дополнительные параметры</h3>
+              <div class="fc-calc__gdd-extra-grid">
+                <div class="fc-calc__field fc-calc__field--cycle">
+                  <label for="fc-calc-gestation-due-date-cycle">Продолжительность цикла (дни)</label>
+                  <select id="fc-calc-gestation-due-date-cycle" name="cycleDays">
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28" selected>28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                    <option value="32">32</option>
+                    <option value="33">33</option>
+                    <option value="34">34</option>
+                    <option value="35">35</option>
+                  </select>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-mother-blood">Группа крови матери <span class="fc-calc__hint">(необязательно)</span></label>
+                  <div class="fc-calc__gdd-blood-row">
+                    <select id="fc-calc-gestation-due-date-mother-blood" name="motherBlood">
+                      <option value="">Не указана</option>
+                      <option value="O">O (I)</option>
+                      <option value="A">A (II)</option>
+                      <option value="B">B (III)</option>
+                      <option value="AB">AB (IV)</option>
+                    </select>
+                    <div class="fc-calc__gdd-rh" role="group" aria-label="Резус-фактор матери" data-rh-for="mother">
+                      <button type="button" class="fc-calc__gdd-rh-btn fc-calc__gdd-rh-btn--active" data-rh="+">Rh+</button>
+                      <button type="button" class="fc-calc__gdd-rh-btn" data-rh="-">Rh−</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="fc-calc__field">
+                  <label for="fc-calc-gestation-due-date-father-blood">Группа крови отца <span class="fc-calc__hint">(необязательно)</span></label>
+                  <div class="fc-calc__gdd-blood-row">
+                    <select id="fc-calc-gestation-due-date-father-blood" name="fatherBlood">
+                      <option value="">Не указана</option>
+                      <option value="O">O (I)</option>
+                      <option value="A">A (II)</option>
+                      <option value="B">B (III)</option>
+                      <option value="AB">AB (IV)</option>
+                    </select>
+                    <div class="fc-calc__gdd-rh" role="group" aria-label="Резус-фактор отца" data-rh-for="father">
+                      <button type="button" class="fc-calc__gdd-rh-btn fc-calc__gdd-rh-btn--active" data-rh="+">Rh+</button>
+                      <button type="button" class="fc-calc__gdd-rh-btn" data-rh="-">Rh−</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <span class="fc-calc__error" id="fc-calc-gestation-due-date-form-error" role="alert"></span>
@@ -727,16 +1279,59 @@
             <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-ga">—</p>
           </div>
           <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Предполагаемый срок гестации</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-milestone13">—</p>
-          </div>
-          <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Конец первого триместра</p>
+            <p class="fc-calc__result-label">Триместр</p>
             <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-trimester">—</p>
           </div>
           <div class="fc-calc__gdd-result-item">
-            <p class="fc-calc__result-label">Плановое УЗИ</p>
-            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-us">—</p>
+            <p class="fc-calc__result-label">Скрининги УЗИ</p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-s1"></p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-s2"></p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-s3"></p>
+          </div>
+          <div class="fc-calc__gdd-result-item">
+            <p class="fc-calc__result-label">Дата декретного отпуска (30 нед.)</p>
+            <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-maternity">—</p>
+          </div>
+          <div class="fc-calc__gdd-result-item fc-calc__gdd-weight-block--hidden" id="fc-calc-gestation-due-date-weight-wrap">
+            <p class="fc-calc__result-label">Прибавка веса при беременности</p>
+            <p class="fc-calc__hint">Необязательно — введите рост и вес до беременности для расчёта</p>
+            <div class="fc-calc__gdd-weight-inputs">
+              <label for="fc-calc-gestation-due-date-height">Рост до беременности (см)</label>
+              <label for="fc-calc-gestation-due-date-weight">Вес до беременности (кг)</label>
+              <input type="number" id="fc-calc-gestation-due-date-height" name="heightCm" min="100" max="250" step="1" inputmode="decimal" placeholder="например, 165" />
+              <input type="number" id="fc-calc-gestation-due-date-weight" name="weightKg" min="30" max="300" step="0.1" inputmode="decimal" placeholder="например, 65" />
+            </div>
+            <div class="fc-calc__gdd-weight-out fc-calc__gdd-weight-out--empty" id="fc-calc-gestation-due-date-weight-out">
+              <p class="fc-calc__result-number" id="fc-calc-gestation-due-date-weight-bmi">—</p>
+              <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-weight-cat"></p>
+              <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-weight-total"></p>
+              <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-weight-now"></p>
+              <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-weight-target"></p>
+              <p class="fc-calc__error" id="fc-calc-gestation-due-date-weight-error" role="alert"></p>
+            </div>
+            <div class="fc-calc__gdd-weight-track" id="fc-calc-gestation-due-date-weight-track">
+              <p class="fc-calc__gdd-weight-track-lead" id="fc-calc-gestation-due-date-weight-track-lead"></p>
+              <p class="fc-calc__gdd-weight-track-hint">
+                Чтобы проверить, соответствует ли Ваша прибавка в весе рекомендуемой норме, укажите свой вес на соответствующей неделе беременности:
+              </p>
+              <div class="fc-calc__gdd-week-rows" id="fc-calc-gestation-due-date-week-rows"></div>
+              <div class="fc-calc__gdd-week-actions">
+                <button type="button" class="fc-calc__gdd-week-add" id="fc-calc-gestation-due-date-week-add">
+                  <span class="fc-calc__gdd-week-add-icon" aria-hidden="true">›</span>
+                  Введение данных по другим неделям беременности
+                </button>
+                <button type="button" class="fc-calc__gdd-week-show" id="fc-calc-gestation-due-date-week-show">
+                  Показать прибавку веса
+                </button>
+              </div>
+              <div class="fc-calc__gdd-week-result" id="fc-calc-gestation-due-date-week-result" hidden></div>
+            </div>
+          </div>
+          <div class="fc-calc__gdd-result-item fc-calc__gdd-blood--hidden" id="fc-calc-gestation-due-date-blood-wrap">
+            <p class="fc-calc__result-label">Возможные группы крови ребёнка</p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-blood"></p>
+            <p class="fc-calc__result-label" style="margin-top:10px">Возможный резус-фактор</p>
+            <p class="fc-calc__result-desc" id="fc-calc-gestation-due-date-blood-rh"></p>
           </div>
         </div>
       </div>
@@ -748,19 +1343,22 @@
         <span class="fc-calc__notes-chevron" aria-hidden="true"></span>
       </summary>
       <div class="fc-calc__notes-body" id="fc-calc-gestation-due-date-notes">
-        <p>Расчёт помогает в определении срока беременности, даты родов, срока гестации, окончания первого триместра беременности и даты планового УЗИ плода по дате последней менструации и по известной дате зачатия, овуляции и искусственного осеменения (обычное и модифицированное правила Негеле).</p>
-        <p><strong>Дата родов</strong> = первый день последней менструации + 280 дней (правило Негеле).</p>
-        <p><strong>Дата родов</strong> = дата зачатия, овуляции или искусственного осеменения + 266 дней (модифицированное правило Негеле).</p>
-        <p><strong>Срок гестации (СГ):</strong></p>
+        <p>Расчёт акушерского срока беременности и предполагаемой даты родов по первому дню последней менструации (ПДПМ) или по дате зачатия / овуляции / искусственного оплодотворения (правило и модифицированное правило Негеле).</p>
+        <p><strong>Дата родов</strong> = ПДПМ + 280 дней + (длительность цикла − 28) (правило Негеле с поправкой на цикл; стандартный цикл — 28 дней, диапазон 21–35).</p>
+        <p><strong>Дата родов</strong> = дата зачатия, овуляции или искусственного оплодотворения + 266 дней (модифицированное правило Негеле).</p>
+        <p><strong>Триместры:</strong> I — с 1 по 13 неделю; II — с 14 по 27 неделю; III — с 28 недели до родов.</p>
+        <p><strong>Скрининги УЗИ:</strong></p>
         <ul>
-          <li>СГ = текущая дата − первый день последней менструации</li>
-          <li>СГ = текущая дата − дата зачатия, овуляции или искусственного осеменения + 14 дней</li>
+          <li>1 скрининг — с 11 недель до 13 недель 6 дней</li>
+          <li>2 скрининг — с 18 недель до 21 недели</li>
+          <li>3 скрининг — с 32 недель до 35 недель</li>
         </ul>
-        <p>Акушерская неделя — 7 дней, акушерский месяц — 28 дней.</p>
-        <p>Первый триместр беременности: 0–13 недель.</p>
-        <p>Лучшее время для УЗИ плода: 18–20 недель.</p>
-        <p class="fc-calc__hint">Калькулятор для медицинских специалистов. Не заменяет клиническое решение врача.</p>
-
+        <p><strong>Дата декретного отпуска</strong> — 30 недель беременности.</p>
+        <p><strong>Источники:</strong></p>
+        <ol>
+          <li>Perumal N, Wang D, Darling AM, Liu E, Wang M, Ahmed T, Christian P, Dewey KG, Kac G, Kennedy SH, Subramoney V, Briggs B, Fawzi WW; GWG Pooling Project Consortium. Suboptimal gestational weight gain and neonatal outcomes in low and middle income countries: individual participant data meta-analysis. <em>BMJ.</em> 2023 Sep 21;382:e072249. doi: 10.1136/bmj-2022-072249. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/37734757/" target="_blank" rel="noopener noreferrer">37734757</a>; PMCID: PMC10512803.</li>
+          <li>US Preventive Services Task Force; Davidson KW, Barry MJ, Mangione CM, Cabana M, Caughey AB, Davis EM, Donahue KE, Doubeni CA, Krist AH, Kubik M, Li L, Ogedegbe G, Pbert L, Silverstein M, Simon M, Stevermer J, Tseng CW, Wong JB. Behavioral Counseling Interventions for Healthy Weight and Weight Gain in Pregnancy: US Preventive Services Task Force Recommendation Statement. <em>JAMA.</em> 2021 May 25;325(20):2087-2093. doi: 10.1001/jama.2021.6949. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/34032823/" target="_blank" rel="noopener noreferrer">34032823</a>.</li>
+        </ol>
       </div>
     </details>
   </div>
@@ -777,28 +1375,67 @@
       var LMP_TO_EDD_DAYS = 280;
       var CONCEPTION_TO_EDD_DAYS = 266;
       var LMP_OFFSET_DAYS = 14;
-      var OBSTETRIC_MONTH_DAYS = 28;
+      var DEFAULT_CYCLE_DAYS = 28;
+      var CYCLE_MIN = 21;
+      var CYCLE_MAX = 35;
+      var MATERNITY_LEAVE_DAYS = 30 * 7;
       var EDD_CI = {
         ci4: { low: -1, high: 1 },
         ci21: { low: -4, high: 3 },
         ci90: { low: -13, high: 6 }
       };
+      var SCREENING = {
+        s1: { fromDays: 11 * 7, toDays: 13 * 7 + 6 },
+        s2: { fromDays: 18 * 7, toDays: 21 * 7 + 6 },
+        s3: { fromDays: 32 * 7, toDays: 35 * 7 + 6 }
+      };
+      var ABO_LABEL = { O: 'O (I)', A: 'A (II)', B: 'B (III)', AB: 'AB (IV)' };
+      var ABO_ORDER = { O: 0, A: 1, B: 2, AB: 3 };
+      var ABO_TABLE = {
+        'O|O': { O: 1 },
+        'O|A': { O: 0.5, A: 0.5 },
+        'O|B': { O: 0.5, B: 0.5 },
+        'O|AB': { A: 0.5, B: 0.5 },
+        'A|A': { O: 0.5, A: 0.5 },
+        'A|B': { O: 0.25, A: 0.25, B: 0.25, AB: 0.25 },
+        'A|AB': { A: 0.5, B: 0.25, AB: 0.25 },
+        'B|B': { O: 0.5, B: 0.5 },
+        'B|AB': { A: 0.5, B: 0.25, AB: 0.25 },
+        'AB|AB': { A: 0.25, B: 0.25, AB: 0.5 }
+      };
       var MODE_LABELS = {
-        lmp: 'Дата последней менструации',
+        lmp: 'Первый день последней менструации',
         conception: 'Дата зачатия',
         ovulation: 'Дата овуляции',
-        insemination: 'Дата искусственного осеменения'
+        insemination: 'Дата искусственного оплодотворения'
+      };
+      var TRIMESTER_LABELS = {
+        1: 'I триместр (1–13 нед.)',
+        2: 'II триместр (14–27 нед.)',
+        3: 'III триместр (с 28 нед.)'
       };
 
       var root = document.querySelector('.fc-calc[data-calculator="' + SLUG + '"]');
       if (!root) return;
 
       var form = root.querySelector('#fc-calc-' + SLUG + '-form');
-      var mode = 'conception';
+      var mode = 'lmp';
       var segments = root.querySelectorAll('.fc-calc__segment');
       var eventLabel = root.querySelector('#fc-calc-' + SLUG + '-event-label');
-      var eventInput = root.querySelector('#fc-calc-' + SLUG + '-event');
-      var currentInput = root.querySelector('#fc-calc-' + SLUG + '-current');
+      var eventDayInput = root.querySelector('#fc-calc-' + SLUG + '-event-day');
+      var eventMonthInput = root.querySelector('#fc-calc-' + SLUG + '-event-month');
+      var eventYearInput = root.querySelector('#fc-calc-' + SLUG + '-event-year');
+      var currentDayInput = root.querySelector('#fc-calc-' + SLUG + '-current-day');
+      var currentMonthInput = root.querySelector('#fc-calc-' + SLUG + '-current-month');
+      var currentYearInput = root.querySelector('#fc-calc-' + SLUG + '-current-year');
+      var cycleInput = root.querySelector('#fc-calc-' + SLUG + '-cycle');
+      var motherBloodInput = root.querySelector('#fc-calc-' + SLUG + '-mother-blood');
+      var fatherBloodInput = root.querySelector('#fc-calc-' + SLUG + '-father-blood');
+      var heightInput = root.querySelector('#fc-calc-' + SLUG + '-height');
+      var weightInput = root.querySelector('#fc-calc-' + SLUG + '-weight');
+      var motherRh = '+';
+      var fatherRh = '+';
+      var extraPanel = root.querySelector('#fc-calc-' + SLUG + '-extra');
       var eventError = root.querySelector('#fc-calc-' + SLUG + '-event-error');
       var currentError = root.querySelector('#fc-calc-' + SLUG + '-current-error');
       var formError = root.querySelector('#fc-calc-' + SLUG + '-form-error');
@@ -808,9 +1445,31 @@
       var elCi90 = root.querySelector('#fc-calc-' + SLUG + '-ci90');
       var elCi21 = root.querySelector('#fc-calc-' + SLUG + '-ci21');
       var elGa = root.querySelector('#fc-calc-' + SLUG + '-ga');
-      var elM13 = root.querySelector('#fc-calc-' + SLUG + '-milestone13');
       var elTrim = root.querySelector('#fc-calc-' + SLUG + '-trimester');
-      var elUs = root.querySelector('#fc-calc-' + SLUG + '-us');
+      var elS1 = root.querySelector('#fc-calc-' + SLUG + '-s1');
+      var elS2 = root.querySelector('#fc-calc-' + SLUG + '-s2');
+      var elS3 = root.querySelector('#fc-calc-' + SLUG + '-s3');
+      var elMaternity = root.querySelector('#fc-calc-' + SLUG + '-maternity');
+      var weightWrap = root.querySelector('#fc-calc-' + SLUG + '-weight-wrap');
+      var elWeightBmi = root.querySelector('#fc-calc-' + SLUG + '-weight-bmi');
+      var elWeightCat = root.querySelector('#fc-calc-' + SLUG + '-weight-cat');
+      var elWeightTotal = root.querySelector('#fc-calc-' + SLUG + '-weight-total');
+      var elWeightNow = root.querySelector('#fc-calc-' + SLUG + '-weight-now');
+      var elWeightTarget = root.querySelector('#fc-calc-' + SLUG + '-weight-target');
+      var bloodWrap = root.querySelector('#fc-calc-' + SLUG + '-blood-wrap');
+      var elBlood = root.querySelector('#fc-calc-' + SLUG + '-blood');
+      var elBloodRh = root.querySelector('#fc-calc-' + SLUG + '-blood-rh');
+      var weightOut = root.querySelector('#fc-calc-' + SLUG + '-weight-out');
+      var weightError = root.querySelector('#fc-calc-' + SLUG + '-weight-error');
+      var weightTrack = root.querySelector('#fc-calc-' + SLUG + '-weight-track');
+      var weightTrackLead = root.querySelector('#fc-calc-' + SLUG + '-weight-track-lead');
+      var weekRows = root.querySelector('#fc-calc-' + SLUG + '-week-rows');
+      var weekAddBtn = root.querySelector('#fc-calc-' + SLUG + '-week-add');
+      var weekShowBtn = root.querySelector('#fc-calc-' + SLUG + '-week-show');
+      var weekResult = root.querySelector('#fc-calc-' + SLUG + '-week-result');
+      var lastResult = null;
+      var lastWeightGain = null;
+      var weekRowCount = 0;
 
       function todayIso() {
         var d = new Date();
@@ -818,6 +1477,93 @@
         var m = String(d.getMonth() + 1).padStart(2, '0');
         var day = String(d.getDate()).padStart(2, '0');
         return y + '-' + m + '-' + day;
+      }
+
+      function pad2(n) {
+        return String(n).padStart(2, '0');
+      }
+
+      function daysInMonth(year, month) {
+        var y = +year;
+        var m = +month;
+        if (!isFinite(y) || !isFinite(m) || m < 1 || m > 12) return 31;
+        return new Date(Date.UTC(y, m, 0)).getUTCDate();
+      }
+
+      function fillSelectOptions(select, values, selected) {
+        if (!select) return;
+        var keep = selected != null ? String(selected) : String(select.value || '');
+        select.innerHTML = '<option value="">—</option>';
+        values.forEach(function (v) {
+          var opt = document.createElement('option');
+          opt.value = String(v.value != null ? v.value : v);
+          opt.textContent = String(v.label != null ? v.label : v);
+          select.appendChild(opt);
+        });
+        if (keep && Array.prototype.some.call(select.options, function (o) { return o.value === keep; })) {
+          select.value = keep;
+        } else {
+          select.value = '';
+        }
+      }
+
+      function syncDayOptions(dayEl, monthEl, yearEl) {
+        if (!dayEl) return;
+        var y = yearEl ? yearEl.value : '';
+        var m = monthEl ? monthEl.value : '';
+        var max = daysInMonth(y || new Date().getFullYear(), m || 1);
+        var days = [];
+        for (var d = 1; d <= max; d += 1) days.push(d);
+        fillSelectOptions(dayEl, days, dayEl.value);
+      }
+
+      function initDmySelects(dayEl, monthEl, yearEl, presetIso) {
+        var now = new Date();
+        var nowY = now.getFullYear();
+        var years = [];
+        for (var y = nowY + 1; y >= nowY - 10; y -= 1) years.push(y);
+        var preset = presetIso && parseIsoDate(presetIso) ? presetIso : '';
+        var parts = preset ? preset.split('-') : null;
+        if (yearEl) fillSelectOptions(yearEl, years, parts ? +parts[0] : '');
+        if (monthEl && parts) monthEl.value = String(+parts[1]);
+        syncDayOptions(dayEl, monthEl, yearEl);
+        if (dayEl && parts) {
+          fillSelectOptions(
+            dayEl,
+            (function () {
+              var max = daysInMonth(parts[0], parts[1]);
+              var list = [];
+              for (var d = 1; d <= max; d += 1) list.push(d);
+              return list;
+            })(),
+            +parts[2]
+          );
+        }
+        if (monthEl) {
+          monthEl.addEventListener('change', function () {
+            syncDayOptions(dayEl, monthEl, yearEl);
+          });
+        }
+        if (yearEl) {
+          yearEl.addEventListener('change', function () {
+            syncDayOptions(dayEl, monthEl, yearEl);
+          });
+        }
+      }
+
+      function readDmyIso(dayEl, monthEl, yearEl) {
+        if (!dayEl || !monthEl || !yearEl) return '';
+        var day = String(dayEl.value || '').trim();
+        var month = String(monthEl.value || '').trim();
+        var year = String(yearEl.value || '').trim();
+        if (!day || !month || !year) return '';
+        var d = +day;
+        var m = +month;
+        var y = +year;
+        if (!isFinite(d) || !isFinite(m) || !isFinite(y)) return '';
+        if (y < 1900 || y > 2100 || m < 1 || m > 12 || d < 1 || d > 31) return '';
+        var iso = y + '-' + pad2(m) + '-' + pad2(d);
+        return parseIsoDate(iso) ? iso : '';
       }
 
       function parseIsoDate(str) {
@@ -846,11 +1592,13 @@
       function formatRuDate(iso) {
         var d = parseIsoDate(iso);
         if (!d) return '—';
-        return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + ' г.';
+        var s = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        if (!/г\.?\s*$/i.test(s)) s += ' г.';
+        return s;
       }
 
       function formatRuRange(from, to) {
-        return formatRuDate(from) + '–' + formatRuDate(to);
+        return formatRuDate(from) + ' – ' + formatRuDate(to);
       }
 
       function dateInterval(edd, ci) {
@@ -860,13 +1608,56 @@
         };
       }
 
+      function pluralRu(n, one, few, many) {
+        var abs = Math.abs(n) % 100;
+        var n1 = abs % 10;
+        if (abs > 10 && abs < 20) return many;
+        if (n1 === 1) return one;
+        if (n1 >= 2 && n1 <= 4) return few;
+        return many;
+      }
+
+      function formatGestation(weeks, days, totalDays) {
+        return (
+          weeks +
+          ' ' +
+          pluralRu(weeks, 'неделя', 'недели', 'недель') +
+          ' ' +
+          days +
+          ' ' +
+          pluralRu(days, 'день', 'дня', 'дней') +
+          ' (' +
+          totalDays +
+          ' ' +
+          pluralRu(totalDays, 'день', 'дня', 'дней') +
+          ')'
+        );
+      }
+
+      function formatPercent(p) {
+        var rounded = Math.round(p * 1000) / 10;
+        return String(rounded).replace('.', ',') + '%';
+      }
+
       function lmpFromEvent(m, eventDate) {
         if (m === 'lmp') return eventDate;
         return addDaysUTC(eventDate, -LMP_OFFSET_DAYS);
       }
 
-      function eddFromEvent(m, eventDate) {
-        if (m === 'lmp') return addDaysUTC(eventDate, LMP_TO_EDD_DAYS);
+      function parseCycleDays(raw) {
+        var n = Number(raw);
+        if (!isFinite(n)) return DEFAULT_CYCLE_DAYS;
+        var rounded = Math.round(n);
+        if (rounded < CYCLE_MIN || rounded > CYCLE_MAX) {
+          throw new Error('Продолжительность цикла: от ' + CYCLE_MIN + ' до ' + CYCLE_MAX + ' дней');
+        }
+        return rounded;
+      }
+
+      function eddFromEvent(m, eventDate, cycleDays) {
+        if (m === 'lmp') {
+          return addDaysUTC(eventDate, LMP_TO_EDD_DAYS + (cycleDays - DEFAULT_CYCLE_DAYS));
+        }
         return addDaysUTC(eventDate, CONCEPTION_TO_EDD_DAYS);
       }
 
@@ -876,8 +1667,339 @@
         return days + 1;
       }
 
-      function roundObstetricMonths(days) {
-        return Math.round((days / OBSTETRIC_MONTH_DAYS) * 100) / 100;
+      function gestationWeeksDays(gestDays) {
+        var offset = Math.max(0, gestDays - 1);
+        return {
+          weeks: Math.floor(offset / 7),
+          days: offset % 7,
+          offsetDays: offset
+        };
+      }
+
+      function trimesterFromOffset(offsetDays) {
+        if (offsetDays <= 13 * 7 + 6) return 1;
+        if (offsetDays <= 27 * 7 + 6) return 2;
+        return 3;
+      }
+
+      function screeningWindow(lmp, key) {
+        var w = SCREENING[key];
+        return {
+          from: formatIsoDateUTC(addDaysUTC(lmp, w.fromDays)),
+          to: formatIsoDateUTC(addDaysUTC(lmp, w.toDays))
+        };
+      }
+
+      function parseBloodType(raw) {
+        if (!raw) return null;
+        var s = String(raw).trim().toUpperCase().replace(/\s+/g, '');
+        var m = s.match(/^(A|B|AB|O)(RH)?(\+|−|-)$/);
+        if (!m) return null;
+        return { abo: m[1], rh: m[3] === '+' ? '+' : '-' };
+      }
+
+      function aboProbabilities(motherAbo, fatherAbo) {
+        var key =
+          ABO_ORDER[motherAbo] <= ABO_ORDER[fatherAbo]
+            ? motherAbo + '|' + fatherAbo
+            : fatherAbo + '|' + motherAbo;
+        var row = ABO_TABLE[key] || {};
+        return { O: row.O || 0, A: row.A || 0, B: row.B || 0, AB: row.AB || 0 };
+      }
+
+      function rhProbabilities(motherRh, fatherRh) {
+        if (motherRh === '-' && fatherRh === '-') return { '+': 0, '-': 1 };
+        if (motherRh === '+' && fatherRh === '+') return { '+': 0.75, '-': 0.25 };
+        return { '+': 0.5, '-': 0.5 };
+      }
+
+      function babyBloodType(motherRaw, fatherRaw) {
+        var mother = parseBloodType(motherRaw);
+        var father = parseBloodType(fatherRaw);
+        if (!mother || !father) return null;
+
+        var abo = aboProbabilities(mother.abo, father.abo);
+        var rh = rhProbabilities(mother.rh, father.rh);
+        var aboLines = Object.keys(abo)
+          .filter(function (k) {
+            return abo[k] > 0;
+          })
+          .sort(function (a, b) {
+            return abo[b] - abo[a] || ABO_ORDER[a] - ABO_ORDER[b];
+          })
+          .map(function (k) {
+            return { label: ABO_LABEL[k], probability: abo[k] };
+          });
+        var rhLines = Object.keys(rh)
+          .filter(function (k) {
+            return rh[k] > 0;
+          })
+          .sort(function (a, b) {
+            return rh[b] - rh[a];
+          })
+          .map(function (k) {
+            return {
+              label: k === '+' ? 'Положительный (Rh+)' : 'Отрицательный (Rh−)',
+              probability: rh[k]
+            };
+          });
+
+        return {
+          aboLines: aboLines,
+          rhLines: rhLines,
+          rhConflict: mother.rh === '-' && father.rh === '+'
+        };
+      }
+
+      function formatKg(n) {
+        return String(n).replace('.', ',');
+      }
+
+      function pregnancyWeightGain(input) {
+        var heightCm = Number(input.heightCm);
+        var weightKg = Number(input.weightKg);
+        if (!isFinite(heightCm) || !isFinite(weightKg)) return null;
+        if (heightCm < 100 || heightCm > 250 || weightKg < 30 || weightKg > 300) {
+          throw new Error('Укажите корректные рост (100–250 см) и вес до беременности (30–300 кг)');
+        }
+        var m = heightCm / 100;
+        var bmi = Math.round((weightKg / (m * m)) * 10) / 10;
+        var bands = [
+          { id: 'underweight', label: 'Недостаточная масса тела', bmiMax: 18.5, totalMin: 12.5, totalMax: 18, rateMin: 0.44, rateMax: 0.58 },
+          { id: 'normal', label: 'Нормальная масса тела', bmiMin: 18.5, bmiMax: 25, totalMin: 11.5, totalMax: 16, rateMin: 0.35, rateMax: 0.5 },
+          { id: 'overweight', label: 'Избыточная масса тела', bmiMin: 25, bmiMax: 30, totalMin: 7, totalMax: 11.5, rateMin: 0.23, rateMax: 0.33 },
+          { id: 'obese', label: 'Ожирение', bmiMin: 30, totalMin: 5, totalMax: 9, rateMin: 0.17, rateMax: 0.27 }
+        ];
+        var band = bands[bands.length - 1];
+        for (var i = 0; i < bands.length; i++) {
+          var b = bands[i];
+          var minOk = b.bmiMin == null || bmi >= b.bmiMin;
+          var maxOk = b.bmiMax == null || bmi < b.bmiMax;
+          if (minOk && maxOk) {
+            band = b;
+            break;
+          }
+        }
+        var weeks = Math.max(0, Number(input.gestationWeeks) || 0);
+        var capped = Math.min(weeks, 40);
+        var firstMin = band.totalMin - band.rateMin * 27;
+        var firstMax = band.totalMax - band.rateMax * 27;
+        var gainMin;
+        var gainMax;
+        if (capped <= 13) {
+          gainMin = firstMin * (capped / 13);
+          gainMax = firstMax * (capped / 13);
+        } else {
+          gainMin = firstMin + band.rateMin * (capped - 13);
+          gainMax = firstMax + band.rateMax * (capped - 13);
+        }
+        function r1(n) {
+          return Math.round(n * 10) / 10;
+        }
+        return {
+          bmi: bmi,
+          categoryLabel: band.label,
+          weightKg: weightKg,
+          totalGainMin: band.totalMin,
+          totalGainMax: band.totalMax,
+          rateMin: band.rateMin,
+          rateMax: band.rateMax,
+          recommendedGainMin: r1(Math.max(0, gainMin)),
+          recommendedGainMax: r1(Math.max(0, gainMax)),
+          targetWeightMin: r1(weightKg + band.totalMin),
+          targetWeightMax: r1(weightKg + band.totalMax)
+        };
+      }
+
+      function recommendedGainAtWeek(band, week) {
+        var w = Math.max(0, Math.min(42, Number(week) || 0));
+        var firstMin = band.totalGainMin - band.rateMin * 27;
+        var firstMax = band.totalGainMax - band.rateMax * 27;
+        var gainMin;
+        var gainMax;
+        if (w <= 13) {
+          gainMin = firstMin * (w / 13);
+          gainMax = firstMax * (w / 13);
+        } else {
+          gainMin = firstMin + band.rateMin * (w - 13);
+          gainMax = firstMax + band.rateMax * (w - 13);
+        }
+        function r1(n) {
+          return Math.round(n * 10) / 10;
+        }
+        return {
+          week: w,
+          gainMin: r1(Math.max(0, gainMin)),
+          gainMax: r1(Math.max(0, gainMax))
+        };
+      }
+
+      function compareWeeklyWeightGain(base, points) {
+        var pre = Number(base && base.weightKg);
+        if (!isFinite(pre)) return [];
+        return (points || [])
+          .map(function (p) {
+            var week = Math.round(Number(p.week));
+            var weight = Number(p.weightKg);
+            if (!isFinite(week) || week < 1 || week > 42 || !isFinite(weight)) return null;
+            var range = recommendedGainAtWeek(base, week);
+            var actualGain = Math.round((weight - pre) * 10) / 10;
+            var status = 'ok';
+            if (actualGain < range.gainMin) status = 'low';
+            else if (actualGain > range.gainMax) status = 'high';
+            return {
+              week: week,
+              weightKg: weight,
+              actualGain: actualGain,
+              recommendedGainMin: range.gainMin,
+              recommendedGainMax: range.gainMax,
+              status: status
+            };
+          })
+          .filter(Boolean)
+          .sort(function (a, b) {
+            return a.week - b.week;
+          });
+      }
+
+      function addWeekRow(defaultWeek) {
+        if (!weekRows) return;
+        weekRowCount += 1;
+        var id = 'gdd-week-' + weekRowCount;
+        var row = document.createElement('div');
+        row.className = 'fc-calc__gdd-week-row';
+        row.innerHTML =
+          '<button type="button" class="fc-calc__gdd-week-remove" aria-label="Убрать">' +
+          '✕</button>' +
+          '<div>' +
+          '<label for="' +
+          id +
+          '-w">Неделя беременности</label>' +
+          '<input type="number" id="' +
+          id +
+          '-w" class="fc-calc__gdd-week-num" min="1" max="42" step="1" value="' +
+          (defaultWeek || '') +
+          '" />' +
+          '</div>' +
+          '<div>' +
+          '<label for="' +
+          id +
+          '-kg">Вес (кг)</label>' +
+          '<input type="number" id="' +
+          id +
+          '-kg" class="fc-calc__gdd-week-kg" min="30" max="300" step="0.1" inputmode="decimal" />' +
+          '</div>';
+        var removeBtn = row.querySelector('.fc-calc__gdd-week-remove');
+        if (removeBtn) {
+          removeBtn.addEventListener('click', function () {
+            if (weekRows.querySelectorAll('.fc-calc__gdd-week-row').length <= 1) return;
+            row.remove();
+          });
+        }
+        weekRows.appendChild(row);
+      }
+
+      function resetWeekRows(startWeek) {
+        if (!weekRows) return;
+        weekRows.innerHTML = '';
+        weekRowCount = 0;
+        var w1 = Math.max(1, Math.min(42, startWeek || 1));
+        addWeekRow(w1);
+        if (weekResult) {
+          weekResult.hidden = true;
+          weekResult.innerHTML = '';
+        }
+      }
+
+      function readWeekPoints() {
+        if (!weekRows) return [];
+        var rows = weekRows.querySelectorAll('.fc-calc__gdd-week-row');
+        var points = [];
+        rows.forEach(function (row) {
+          var weekEl = row.querySelector('.fc-calc__gdd-week-num');
+          var kgEl = row.querySelector('.fc-calc__gdd-week-kg');
+          var week = weekEl ? weekEl.value : '';
+          var kg = kgEl ? kgEl.value : '';
+          if (String(week).trim() === '' || String(kg).trim() === '') return;
+          points.push({ week: week, weightKg: kg });
+        });
+        return points;
+      }
+
+      function statusLabel(status) {
+        if (status === 'low') return 'ниже нормы';
+        if (status === 'high') return 'выше нормы';
+        return 'в пределах нормы';
+      }
+
+      function showWeekGainResults() {
+        if (!lastWeightGain || !weekResult) return;
+        var points = readWeekPoints();
+        if (!points.length) {
+          weekResult.hidden = false;
+          weekResult.innerHTML =
+            '<p class="fc-calc__error">Укажите хотя бы одну пару «неделя + вес».</p>';
+          return;
+        }
+        var compared = compareWeeklyWeightGain(lastWeightGain, points);
+        if (!compared.length) {
+          weekResult.hidden = false;
+          weekResult.innerHTML =
+            '<p class="fc-calc__error">Проверьте корректность недели (1–42) и веса.</p>';
+          return;
+        }
+        weekResult.hidden = false;
+        weekResult.innerHTML = compared
+          .map(function (item) {
+            return (
+              '<p class="fc-calc__gdd-week-result-item fc-calc__gdd-week-result-item--' +
+              item.status +
+              '">' +
+              '<strong>' +
+              item.week +
+              ' нед.</strong>: вес ' +
+              formatKg(item.weightKg) +
+              ' кг, прибавка ' +
+              formatKg(item.actualGain) +
+              ' кг (норма ' +
+              formatKg(item.recommendedGainMin) +
+              '–' +
+              formatKg(item.recommendedGainMax) +
+              ' кг) — ' +
+              statusLabel(item.status) +
+              '</p>'
+            );
+          })
+          .join('');
+      }
+
+      function hideWeightTrack() {
+        lastWeightGain = null;
+        if (weightTrack) weightTrack.classList.remove('fc-calc__gdd-weight-track--visible');
+        if (weekResult) {
+          weekResult.hidden = true;
+          weekResult.innerHTML = '';
+        }
+      }
+
+      function showWeightTrack(wg) {
+        lastWeightGain = wg;
+        if (!weightTrack || !wg) {
+          hideWeightTrack();
+          return;
+        }
+        if (weightTrackLead) {
+          weightTrackLead.innerHTML =
+            'Рекомендуемая для Вас общая прибавка в весе* во время беременности составляет примерно <strong>' +
+            formatKg(wg.totalGainMin) +
+            ' – ' +
+            formatKg(wg.totalGainMax) +
+            ' кг</strong>.';
+        }
+        var startWeek =
+          lastResult && lastResult.gestationWeeks > 0 ? lastResult.gestationWeeks : 1;
+        resetWeekRows(startWeek);
+        weightTrack.classList.add('fc-calc__gdd-weight-track--visible');
       }
 
       function calculate(input) {
@@ -890,23 +2012,44 @@
         }
 
         var m = input.mode;
+        var cycleDays = m === 'lmp' ? parseCycleDays(input.cycleDays) : DEFAULT_CYCLE_DAYS;
         var lmp = lmpFromEvent(m, eventDate);
-        var edd = eddFromEvent(m, eventDate);
+        var edd = eddFromEvent(m, eventDate, cycleDays);
         var gestDays = gestationDaysInclusive(lmp, currentDate);
-        var gestMonths = roundObstetricMonths(gestDays);
+        var ga = gestationWeeksDays(gestDays);
 
-        return {
+        var out = {
+          mode: m,
           edd: formatIsoDateUTC(edd),
           eddCi4: dateInterval(edd, EDD_CI.ci4),
           eddCi21: dateInterval(edd, EDD_CI.ci21),
           eddCi90: dateInterval(edd, EDD_CI.ci90),
           gestationDays: gestDays,
-          gestationObstetricMonths: gestMonths,
-          gestationMilestone13: formatIsoDateUTC(addDaysUTC(lmp, 13 * 7)),
-          firstTrimesterWindowFrom: formatIsoDateUTC(addDaysUTC(lmp, 18 * 7)),
-          firstTrimesterWindowTo: formatIsoDateUTC(addDaysUTC(lmp, 20 * 7)),
-          plannedUltrasound: formatIsoDateUTC(addDaysUTC(lmp, 28 * 7))
+          gestationWeeks: ga.weeks,
+          gestationDaysRemainder: ga.days,
+          trimester: trimesterFromOffset(ga.offsetDays),
+          screening1: screeningWindow(lmp, 's1'),
+          screening2: screeningWindow(lmp, 's2'),
+          screening3: screeningWindow(lmp, 's3'),
+          maternityLeave: formatIsoDateUTC(addDaysUTC(lmp, MATERNITY_LEAVE_DAYS)),
+          babyBlood:
+            m === 'lmp' ? babyBloodType(input.motherBlood, input.fatherBlood) : null,
+          weightGain: null
         };
+
+        if (m === 'lmp') {
+          var hasH = input.heightCm != null && String(input.heightCm).trim() !== '';
+          var hasW = input.weightKg != null && String(input.weightKg).trim() !== '';
+          if (hasH && hasW) {
+            out.weightGain = pregnancyWeightGain({
+              heightCm: input.heightCm,
+              weightKg: input.weightKg,
+              gestationWeeks: ga.weeks
+            });
+          }
+        }
+
+        return out;
       }
 
       function setError(el, msg) {
@@ -915,28 +2058,167 @@
 
       function hideResult() {
         resultWrap.classList.add('fc-calc__result-wrap--hidden');
+        lastResult = null;
+      }
+
+      function clearWeightOut() {
+        if (elWeightBmi) elWeightBmi.textContent = '—';
+        if (elWeightCat) elWeightCat.textContent = '';
+        if (elWeightTotal) elWeightTotal.textContent = '';
+        if (elWeightNow) elWeightNow.textContent = '';
+        if (elWeightTarget) elWeightTarget.textContent = '';
+        if (weightOut) weightOut.classList.add('fc-calc__gdd-weight-out--empty');
+        setError(weightError, '');
+        hideWeightTrack();
+      }
+
+      function renderWeightGain(wg) {
+        if (!wg) {
+          clearWeightOut();
+          return;
+        }
+        elWeightBmi.textContent = 'ИМТ ' + formatKg(wg.bmi);
+        elWeightCat.textContent = wg.categoryLabel;
+        elWeightTotal.textContent =
+          'Рекомендуемая прибавка за беременность: ' +
+          formatKg(wg.totalGainMin) +
+          '–' +
+          formatKg(wg.totalGainMax) +
+          ' кг';
+        elWeightNow.textContent =
+          'К текущему сроку: ' +
+          formatKg(wg.recommendedGainMin) +
+          '–' +
+          formatKg(wg.recommendedGainMax) +
+          ' кг';
+        elWeightTarget.textContent =
+          'Целевой вес к родам: ' +
+          formatKg(wg.targetWeightMin) +
+          '–' +
+          formatKg(wg.targetWeightMax) +
+          ' кг';
+        if (weightOut) weightOut.classList.remove('fc-calc__gdd-weight-out--empty');
+        setError(weightError, '');
+        showWeightTrack(wg);
+      }
+
+      function updateWeightGainFromInputs() {
+        if (!lastResult || lastResult.mode !== 'lmp') return;
+        var h = heightInput ? String(heightInput.value).trim() : '';
+        var w = weightInput ? String(weightInput.value).trim() : '';
+        if (!h && !w) {
+          clearWeightOut();
+          return;
+        }
+        if (!h || !w) {
+          clearWeightOut();
+          return;
+        }
+        try {
+          renderWeightGain(
+            pregnancyWeightGain({
+              heightCm: h,
+              weightKg: w,
+              gestationWeeks: lastResult.gestationWeeks
+            })
+          );
+        } catch (err) {
+          clearWeightOut();
+          setError(weightError, err.message || 'Ошибка расчёта прибавки веса');
+        }
       }
 
       function showResults(out) {
-        var gaText =
-          out.gestationDays + ' дн. (' + String(out.gestationObstetricMonths).replace('.', ',') + ' ак. месяцев)';
+        lastResult = out;
         elEdd.textContent = formatRuDate(out.edd);
         elCi4.textContent = '4% — ' + formatRuRange(out.eddCi4.from, out.eddCi4.to);
         elCi90.textContent = '90% — ' + formatRuRange(out.eddCi90.from, out.eddCi90.to);
         elCi21.textContent = '21% — ' + formatRuRange(out.eddCi21.from, out.eddCi21.to);
-        elGa.textContent = gaText;
-        elM13.textContent = formatRuDate(out.gestationMilestone13);
-        elTrim.textContent = formatRuRange(out.firstTrimesterWindowFrom, out.firstTrimesterWindowTo);
-        elUs.textContent = formatRuDate(out.plannedUltrasound);
+        elGa.textContent = formatGestation(
+          out.gestationWeeks,
+          out.gestationDaysRemainder,
+          out.gestationDays
+        );
+        elTrim.textContent = TRIMESTER_LABELS[out.trimester] || '—';
+        elS1.textContent =
+          '1 скрининг (11–13+6 нед.): ' + formatRuRange(out.screening1.from, out.screening1.to);
+        elS2.textContent =
+          '2 скрининг (18–21 нед.): ' + formatRuRange(out.screening2.from, out.screening2.to);
+        elS3.textContent =
+          '3 скрининг (32–35 нед.): ' + formatRuRange(out.screening3.from, out.screening3.to);
+        elMaternity.textContent = formatRuDate(out.maternityLeave);
+
+        if (out.mode === 'lmp' && weightWrap) {
+          weightWrap.classList.remove('fc-calc__gdd-weight-block--hidden');
+          renderWeightGain(out.weightGain);
+        } else if (weightWrap) {
+          weightWrap.classList.add('fc-calc__gdd-weight-block--hidden');
+          clearWeightOut();
+        }
+
+        if (out.babyBlood && out.babyBlood.aboLines && out.babyBlood.aboLines.length) {
+          elBlood.innerHTML = out.babyBlood.aboLines
+            .map(function (item) {
+              return item.label + ' = ' + formatPercent(item.probability);
+            })
+            .join('<br />');
+          var rhHtml = out.babyBlood.rhLines
+            .map(function (item) {
+              return item.label + ' = ' + formatPercent(item.probability);
+            })
+            .join('<br />');
+          if (out.babyBlood.rhConflict) {
+            rhHtml += '<br />Возможен резус-конфликт';
+          } else {
+            rhHtml += '<br />Конфликта между организмом матери и плодом не происходит';
+          }
+          elBloodRh.innerHTML = rhHtml;
+          bloodWrap.classList.remove('fc-calc__gdd-blood--hidden');
+        } else {
+          elBlood.textContent = '';
+          if (elBloodRh) elBloodRh.textContent = '';
+          bloodWrap.classList.add('fc-calc__gdd-blood--hidden');
+        }
+
         resultWrap.classList.remove('fc-calc__result-wrap--hidden');
       }
+
+      function bloodValue(aboSelect, rh) {
+        var abo = aboSelect && aboSelect.value ? aboSelect.value : '';
+        if (!abo) return '';
+        return abo + rh;
+      }
+
+      function bindRhGroup(groupEl, onChange) {
+        if (!groupEl) return;
+        var buttons = groupEl.querySelectorAll('.fc-calc__gdd-rh-btn');
+        buttons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var value = btn.getAttribute('data-rh');
+            buttons.forEach(function (b) {
+              b.classList.toggle('fc-calc__gdd-rh-btn--active', b === btn);
+            });
+            onChange(value);
+          });
+        });
+      }
+
+      bindRhGroup(root.querySelector('.fc-calc__gdd-rh[data-rh-for="mother"]'), function (v) {
+        motherRh = v;
+      });
+      bindRhGroup(root.querySelector('.fc-calc__gdd-rh[data-rh-for="father"]'), function (v) {
+        fatherRh = v;
+      });
 
       function setMode(next) {
         mode = next;
         segments.forEach(function (btn) {
           btn.classList.toggle('fc-calc__segment--active', btn.getAttribute('data-mode') === mode);
         });
-        if (eventLabel) eventLabel.textContent = MODE_LABELS[mode] || 'Дата';
+        if (eventLabel) eventLabel.innerHTML = MODE_LABELS[mode] || 'Дата';
+        if (extraPanel) {
+          extraPanel.classList.toggle('fc-calc__gdd-extra--hidden', mode !== 'lmp');
+        }
       }
 
       segments.forEach(function (btn) {
@@ -945,8 +2227,32 @@
         });
       });
 
-      if (currentInput && !currentInput.value) {
-        currentInput.value = todayIso();
+      initDmySelects(currentDayInput, currentMonthInput, currentYearInput, todayIso());
+      initDmySelects(eventDayInput, eventMonthInput, eventYearInput, '');
+      setMode('lmp');
+
+      function onWeightInput() {
+        updateWeightGainFromInputs();
+      }
+      if (heightInput) {
+        heightInput.addEventListener('input', onWeightInput);
+        heightInput.addEventListener('change', onWeightInput);
+      }
+      if (weightInput) {
+        weightInput.addEventListener('input', onWeightInput);
+        weightInput.addEventListener('change', onWeightInput);
+      }
+      if (weekAddBtn) {
+        weekAddBtn.addEventListener('click', function () {
+          var next = weekRowCount + 1;
+          if (lastResult && lastResult.gestationWeeks > 0) {
+            next = Math.min(42, (lastResult.gestationWeeks || 1) + weekRowCount);
+          }
+          addWeekRow(next);
+        });
+      }
+      if (weekShowBtn) {
+        weekShowBtn.addEventListener('click', showWeekGainResults);
       }
 
       form.addEventListener('submit', function (e) {
@@ -960,8 +2266,13 @@
           showResults(
             calculate({
               mode: mode,
-              eventDate: eventInput.value,
-              currentDate: currentInput.value
+              eventDate: readDmyIso(eventDayInput, eventMonthInput, eventYearInput),
+              currentDate: readDmyIso(currentDayInput, currentMonthInput, currentYearInput),
+              cycleDays: cycleInput ? cycleInput.value : DEFAULT_CYCLE_DAYS,
+              heightCm: heightInput ? heightInput.value : '',
+              weightKg: weightInput ? weightInput.value : '',
+              motherBlood: bloodValue(motherBloodInput, motherRh),
+              fatherBlood: bloodValue(fatherBloodInput, fatherRh)
             })
           );
         } catch (err) {
